@@ -4,32 +4,47 @@ extends CharacterBody2D
 const SPEED = 500.0
 const ACCELERATION = 2500.0
 const FRICTION = 3000.0
-const JUMP_VELOCITY = -800.0
 
-# Gets gravity from project settings and multiplied by a fast falling effect
-# Can be made a variable for different abilities later, but 1.8 is a magic number for now
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * 1.8
+# For moving test ball around, magic number
+const PUSH_FORCE = 20.0
+
+var held_ball = null
+
 
 func _physics_process(delta: float) -> void:
-	# Add gravity if not on the floor
-	if not is_on_floor():
-		velocity.y += gravity * delta
-
-	# Handle explosive jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Variable jump height, if you let go of jump while moving up, cut the speed in half
-	if Input.is_action_just_released("jump") and velocity.y < 0:
-		velocity.y *= 0.5
+	# Removed jump mechanics for top down 8-way movement implementation
 
 	# Get movement input (Left/Right) and apply acceleration
-	var direction := Input.get_axis("left", "right")
+	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if direction:
 		# Speed up smoothly toward top speed
-		velocity.x = move_toward(velocity.x, direction * SPEED, ACCELERATION * delta)
+		velocity = velocity.move_toward(direction * SPEED, ACCELERATION * delta)
 	else:
 		# Skid to a stop instead of a hard stop
-		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+		
+	# Shooting Logic
+	if Input.is_action_just_pressed("shoot") and held_ball:
+		# Default to throwing 'up" if player is totally still, otherwise throw in movement direction
+		var aim_dir = direction
+		if aim_dir == Vector2.ZERO and velocity != Vector2.ZERO:
+			aim_dir = velocity.normalized()
+		elif aim_dir == Vector2.ZERO and velocity == Vector2.ZERO:
+			aim_dir = Vector2.UP
+			
+		held_ball.throw(aim_dir, velocity)
+		held_ball = null # Hands will now be empty
 
 	move_and_slide()
+	
+	#--Ball Collision Logic--
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		# If we bump into the ball
+		if collider is RigidBody2D:
+			# Chck if ball has the pickup function, make sure player isn't holding it already
+			if collider.has_method("pickup") and not collider.is_held:
+				collider.pickup(self)
+				held_ball = collider # Remember which ball we just grabbed

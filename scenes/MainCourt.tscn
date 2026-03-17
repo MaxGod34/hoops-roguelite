@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://cn0mnhhe6ul0y"]
+
+[ext_resource type="Texture2D" uid="uid://dtspa6s1doc36" path="res://assets/snake_lime.png" id="1_s2qdm"]
+[ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="2_5jgdc"]
+[ext_resource type="PackedScene" uid="uid://do3nrnwrn2efx" path="res://scenes/Ball.tscn" id="3_5n6sh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5jgdc"]
+size = Vector2(20, 657)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5n6sh"]
+size = Vector2(1169, 20)
+
+[node name="MainCourt" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.993427, 0.172621, 0.11538, 1)
+position = Vector2(584, 326)
+scale = Vector2(38.9375, 22.25)
+texture = ExtResource("1_s2qdm")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D-LeftWall" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(11, 323.5)
+shape = SubResource("RectangleShape2D_5jgdc")
+
+[node name="CollisionShape2D-RightWall" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1154, 317)
+shape = SubResource("RectangleShape2D_5jgdc")
+
+[node name="CollisionShape2D-TopWall" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(574.5, 0)
+shape = SubResource("RectangleShape2D_5n6sh")
+
+[node name="CollisionShape2D-BottomWall" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(579, 641)
+shape = SubResource("RectangleShape2D_5n6sh")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(587, 321)
+
+[node name="Player" parent="." instance=ExtResource("2_5jgdc")]
+position = Vector2(800, 420)
+
+[node name="Ball" parent="." instance=ExtResource("3_5n6sh")]
+z_index = 1
+position = Vector2(420, 200)
+continuous_cd = 0
