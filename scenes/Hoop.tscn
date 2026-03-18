@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://u2gal06p4nlq"]
+
+[ext_resource type="Texture2D" uid="uid://ib7vb0g4m60q" path="res://assets/hoop proto.png" id="1_3u8ya"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dw7mk"]
+size = Vector2(31, 25)
+
+[node name="Hoop" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_3u8ya")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -11)
+scale = Vector2(4, 4)
+shape = SubResource("RectangleShape2D_dw7mk")
+
+[node name="RimTarget" type="Marker2D" parent="."]
+position = Vector2(2, 52)

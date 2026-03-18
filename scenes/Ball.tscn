@@ -13,16 +13,14 @@ radius = 7.61577
 physics_material_override = SubResource("PhysicsMaterial_d73vv")
 gravity_scale = 0.0
 continuous_cd = 1
-linear_damp = 1.5
+linear_damp = 1.25
 angular_damp = 1.5
 script = ExtResource("1_ja1hk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(2.3, 2.3)
+scale = Vector2(1.9, 1.9)
 shape = SubResource("CircleShape2D_ja1hk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_d73vv")
-
-[node name="Ball" type="Node2D" parent="."]

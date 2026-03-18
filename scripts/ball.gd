@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+@export var throw_power = 1000.0
+
 var is_held = false
 var player = null
 var can_be_picked_up = true # Cooldown Flag
@@ -33,14 +35,14 @@ func _physics_process(delta: float) -> void:
 
 func throw(aim_direction: Vector2, player_velocity: Vector2):
 	# Stand-Still Fix
-	# If we are standing still, default to throwing "up" the court 
-	# so it doesn't spawn inside our chest.
+	# If standing still, default to throwing "up" the court 
+	# so it doesn't spawn inside chest
 	if aim_direction == Vector2.ZERO:
 		aim_direction = Vector2.UP 
 	
 	is_held = false
 	
-	# Double-check momentum is totally zeroed out before the throw
+	# Double check momentum is zeroed out before the throw
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
 
@@ -59,7 +61,7 @@ func throw(aim_direction: Vector2, player_velocity: Vector2):
 	freeze = false
 	$CollisionShape2D.set_deferred("disabled", false)
 	
-	# The Anti-Self-Pass Fix
+	# Anti-Self-Pass Fix
 	can_be_picked_up = false
 	await get_tree().create_timer(0.3).timeout
 	can_be_picked_up = true
@@ -77,6 +79,5 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		state.linear_velocity = Vector2.ZERO
 		state.angular_velocity = 0.0
 		
-		# 3. Apply the massive shove directly to the physics state
-		var throw_power = 800.0
+		# 3. Apply massive shove directly to the physics state
 		state.apply_central_impulse((throw_aim * throw_power) + throw_vel)

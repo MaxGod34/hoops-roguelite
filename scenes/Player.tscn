@@ -5,15 +5,15 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mdl7e"]
 
-[node name="Player" type="Node2D"]
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+motion_mode = 1
 script = ExtResource("1_v6fml")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_3li8b")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1.6, 1.6)
 shape = SubResource("RectangleShape2D_mdl7e")
 
-[node name="BallSpawn" type="Marker2D" parent="CharacterBody2D"]
+[node name="BallSpawn" type="Marker2D" parent="."]
