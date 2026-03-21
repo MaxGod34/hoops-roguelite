@@ -10,7 +10,7 @@
 size = Vector2(110, 657)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5n6sh"]
-size = Vector2(1169, 80)
+size = Vector2(1169, 112.5)
 
 [node name="MainCourt" type="Node2D"]
 y_sort_enabled = true
@@ -32,11 +32,11 @@ position = Vector2(1176, 317)
 shape = SubResource("RectangleShape2D_5jgdc")
 
 [node name="CollisionShape2D-TopWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(574.5, 0)
+position = Vector2(574.5, -3.5)
 shape = SubResource("RectangleShape2D_5n6sh")
 
 [node name="CollisionShape2D-BottomWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(579, 671)
+position = Vector2(579, 683.75)
 shape = SubResource("RectangleShape2D_5n6sh")
 
 [node name="Camera2D" type="Camera2D" parent="."]

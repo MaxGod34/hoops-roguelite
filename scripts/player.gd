@@ -9,10 +9,18 @@ const FRICTION = 3000.0
 const PUSH_FORCE = 20.0
 
 var held_ball = null
+var has_control = true
 
 
 func _physics_process(delta: float) -> void:
 	# Removed jump mechanics for top down 8-way movement implementation
+	
+	# FREEZE LOGIC
+	if not has_control:
+		# Kill momentum so there isn't any drift
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 
 	# Get movement input (Left/Right) and apply acceleration
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
