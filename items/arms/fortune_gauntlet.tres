@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://eeb6umu1w3eb"]
+
+[ext_resource type="Texture2D" uid="uid://dgcm72tv2w2pq" path="res://assets/accessories/RightFortuneGauntletProto.png" id="1_w7lbu"]
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://scripts/accessory_data.gd" id="2_phgwr"]
+
+[resource]
+script = ExtResource("2_phgwr")
+item_name = "Fortune Gauntlet"
+slot_type = "right_arm"
+item_texture = ExtResource("1_w7lbu")
+close_shot_bonus = 0
+mid_shot_bonus = 0
+three_pt_bonus = 0
+layups_bonus = 0
+dunks_bonus = 0
+ball_handling_bonus = 30
+speed_bonus = 0
+strength_bonus = 0
+vertical_bonus = 0
+steal_bonus = 30
+block_bonus = 0
+rebounding_bonus = 30
+passive_effect = ""
+metadata/_custom_type_script = "uid://5phsukg4m51u"

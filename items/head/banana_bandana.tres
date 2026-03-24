@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://b12hrkmrql8gr"]
+
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://scripts/accessory_data.gd" id="1_sdw35"]
+[ext_resource type="Texture2D" uid="uid://c0o1u1t74cqry" path="res://assets/accessories/BananaBandanaProto.png" id="1_y5v05"]
+
+[resource]
+script = ExtResource("1_sdw35")
+item_name = "Banana Bandana"
+slot_type = "head"
+item_texture = ExtResource("1_y5v05")
+close_shot_bonus = 0
+mid_shot_bonus = 0
+three_pt_bonus = 0
+layups_bonus = 0
+dunks_bonus = 0
+ball_handling_bonus = 0
+speed_bonus = 0
+strength_bonus = 0
+vertical_bonus = 0
+steal_bonus = 50
+block_bonus = 0
+rebounding_bonus = 0
+passive_effect = ""
+metadata/_custom_type_script = "uid://5phsukg4m51u"

@@ -57,3 +57,52 @@ func upgrade_stat(stat_name: String, amount: int):
 		stats[stat_name] += amount
 		stats[stat_name] = clamp(stats[stat_name], 0, 100)
 		print(stat_name + " upgraded to: " + str(stats[stat_name]))
+		
+		
+# -- THE STORAGE LCOKER --
+var locker_storage = []
+const MAX_LOCKER_SLOTS = 3
+
+func stash_equipped_items(slot_name: String):
+	
+	# Check if there's room
+	if locker_storage.size() >= MAX_LOCKER_SLOTS:
+		print("Locker is full! Permanently discard something or equip it!")
+		return false
+	# Check if we have an item in the slot to take off
+	if equipment.has(slot_name) and equipment[slot_name] != null:
+		locker_storage.append(equipment[slot_name])
+		# Remove the item from the player
+		equipment[slot_name] = null
+		
+		print("Item stashed successfully. Your ", slot_name, " slot is now empty.")
+		return true
+	else:
+		print("You aren't wearing anything in that slot!")
+		return false
+
+func equip_from_locker(locker_index: int, target_slot: String):
+	if locker_index >= 0 and locker_index < locker_storage.size():
+		var item_to_equip = locker_storage[locker_index]
+		
+		# If player is already wearing something in that slot,
+		# we have to automatically swap it back to the locker
+		var item_taking_off = equipment[target_slot]
+		
+		# Put new item on player
+		equipment[target_slot] = item_to_equip
+		
+		if item_taking_off != null:
+			# Swap the old item into the exact same spot in the locker box
+			locker_storage[locker_index] = item_taking_off
+			print("Swapped ", target_slot, " with item from locker.")
+		else:
+			# Empty Handed, remove from locker array
+			locker_storage.remove_at(locker_index)
+			print("Equipped item from locker.")
+		
+		
+func _ready():
+	equipment["left_shoe"] = load("res://items/shoes/stone_sandal.tres")
+	equipment["ball"] = load("res://items/balls/eight_ball.tres")
+	equipment["left_arm"] = load("res://items/arms/mummy_wrap.tres")

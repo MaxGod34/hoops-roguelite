@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://drqu17p076nss"]
+
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://scripts/accessory_data.gd" id="1_dsg55"]
+[ext_resource type="Texture2D" uid="uid://dplappbp8tjxy" path="res://assets/accessories/RightRollerbladeProto.png" id="1_g1wry"]
+
+[resource]
+script = ExtResource("1_dsg55")
+item_name = "Rollerblade"
+slot_type = "right_shoe"
+item_texture = ExtResource("1_g1wry")
+close_shot_bonus = 0
+mid_shot_bonus = 0
+three_pt_bonus = 0
+layups_bonus = 0
+dunks_bonus = 0
+ball_handling_bonus = 0
+speed_bonus = 25
+strength_bonus = 0
+vertical_bonus = 0
+steal_bonus = 0
+block_bonus = 0
+rebounding_bonus = 0
+passive_effect = ""
+metadata/_custom_type_script = "uid://5phsukg4m51u"

@@ -1,26 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://do3nrnwrn2efx"]
+[gd_scene load_steps=4 format=3 uid="uid://do3nrnwrn2efx"]
 
 [ext_resource type="Texture2D" uid="uid://dvvnkhobcq5vq" path="res://assets/basketballproto.png" id="1_d73vv"]
 [ext_resource type="Script" uid="uid://bj7wq2uqwky3s" path="res://scripts/ball.gd" id="1_ja1hk"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d73vv"]
-bounce = 0.6
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_ja1hk"]
 radius = 7.61577
 
-[node name="Ball" type="RigidBody2D"]
-physics_material_override = SubResource("PhysicsMaterial_d73vv")
-gravity_scale = 0.0
-continuous_cd = 1
-linear_damp = 1.25
-angular_damp = 1.5
+[node name="Ball" type="CharacterBody2D" groups=["ball"]]
+scale = Vector2(0.4, 0.4)
+collision_layer = 513
+collision_mask = 513
 script = ExtResource("1_ja1hk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(1.9, 1.9)
+scale = Vector2(4.5, 4.5)
 shape = SubResource("CircleShape2D_ja1hk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_d73vv")

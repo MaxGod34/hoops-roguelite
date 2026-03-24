@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://b40vtturqcxbl"]
+
+[ext_resource type="Texture2D" uid="uid://b1yxhw4xdkfgs" path="res://assets/accessories/LeftArmMummyWrapProto.png" id="1_f30pl"]
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://scripts/accessory_data.gd" id="1_yf6jg"]
+
+[resource]
+script = ExtResource("1_yf6jg")
+item_name = "Mummy Wrap"
+slot_type = "left_arm"
+item_texture = ExtResource("1_f30pl")
+close_shot_bonus = 40
+mid_shot_bonus = 0
+three_pt_bonus = 0
+layups_bonus = 40
+dunks_bonus = 40
+ball_handling_bonus = 0
+speed_bonus = 0
+strength_bonus = -20
+vertical_bonus = 0
+steal_bonus = 0
+block_bonus = 0
+rebounding_bonus = 0
+passive_effect = ""
+metadata/_custom_type_script = "uid://5phsukg4m51u"

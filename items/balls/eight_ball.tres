@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://crxyr0yp6dqd"]
+
+[ext_resource type="Texture2D" uid="uid://du0dxyvkknx7b" path="res://assets/accessories/8BallProto.png" id="1_ceqis"]
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://scripts/accessory_data.gd" id="1_j6quv"]
+
+[resource]
+script = ExtResource("1_j6quv")
+item_name = "8 Ball"
+slot_type = "ball"
+item_texture = ExtResource("1_ceqis")
+close_shot_bonus = 8
+mid_shot_bonus = 8
+three_pt_bonus = 8
+layups_bonus = 8
+dunks_bonus = 8
+ball_handling_bonus = 8
+speed_bonus = 8
+strength_bonus = 8
+vertical_bonus = 8
+steal_bonus = 8
+block_bonus = 8
+rebounding_bonus = 8
+passive_effect = ""
+metadata/_custom_type_script = "uid://5phsukg4m51u"

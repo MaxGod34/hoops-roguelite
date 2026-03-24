@@ -51,14 +51,9 @@ func _physics_process(delta: float) -> void:
 			var target_hoop = hoops_in_scene[0]
 			
 			# Get the target from the Marker2D
-			var rim_position = target_hoop.get_node("RimTarget").global_position
-			
-			# Calculate exact angle from player to hoop
-			var aim_dir = global_position.direction_to(rim_position)
-			
-			# On a shot we will ignore any momentum (velocity)
-			# Stop on a dime, shoot a clean jumper 
-			held_ball.throw(aim_dir, Vector2.ZERO)
+			var rim_position = target_hoop.get_node("ShotTarget").global_position
+		
+			held_ball.shoot_ball(rim_position)
 			held_ball = null
 
 	move_and_slide()
@@ -69,11 +64,14 @@ func _physics_process(delta: float) -> void:
 		var collider = collision.get_collider()
 		
 		# If we bump into the ball
-		if collider is RigidBody2D:
+		if collider is CharacterBody2D and collider.has_method("pickup"):
+			if collider.z_height > 3.0: return
+			
 			# Check if ball has the pickup function, make sure player isn't holding it already
-			if collider.has_method("pickup") and not collider.is_held:
+			elif not collider.is_held:
 				collider.pickup(self)
 				held_ball = collider # Remember which ball we just grabbed
+				
 
 
 func force_turnover():
