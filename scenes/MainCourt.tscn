@@ -1,25 +1,27 @@
-[gd_scene load_steps=8 format=3 uid="uid://cn0mnhhe6ul0y"]
+[gd_scene load_steps=10 format=3 uid="uid://cn0mnhhe6ul0y"]
 
 [ext_resource type="PackedScene" uid="uid://u2gal06p4nlq" path="res://scenes/Hoop.tscn" id="1_562al"]
-[ext_resource type="Texture2D" uid="uid://dtspa6s1doc36" path="res://assets/snake_lime.png" id="1_s2qdm"]
+[ext_resource type="Texture2D" uid="uid://clo87i3kmodxr" path="res://assets/CourtProtov1.1.png" id="1_h0gog"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="2_5jgdc"]
 [ext_resource type="PackedScene" uid="uid://do3nrnwrn2efx" path="res://scenes/Ball.tscn" id="3_5n6sh"]
 [ext_resource type="PackedScene" uid="uid://cyxg6xfhp6kvv" path="res://scenes/Defender.tscn" id="5_i0pnj"]
+[ext_resource type="PackedScene" uid="uid://bv5mx3q7le18e" path="res://scenes/shot_clock_ui.tscn" id="6_h0gog"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jgdc"]
-size = Vector2(110, 657)
+size = Vector2(103, 657)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5n6sh"]
-size = Vector2(1169, 131.75)
+size = Vector2(1169, 126.188)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h0gog"]
+size = Vector2(430, 128)
 
 [node name="MainCourt" type="Node2D"]
 y_sort_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.993427, 0.172621, 0.11538, 1)
 position = Vector2(584, 326)
-scale = Vector2(38.9375, 22.25)
-texture = ExtResource("1_s2qdm")
+texture = ExtResource("1_h0gog")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -28,16 +30,24 @@ position = Vector2(-12, 323.5)
 shape = SubResource("RectangleShape2D_5jgdc")
 
 [node name="CollisionShape2D-RightWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(1176, 317)
+position = Vector2(1179.5, 317)
 shape = SubResource("RectangleShape2D_5jgdc")
 
 [node name="CollisionShape2D-TopWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(574.5, 6.125)
+position = Vector2(574.5, 3.90625)
 shape = SubResource("RectangleShape2D_5n6sh")
 
 [node name="CollisionShape2D-BottomWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(579, 683.75)
+position = Vector2(579, 684.313)
 shape = SubResource("RectangleShape2D_5n6sh")
+
+[node name="CollisionShape2D-LeftBackBaselineWall" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(216, 66)
+shape = SubResource("RectangleShape2D_h0gog")
+
+[node name="CollisionShape2D-RightBackBaselineWall" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(946, 68)
+shape = SubResource("RectangleShape2D_h0gog")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(587, 321)
@@ -48,12 +58,14 @@ position = Vector2(576, 64)
 
 [node name="Player" parent="." instance=ExtResource("2_5jgdc")]
 z_index = 1
-position = Vector2(800, 420)
+position = Vector2(681, 522)
 
 [node name="Ball" parent="." instance=ExtResource("3_5n6sh")]
 z_index = 1
-position = Vector2(420, 200)
+position = Vector2(579, 513)
 
 [node name="Defender" parent="." instance=ExtResource("5_i0pnj")]
 z_index = 1
 position = Vector2(911, 168)
+
+[node name="ShotClockUI" parent="." instance=ExtResource("6_h0gog")]

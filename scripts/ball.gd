@@ -8,10 +8,6 @@ var is_held = false
 var player = null
 var can_be_picked_up = true # Cooldown Flag
 
-var pending_throw = false
-var throw_aim = Vector2.ZERO
-var throw_vel = Vector2.ZERO
-var throw_start_pos = Vector2.ZERO
 
 # Visual Illusion Vars
 var z_height: float = 0.0

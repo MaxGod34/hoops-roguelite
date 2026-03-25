@@ -27,6 +27,9 @@ func _on_backboard_hit(body):
 func _on_rim_collision(body):
 	if body.is_in_group("ball") and body.state == "SHOOTING":
 		if body.z_height >= rim_height:
+			
+			get_tree().call_group("shot_clock", "reset_clock")
+			
 			# Calc normal pushing away from exact center of the hoop
 			var bounce_normal = (body.global_position - global_position).normalized()
 			_trigger_brick(body, bounce_normal)
@@ -47,6 +50,8 @@ func _on_net_entered(body):
 	if body.is_in_group("ball") and body.state == "SHOOTING":
 		if body.z_height >= rim_height:
 			print("SWISH! Nice one!")
+			
+			get_tree().call_group("shot_clock", "reset_clock")
 			
 			body.swish(zone_net.global_position)
 			

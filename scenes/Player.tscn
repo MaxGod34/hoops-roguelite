@@ -10,6 +10,7 @@ motion_mode = 1
 script = ExtResource("1_v6fml")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0.458824, 1, 1)
 texture = ExtResource("2_3li8b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -1,9 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://cyxg6xfhp6kvv"]
+[gd_scene load_steps=5 format=3 uid="uid://cyxg6xfhp6kvv"]
 
 [ext_resource type="Script" uid="uid://1abbvgpc5j3p" path="res://scripts/defender.gd" id="1_fbkjj"]
 [ext_resource type="Texture2D" uid="uid://swhe71w43u68" path="res://assets/red_ball.png" id="1_r2g7j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fbkjj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p6ck8"]
 
 [node name="Defender" type="CharacterBody2D"]
 motion_mode = 1
@@ -15,3 +17,11 @@ texture = ExtResource("1_r2g7j")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(1.6, 1.6)
 shape = SubResource("RectangleShape2D_fbkjj")
+
+[node name="PickupZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupZone"]
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_p6ck8")
+
+[connection signal="body_entered" from="PickupZone" to="." method="_on_pickup_zone_body_entered"]
