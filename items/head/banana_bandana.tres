@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://b12hrkmrql8gr"]
 
-[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://scripts/accessory_data.gd" id="1_sdw35"]
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="1_sdw35"]
 [ext_resource type="Texture2D" uid="uid://c0o1u1t74cqry" path="res://assets/accessories/BananaBandanaProto.png" id="1_y5v05"]
 
 [resource]

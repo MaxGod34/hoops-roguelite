@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://eeb6umu1w3eb"]
 
 [ext_resource type="Texture2D" uid="uid://dgcm72tv2w2pq" path="res://assets/accessories/RightFortuneGauntletProto.png" id="1_w7lbu"]
-[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://scripts/accessory_data.gd" id="2_phgwr"]
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="2_phgwr"]
 
 [resource]
 script = ExtResource("2_phgwr")

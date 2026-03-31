@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://drqu17p076nss"]
 
-[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://scripts/accessory_data.gd" id="1_dsg55"]
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="1_dsg55"]
 [ext_resource type="Texture2D" uid="uid://dplappbp8tjxy" path="res://assets/accessories/RightRollerbladeProto.png" id="1_g1wry"]
 
 [resource]

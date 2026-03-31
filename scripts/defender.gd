@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var move_speed: float = 100.0
 @export var friction: float = 800.0
 
-var state: String = "IDLE" # CHASING, GUARDING, CONTESTING, OFFENSE_IDLE
+var state: String = "IDLE" # IDLE, CHASING, GUARDING, CONTESTING, OFFENSE_IDLE, DRIVING, BOT_SHOOTING
 
 
 var player: Node2D = null
@@ -13,6 +13,11 @@ var hoop: Node2D = null
 var ball: Node2D = null
 var held_ball: Node2D = null
 var has_ball: bool = false
+
+var offense_timer: float = 0.0
+var size_up_time: float = 1.5
+var drive_speed_multiplier: float = 1.2
+
 
 func _ready():
 	# Find the ball
@@ -43,6 +48,11 @@ func _physics_process(delta: float) -> void:
 			contest_shot(delta)
 		"OFFENSE_IDLE":
 			offense_idle(delta)
+		"DRIVING":
+			drive_to_hoop(delta)
+		"BOT_SHOOTING":
+			# Stop and shoot
+			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		"IDLE":
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	
@@ -57,8 +67,10 @@ func evaluate_state():
 		# ===============================================
 		# 		OFFENSE (Bot has the ball)
 		# ===============================================
-		# Later add other states for driving, shooting, passing
-		state = "OFFENSE_IDLE"
+		if state not in ["OFFENSE_IDLE", "DRIVING", "BOT_SHOOTING"]:
+			
+			state = "OFFENSE_IDLE"
+			offense_timer = size_up_time
 	else:
 		# ===============================================
 		#		DEFENSE (Bot does not have ball)
@@ -78,7 +90,73 @@ func evaluate_state():
 # -- ACTIONS --
 func offense_idle(delta: float):
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
-	# Start a timer that changes them to shooting or driving later
+	# Start a timer that changes them to shooting or driving
+	offense_timer -= delta
+	if offense_timer <= 0:
+		# Make a decision, random for now
+		var decision = randi() % 100
+		if decision < 50:
+			state = "DRIVING"
+		else:
+			state = "BOT_SHOOTING"
+			bot_shoot()
+
+func drive_to_hoop(delta: float):
+	var dist_to_hoop = global_position.distance_to(hoop.global_position)
+	
+	if dist_to_hoop < 100.0:
+		state = "BOT_SHOOTING"
+		bot_shoot()
+		return
+		
+	# Direction to hoop
+	var dir_to_hoop = global_position.direction_to(hoop.global_position)
+	var move_dir = dir_to_hoop
+	
+	# Avoid obstacles/player
+	var dist_to_player = global_position.distance_to(player.global_position)
+	var dir_to_player = global_position.direction_to(player.global_position)
+	
+	# Check alignment > 0.7 means the player is mostly in front of them
+	var alignment = dir_to_hoop.dot(dir_to_player)
+	
+	# If player is close AND in the way, steer around them
+	if dist_to_player < 150.0 and alignment > 0.5:
+		# Get a vector 90 degrees from player
+		var evasion_dir = dir_to_player.orthogonal()
+		
+		# Determine which way to juke based on 2D cross product
+		var cross = dir_to_hoop.x * dir_to_player.y - dir_to_hoop.y * dir_to_player.x
+		if cross < 0:
+			evasion_dir = -evasion_dir # Juke the other way
+			
+		# Blend the hoop direction and the evasion direction
+		move_dir = (dir_to_hoop + (evasion_dir * 1.5)).normalized()
+		
+	# Apply speed burst on a drive
+	velocity = move_dir * (move_speed * drive_speed_multiplier)
+	
+func bot_shoot():
+	if not has_ball or not held_ball:
+		return
+	
+	# Calculate how far hoop is to make shot look natural
+	var dist = global_position.distance_to(hoop.global_position)
+	var flight_time = clamp(dist / ball.base_throw_speed, 0.5, 1.2)
+	var arc = clamp(dist / 200.0, 1.1, 1.6)
+	
+	# Detach ball logic
+	has_ball = false
+	held_ball = null
+	
+	# Tell the ball to fire using the shoot function
+	ball.shoot_ball(hoop.global_position, arc, flight_time)
+	
+	# After shooting, they should go to rebound the ball
+	
+	state = "CHASING"
+	
+		
 
 
 func guard_player(delta: float):
