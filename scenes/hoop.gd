@@ -1,3 +1,4 @@
+# hoop.gd
 extends Node2D
 
 @export var rim_height: float = 0.0 #ball has to be at this z_height to interact
@@ -6,6 +7,7 @@ extends Node2D
 @onready var zone_rim = $Zone_Rim
 @onready var zone_net = $Zone_Net
 
+signal basket_scored(points, scorer)
 
 
 
@@ -35,6 +37,7 @@ func _on_rim_collision(body):
 			_trigger_brick(body, bounce_normal)
 			
 func _trigger_brick(ball, normal: Vector2):
+	ball.state = "REBOUNDING"
 	# Kill shot arc
 	ball.stop_tweens()
 		
@@ -48,11 +51,14 @@ func _trigger_brick(ball, normal: Vector2):
 func _on_net_entered(body):
 	# Swish
 	if body.is_in_group("ball") and body.state == "SHOOTING":
-		if body.z_height >= rim_height:
+		if body.z_height >= (rim_height):
 			print("SWISH! Nice one!")
 			
 			get_tree().call_group("shot_clock", "reset_clock")
 			
 			body.swish(zone_net.global_position)
+			
+			var shooter = get_parent().last_shooter
+			basket_scored.emit(body.point_value, shooter)
 			
 			

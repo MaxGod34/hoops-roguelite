@@ -14,7 +14,7 @@ modulate = Color(0, 0.458824, 1, 1)
 texture = ExtResource("2_3li8b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(1.6, 1.6)
+scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_mdl7e")
 
 [node name="BallSpawn" type="Marker2D" parent="."]

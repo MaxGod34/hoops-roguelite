@@ -17,6 +17,9 @@ var state: String = "LOOSE" # LOOSE, HELD, SHOOTING, REBOUNDING
 var active_move_tween: Tween
 var active_z_tween: Tween
 
+# Scoring
+var point_value: int = 2 # Default 2 pter
+
 # When player touches ball
 func pickup(new_player):
 	# Ignore pickup if we just threw it
@@ -76,7 +79,7 @@ func throw(aim_direction: Vector2, player_velocity: Vector2):
 	
 	# Anti-Self-Pass Fix
 	can_be_picked_up = false
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(0.1).timeout
 	can_be_picked_up = true
 	
 
@@ -85,6 +88,7 @@ func shoot_ball(target_pos: Vector2, arc_height: float = 1.5, flight_time: float
 
 	stop_tweens() # Leftover bounces
 	state = "SHOOTING"
+	set_collision_mask_value(1, false)
 	is_held = false
 	player = null
 	$CollisionShape2D.set_deferred("disabled", false)
@@ -108,8 +112,14 @@ func shoot_ball(target_pos: Vector2, arc_height: float = 1.5, flight_time: float
 	active_z_tween.tween_property(ball_sprite, "scale", Vector2(1.0, 1.0), flight_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	active_z_tween.parallel().tween_property(self, "z_height", 0.0, flight_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	can_be_picked_up = false
-	await get_tree().create_timer(0.4).timeout
+	await get_tree().create_timer(flight_time).timeout
 	can_be_picked_up = true
+	
+	# Safety net
+	if state == "SHOOTING":
+		state = "REBOUNDING"
+		set_collision_mask_value(1, true)
+		print("Shot timer ended! Ball is live!")
 
 
 		

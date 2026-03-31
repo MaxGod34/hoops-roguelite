@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cn0mnhhe6ul0y"]
+[gd_scene load_steps=11 format=3 uid="uid://cn0mnhhe6ul0y"]
 
 [ext_resource type="PackedScene" uid="uid://u2gal06p4nlq" path="res://scenes/Hoop.tscn" id="1_562al"]
 [ext_resource type="Texture2D" uid="uid://clo87i3kmodxr" path="res://assets/CourtProtov1.1.png" id="1_h0gog"]
+[ext_resource type="Script" uid="uid://dcjo7jvxhig66" path="res://scripts/Court.gd" id="1_kcgw8"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="2_5jgdc"]
 [ext_resource type="PackedScene" uid="uid://do3nrnwrn2efx" path="res://scenes/Ball.tscn" id="3_5n6sh"]
 [ext_resource type="PackedScene" uid="uid://cyxg6xfhp6kvv" path="res://scenes/Defender.tscn" id="5_i0pnj"]
@@ -18,6 +19,7 @@ size = Vector2(430, 128)
 
 [node name="MainCourt" type="Node2D"]
 y_sort_enabled = true
+script = ExtResource("1_kcgw8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(584, 326)
@@ -69,3 +71,19 @@ z_index = 1
 position = Vector2(911, 168)
 
 [node name="ShotClockUI" parent="." instance=ExtResource("6_h0gog")]
+
+[node name="ClearZone" type="Area2D" parent="."]
+position = Vector2(147, 132)
+collision_layer = 16
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ClearZone"]
+build_mode = 1
+polygon = PackedVector2Array(0, 11, 0, 174, 6, 192, 21, 214, 46, 237, 85, 262, 137, 285, 191, 302, 275, 320, 369, 330, 489, 330, 544, 327, 612, 318, 690, 302, 743, 284, 795, 260, 836, 233, 860, 210, 877, 181, 876, 2, 877, -2, 879, -1, 982, 0, 981, 486, -107, 487, -107, -1, 0, -1)
+
+[node name="OffenseSpawn" type="Marker2D" parent="."]
+position = Vector2(576, 556)
+scale = Vector2(4, 4)
+
+[node name="DefenseSpawn" type="Marker2D" parent="."]
+position = Vector2(576, 382)
+scale = Vector2(4, 4)

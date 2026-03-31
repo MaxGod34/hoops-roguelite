@@ -1,9 +1,12 @@
+# defender.gd
 extends CharacterBody2D
 
 @export var move_speed: float = 100.0
 @export var friction: float = 800.0
 
-var state: String = "IDLE" # IDLE, CHASING, GUARDING, CONTESTING, OFFENSE_IDLE, DRIVING, BOT_SHOOTING
+var state: String = "IDLE" 
+# IDLE, CHASING, GUARDING, CONTESTING, 
+# OFFENSE_IDLE, DRIVING, BOT_SHOOTING, CLEARING_BALL
 
 
 var player: Node2D = null
@@ -17,6 +20,9 @@ var has_ball: bool = false
 var offense_timer: float = 0.0
 var size_up_time: float = 1.5
 var drive_speed_multiplier: float = 1.2
+
+# Check Up Vars
+var check_role: String = "" # FETCH, RECEIVE
 
 
 func _ready():
@@ -36,23 +42,32 @@ func _physics_process(delta: float) -> void:
 		return # Safety Net
 		
 	# Think you stupid bot
-	evaluate_state()
+	if state != "CHECK_UP_CUTSCENE":
+		evaluate_state()
 	
 	# Act on it...you stupid bot
 	match state:
+		
+		"CHECK_UP_CUTSCENE":
+			process_check_up(delta)
+		
 		"GUARDING":
 			guard_player(delta)
 		"CHASING":
 			chase_ball(delta)
 		"CONTESTING":
 			contest_shot(delta)
-		"OFFENSE_IDLE":
-			offense_idle(delta)
+		
+		"CLEARING_BALL":
+			clear_ball(delta)
+
 		"DRIVING":
 			drive_to_hoop(delta)
 		"BOT_SHOOTING":
 			# Stop and shoot
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+		"OFFENSE_IDLE":
+			offense_idle(delta)
 		"IDLE":
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	
@@ -67,7 +82,12 @@ func evaluate_state():
 		# ===============================================
 		# 		OFFENSE (Bot has the ball)
 		# ===============================================
-		if state not in ["OFFENSE_IDLE", "DRIVING", "BOT_SHOOTING"]:
+		
+		# Check rulebook first
+		if not get_parent().is_ball_cleared:
+			state = "CLEARING_BALL"
+		# If cleared, PROCEED TO BALL OUT
+		elif state not in ["OFFENSE_IDLE", "DRIVING", "BOT_SHOOTING"]:
 			
 			state = "OFFENSE_IDLE"
 			offense_timer = size_up_time
@@ -104,7 +124,7 @@ func offense_idle(delta: float):
 func drive_to_hoop(delta: float):
 	var dist_to_hoop = global_position.distance_to(hoop.global_position)
 	
-	if dist_to_hoop < 100.0:
+	if dist_to_hoop < 180.0:
 		state = "BOT_SHOOTING"
 		bot_shoot()
 		return
@@ -149,6 +169,12 @@ func bot_shoot():
 	has_ball = false
 	held_ball = null
 	
+	# Tell the court/ref we are shooting
+	get_parent().record_shot(self)
+	
+	# Give pts to the ball
+	ball.point_value = get_parent().pending_points
+	
 	# Tell the ball to fire using the shoot function
 	ball.shoot_ball(hoop.global_position, arc, flight_time)
 	
@@ -187,6 +213,78 @@ func contest_shot(delta:float):
 	# Later add z_height on a jump so defender can block the shot
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
+func clear_ball(delta: float):
+	# Calculate Vector pointing away directly from the hoop
+	var dir_away_from_hoop = hoop.global_position.direction_to(global_position)
+	
+	# Safety Fallback just in case they are exactly on the same pixel
+	if dir_away_from_hoop == Vector2.ZERO:
+		dir_away_from_hoop = Vector2.DOWN
+		
+	# Apply a little bit of hustle to take ball back
+	velocity = dir_away_from_hoop * (move_speed * drive_speed_multiplier)
+	
+	# Once the bot clears the ClearZone area2D, court script flags is_ball_cleared to true
+	# Next frame, evaluate_state() snaps them out and into OFFENSE_IDLE with the sizeup timer
+
+
+func start_check_sequence(role: String):
+	check_role = role
+	state = "CHECK_UP_CUTSCENE"
+
+func process_check_up(delta: float):
+	var target_pos = Vector2.ZERO
+	var distance_to_target = 0.0
+	var court = get_parent()
+	
+	if check_role == "RECEIVE":
+		# Loser walks to the Offense Spawn and waits
+		target_pos = court.get_node("OffenseSpawn").global_position
+		distance_to_target = global_position.distance_to(target_pos)
+		
+		if distance_to_target > 32.0:
+			var dir = global_position.direction_to(target_pos)
+			velocity = dir * (move_speed)
+		else:
+			# Arrived
+			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+			
+			
+	elif check_role == "FETCH":
+		# Scorer has a 2 part mission
+		if not has_ball:
+			# 1. Go get the ball
+			var ball_node = get_tree().get_nodes_in_group("ball")[0]
+			target_pos = ball_node.global_position
+			distance_to_target = global_position.distance_to(target_pos)
+			
+			# run slightly faster for game pace
+			var dir = global_position.direction_to(target_pos)
+			velocity = dir * (move_speed * 1.5)
+			
+		else:
+			# 2. Got the ball, walk to the defense spawn
+			target_pos = court.get_node("DefenseSpawn").global_position
+			distance_to_target = global_position.distance_to(target_pos)
+			
+			if distance_to_target > 15.0:
+				var dir = global_position.direction_to(target_pos)
+				velocity = dir * move_speed
+			else:
+				# Arrived at defense spawn
+				velocity = Vector2.ZERO
+				
+				# Auto aim the pass
+				var pass_dir = global_position.direction_to(court.receiver.global_position)
+				
+				held_ball.throw(pass_dir, Vector2.ZERO)
+				
+				held_ball = null
+				has_ball = false
+			
+				# Resume Game!
+				court.resume_game()
+			
 
 
 func _on_pickup_zone_body_entered(body: Node2D) -> void:
@@ -195,11 +293,21 @@ func _on_pickup_zone_body_entered(body: Node2D) -> void:
 		# Check is the ball flying over my stupid bot head
 		if body.z_height > 3.0:
 			return
+		
+		# Snapshot of state
+		var previous_state = body.state
 			
 		# Grab the ball!
 		body.pickup(self)
 		held_ball = body
 		has_ball = true
+		
+		print("Bot grabbed the ball! State was: ", body.state)
+		
+		# If the ball was loose, it means it's a rebound or a steal
+		if previous_state == "LOOSE" or previous_state == "REBOUNDING":
+			get_parent().handle_rebound(self)
+		
 		
 		# Physics process will change the state automatically because
 		# The bot has the ball now

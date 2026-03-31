@@ -1,3 +1,4 @@
+# Player.gd
 extends CharacterBody2D
 
 
@@ -10,6 +11,10 @@ const PUSH_FORCE = 20.0
 
 var held_ball = null
 var has_control = true
+var has_ball: bool = false
+
+# Check Up Vars
+var check_role: String = "" # FETCH, RECEIVE
 
 
 func _physics_process(delta: float) -> void:
@@ -17,10 +22,11 @@ func _physics_process(delta: float) -> void:
 	
 	# FREEZE LOGIC
 	if not has_control:
-		# Kill momentum so there isn't any drift
-		velocity = Vector2.ZERO
-		move_and_slide()
-		return
+		if get_parent().game_state == "CHECKING":
+			process_check_up(delta)
+		else:
+			velocity = Vector2.ZERO
+
 
 	# Get movement input (Left/Right) and apply acceleration
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -42,6 +48,7 @@ func _physics_process(delta: float) -> void:
 			
 		held_ball.throw(aim_dir, velocity)
 		held_ball = null # Hands will now be empty
+		has_ball = false
 		
 	if Input.is_action_just_pressed("shoot") and held_ball:
 		# Find Hoop in the scene
@@ -49,12 +56,18 @@ func _physics_process(delta: float) -> void:
 		
 		if hoops_in_scene.size() > 0:
 			var target_hoop = hoops_in_scene[0]
-			
 			# Get the target from the Marker2D
 			var rim_position = target_hoop.get_node("ShotTarget").global_position
-		
+			
+			
+			# Tell the court/ref we are shooting
+			get_parent().record_shot(self)
+			
+			held_ball.point_value = get_parent().pending_points
+			
 			held_ball.shoot_ball(rim_position)
 			held_ball = null
+			has_ball = false
 
 	move_and_slide()
 	
@@ -69,9 +82,76 @@ func _physics_process(delta: float) -> void:
 			
 			# Check if ball has the pickup function, make sure player isn't holding it already
 			elif not collider.is_held:
+				# State Snapshot
+				var previous_state = collider.state
+				# Grab Ball
 				collider.pickup(self)
 				held_ball = collider # Remember which ball we just grabbed
+				has_ball = true
+				# Use previous state cuz of OoOperations
+				# Tell ref if we got a rebound or a steal
+				if previous_state == "LOOSE" or previous_state == "REBOUNDING":
+					get_parent().handle_rebound(self)
 				
+
+func start_check_sequence(role: String):
+	check_role = role
+	has_control = false
+
+
+func process_check_up(delta: float):
+	var target_pos = Vector2.ZERO
+	var distance_to_target = 0.0
+	var court = get_parent()
+	
+	if check_role == "RECEIVE":
+		# Loser walks to the Offense Spawn and waits
+		target_pos = court.get_node("OffenseSpawn").global_position
+		distance_to_target = global_position.distance_to(target_pos)
+		
+		if distance_to_target > 32.0:
+			var dir = global_position.direction_to(target_pos)
+			velocity = dir * (SPEED)
+		else:
+			# Arrived
+			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+			
+			
+	elif check_role == "FETCH":
+		# Scorer has a 2 part mission
+		if not has_ball:
+			# 1. Go get the ball
+			var ball_node = get_tree().get_nodes_in_group("ball")[0]
+			target_pos = ball_node.global_position
+			distance_to_target = global_position.distance_to(target_pos)
+			
+			# run slightly faster for game pace
+			var dir = global_position.direction_to(target_pos)
+			velocity = dir * SPEED
+			
+		else:
+			# 2. Got the ball, walk to the defense spawn
+			target_pos = court.get_node("DefenseSpawn").global_position
+			distance_to_target = global_position.distance_to(target_pos)
+			
+			if distance_to_target > 15.0:
+				var dir = global_position.direction_to(target_pos)
+				velocity = dir * SPEED
+			else:
+				# Arrived at defense spawn
+				velocity = Vector2.ZERO
+				
+				# Auto aim the pass
+				var pass_dir = global_position.direction_to(court.receiver.global_position)
+				
+				held_ball.throw(pass_dir, Vector2.ZERO)
+				
+				held_ball = null
+				has_ball = false
+			
+				# Resume Game!
+				court.resume_game()
+
 
 
 func force_turnover():
