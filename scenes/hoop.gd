@@ -27,7 +27,7 @@ func _on_backboard_hit(body):
 			_trigger_brick(body, bounce_normal)
 			
 func _on_rim_collision(body):
-	if body.is_in_group("ball") and body.state == "SHOOTING":
+	if body.is_in_group("ball") and (body.state == "SHOOTING" or body.state == "LAYUP"):
 		if body.z_height >= rim_height:
 			
 			get_tree().call_group("shot_clock", "reset_clock")
@@ -50,8 +50,8 @@ func _trigger_brick(ball, normal: Vector2):
 		
 func _on_net_entered(body):
 	# Swish
-	if body.is_in_group("ball") and body.state == "SHOOTING":
-		if body.z_height >= (rim_height):
+	if body.is_in_group("ball") and (body.state == "SHOOTING" or body.state == "LAYUP"):
+		if body.z_height >= (rim_height - 10.0):
 			print("SWISH! Nice one!")
 			
 			get_tree().call_group("shot_clock", "reset_clock")

@@ -58,7 +58,7 @@ func _physics_process(delta: float) -> void:
 		# Airbourne State
 		pass
 
-func throw(aim_direction: Vector2, player_velocity: Vector2):
+func throw(aim_direction: Vector2, player_velocity: Vector2, speed_modifier: float = 1.0):
 	# Stand-Still Fix
 	# If standing still, default to throwing "up" the court 
 	# so it doesn't spawn inside chest
@@ -71,7 +71,7 @@ func throw(aim_direction: Vector2, player_velocity: Vector2):
 
 	global_position = player.global_position + (aim_direction * 80)
 	
-	velocity = (aim_direction * base_throw_speed) + player_velocity
+	velocity = (aim_direction * base_throw_speed * speed_modifier) + player_velocity
 	
 	player = null
 	
@@ -121,7 +121,50 @@ func shoot_ball(target_pos: Vector2, arc_height: float = 1.5, flight_time: float
 		set_collision_mask_value(1, true)
 		print("Shot timer ended! Ball is live!")
 
-
+func layup_ball(target_pos: Vector2):
+	# Set state so rim ignores
+	state = "LAYUP"
+	# Detach from player
+	is_held = false
+	z_height = 2.0
+	
+	$CollisionShape2D.set_deferred("disabled", false)
+	set_collision_mask_value(1, false)
+	set_collision_layer_value(1, false)
+	
+	# Calculate a much faster, flatter flight time
+	var dist = global_position.distance_to(target_pos)
+	var fast_flight_time = clamp(dist / (base_throw_speed * 0.5), 0.2, 0.5)
+	var arc_height = 1.4 # Lower arc for a layup
+	
+	
+	# ------------------------ TWEEEEEEEEEEEN ----------------------------
+	active_move_tween = create_tween()
+	active_z_tween = create_tween()
+	
+	# X/Y movement (Across floor to hoop)
+	active_move_tween.tween_property(self, "global_position", target_pos, fast_flight_time)
+	
+	# Z axis (Fake height AND visual scale)
+	# Going up
+	active_z_tween.tween_property(ball_sprite, "scale", Vector2(arc_height, arc_height), fast_flight_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	active_z_tween.parallel().tween_property(self, "z_height", get_parent().get_node("Hoop").rim_height + 25.0, fast_flight_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	
+	# Coming down
+	active_z_tween.tween_property(ball_sprite, "scale", Vector2(1.0, 1.0), fast_flight_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	active_z_tween.parallel().tween_property(self, "z_height", 0.0, fast_flight_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	# ----------------------------------------------------------------------
+	
+	
+	can_be_picked_up = false
+	await get_tree().create_timer(fast_flight_time).timeout
+	can_be_picked_up = true
+	
+	if state == "SHOOTING" or state == "LAYUP":
+		state = "REBOUNDING"
+		set_collision_mask_value(1, true)
+		set_collision_layer_value(1, true)
+		print("Shot timer ended! Ball is live!")
 		
 func bounce_vertical(normal: Vector2):
 	

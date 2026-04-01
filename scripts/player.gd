@@ -65,7 +65,15 @@ func _physics_process(delta: float) -> void:
 			
 			held_ball.point_value = get_parent().pending_points
 			
-			held_ball.shoot_ball(rim_position)
+			# -- Distance check --
+			var dist_to_hoop = global_position.distance_to(rim_position)
+			if dist_to_hoop < 120.0:
+				print("Player puts up a LAYUP!")
+				held_ball.layup_ball(rim_position)
+			else:
+				print("Player shoots a JUMPER!")
+				held_ball.shoot_ball(rim_position)
+			#---------------------
 			held_ball = null
 			has_ball = false
 
@@ -109,7 +117,7 @@ func process_check_up(delta: float):
 		target_pos = court.get_node("OffenseSpawn").global_position
 		distance_to_target = global_position.distance_to(target_pos)
 		
-		if distance_to_target > 32.0:
+		if distance_to_target > 15.0:
 			var dir = global_position.direction_to(target_pos)
 			velocity = dir * (SPEED)
 		else:
@@ -127,7 +135,7 @@ func process_check_up(delta: float):
 			
 			# run slightly faster for game pace
 			var dir = global_position.direction_to(target_pos)
-			velocity = dir * SPEED
+			velocity = dir * (SPEED * 0.75)
 			
 		else:
 			# 2. Got the ball, walk to the defense spawn
@@ -136,18 +144,29 @@ func process_check_up(delta: float):
 			
 			if distance_to_target > 15.0:
 				var dir = global_position.direction_to(target_pos)
-				velocity = dir * SPEED
+				velocity = dir * (SPEED * 0.75)
 			else:
 				# Arrived at defense spawn
 				velocity = Vector2.ZERO
 				
+				# -- WAIT FOR THE RECEIVER TO BE IN PLACE --
+				var receiver_target = court.get_node("OffenseSpawn").global_position
+				var dist_to_receiver = court.receiver.global_position.distance_to(receiver_target)
+				# IF RECEIVER IS MORE THAN 15 PIXELS FROM THEIR SPOT, WAIT!	
+				if dist_to_receiver > 15.0:
+					return
+				# ------------------------------------------
+				
+				
 				# Auto aim the pass
 				var pass_dir = global_position.direction_to(court.receiver.global_position)
 				
-				held_ball.throw(pass_dir, Vector2.ZERO)
+				held_ball.throw(pass_dir, Vector2.ZERO, 0.5)
 				
 				held_ball = null
 				has_ball = false
+				
+				await get_tree().create_timer(0.2).timeout
 			
 				# Resume Game!
 				court.resume_game()

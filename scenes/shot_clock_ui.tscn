@@ -11,24 +11,27 @@ border_width_right = 8
 border_width_bottom = 8
 border_color = Color(0.533037, 0.533037, 0.533036, 1)
 border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="ShotClockUI" type="CanvasLayer" groups=["shot_clock"]]
 script = ExtResource("1_ovice")
 
 [node name="Lbl_Shot_Clock_Remaining" type="Label" parent="."]
-custom_minimum_size = Vector2(112, 64)
+custom_minimum_size = Vector2(80, 48)
 anchors_preset = -1
-anchor_left = 0.95
-anchor_top = 0.05
-anchor_right = 0.95
-anchor_bottom = 0.05
-offset_left = -98.0
-offset_bottom = 64.0
-grow_horizontal = 0
+anchor_left = 0.74
+anchor_top = 0.007
+anchor_right = 0.74
+anchor_bottom = 0.007
+offset_right = 72.0
+offset_bottom = 45.0
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_pcafg")
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxFlat_ovice")
 text = "29"
-horizontal_alignment = 2
+horizontal_alignment = 1
 vertical_alignment = 1

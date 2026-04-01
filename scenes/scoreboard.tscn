@@ -1,0 +1,116 @@
+[gd_scene load_steps=6 format=3 uid="uid://c6mnop7wjkxqv"]
+
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_ucmtr"]
+[ext_resource type="Script" uid="uid://1al4fn2edpp" path="res://scripts/scoreboard.gd" id="1_w5fga"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucmtr"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.605274, 0.605274, 0.605274, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w5fga"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.654232, 0.654232, 0.654232, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g67ru"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.654232, 0.654232, 0.654232, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Scoreboard" type="CanvasLayer"]
+script = ExtResource("1_w5fga")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(512, 96)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -512.0
+offset_bottom = 96.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ucmtr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+custom_minimum_size = Vector2(512, 96)
+layout_mode = 0
+offset_right = 516.0
+offset_bottom = 96.0
+alignment = 1
+
+[node name="HBoxScore" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 208
+alignment = 1
+
+[node name="Lbl_PlayerScore" type="Label" parent="Panel/VBoxContainer/HBoxScore"]
+custom_minimum_size = Vector2(64, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("1_ucmtr")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_w5fga")
+text = "11"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Lbl_BotScore" type="Label" parent="Panel/VBoxContainer/HBoxScore"]
+custom_minimum_size = Vector2(64, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("1_ucmtr")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_g67ru")
+text = "11"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxTitle" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Lbl_PlayerTitle" type="Label" parent="Panel/VBoxContainer/HBoxTitle"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.724643, 0.724643, 0.724643, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_ucmtr")
+theme_override_font_sizes/font_size = 32
+text = "Player"
+horizontal_alignment = 1
+
+[node name="Lbl_BotTitle" type="Label" parent="Panel/VBoxContainer/HBoxTitle"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.724643, 0.724643, 0.724643, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_ucmtr")
+theme_override_font_sizes/font_size = 32
+text = "Opponent"
+horizontal_alignment = 1

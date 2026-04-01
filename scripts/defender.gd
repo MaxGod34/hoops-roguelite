@@ -115,22 +115,23 @@ func offense_idle(delta: float):
 	if offense_timer <= 0:
 		# Make a decision, random for now
 		var decision = randi() % 100
-		if decision < 50:
+		if decision < 100:
 			state = "DRIVING"
 		else:
 			state = "BOT_SHOOTING"
 			bot_shoot()
 
 func drive_to_hoop(delta: float):
-	var dist_to_hoop = global_position.distance_to(hoop.global_position)
+	var rim_pos = hoop.get_node("ShotTarget").global_position
+	var dist_to_hoop = global_position.distance_to(rim_pos)
 	
-	if dist_to_hoop < 180.0:
+	if dist_to_hoop < 150.0:
 		state = "BOT_SHOOTING"
 		bot_shoot()
 		return
 		
 	# Direction to hoop
-	var dir_to_hoop = global_position.direction_to(hoop.global_position)
+	var dir_to_hoop = global_position.direction_to(rim_pos)
 	var move_dir = dir_to_hoop
 	
 	# Avoid obstacles/player
@@ -159,27 +160,30 @@ func drive_to_hoop(delta: float):
 func bot_shoot():
 	if not has_ball or not held_ball:
 		return
+		
+	# Tell the court/ref we are shooting
+	get_parent().record_shot(self)
+	# Give pts to the ball
+	ball.point_value = get_parent().pending_points
 	
+	var rim_position = hoop.get_node("ShotTarget").global_position
+	
+	# -- Distance Check --
 	# Calculate how far hoop is to make shot look natural
-	var dist = global_position.distance_to(hoop.global_position)
-	var flight_time = clamp(dist / ball.base_throw_speed, 0.5, 1.2)
-	var arc = clamp(dist / 200.0, 1.1, 1.6)
+	var dist = global_position.distance_to(rim_position)
+	if dist < 180.0: 	# LAYUP
+		print("Bot drives to the paint for a LAYUP!")
+		ball.layup_ball(rim_position)
+	else:				# JUMPER
+		print("Bot pulls up for the JUMPER!")
+		var flight_time = clamp(dist / ball.base_throw_speed, 0.5, 1.2)
+		var arc = clamp(dist / 200.0, 1.1, 1.6)
+		ball.shoot_ball(rim_position, arc, flight_time)
+	#----------------------
 	
 	# Detach ball logic
 	has_ball = false
 	held_ball = null
-	
-	# Tell the court/ref we are shooting
-	get_parent().record_shot(self)
-	
-	# Give pts to the ball
-	ball.point_value = get_parent().pending_points
-	
-	# Tell the ball to fire using the shoot function
-	ball.shoot_ball(hoop.global_position, arc, flight_time)
-	
-	# After shooting, they should go to rebound the ball
-	
 	state = "CHASING"
 	
 		
@@ -214,6 +218,13 @@ func contest_shot(delta:float):
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
 func clear_ball(delta: float):
+	# Safety Net: Stop backing up if you already have the ball in the clear zone
+	if get_parent().bodies_in_clear_zone.has(self):
+		get_parent().is_ball_cleared = true
+		return
+	
+	
+	
 	# Calculate Vector pointing away directly from the hoop
 	var dir_away_from_hoop = hoop.global_position.direction_to(global_position)
 	
@@ -242,7 +253,7 @@ func process_check_up(delta: float):
 		target_pos = court.get_node("OffenseSpawn").global_position
 		distance_to_target = global_position.distance_to(target_pos)
 		
-		if distance_to_target > 32.0:
+		if distance_to_target > 15.0:
 			var dir = global_position.direction_to(target_pos)
 			velocity = dir * (move_speed)
 		else:
@@ -274,13 +285,26 @@ func process_check_up(delta: float):
 				# Arrived at defense spawn
 				velocity = Vector2.ZERO
 				
+				# -- WAIT FOR THE RECEIVER TO BE IN PLACE --
+				var receiver_target = court.get_node("OffenseSpawn").global_position
+				var dist_to_receiver = court.receiver.global_position.distance_to(receiver_target)
+				# IF RECEIVER IS MORE THAN 15 PIXELS FROM THEIR SPOT, WAIT!	
+				if dist_to_receiver > 15.0:
+					return
+				# ------------------------------------------
+				
+				
+				
+				
 				# Auto aim the pass
 				var pass_dir = global_position.direction_to(court.receiver.global_position)
 				
-				held_ball.throw(pass_dir, Vector2.ZERO)
+				held_ball.throw(pass_dir, Vector2.ZERO, 0.5)
 				
 				held_ball = null
 				has_ball = false
+			
+				await get_tree().create_timer(0.2).timeout
 			
 				# Resume Game!
 				court.resume_game()
