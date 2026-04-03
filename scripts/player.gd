@@ -96,6 +96,9 @@ func _physics_process(delta: float) -> void:
 				collider.pickup(self)
 				held_ball = collider # Remember which ball we just grabbed
 				has_ball = true
+				
+				get_parent().register_possession_change(self, previous_state)
+				
 				# Use previous state cuz of OoOperations
 				# Tell ref if we got a rebound or a steal
 				if previous_state == "LOOSE" or previous_state == "REBOUNDING":
@@ -119,7 +122,7 @@ func process_check_up(delta: float):
 		
 		if distance_to_target > 15.0:
 			var dir = global_position.direction_to(target_pos)
-			velocity = dir * (SPEED)
+			velocity = dir * (SPEED * 0.75)
 		else:
 			# Arrived
 			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
@@ -144,7 +147,7 @@ func process_check_up(delta: float):
 			
 			if distance_to_target > 15.0:
 				var dir = global_position.direction_to(target_pos)
-				velocity = dir * (SPEED * 0.75)
+				velocity = dir * (SPEED * 0.5)
 			else:
 				# Arrived at defense spawn
 				velocity = Vector2.ZERO
@@ -157,16 +160,22 @@ func process_check_up(delta: float):
 					return
 				# ------------------------------------------
 				
+				check_role = "WAITING"
+				
+				await get_tree().create_timer(0.5).timeout
 				
 				# Auto aim the pass
 				var pass_dir = global_position.direction_to(court.receiver.global_position)
 				
-				held_ball.throw(pass_dir, Vector2.ZERO, 0.5)
+				
+				if held_ball != null:
+					held_ball.throw(pass_dir, Vector2.ZERO, 0.5)
+				
 				
 				held_ball = null
 				has_ball = false
 				
-				await get_tree().create_timer(0.2).timeout
+				
 			
 				# Resume Game!
 				court.resume_game()
@@ -182,3 +191,4 @@ func force_turnover():
 		held_ball.throw(random_dir, Vector2.ZERO)
 		
 		held_ball = null
+		has_ball = false

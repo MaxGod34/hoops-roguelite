@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal timeout_violation
+
 @onready var time_label = $Lbl_Shot_Clock_Remaining
 
 var max_time: float = 30.0
@@ -12,8 +14,7 @@ var warning_color = Color.RED
 
 func _ready() -> void:
 	reset_clock()
-	# Auto-start for testing
-	start_clock()
+
 
 func _process(delta: float) -> void:
 	if is_running:
@@ -51,4 +52,5 @@ func trigger_violation():
 	time_label.text = "0.0"
 	time_label.add_theme_color_override("font_color", warning_color)
 	print("BZZZZZZZ! SHOT CLOCK VIOLATION!")
-	# Add change possession later
+	
+	timeout_violation.emit()

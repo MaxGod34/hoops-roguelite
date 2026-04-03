@@ -61,11 +61,11 @@ position = Vector2(576, 64)
 
 [node name="Player" parent="." instance=ExtResource("2_5jgdc")]
 z_index = 1
-position = Vector2(739, 520)
+position = Vector2(917, 283)
 
 [node name="Ball" parent="." instance=ExtResource("3_5n6sh")]
 z_index = 1
-position = Vector2(579, 513)
+position = Vector2(576, 195)
 
 [node name="Defender" parent="." instance=ExtResource("5_i0pnj")]
 z_index = 1

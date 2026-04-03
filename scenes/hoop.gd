@@ -51,7 +51,7 @@ func _trigger_brick(ball, normal: Vector2):
 func _on_net_entered(body):
 	# Swish
 	if body.is_in_group("ball") and (body.state == "SHOOTING" or body.state == "LAYUP"):
-		if body.z_height >= (rim_height - 10.0):
+		if body.z_height >= (rim_height - 15.0):
 			print("SWISH! Nice one!")
 			
 			get_tree().call_group("shot_clock", "reset_clock")

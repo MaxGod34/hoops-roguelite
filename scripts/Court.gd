@@ -16,6 +16,12 @@ var bot_score: int = 0
 var target_score: int = 11
 var pending_points: int = 2
 
+# Stat Tracking
+var player_turnovers: int = 0
+var bot_turnovers: int = 0
+var current_possession: Node2D = null
+
+
 # Ref Variables
 var is_ball_cleared: bool = true
 var last_shooter: Node2D = null
@@ -48,9 +54,17 @@ func _ready():
 	# Connect Signals
 	score_changed.connect($Scoreboard.update_scores)
 	game_over.connect($Scoreboard.show_game_over)
+	var shot_clocks = get_tree().get_nodes_in_group("shot_clock")
+	if shot_clocks.size() > 0:
+		shot_clocks[0].timeout_violation.connect(_on_shot_clock_violation)
 	
 	# Fire off so we start at 0-0
 	score_changed.emit(player_score, bot_score)
+	
+	#=============GAME START=================
+	print("Tip Off! Setting up initial check...")
+	# Force bot to grab ball and start on D
+	reset_play(bot)
 
 
 func record_shot(shooter: Node2D):
@@ -108,6 +122,10 @@ func reset_play(scorer: Node2D):
 	
 	is_inbound_pass = true
 	
+	get_tree().call_group("shot_clock", "reset_clock")
+	get_tree().call_group("shot_clock", "stop_clock")
+	
+	
 	# SCORER fetches the ball and plays defense
 	# Former defender goes to the top of the key
 	if scorer == player:
@@ -126,6 +144,8 @@ func reset_play(scorer: Node2D):
 func resume_game():
 	game_state = "PLAYING"
 	print("CHECK-UP COMPLETE! GAME ON!")
+	
+	get_tree().call_group("shot_clock", "start_clock")
 	
 	# Anti phasing, recollision logic
 	player.remove_collision_exception_with(bot)
@@ -147,6 +167,62 @@ func resume_game():
 	bot.state = "OFFENSE_IDLE" if bot.has_ball else "GUARDING"
 	is_ball_cleared = true
 
+
+func turnover(violator: Node2D):
+	print("Violation! Turnover committed by: ", violator.name)
+	
+	if violator.name == "Player":
+		player_turnovers += 1
+	else:
+		bot_turnovers += 1
+	
+	if violator.has_method("force_turnover"):
+		violator.force_turnover
+		
+	print("Player TO: " + str(player_turnovers))
+	print("Bot TO: " + str(bot_turnovers))
+		
+	reset_play(violator)
+
+func register_possession_change(new_holder: Node2D, previous_ball_state: String):
+	# Did game just start?
+	if current_possession == null:
+		current_possession = new_holder
+		return
+	
+	# Did someone pick up their own fumble?
+	if current_possession == new_holder:
+		return
+		
+	# Then it's a change of possession
+	var loser = current_possession
+	current_possession = new_holder
+	
+	# Always reset shot clock on a possession change
+	get_tree().call_group("shot_clock", "reset_clock")
+	
+	# IGNORE CHECK UP PASS REF CMON
+	if is_inbound_pass:
+		return
+	
+	
+	# For stats: was it a rebound or a turnover?
+	if previous_ball_state == "LOOSE":
+		print("LIVE BALL TURNOVER!" + loser.name + " lost it to " + new_holder.name)
+		
+		# Log stat
+		if loser.name == "Player":
+			player_turnovers += 1
+		else:
+			bot_turnovers += 1
+	
+	elif previous_ball_state == "REBOUNDING":
+		print("DEFENSIVE REBOUND by " + new_holder.name + "! (Shot Clock Reset)")
+
+
+
+
+
 func _on_hoop_basket_scored(points, scorer):
 	if scorer.name == "Player":
 		player_score += points
@@ -163,6 +239,18 @@ func _on_hoop_basket_scored(points, scorer):
 		print("GAME OVER!")
 	else:
 		reset_play(scorer)
+
+
+func _on_shot_clock_violation():
+	var violator = player # Default
+	
+	if bot.has_ball or (ball.state == "LOOSE" and last_shooter == bot):
+		violator = bot
+		
+	# TRIGGER IT BOI
+	turnover(violator)
+
+
 
 func _on_clear_zone_body_entered(body: Node2D):
 	#print("SOMETHING TOUCHED THE CLEAR ZONE: ", body.name)

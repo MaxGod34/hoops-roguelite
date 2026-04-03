@@ -115,7 +115,7 @@ func offense_idle(delta: float):
 	if offense_timer <= 0:
 		# Make a decision, random for now
 		var decision = randi() % 100
-		if decision < 100:
+		if decision < 50:
 			state = "DRIVING"
 		else:
 			state = "BOT_SHOOTING"
@@ -261,20 +261,21 @@ func process_check_up(delta: float):
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 			
 			
+			
 	elif check_role == "FETCH":
 		# Scorer has a 2 part mission
 		if not has_ball:
-			# 1. Go get the ball
+			# Go get the ball
 			var ball_node = get_tree().get_nodes_in_group("ball")[0]
 			target_pos = ball_node.global_position
 			distance_to_target = global_position.distance_to(target_pos)
 			
-			# run slightly faster for game pace
+			# Run slightly faster for game pace
 			var dir = global_position.direction_to(target_pos)
 			velocity = dir * (move_speed * 1.5)
 			
 		else:
-			# 2. Got the ball, walk to the defense spawn
+			# Got the ball, walk to the defense spawn
 			target_pos = court.get_node("DefenseSpawn").global_position
 			distance_to_target = global_position.distance_to(target_pos)
 			
@@ -293,22 +294,32 @@ func process_check_up(delta: float):
 					return
 				# ------------------------------------------
 				
+				check_role = "WAITING"
 				
-				
+				await get_tree().create_timer(0.5).timeout
 				
 				# Auto aim the pass
 				var pass_dir = global_position.direction_to(court.receiver.global_position)
 				
-				held_ball.throw(pass_dir, Vector2.ZERO, 0.5)
+				if held_ball != null:
+					held_ball.throw(pass_dir, Vector2.ZERO, 0.5)
 				
 				held_ball = null
 				has_ball = false
-			
-				await get_tree().create_timer(0.2).timeout
-			
-				# Resume Game!
+
 				court.resume_game()
 			
+
+func force_turnover():
+	if held_ball:
+		# Create a random direction for the ball to pop out
+		var random_dir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
+		
+		# Use throw function with zero player momentum so it pops out
+		held_ball.throw(random_dir, Vector2.ZERO)
+		
+		held_ball = null
+		has_ball = false
 
 
 func _on_pickup_zone_body_entered(body: Node2D) -> void:
@@ -327,6 +338,8 @@ func _on_pickup_zone_body_entered(body: Node2D) -> void:
 		has_ball = true
 		
 		print("Bot grabbed the ball! State was: ", body.state)
+		
+		get_parent().register_possession_change(self, previous_state)
 		
 		# If the ball was loose, it means it's a rebound or a steal
 		if previous_state == "LOOSE" or previous_state == "REBOUNDING":
