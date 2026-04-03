@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cn0mnhhe6ul0y"]
+[gd_scene load_steps=13 format=3 uid="uid://cn0mnhhe6ul0y"]
 
 [ext_resource type="PackedScene" uid="uid://u2gal06p4nlq" path="res://scenes/Hoop.tscn" id="1_562al"]
 [ext_resource type="Texture2D" uid="uid://clo87i3kmodxr" path="res://assets/CourtProtov1.1.png" id="1_h0gog"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cyxg6xfhp6kvv" path="res://scenes/Defender.tscn" id="5_i0pnj"]
 [ext_resource type="PackedScene" uid="uid://bv5mx3q7le18e" path="res://scenes/shot_clock_ui.tscn" id="6_h0gog"]
 [ext_resource type="PackedScene" uid="uid://c6mnop7wjkxqv" path="res://scenes/scoreboard.tscn" id="8_5ld8u"]
+[ext_resource type="PackedScene" uid="uid://cqd7suw7818of" path="res://scenes/game_over_screen.tscn" id="9_ggspr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jgdc"]
 size = Vector2(103, 657)
@@ -90,3 +91,6 @@ position = Vector2(576, 382)
 scale = Vector2(4, 4)
 
 [node name="Scoreboard" parent="." instance=ExtResource("8_5ld8u")]
+
+[node name="GameOverScreen" parent="." instance=ExtResource("9_ggspr")]
+visible = false

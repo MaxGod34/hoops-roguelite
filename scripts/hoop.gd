@@ -13,10 +13,22 @@ signal basket_scored(points, scorer)
 
 func _ready():
 	zone_backboard.body_entered.connect(_on_backboard_hit)
-	zone_rim.body_entered.connect(_on_rim_collision)
-	zone_net.body_entered.connect(_on_net_entered)
+	#zone_rim.body_entered.connect(_on_rim_collision)
 
 
+func _physics_process(delta):
+	var bodies = zone_net.get_overlapping_bodies()
+	
+	for body in bodies:
+		if body.is_in_group("ball") and (body.state == "SHOOTING" or body.state == "LAYUP"):
+			if body.z_height >= (rim_height - 10.0) and body.z_height <= (rim_height + 50.0):
+				print("SWISH! Security Cam Caught It!")
+				get_tree().call_group("shot_clock", "reset_clock")
+				
+				body.swish(zone_net.global_position)
+				
+				var shooter = get_parent().last_shooter
+				basket_scored.emit(body.point_value, shooter)
 
 
 func _on_backboard_hit(body):
@@ -28,7 +40,7 @@ func _on_backboard_hit(body):
 			
 func _on_rim_collision(body):
 	if body.is_in_group("ball") and (body.state == "SHOOTING" or body.state == "LAYUP"):
-		if body.z_height >= rim_height:
+		if body.z_height >= (rim_height - 5.0) and body.z_height <= (rim_height + 15.0):
 			
 			get_tree().call_group("shot_clock", "reset_clock")
 			
@@ -48,17 +60,5 @@ func _trigger_brick(ball, normal: Vector2):
 	else:
 		ball.bounce_vertical(normal)
 		
-func _on_net_entered(body):
-	# Swish
-	if body.is_in_group("ball") and (body.state == "SHOOTING" or body.state == "LAYUP"):
-		if body.z_height >= (rim_height - 15.0):
-			print("SWISH! Nice one!")
-			
-			get_tree().call_group("shot_clock", "reset_clock")
-			
-			body.swish(zone_net.global_position)
-			
-			var shooter = get_parent().last_shooter
-			basket_scored.emit(body.point_value, shooter)
-			
+
 			

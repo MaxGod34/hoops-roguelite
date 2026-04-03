@@ -1,0 +1,164 @@
+[gd_scene load_steps=7 format=3 uid="uid://cqd7suw7818of"]
+
+[ext_resource type="Script" uid="uid://dckwsdag1sjps" path="res://scripts/game_over_screen.gd" id="1_61w2s"]
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_iwahs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cyfkl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61w2s"]
+bg_color = Color(0.262932, 0.262932, 0.262932, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0, 0, 0.588235)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jw6e5"]
+bg_color = Color(0.481789, 0.481789, 0.481789, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0, 0, 0.588235)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wa2qn"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0, 0, 0.588235)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[node name="GameOverScreen" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_61w2s")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.596078, 0, 0, 0.705882)
+
+[node name="MenuBox" type="VBoxContainer" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Lbl_Title" type="Label" parent="MenuBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 24
+theme_override_constants/shadow_offset_y = 24
+theme_override_constants/outline_size = 24
+theme_override_fonts/font = ExtResource("1_iwahs")
+theme_override_font_sizes/font_size = 128
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MenuBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_cyfkl")
+
+[node name="Lbl_Winner" type="Label" parent="MenuBox"]
+custom_minimum_size = Vector2(1152, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.631373, 0.631373, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 12
+theme_override_constants/shadow_offset_y = 12
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("1_iwahs")
+theme_override_font_sizes/font_size = 64
+text = "Outballed by the Bot"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Lbl_Stats" type="Label" parent="MenuBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.632686, 0.632686, 7.70092e-07, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 8
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("1_iwahs")
+theme_override_font_sizes/font_size = 48
+text = "Points: 10	  |	  Turnovers: 5"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MenuBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_cyfkl")
+
+[node name="Btn_Restart" type="Button" parent="MenuBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_iwahs")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_61w2s")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_61w2s")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_jw6e5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_61w2s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wa2qn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wa2qn")
+text = "Restart"
+
+[node name="HSeparator3" type="HSeparator" parent="MenuBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_cyfkl")
+
+[node name="Btn_MainMenu" type="Button" parent="MenuBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_iwahs")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_61w2s")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_61w2s")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_jw6e5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_61w2s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wa2qn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wa2qn")
+text = "Main Menu"

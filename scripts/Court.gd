@@ -96,7 +96,8 @@ func handle_rebound(rebounder: Node2D):
 		is_ball_cleared = true
 		return # Ol Reggies/Accessory Reroute
 	if is_inbound_pass:
-		is_inbound_pass = false
+		if rebounder == receiver:
+			is_inbound_pass = false
 		return
 	#--------------
 	
@@ -207,8 +208,8 @@ func register_possession_change(new_holder: Node2D, previous_ball_state: String)
 	
 	
 	# For stats: was it a rebound or a turnover?
-	if previous_ball_state == "LOOSE":
-		print("LIVE BALL TURNOVER!" + loser.name + " lost it to " + new_holder.name)
+	if previous_ball_state == "LOOSE" and is_ball_cleared == true:
+		print("LIVE BALL TURNOVER! " + loser.name + " lost it to " + new_holder.name)
 		
 		# Log stat
 		if loser.name == "Player":
@@ -216,7 +217,7 @@ func register_possession_change(new_holder: Node2D, previous_ball_state: String)
 		else:
 			bot_turnovers += 1
 	
-	elif previous_ball_state == "REBOUNDING":
+	elif previous_ball_state == "REBOUNDING" or (previous_ball_state == "LOOSE" and is_ball_cleared == false):
 		print("DEFENSIVE REBOUND by " + new_holder.name + "! (Shot Clock Reset)")
 
 
@@ -234,9 +235,20 @@ func _on_hoop_basket_scored(points, scorer):
 	score_changed.emit(player_score, bot_score)
 		
 		
-	if player_score >= target_score or bot_score >= target_score:
-		game_over.emit(scorer.name)
-		print("GAME OVER!")
+	if player_score >= target_score:
+		print("-------VICTORY!--------")
+		game_over.emit("Player")
+		get_tree().paused = true
+	
+	elif bot_score >= target_score:
+		print("-------DEFEAT!---------")
+		game_over.emit("Bot")
+		
+		$GameOverScreen.show_game_over("Bot", player_score, player_turnovers)
+		
+		# Freeze everything
+		get_tree().paused = true
+		
 	else:
 		reset_play(scorer)
 
