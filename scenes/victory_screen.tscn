@@ -1,0 +1,174 @@
+[gd_scene load_steps=7 format=3 uid="uid://b03r31tpamy5b"]
+
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_ujlt3"]
+[ext_resource type="Script" uid="uid://dejpcrvfvs6dv" path="res://scripts/victory_screen.gd" id="1_wdgif"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ujlt3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wdgif"]
+bg_color = Color(0.262932, 0.262932, 0.262932, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pfcnd"]
+bg_color = Color(0.481789, 0.481789, 0.481789, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rixwf"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[node name="VictoryScreen" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_wdgif")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.784314)
+
+[node name="MainBox" type="VBoxContainer" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -443.5
+offset_right = 443.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 48
+alignment = 1
+
+[node name="Lbl_Title" type="Label" parent="MainBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.65098, 0.435294, 0.988235, 1)
+theme_override_colors/font_outline_color = Color(0.65098, 0.435294, 0.988235, 1)
+theme_override_constants/shadow_offset_x = -8
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("1_ujlt3")
+theme_override_font_sizes/font_size = 54
+text = "YOU DEFEATED THE BOT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
+
+[node name="Lbl_Rewards" type="Label" parent="MainBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.619608, 0.607843, 0.564706, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.619608, 0.607843, 0.564706, 1)
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -4
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_ujlt3")
+theme_override_font_sizes/font_size = 48
+text = "THREADS DROPPED:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator3" type="HSeparator" parent="MainBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
+
+[node name="Lbl_ItemDesc" type="Label" parent="MainBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65098, 0.435294, 0.988235, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.65098, 0.435294, 0.988235, 1)
+theme_override_constants/line_spacing = 16
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -4
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_ujlt3")
+theme_override_font_sizes/font_size = 48
+text = "Stone Sandal
++10 3pt  |  -5 spd/accel"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MainBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
+
+[node name="ButtonBox" type="HBoxContainer" parent="MainBox"]
+layout_mode = 2
+theme_override_constants/separation = 128
+alignment = 1
+
+[node name="Btn_TakeIt" type="Button" parent="MainBox/ButtonBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 0.759174, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("1_ujlt3")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_wdgif")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_wdgif")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_pfcnd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wdgif")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rixwf")
+theme_override_styles/normal = SubResource("StyleBoxFlat_rixwf")
+text = "YAH"
+
+[node name="Btn_LeaveIt" type="Button" parent="MainBox/ButtonBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("1_ujlt3")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_wdgif")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_wdgif")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_pfcnd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wdgif")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rixwf")
+theme_override_styles/normal = SubResource("StyleBoxFlat_rixwf")
+text = "NAH"

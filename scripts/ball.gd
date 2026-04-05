@@ -136,7 +136,7 @@ func shoot_ball(target_pos: Vector2, arc_height: float = 1.5, flight_time: float
 		
 		# Anti stuck fix
 		var random_angle = randf_range(0, TAU)
-		velocity = Vector2(cos(random_angle), sin(random_angle)) * randf_range(150.0, 250.0)
+		velocity = Vector2(cos(random_angle), sin(random_angle)) * randf_range(50.0, 100.0)
 		
 		print("CLANK! Brick kicked out ball is live!")
 
@@ -242,7 +242,7 @@ func _on_bounce_landed():
 		
 		# Random roll to it
 		var random_angle = randf_range(0, TAU)
-		velocity = Vector2(cos(random_angle), sin(random_angle)) * 100
+		velocity = Vector2(cos(random_angle), sin(random_angle)) * 2
 
 func swish(net_center: Vector2):
 	stop_tweens()

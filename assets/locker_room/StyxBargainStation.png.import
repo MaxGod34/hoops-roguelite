@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccvmo61pbwrmd"
-path="res://.godot/imported/KibisisProto.png-fdfde04a33d7bdbb2a8de8443e882a7b.ctex"
+uid="uid://dkssvfww1o5x5"
+path="res://.godot/imported/StyxBargainStation.png-4477a4cf60768139671905adda89eb1e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/KibisisProto.png"
-dest_files=["res://.godot/imported/KibisisProto.png-fdfde04a33d7bdbb2a8de8443e882a7b.ctex"]
+source_file="res://assets/locker_room/StyxBargainStation.png"
+dest_files=["res://.godot/imported/StyxBargainStation.png-4477a4cf60768139671905adda89eb1e.ctex"]
 
 [params]
 

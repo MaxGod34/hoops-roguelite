@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dts8fcu4iowo5"
-path="res://.godot/imported/AttributeUpgradeStation.png-3bd5ca3f9d18865a8728c8e6b8041959.ctex"
+uid="uid://ccvmo61pbwrmd"
+path="res://.godot/imported/KibisisProto.png-853bded2f80eba947d37500775be4384.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/AttributeUpgradeStation.png"
-dest_files=["res://.godot/imported/AttributeUpgradeStation.png-3bd5ca3f9d18865a8728c8e6b8041959.ctex"]
+source_file="res://assets/locker_room/KibisisProto.png"
+dest_files=["res://.godot/imported/KibisisProto.png-853bded2f80eba947d37500775be4384.ctex"]
 
 [params]
 

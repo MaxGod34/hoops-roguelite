@@ -11,7 +11,7 @@ signal game_over(winner_name)
 @onready var ball = get_node("Ball")
 
 # Score Tracking
-var player_score: int = 0
+var player_score: int = 10
 var bot_score: int = 0
 var target_score: int = 11
 var pending_points: int = 2
@@ -238,7 +238,17 @@ func _on_hoop_basket_scored(points, scorer):
 	if player_score >= target_score:
 		print("-------VICTORY!--------")
 		game_over.emit("Player")
+		
+		# Placeholder Item
+		var reward = {
+			"name": "Stone Sandal",
+			"description": "+20 Strength  |  -5 Spd/Accel",
+			"type": "left_shoe"
+		}
+		
+		$VictoryScreen.show_victory(reward)
 		get_tree().paused = true
+
 	
 	elif bot_score >= target_score:
 		print("-------DEFEAT!---------")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkssvfww1o5x5"
-path="res://.godot/imported/StyxBargainStation.png-ee5edeb394710d559b12fb6007e96149.ctex"
+uid="uid://qkxf8ijqg6b7"
+path="res://.godot/imported/LibationsProto.png-eef9e90aa5abf307b1917987cb47870d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/StyxBargainStation.png"
-dest_files=["res://.godot/imported/StyxBargainStation.png-ee5edeb394710d559b12fb6007e96149.ctex"]
+source_file="res://assets/locker_room/LibationsProto.png"
+dest_files=["res://.godot/imported/LibationsProto.png-eef9e90aa5abf307b1917987cb47870d.ctex"]
 
 [params]
 

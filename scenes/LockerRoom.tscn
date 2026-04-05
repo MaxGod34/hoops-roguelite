@@ -1,12 +1,12 @@
-[gd_scene load_steps=63 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=70 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
-[ext_resource type="Texture2D" uid="uid://db801hss2uvli" path="res://assets/Whiteboard Proto.png" id="3_3fb16"]
+[ext_resource type="Texture2D" uid="uid://db801hss2uvli" path="res://assets/locker_room/Whiteboard Proto.png" id="3_3fb16"]
 [ext_resource type="Script" uid="uid://dgobowy8xi74g" path="res://scripts/station_styx.gd" id="4_twet0"]
-[ext_resource type="Texture2D" uid="uid://dkssvfww1o5x5" path="res://assets/StyxBargainStation.png" id="4_txlc3"]
+[ext_resource type="Texture2D" uid="uid://dkssvfww1o5x5" path="res://assets/locker_room/StyxBargainStation.png" id="4_txlc3"]
 [ext_resource type="Script" uid="uid://b5ce8nu0rihus" path="res://scripts/station_kibisis.gd" id="6_i0i2h"]
-[ext_resource type="Texture2D" uid="uid://ccvmo61pbwrmd" path="res://assets/KibisisProto.png" id="6_lcfti"]
+[ext_resource type="Texture2D" uid="uid://ccvmo61pbwrmd" path="res://assets/locker_room/KibisisProto.png" id="6_lcfti"]
 [ext_resource type="Texture2D" uid="uid://c0o1u1t74cqry" path="res://assets/accessories/BananaBandanaProto.png" id="7_rv06o"]
 [ext_resource type="Texture2D" uid="uid://budlwkxvff1p4" path="res://assets/accessories/OverallsProto.png" id="8_i0i2h"]
 [ext_resource type="Texture2D" uid="uid://du0dxyvkknx7b" path="res://assets/accessories/8BallProto.png" id="9_smqfs"]
@@ -14,6 +14,12 @@
 [ext_resource type="Texture2D" uid="uid://dgcm72tv2w2pq" path="res://assets/accessories/RightFortuneGauntletProto.png" id="11_eo1ny"]
 [ext_resource type="Texture2D" uid="uid://c3gfkl6cvc7rl" path="res://assets/accessories/LeftSandalProto.png" id="12_fyfyi"]
 [ext_resource type="Texture2D" uid="uid://dplappbp8tjxy" path="res://assets/accessories/RightRollerbladeProto.png" id="13_t3frt"]
+[ext_resource type="Script" uid="uid://xlscgvma03v8" path="res://scripts/LockerStation.gd" id="15_smqfs"]
+[ext_resource type="Texture2D" uid="uid://dlk0bus8ks0ga" path="res://assets/locker_room/FilmProto.png" id="16_d6tvq"]
+[ext_resource type="Texture2D" uid="uid://b2cde6horrpqs" path="res://assets/locker_room/BaitShopProto.png" id="16_k8rc4"]
+[ext_resource type="Texture2D" uid="uid://d1r1418iudl62" path="res://assets/locker_room/IceBathProto.png" id="17_eo1ny"]
+[ext_resource type="Texture2D" uid="uid://qkxf8ijqg6b7" path="res://assets/locker_room/LibationsProto.png" id="17_t3frt"]
+[ext_resource type="Texture2D" uid="uid://4weuuwo178q1" path="res://assets/locker_room/ChalkZoneProto.png" id="18_fyfyi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nmlxb"]
 size = Vector2(1167, 38)
@@ -214,6 +220,8 @@ border_width_right = 24
 border_width_bottom = 24
 border_color = Color(0, 0, 0, 1)
 border_blend = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8rc4"]
 
 [node name="LockerRoom" type="Node2D"]
 script = ExtResource("1_3fb16")
@@ -752,7 +760,7 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_txlc3")
 
 [node name="UpgradeStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(246, 56)
+position = Vector2(70, 56)
 scale = Vector2(5, 5)
 
 [node name="StaticWallCollision" type="CollisionShape2D" parent="UpgradeStaticWall"]
@@ -761,7 +769,7 @@ scale = Vector2(1.2, 1.2)
 shape = SubResource("RectangleShape2D_twet0")
 
 [node name="Zone_Upgrades" type="Area2D" parent="."]
-position = Vector2(248, 62)
+position = Vector2(73, 62)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zone_Upgrades"]
 position = Vector2(0, 10)
@@ -772,21 +780,25 @@ shape = SubResource("RectangleShape2D_txlc3")
 texture = ExtResource("3_3fb16")
 
 [node name="Station_Styx" type="Area2D" parent="."]
-position = Vector2(1088, 65)
+position = Vector2(1055, 96)
+rotation = 1.5708
 script = ExtResource("4_twet0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Station_Styx"]
-scale = Vector2(8, 8)
+position = Vector2(4, 6)
+scale = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_lcfti")
 
 [node name="Sprite2D" type="Sprite2D" parent="Station_Styx"]
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("4_txlc3")
 
 [node name="StyxStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(1089, 63)
-scale = Vector2(6.5, 6.5)
+position = Vector2(1060, 92)
+scale = Vector2(10, 10)
 
 [node name="StyxStaticCollision" type="CollisionShape2D" parent="StyxStaticWall"]
+rotation = 1.5708
 shape = SubResource("RectangleShape2D_b831f")
 
 [node name="PopUps" type="CanvasLayer" parent="."]
@@ -896,14 +908,14 @@ theme_override_constants/separation = 32
 theme_override_styles/separator = SubResource("StyleBoxLine_yx1fu")
 
 [node name="KibisisStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(62, 63)
+position = Vector2(63, 583)
 
 [node name="KibisisStaticCollision" type="CollisionShape2D" parent="KibisisStaticWall"]
 scale = Vector2(4.5, 6.5)
 shape = SubResource("RectangleShape2D_tg3a6")
 
 [node name="Station_Kibisis" type="Area2D" parent="."]
-position = Vector2(62, 63)
+position = Vector2(62, 585)
 script = ExtResource("6_i0i2h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Station_Kibisis"]
@@ -916,6 +928,7 @@ texture = ExtResource("6_lcfti")
 [node name="CanvasLayer" type="CanvasLayer" parent="Station_Kibisis"]
 
 [node name="KibisisMenu" type="Control" parent="Station_Kibisis/CanvasLayer"]
+visible = false
 z_index = 1
 layout_mode = 3
 anchors_preset = 15
@@ -1245,6 +1258,71 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/normal_font_size = 24
 text = "(Click an item to store/swap it)"
 horizontal_alignment = 1
+
+[node name="OracleFilmRoom" type="Area2D" parent="."]
+position = Vector2(800, 59)
+script = ExtResource("15_smqfs")
+station_type = "Oracle Film Room"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OracleFilmRoom"]
+scale = Vector2(7, 7)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="OracleFilmRoom"]
+texture = ExtResource("16_d6tvq")
+flip_h = true
+flip_v = true
+
+[node name="OceanusBaitShop" type="Area2D" parent="."]
+position = Vector2(50, 324)
+script = ExtResource("15_smqfs")
+station_type = "Oceanus Bait Shop"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OceanusBaitShop"]
+position = Vector2(8, 0)
+scale = Vector2(9, 9)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="OceanusBaitShop"]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("16_k8rc4")
+
+[node name="OfferLibations" type="Area2D" parent="."]
+position = Vector2(1096, 544)
+script = ExtResource("15_smqfs")
+station_type = "Offer Libations"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OfferLibations"]
+scale = Vector2(7, 7)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="OfferLibations"]
+texture = ExtResource("17_t3frt")
+
+[node name="StyxIceBath" type="Area2D" parent="."]
+position = Vector2(1081, 321)
+rotation = 1.5708
+script = ExtResource("15_smqfs")
+station_type = "Styx Ice Bath"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StyxIceBath"]
+scale = Vector2(7, 7)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="StyxIceBath"]
+texture = ExtResource("17_eo1ny")
+
+[node name="ApollosChalk" type="Area2D" parent="."]
+position = Vector2(304, 38)
+script = ExtResource("15_smqfs")
+station_type = "Apollo's Chalk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ApollosChalk"]
+scale = Vector2(7, 7)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="ApollosChalk"]
+texture = ExtResource("18_fyfyi")
 
 [connection signal="body_entered" from="Zone_Upgrades" to="." method="_on_zone_upgrades_body_entered"]
 [connection signal="body_exited" from="Zone_Upgrades" to="." method="_on_zone_upgrades_body_exited"]
