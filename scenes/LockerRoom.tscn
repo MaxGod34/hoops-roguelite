@@ -1,13 +1,15 @@
-[gd_scene load_steps=71 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=80 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
-[ext_resource type="Texture2D" uid="uid://ccovcylm84s3m" path="res://assets/CaveProto.png" id="2_4qkvb"]
+[ext_resource type="Texture2D" uid="uid://ccovcylm84s3m" path="res://assets/locker_room/CaveProto.png" id="2_4qkvb"]
 [ext_resource type="Texture2D" uid="uid://db801hss2uvli" path="res://assets/locker_room/Whiteboard Proto.png" id="3_3fb16"]
 [ext_resource type="Script" uid="uid://dgobowy8xi74g" path="res://scripts/station_styx.gd" id="4_twet0"]
 [ext_resource type="Texture2D" uid="uid://dkssvfww1o5x5" path="res://assets/locker_room/StyxBargainStation.png" id="4_txlc3"]
 [ext_resource type="Script" uid="uid://b5ce8nu0rihus" path="res://scripts/station_kibisis.gd" id="6_i0i2h"]
 [ext_resource type="Texture2D" uid="uid://ccvmo61pbwrmd" path="res://assets/locker_room/KibisisProto.png" id="6_lcfti"]
+[ext_resource type="Script" uid="uid://do45rgakg8osc" path="res://scripts/station_prompt.gd" id="7_epmqv"]
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="7_fsaij"]
 [ext_resource type="Texture2D" uid="uid://c0o1u1t74cqry" path="res://assets/accessories/BananaBandanaProto.png" id="7_rv06o"]
 [ext_resource type="Texture2D" uid="uid://budlwkxvff1p4" path="res://assets/accessories/OverallsProto.png" id="8_i0i2h"]
 [ext_resource type="Texture2D" uid="uid://du0dxyvkknx7b" path="res://assets/accessories/8BallProto.png" id="9_smqfs"]
@@ -21,6 +23,8 @@
 [ext_resource type="Texture2D" uid="uid://d1r1418iudl62" path="res://assets/locker_room/IceBathProto.png" id="17_eo1ny"]
 [ext_resource type="Texture2D" uid="uid://qkxf8ijqg6b7" path="res://assets/locker_room/LibationsProto.png" id="17_t3frt"]
 [ext_resource type="Texture2D" uid="uid://4weuuwo178q1" path="res://assets/locker_room/ChalkZoneProto.png" id="18_fyfyi"]
+[ext_resource type="Texture2D" uid="uid://dts8fcu4iowo5" path="res://assets/locker_room/AttributeUpgradeStation.png" id="23_epmqv"]
+[ext_resource type="Texture2D" uid="uid://cuv0qgg7tcauy" path="res://assets/locker_room/CaveExit.png" id="25_o67jq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nmlxb"]
 size = Vector2(1167, 86)
@@ -131,6 +135,71 @@ color = Color(0.439216, 0.360784, 0.0784314, 1)
 grow_begin = -12.0
 grow_end = -12.0
 thickness = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s73sn"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qpvxn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8r6bx"]
+bg_color = Color(0.262932, 0.262932, 0.262932, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 8.0
+expand_margin_top = 12.0
+expand_margin_right = 8.0
+expand_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_54o4y"]
+bg_color = Color(0.481789, 0.481789, 0.481789, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 8.0
+expand_margin_top = 12.0
+expand_margin_right = 8.0
+expand_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3sog"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 8.0
+expand_margin_top = 12.0
+expand_margin_right = 8.0
+expand_margin_bottom = 12.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tg3a6"]
 
@@ -779,6 +848,7 @@ scale = Vector2(6.5, 6.5)
 shape = SubResource("RectangleShape2D_txlc3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Zone_Upgrades"]
+skew = -0.790634
 texture = ExtResource("3_3fb16")
 
 [node name="Station_Styx" type="Area2D" parent="."]
@@ -908,8 +978,106 @@ layout_mode = 2
 theme_override_constants/separation = 32
 theme_override_styles/separator = SubResource("StyleBoxLine_yx1fu")
 
+[node name="StationPrompt" type="Control" parent="PopUps"]
+custom_minimum_size = Vector2(256, 320)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_epmqv")
+
+[node name="Panel" type="Panel" parent="PopUps/StationPrompt"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s73sn")
+
+[node name="MainBox" type="VBoxContainer" parent="PopUps/StationPrompt"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Lbl_PromptTitle" type="Label" parent="PopUps/StationPrompt/MainBox"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = 6
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 20
+text = "Watch Film With the Oracle?"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Lbl_EnergyCost" type="Label" parent="PopUps/StationPrompt/MainBox"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = 6
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 20
+text = "Cost: 1 Energy"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="PopUps/StationPrompt/MainBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_qpvxn")
+
+[node name="ButtonBox" type="HBoxContainer" parent="PopUps/StationPrompt/MainBox"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Btn_Accept" type="Button" parent="PopUps/StationPrompt/MainBox/ButtonBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 0.759174, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_8r6bx")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_8r6bx")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_54o4y")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8r6bx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_o3sog")
+theme_override_styles/normal = SubResource("StyleBoxFlat_o3sog")
+text = "YAH"
+
+[node name="Btn_Refuse" type="Button" parent="PopUps/StationPrompt/MainBox/ButtonBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_8r6bx")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_8r6bx")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_54o4y")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8r6bx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_o3sog")
+theme_override_styles/normal = SubResource("StyleBoxFlat_o3sog")
+text = "NAH"
+
 [node name="KibisisStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(77, 562)
+position = Vector2(80, 573)
 rotation = 0.785398
 
 [node name="KibisisStaticCollision" type="CollisionShape2D" parent="KibisisStaticWall"]
@@ -922,10 +1090,13 @@ rotation = -2.35619
 script = ExtResource("6_i0i2h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Station_Kibisis"]
+position = Vector2(-6.10352e-05, 0)
 scale = Vector2(6, 8)
 shape = SubResource("RectangleShape2D_1hyx0")
 
 [node name="Sprite2D" type="Sprite2D" parent="Station_Kibisis"]
+rotation = -0.296706
+skew = 0.750492
 texture = ExtResource("6_lcfti")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Station_Kibisis"]
@@ -1263,7 +1434,7 @@ text = "(Click an item to store/swap it)"
 horizontal_alignment = 1
 
 [node name="OracleFilmRoom" type="Area2D" parent="."]
-position = Vector2(70, 353)
+position = Vector2(61, 353)
 rotation = -1.5708
 script = ExtResource("15_smqfs")
 station_type = "Oracle Film Room"
@@ -1273,12 +1444,13 @@ scale = Vector2(7, 7)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="OracleFilmRoom"]
+skew = 0.617847
 texture = ExtResource("16_d6tvq")
 flip_h = true
 flip_v = true
 
 [node name="OceanusBaitShop" type="Area2D" parent="."]
-position = Vector2(166, 88)
+position = Vector2(166, 70)
 script = ExtResource("15_smqfs")
 station_type = "Oceanus Bait Shop"
 
@@ -1306,15 +1478,18 @@ shape = SubResource("RectangleShape2D_k8rc4")
 texture = ExtResource("17_t3frt")
 
 [node name="StyxIceBath" type="Area2D" parent="."]
-position = Vector2(842, 71)
+position = Vector2(1112, 301)
 script = ExtResource("15_smqfs")
 station_type = "Styx Ice Bath"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StyxIceBath"]
+position = Vector2(-7, 26)
 scale = Vector2(7, 7)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="StyxIceBath"]
+rotation = 1.5708
+skew = -0.863938
 texture = ExtResource("17_eo1ny")
 
 [node name="ApollosChalk" type="Area2D" parent="."]
@@ -1329,6 +1504,32 @@ shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="ApollosChalk"]
 texture = ExtResource("18_fyfyi")
+
+[node name="Forge" type="Area2D" parent="."]
+position = Vector2(908, 28)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("15_smqfs")
+station_type = "Forge"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Forge"]
+scale = Vector2(7, 7)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Forge"]
+texture = ExtResource("23_epmqv")
+
+[node name="Exit" type="Area2D" parent="."]
+position = Vector2(591, 28)
+scale = Vector2(1, 0.5)
+script = ExtResource("15_smqfs")
+station_type = "Exit to Court"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit"]
+scale = Vector2(7, 7)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Exit"]
+texture = ExtResource("25_o67jq")
 
 [connection signal="body_entered" from="Zone_Upgrades" to="." method="_on_zone_upgrades_body_entered"]
 [connection signal="body_exited" from="Zone_Upgrades" to="." method="_on_zone_upgrades_body_exited"]

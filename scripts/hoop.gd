@@ -16,7 +16,7 @@ func _ready():
 	#zone_rim.body_entered.connect(_on_rim_collision)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var bodies = zone_net.get_overlapping_bodies()
 	
 	for body in bodies:

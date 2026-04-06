@@ -121,7 +121,7 @@ func offense_idle(delta: float):
 			state = "BOT_SHOOTING"
 			bot_shoot()
 
-func drive_to_hoop(delta: float):
+func drive_to_hoop(_delta: float):
 	var rim_pos = hoop.get_node("ShotTarget").global_position
 	var dist_to_hoop = global_position.distance_to(rim_pos)
 	
@@ -207,7 +207,7 @@ func guard_player(delta: float):
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		
-func chase_ball(delta: float):
+func chase_ball(_delta: float):
 	# Sprint straight for the ball's coordinates
 	var direction_to_ball = global_position.direction_to(ball.global_position)
 	velocity = direction_to_ball * move_speed
@@ -217,7 +217,7 @@ func contest_shot(delta:float):
 	# Later add z_height on a jump so defender can block the shot
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
-func clear_ball(delta: float):
+func clear_ball(_delta: float):
 	# Safety Net: Stop backing up if you already have the ball in the clear zone
 	if get_parent().bodies_in_clear_zone.has(self):
 		get_parent().is_ball_cleared = true

@@ -33,7 +33,7 @@ func _ready():
 
 
 
-func _process(delta: float):
+func _process(_delta: float):
 	if is_player_near and Input.is_action_just_pressed("interact") and not contract_menu.visible:
 		generate_contract()
 			

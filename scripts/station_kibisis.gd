@@ -26,7 +26,7 @@ func _ready():
 		storage_buttons[i].pressed.connect(_on_retrieve_pressed.bind(i))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float):
+func _process(_delta: float):
 	if is_player_near and Input.is_action_just_pressed("interact"):
 		if not kibisis_menu.visible:
 			_open_menu()

@@ -70,7 +70,7 @@ func _on_zone_upgrades_body_exited(body: Node2D) -> void:
 		player_in_zone = false
 
 # Interaction Logic
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if player_in_zone and not upgrade_menu.visible and Input.is_action_just_pressed("interact"):
 		open_menu()
 		

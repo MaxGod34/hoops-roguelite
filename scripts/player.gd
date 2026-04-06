@@ -22,10 +22,13 @@ func _physics_process(delta: float) -> void:
 	
 	# FREEZE LOGIC
 	if not has_control:
-		if get_parent().game_state == "CHECKING":
+		if "game_state" in get_parent() and get_parent().game_state == "CHECKING":
 			process_check_up(delta)
 		else:
 			velocity = Vector2.ZERO
+			
+		move_and_slide()
+		return
 
 
 	# Get movement input (Left/Right) and apply acceleration
