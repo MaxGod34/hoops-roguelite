@@ -43,6 +43,7 @@ func request_prompt(prompt_ui):
 		
 func execute_purchase():
 	if station_type == "Exit to Court":
+		GameManager.advance_progression()
 		GameManager.go_to_court()
 		return
 	

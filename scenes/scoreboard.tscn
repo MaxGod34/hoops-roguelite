@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c6mnop7wjkxqv"]
+[gd_scene load_steps=9 format=3 uid="uid://c6mnop7wjkxqv"]
 
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_ucmtr"]
 [ext_resource type="Script" uid="uid://1al4fn2edpp" path="res://scripts/scoreboard.gd" id="1_w5fga"]
+[ext_resource type="PackedScene" uid="uid://bv5mx3q7le18e" path="res://scenes/shot_clock_ui.tscn" id="3_g67ru"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucmtr"]
 bg_color = Color(0, 0, 0, 1)
@@ -28,6 +29,8 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g67ru"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g67ru"]
 bg_color = Color(0, 0, 0, 1)
 border_width_left = 6
@@ -41,36 +44,57 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w5fga"]
+
 [node name="Scoreboard" type="CanvasLayer"]
 script = ExtResource("1_w5fga")
 
-[node name="Panel" type="Panel" parent="."]
-custom_minimum_size = Vector2(512, 96)
+[node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -512.0
-offset_bottom = 96.0
+offset_left = -480.0
+offset_bottom = 93.0
 grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ucmtr")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-custom_minimum_size = Vector2(512, 96)
-layout_mode = 0
-offset_right = 516.0
-offset_bottom = 96.0
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
 alignment = 1
 
-[node name="HBoxScore" type="HBoxContainer" parent="Panel/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxScore" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/separation = 208
 alignment = 1
 
-[node name="Lbl_PlayerScore" type="Label" parent="Panel/VBoxContainer/HBoxScore"]
+[node name="Lbl_PlayerTitle" type="Label" parent="PanelContainer/VBoxContainer/HBoxScore"]
+custom_minimum_size = Vector2(176, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.724643, 0.724643, 0.724643, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/shadow_offset_x = -2
+theme_override_constants/shadow_offset_y = -2
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_ucmtr")
+theme_override_font_sizes/font_size = 32
+text = "Player"
+horizontal_alignment = 1
+
+[node name="Lbl_PlayerScore" type="Label" parent="PanelContainer/VBoxContainer/HBoxScore"]
 custom_minimum_size = Vector2(64, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.800729, 0.800729, 7.70092e-07, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -2
+theme_override_constants/shadow_offset_y = -2
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 0
 theme_override_fonts/font = ExtResource("1_ucmtr")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_w5fga")
@@ -78,10 +102,20 @@ text = "11"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Lbl_BotScore" type="Label" parent="Panel/VBoxContainer/HBoxScore"]
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxScore"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_g67ru")
+
+[node name="Lbl_BotScore" type="Label" parent="PanelContainer/VBoxContainer/HBoxScore"]
 custom_minimum_size = Vector2(64, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.800729, 0.800729, 7.70092e-07, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -2
+theme_override_constants/shadow_offset_y = -2
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 0
 theme_override_fonts/font = ExtResource("1_ucmtr")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_g67ru")
@@ -89,28 +123,90 @@ text = "11"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxTitle" type="HBoxContainer" parent="Panel/VBoxContainer"]
+[node name="Lbl_BotTitle" type="Label" parent="PanelContainer/VBoxContainer/HBoxScore"]
+custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
-size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.724643, 0.724643, 0.724643, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/shadow_offset_x = -2
+theme_override_constants/shadow_offset_y = -2
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_ucmtr")
+theme_override_font_sizes/font_size = 32
+text = "Opp"
+horizontal_alignment = 1
+
+[node name="HBoxProgression" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Lbl_QuarterTitle" type="Label" parent="PanelContainer/VBoxContainer/HBoxProgression"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.647059, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_ucmtr")
+theme_override_font_sizes/font_size = 24
+text = "Q"
+horizontal_alignment = 1
+
+[node name="Lbl_QuarterValue" type="Label" parent="PanelContainer/VBoxContainer/HBoxProgression"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.647059, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.478552, 0.300057, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -2
+theme_override_constants/shadow_offset_y = -2
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_ucmtr")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_w5fga")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxProgression"]
+layout_mode = 2
 theme_override_constants/separation = 16
-alignment = 1
+theme_override_styles/separator = SubResource("StyleBoxEmpty_w5fga")
 
-[node name="Lbl_PlayerTitle" type="Label" parent="Panel/VBoxContainer/HBoxTitle"]
-custom_minimum_size = Vector2(256, 0)
+[node name="Lbl_GameTitle" type="Label" parent="PanelContainer/VBoxContainer/HBoxProgression"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.724643, 0.724643, 0.724643, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 0.647059, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("1_ucmtr")
-theme_override_font_sizes/font_size = 32
-text = "Player"
+theme_override_font_sizes/font_size = 24
+text = "Game"
 horizontal_alignment = 1
 
-[node name="Lbl_BotTitle" type="Label" parent="Panel/VBoxContainer/HBoxTitle"]
-custom_minimum_size = Vector2(256, 0)
+[node name="Lbl_GameValue" type="Label" parent="PanelContainer/VBoxContainer/HBoxProgression"]
+custom_minimum_size = Vector2(48, 32)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.724643, 0.724643, 0.724643, 1)
+theme_override_colors/font_color = Color(1, 0.647059, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.478552, 0.300057, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -2
+theme_override_constants/shadow_offset_y = -2
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("1_ucmtr")
-theme_override_font_sizes/font_size = 32
-text = "Opponent"
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_g67ru")
+text = "1"
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxProgression"]
+layout_mode = 2
+theme_override_constants/separation = 96
+theme_override_styles/separator = SubResource("StyleBoxEmpty_w5fga")
+
+[node name="ShotClockUI" parent="PanelContainer/VBoxContainer/HBoxProgression" instance=ExtResource("3_g67ru")]
+layer = 2
+offset = Vector2(-150, 56)
+transform = Transform2D(1, 0, 0, 1, -150, 56)
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2

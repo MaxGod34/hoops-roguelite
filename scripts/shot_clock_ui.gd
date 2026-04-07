@@ -30,10 +30,12 @@ func update_display():
 	if current_time < 5.0:
 		time_label.text = str(snapped(current_time, 0.1))
 		time_label.add_theme_color_override("font_color", warning_color)
+		time_label.add_theme_color_override("font_shadow_color", Color("b90000"))
 		
 	else:
 		time_label.text = str(int(ceil(current_time)))
 		time_label.add_theme_color_override("font_color", normal_color)
+		time_label.add_theme_color_override("font_shadow_color", Color("cdcdcd"))
 		
 # Public Functions
 

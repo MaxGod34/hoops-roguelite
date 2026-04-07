@@ -3,7 +3,9 @@ extends Node
 # =================
 # META PROGRESSION
 # =================
-var current_olympus_tier: int = 1
+var current_quarter: int = 1
+var current_game: int = 1
+var max_games_per_quarter: int = 5
 var player_inventory: Array = []
 var owned_items: Array[AccessoryData] = []
 
@@ -35,6 +37,15 @@ var active_oceanus_buff: String = ""
 var active_oceanus_debuff: String = ""
 
 
+
+func advance_progression():
+	current_game += 1
+	if current_game > max_games_per_quarter:
+		current_game = 1
+		current_quarter += 1
+		
+		# Eventually add final boss stuff here
+
 # -- TRANSITION FUNCTIONS --
 func go_to_locker_room():
 	get_tree().paused = false
@@ -45,7 +56,8 @@ func go_to_court():
 	get_tree().change_scene_to_file(court_scene)
 	
 func reset_run():
-	current_olympus_tier = 1
+	current_quarter = 1
+	current_game = 1
 	player_inventory.clear()
 	player_3pt_rating = 50
 	player_layup_rating = 50
