@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://b03r31tpamy5b"]
+[gd_scene load_steps=9 format=3 uid="uid://b03r31tpamy5b"]
 
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_ujlt3"]
 [ext_resource type="Script" uid="uid://dejpcrvfvs6dv" path="res://scripts/victory_screen.gd" id="1_wdgif"]
-[ext_resource type="Texture2D" uid="uid://b1yxhw4xdkfgs" path="res://assets/accessories/LeftArmMummyWrapProto.png" id="3_pfcnd"]
+[ext_resource type="PackedScene" uid="uid://bvr24kb1v7a2s" path="res://scenes/reward_button.tscn" id="2_pfcnd"]
+[ext_resource type="PackedScene" uid="uid://icicvnlongj2" path="res://scenes/ItemTooltip.tscn" id="4_rixwf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ujlt3"]
 
@@ -57,11 +58,20 @@ expand_margin_top = 24.0
 expand_margin_right = 24.0
 expand_margin_bottom = 24.0
 
-[node name="VictoryScreen" type="CanvasLayer"]
+[node name="VictoryScreen" type="Control"]
 process_mode = 3
+z_index = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_wdgif")
+reward_button_scene = ExtResource("2_pfcnd")
 
 [node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -70,6 +80,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.784314)
 
 [node name="MainBox" type="VBoxContainer" parent="."]
+layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
@@ -78,16 +89,17 @@ offset_left = -443.5
 offset_right = 443.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 32
 alignment = 1
 
 [node name="Lbl_Title" type="Label" parent="MainBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 0.760784, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = -8
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
+theme_override_constants/shadow_offset_x = -6
+theme_override_constants/shadow_offset_y = -6
+theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("1_ujlt3")
 theme_override_font_sizes/font_size = 54
 text = "YOU DEFEATED THE BOT"
@@ -116,82 +128,25 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
 
-[node name="IconRect_Reward" type="TextureRect" parent="MainBox"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("3_pfcnd")
-
 [node name="HSeparator3" type="HSeparator" parent="MainBox"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainBox"]
+[node name="RewardContainer" type="HBoxContainer" parent="MainBox"]
 layout_mode = 2
-theme_override_constants/separation = 64
 alignment = 1
-
-[node name="Lbl_ItemName" type="Label" parent="MainBox/HBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.418373, 0.0846945, 0.743463, 1)
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0.262745, 1, 0, 1)
-theme_override_constants/line_spacing = 16
-theme_override_constants/shadow_offset_x = -4
-theme_override_constants/shadow_offset_y = -4
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("1_ujlt3")
-theme_override_font_sizes/font_size = 42
-text = "Stone Sandal"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Lbl_ItemSlot" type="Label" parent="MainBox/HBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.262745, 1, 0, 1)
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0.65098, 0.435294, 0.988235, 1)
-theme_override_constants/line_spacing = 16
-theme_override_constants/shadow_offset_x = -4
-theme_override_constants/shadow_offset_y = -4
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("1_ujlt3")
-theme_override_font_sizes/font_size = 42
-text = "Slot: Left Shoe"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Lbl_ItemStats" type="Label" parent="MainBox"]
-custom_minimum_size = Vector2(0, 128)
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = -4
-theme_override_constants/shadow_offset_y = -4
-theme_override_constants/outline_size = 6
-theme_override_fonts/font = ExtResource("1_ujlt3")
-theme_override_font_sizes/font_size = 32
-text = "+ 30 Strength + 30 Speed/Accel + 30 Rebounding +30 Ball Handling + 30 3PT +30 Close Shot"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
 
 [node name="HSeparator2" type="HSeparator" parent="MainBox"]
 layout_mode = 2
 theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
 
-[node name="ButtonBox" type="HBoxContainer" parent="MainBox"]
-layout_mode = 2
-theme_override_constants/separation = 128
-alignment = 1
-
-[node name="Btn_TakeIt" type="Button" parent="MainBox/ButtonBox"]
+[node name="Btn_Proceed" type="Button" parent="MainBox"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0, 0.759174, 0, 1)
-theme_override_constants/outline_size = 8
+theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("1_ujlt3")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/focus = SubResource("StyleBoxFlat_wdgif")
@@ -200,20 +155,14 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_pfcnd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wdgif")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_rixwf")
 theme_override_styles/normal = SubResource("StyleBoxFlat_rixwf")
-text = "YAH"
+text = "Proceed"
 
-[node name="Btn_LeaveIt" type="Button" parent="MainBox/ButtonBox"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 0, 0, 1)
-theme_override_constants/outline_size = 8
-theme_override_fonts/font = ExtResource("1_ujlt3")
-theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxFlat_wdgif")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_wdgif")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_pfcnd")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wdgif")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_rixwf")
-theme_override_styles/normal = SubResource("StyleBoxFlat_rixwf")
-text = "NAH"
+[node name="ItemTooltip" parent="." instance=ExtResource("4_rixwf")]
+visible = false
+layout_mode = 1
+offset_left = -164.0
+offset_top = -41.5
+offset_right = 164.0
+offset_bottom = 41.5
+
+[connection signal="pressed" from="MainBox/Btn_Proceed" to="." method="_on_btn_proceed_pressed"]

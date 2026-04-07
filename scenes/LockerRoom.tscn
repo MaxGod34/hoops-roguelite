@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=79 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://d1r1418iudl62" path="res://assets/locker_room/IceBathProto.png" id="17_eo1ny"]
 [ext_resource type="Texture2D" uid="uid://qkxf8ijqg6b7" path="res://assets/locker_room/LibationsProto.png" id="17_t3frt"]
 [ext_resource type="Texture2D" uid="uid://4weuuwo178q1" path="res://assets/locker_room/ChalkZoneProto.png" id="18_fyfyi"]
+[ext_resource type="PackedScene" uid="uid://icicvnlongj2" path="res://scenes/ItemTooltip.tscn" id="20_yx1fu"]
 [ext_resource type="Texture2D" uid="uid://dts8fcu4iowo5" path="res://assets/locker_room/AttributeUpgradeStation.png" id="23_epmqv"]
 [ext_resource type="Texture2D" uid="uid://cuv0qgg7tcauy" path="res://assets/locker_room/CaveExit.png" id="25_o67jq"]
 
@@ -106,7 +107,9 @@ size = Vector2(20, 23.3333)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lcfti"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b831f"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o67jq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8rc4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_epmqv"]
 bg_color = Color(0.682353, 0.560784, 0.121569, 1)
@@ -226,23 +229,13 @@ bg_color = Color(0.394565, 0.360135, 0.1224, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 24
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4nymk"]
-bg_color = Color(0.114895, 0.101803, 0.0168577, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vacuq"]
+bg_color = Color(0.171109, 0.153695, 0.0335603, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjvu0"]
 bg_color = Color(0.281497, 0.25563, 0.076881, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udugu"]
-bg_color = Color(0.114895, 0.101803, 0.0168577, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vacuq"]
-bg_color = Color(0.171109, 0.153695, 0.0335603, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 24
 
@@ -291,8 +284,6 @@ border_width_bottom = 24
 border_color = Color(0, 0, 0, 1)
 border_blend = true
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8rc4"]
-
 [node name="LockerRoom" type="Node2D"]
 script = ExtResource("1_3fb16")
 
@@ -303,7 +294,7 @@ centered = false
 [node name="WallBoundaries" type="StaticBody2D" parent="."]
 
 [node name="TopWall" type="CollisionShape2D" parent="WallBoundaries"]
-position = Vector2(573.5, -9)
+position = Vector2(573.5, 17)
 shape = SubResource("RectangleShape2D_nmlxb")
 
 [node name="BottomWall" type="CollisionShape2D" parent="WallBoundaries"]
@@ -319,7 +310,7 @@ position = Vector2(12, 330.5)
 shape = SubResource("RectangleShape2D_3fb16")
 
 [node name="Player" parent="." instance=ExtResource("1_07kbb")]
-position = Vector2(581, 340)
+position = Vector2(581, 142)
 
 [node name="UpgradeMenu" type="CanvasLayer" parent="."]
 visible = false
@@ -829,13 +820,13 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_txlc3")
 
 [node name="UpgradeStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(120, 155)
+position = Vector2(120, 159)
 scale = Vector2(5, 5)
 
 [node name="StaticWallCollision" type="CollisionShape2D" parent="UpgradeStaticWall"]
-position = Vector2(185.6, 78.6)
-rotation = 0.785398
-scale = Vector2(1.2, 1.2)
+position = Vector2(187.8, 82.6)
+rotation = -0.349066
+scale = Vector2(1.75, 1)
 shape = SubResource("RectangleShape2D_twet0")
 
 [node name="Zone_Upgrades" type="Area2D" parent="."]
@@ -843,7 +834,8 @@ position = Vector2(1061, 555)
 rotation = 2.35619
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zone_Upgrades"]
-position = Vector2(0, 10)
+position = Vector2(29.6981, 24.1426)
+rotation = -0.698132
 scale = Vector2(6.5, 6.5)
 shape = SubResource("RectangleShape2D_txlc3")
 
@@ -856,7 +848,8 @@ position = Vector2(1068, 97)
 script = ExtResource("4_twet0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Station_Styx"]
-position = Vector2(4, 6)
+position = Vector2(42, -13)
+rotation = 0.785398
 scale = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_lcfti")
 
@@ -867,12 +860,33 @@ skew = -0.420624
 texture = ExtResource("6_o67jq")
 
 [node name="StyxStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(1095, 89)
-scale = Vector2(10, 10)
+position = Vector2(1072, 112)
+rotation = 0.785398
+scale = Vector2(9, 4.5)
 
-[node name="StyxStaticCollision" type="CollisionShape2D" parent="StyxStaticWall"]
-rotation = 1.5708
-shape = SubResource("RectangleShape2D_b831f")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StyxStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
+
+[node name="Forge" type="Area2D" parent="."]
+position = Vector2(913, 28)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("15_smqfs")
+station_type = "Forge"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Forge"]
+position = Vector2(-2.5, 6.25)
+scale = Vector2(7, 7)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Forge"]
+texture = ExtResource("23_epmqv")
+
+[node name="ForgeStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(911, 33)
+scale = Vector2(4.5, 4.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForgeStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="PopUps" type="CanvasLayer" parent="."]
 
@@ -981,6 +995,7 @@ theme_override_constants/separation = 32
 theme_override_styles/separator = SubResource("StyleBoxLine_yx1fu")
 
 [node name="StationPrompt" type="Control" parent="PopUps"]
+visible = false
 custom_minimum_size = Vector2(256, 320)
 layout_mode = 3
 anchors_preset = 8
@@ -1079,10 +1094,12 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_o3sog")
 text = "NAH"
 
 [node name="KibisisStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(80, 573)
-rotation = 0.785398
+position = Vector2(111, 561)
+rotation = 2.13279
+scale = Vector2(0.5, 0.6)
 
 [node name="KibisisStaticCollision" type="CollisionShape2D" parent="KibisisStaticWall"]
+position = Vector2(-6.5827, 6.39752)
 scale = Vector2(4.5, 6.5)
 shape = SubResource("RectangleShape2D_tg3a6")
 
@@ -1092,7 +1109,7 @@ rotation = -2.35619
 script = ExtResource("6_i0i2h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Station_Kibisis"]
-position = Vector2(-6.10352e-05, 0)
+position = Vector2(-12.4924, -6.18716)
 scale = Vector2(6, 8)
 shape = SubResource("RectangleShape2D_1hyx0")
 
@@ -1153,9 +1170,9 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4nymk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Head"
 icon = ExtResource("7_rv06o")
@@ -1174,9 +1191,9 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4nymk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Outfit"
 icon = ExtResource("8_i0i2h")
@@ -1195,9 +1212,9 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4nymk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Ball"
 icon = ExtResource("9_smqfs")
@@ -1206,13 +1223,13 @@ icon_alignment = 1
 vertical_icon_alignment = 2
 expand_icon = true
 
-[node name="VBox_Equipped_Arms" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
+[node name="VBox_Equipped_Left" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="Btn_LeftArm" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Arms"]
+[node name="Btn_LeftArm" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Left"]
 custom_minimum_size = Vector2(136, 182)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
@@ -1222,9 +1239,9 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4nymk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Left Arm"
 icon = ExtResource("10_k8rc4")
@@ -1233,7 +1250,7 @@ icon_alignment = 1
 vertical_icon_alignment = 2
 expand_icon = true
 
-[node name="Btn_RightArm" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Arms"]
+[node name="Btn_LeftShoe" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Left"]
 custom_minimum_size = Vector2(136, 182)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
@@ -1243,36 +1260,9 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4nymk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_udugu")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Right Arm"
-icon = ExtResource("11_eo1ny")
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-expand_icon = true
-
-[node name="VBox_Equipped_Shoes" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 32
-alignment = 1
-
-[node name="Btn_LeftShoe" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Shoes"]
-custom_minimum_size = Vector2(136, 182)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4nymk")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Left Shoe"
 icon = ExtResource("12_fyfyi")
@@ -1281,7 +1271,13 @@ icon_alignment = 1
 vertical_icon_alignment = 2
 expand_icon = true
 
-[node name="Btn_RightShoe" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Shoes"]
+[node name="VBox_Equipped_Right" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Btn_RightArm" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Right"]
 custom_minimum_size = Vector2(136, 182)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
@@ -1291,9 +1287,30 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4nymk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Right Arm"
+icon = ExtResource("11_eo1ny")
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+expand_icon = true
+
+[node name="Btn_RightShoe" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Right"]
+custom_minimum_size = Vector2(136, 182)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Right Shoe"
 icon = ExtResource("13_t3frt")
@@ -1323,9 +1340,9 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4nymk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Slot 1"
 autowrap_mode = 3
@@ -1343,9 +1360,9 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4nymk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Slot 2"
 autowrap_mode = 3
@@ -1363,9 +1380,9 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4nymk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Slot 3"
 autowrap_mode = 3
@@ -1435,6 +1452,13 @@ theme_override_font_sizes/normal_font_size = 24
 text = "(Click an item to store/swap it)"
 horizontal_alignment = 1
 
+[node name="ItemTooltip" parent="Station_Kibisis/CanvasLayer" instance=ExtResource("20_yx1fu")]
+z_index = 2
+offset_left = -199.0
+offset_top = -53.5
+offset_right = 199.0
+offset_bottom = 53.5
+
 [node name="OracleFilmRoom" type="Area2D" parent="."]
 position = Vector2(61, 353)
 rotation = -1.5708
@@ -1442,7 +1466,8 @@ script = ExtResource("15_smqfs")
 station_type = "Oracle Film Room"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OracleFilmRoom"]
-scale = Vector2(7, 7)
+position = Vector2(-9, -2.00004)
+scale = Vector2(9, 9)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="OracleFilmRoom"]
@@ -1451,20 +1476,34 @@ texture = ExtResource("16_d6tvq")
 flip_h = true
 flip_v = true
 
+[node name="FilmStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(40, 369)
+scale = Vector2(7, 7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FilmStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
+
 [node name="OceanusBaitShop" type="Area2D" parent="."]
 position = Vector2(166, 70)
 script = ExtResource("15_smqfs")
 station_type = "Oceanus Bait Shop"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OceanusBaitShop"]
-position = Vector2(8, 0)
-scale = Vector2(9, 9)
+position = Vector2(0, 17)
+scale = Vector2(11, 11)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="OceanusBaitShop"]
 rotation = 1.5708
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("16_k8rc4")
+
+[node name="BaitShopStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(164, 69)
+scale = Vector2(10, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BaitShopStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="OfferLibations" type="Area2D" parent="."]
 position = Vector2(823, 340)
@@ -1473,11 +1512,18 @@ script = ExtResource("15_smqfs")
 station_type = "Offer Libations"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OfferLibations"]
-scale = Vector2(7, 7)
+scale = Vector2(7.5, 7.5)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="OfferLibations"]
 texture = ExtResource("17_t3frt")
+
+[node name="LibationsStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(821, 340)
+scale = Vector2(4.5, 4.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LibationsStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="StyxIceBath" type="Area2D" parent="."]
 position = Vector2(1112, 301)
@@ -1485,14 +1531,21 @@ script = ExtResource("15_smqfs")
 station_type = "Styx Ice Bath"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StyxIceBath"]
-position = Vector2(-7, 26)
-scale = Vector2(7, 7)
+position = Vector2(9, 27)
+scale = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="StyxIceBath"]
 rotation = 1.5708
 skew = -0.938987
 texture = ExtResource("17_eo1ny")
+
+[node name="IceBathStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(1135, 329)
+scale = Vector2(6.5, 6.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="IceBathStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="ApollosChalk" type="Area2D" parent="."]
 position = Vector2(342, 52)
@@ -1501,24 +1554,25 @@ script = ExtResource("15_smqfs")
 station_type = "Apollo's Chalk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ApollosChalk"]
-scale = Vector2(7, 7)
+scale = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="ApollosChalk"]
 texture = ExtResource("18_fyfyi")
 
-[node name="Forge" type="Area2D" parent="."]
-position = Vector2(913, 28)
-scale = Vector2(0.8, 0.8)
-script = ExtResource("15_smqfs")
-station_type = "Forge"
+[node name="ChalkStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(341, 56)
+scale = Vector2(2.5, 2.5)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Forge"]
-scale = Vector2(7, 7)
-shape = SubResource("RectangleShape2D_k8rc4")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChalkStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
 
-[node name="Sprite2D" type="Sprite2D" parent="Forge"]
-texture = ExtResource("23_epmqv")
+[node name="ExitStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(589, 17)
+scale = Vector2(7, 4.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="Exit" type="Area2D" parent="."]
 position = Vector2(591, 28)
@@ -1527,7 +1581,8 @@ script = ExtResource("15_smqfs")
 station_type = "Exit to Court"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Exit"]
-scale = Vector2(7, 7)
+position = Vector2(-2, 18)
+scale = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="Exit"]

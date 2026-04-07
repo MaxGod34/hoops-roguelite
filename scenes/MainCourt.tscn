@@ -96,6 +96,7 @@ scale = Vector2(4, 4)
 [node name="GameOverScreen" parent="." instance=ExtResource("9_ggspr")]
 visible = false
 
-[node name="VictoryScreen" parent="." instance=ExtResource("10_oyip4")]
-layer = 3
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VictoryScreen" parent="CanvasLayer" instance=ExtResource("10_oyip4")]
 visible = false

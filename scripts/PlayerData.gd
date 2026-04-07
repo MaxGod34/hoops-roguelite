@@ -27,7 +27,7 @@ var equipment = {
 	"right_shoe": null,
 	"left_arm": null,
 	"right_arm": null,
-	"headwear": null,
+	"head": null,
 	"outfit": null,
 	"ball": null
 }

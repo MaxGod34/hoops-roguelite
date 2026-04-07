@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvr24kb1v7a2s"]
+
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_wp60y"]
+[ext_resource type="Script" uid="uid://cv1ha4q40hhx0" path="res://scripts/reward_button.gd" id="2_6eb35"]
+
+[sub_resource type="Theme" id="Theme_yh07d"]
+default_font = ExtResource("1_wp60y")
+
+[node name="RewardButton" type="TextureButton"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_yh07d")
+script = ExtResource("2_6eb35")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

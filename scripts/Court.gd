@@ -242,8 +242,11 @@ func _on_hoop_basket_scored(points, scorer):
 		# Grab a random AccessoryData resource from LootManager
 		var reward: AccessoryData = LootManager.roll_for_loot()
 		
-		
-		$VictoryScreen.show_victory(reward)
+		if reward != null:
+			var rewards_array: Array[AccessoryData] = [reward]
+			
+			$CanvasLayer/VictoryScreen.show_victory(rewards_array)
+			
 		get_tree().paused = true
 
 	

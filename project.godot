@@ -20,6 +20,10 @@ PlayerData="*res://scripts/PlayerData.gd"
 GameManager="*res://scripts/GameManager.gd"
 LootManager="*res://scenes/LootManager.tscn"
 
+[global_group]
+
+tooltip=""
+
 [input]
 
 move_left={
