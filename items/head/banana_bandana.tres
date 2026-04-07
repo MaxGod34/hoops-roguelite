@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_sdw35")
 item_name = "Banana Bandana"
+tier = "Heroic"
 slot_type = "head"
 item_texture = ExtResource("1_y5v05")
 close_shot_bonus = 0

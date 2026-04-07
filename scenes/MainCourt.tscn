@@ -97,4 +97,5 @@ scale = Vector2(4, 4)
 visible = false
 
 [node name="VictoryScreen" parent="." instance=ExtResource("10_oyip4")]
+layer = 3
 visible = false

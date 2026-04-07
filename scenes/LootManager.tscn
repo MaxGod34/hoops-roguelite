@@ -1,0 +1,15 @@
+[gd_scene load_steps=10 format=3 uid="uid://c265b4rao40oe"]
+
+[ext_resource type="Script" uid="uid://bcvc0ilxiho38" path="res://scripts/LootManager.gd" id="1_smal2"]
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="2_twli6"]
+[ext_resource type="Resource" uid="uid://chtpoh7gnou7e" path="res://items/shoes/stone_sandal.tres" id="3_h4rbi"]
+[ext_resource type="Resource" uid="uid://drqu17p076nss" path="res://items/shoes/rollerblade.tres" id="4_8l26b"]
+[ext_resource type="Resource" uid="uid://bmbqvlxiu083u" path="res://items/outfits/overalls.tres" id="5_od2ix"]
+[ext_resource type="Resource" uid="uid://b12hrkmrql8gr" path="res://items/head/banana_bandana.tres" id="6_u7f44"]
+[ext_resource type="Resource" uid="uid://crxyr0yp6dqd" path="res://items/balls/eight_ball.tres" id="7_xbkc3"]
+[ext_resource type="Resource" uid="uid://b40vtturqcxbl" path="res://items/arms/mummy_wrap.tres" id="8_ckect"]
+[ext_resource type="Resource" uid="uid://eeb6umu1w3eb" path="res://items/arms/fortune_gauntlet.tres" id="9_b84m4"]
+
+[node name="LootManager" type="Node"]
+script = ExtResource("1_smal2")
+all_game_items = Array[ExtResource("2_twli6")]([ExtResource("3_h4rbi"), ExtResource("4_8l26b"), ExtResource("5_od2ix"), ExtResource("6_u7f44"), ExtResource("7_xbkc3"), ExtResource("8_ckect"), ExtResource("9_b84m4")])

@@ -22,8 +22,9 @@ func open_prompt(station: Area2D, flavor_text: String, energy_cost: int):
 	
 	if energy_cost > 0:
 		lbl_cost.text = "Cost: " + str(energy_cost) + " Energy"
+		lbl_cost.show()
 	else:
-		lbl_cost.text = "Cost: FREE"
+		lbl_cost.hide()
 		
 	show()
 	

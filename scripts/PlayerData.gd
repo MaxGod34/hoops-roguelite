@@ -102,7 +102,22 @@ func equip_from_locker(locker_index: int, target_slot: String):
 			print("Equipped item from locker.")
 		
 		
-func _ready():
-	equipment["left_shoe"] = load("res://items/shoes/stone_sandal.tres")
-	equipment["ball"] = load("res://items/balls/eight_ball.tres")
-	equipment["left_arm"] = load("res://items/arms/mummy_wrap.tres")
+
+	
+func receive_new_item(new_item: AccessoryData) -> bool:
+	var slot = new_item.slot_type
+	
+	# If slot on your body is empty, auto-equip it
+	if equipment.has(slot) and equipment[slot] == null:
+		equipment[slot] = new_item
+		print("Auto-equipped: ", new_item.item_name)
+		return true
+	# If body slot is full, check if there is room
+	elif locker_storage.size() < 3:
+		locker_storage.append(new_item)
+		print("Stashed in Kibisis: ", new_item.item_name)
+		return true
+	# If everything is full, they can't take it
+	else:
+		print("Inventory is completely full!")
+		return false

@@ -5,6 +5,7 @@ extends Node
 # =================
 var current_olympus_tier: int = 1
 var player_inventory: Array = []
+var owned_items: Array[AccessoryData] = []
 
 # Base Attributes
 var player_3pt_rating: int = 50
@@ -54,6 +55,8 @@ func reset_run():
 	banked_energy = 0
 	
 	clear_match_modifiers()
+	
+	owned_items.clear()
 	
 	go_to_court()
 	

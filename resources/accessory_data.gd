@@ -2,6 +2,7 @@ extends Resource
 class_name AccessoryData
 
 @export var item_name: String = "Unknown Item"
+@export_enum("Mortal", "Heroic", "Divine", "Woven") var tier: String = "Mortal"
 @export_enum("head", "outfit", "ball", "left_shoe", "right_shoe", "left_arm", "right_arm") var slot_type: String = "ball"
 @export var item_texture: Texture2D
 
@@ -21,14 +22,3 @@ class_name AccessoryData
 
 # Unique Passive Effects (ID)
 @export var passive_effect: String = ""
-
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass

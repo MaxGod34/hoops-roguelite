@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b03r31tpamy5b"]
+[gd_scene load_steps=8 format=3 uid="uid://b03r31tpamy5b"]
 
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_ujlt3"]
 [ext_resource type="Script" uid="uid://dejpcrvfvs6dv" path="res://scripts/victory_screen.gd" id="1_wdgif"]
+[ext_resource type="Texture2D" uid="uid://b1yxhw4xdkfgs" path="res://assets/accessories/LeftArmMummyWrapProto.png" id="3_pfcnd"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ujlt3"]
 
@@ -77,14 +78,13 @@ offset_left = -443.5
 offset_right = 443.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 48
+theme_override_constants/separation = 8
 alignment = 1
 
 [node name="Lbl_Title" type="Label" parent="MainBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0.65098, 0.435294, 0.988235, 1)
-theme_override_colors/font_outline_color = Color(0.65098, 0.435294, 0.988235, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = -8
 theme_override_constants/shadow_offset_y = -8
 theme_override_constants/outline_size = 16
@@ -94,7 +94,7 @@ text = "YOU DEFEATED THE BOT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MainBox"]
+[node name="HSeparator4" type="HSeparator" parent="MainBox"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
 
@@ -102,23 +102,52 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.619608, 0.607843, 0.564706, 1)
 theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0.619608, 0.607843, 0.564706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = -4
 theme_override_constants/shadow_offset_y = -4
-theme_override_constants/outline_size = 4
+theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("1_ujlt3")
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 42
 text = "THREADS DROPPED:"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HSeparator5" type="HSeparator" parent="MainBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
+
+[node name="IconRect_Reward" type="TextureRect" parent="MainBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_pfcnd")
 
 [node name="HSeparator3" type="HSeparator" parent="MainBox"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
 
-[node name="Lbl_ItemDesc" type="Label" parent="MainBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.65098, 0.435294, 0.988235, 1)
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Lbl_ItemName" type="Label" parent="MainBox/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.418373, 0.0846945, 0.743463, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.262745, 1, 0, 1)
+theme_override_constants/line_spacing = 16
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -4
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_ujlt3")
+theme_override_font_sizes/font_size = 42
+text = "Stone Sandal"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Lbl_ItemSlot" type="Label" parent="MainBox/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.262745, 1, 0, 1)
 theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0.65098, 0.435294, 0.988235, 1)
 theme_override_constants/line_spacing = 16
@@ -126,14 +155,30 @@ theme_override_constants/shadow_offset_x = -4
 theme_override_constants/shadow_offset_y = -4
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("1_ujlt3")
-theme_override_font_sizes/font_size = 48
-text = "Stone Sandal
-+10 3pt  |  -5 spd/accel"
+theme_override_font_sizes/font_size = 42
+text = "Slot: Left Shoe"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Lbl_ItemStats" type="Label" parent="MainBox"]
+custom_minimum_size = Vector2(0, 128)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -4
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("1_ujlt3")
+theme_override_font_sizes/font_size = 32
+text = "+ 30 Strength + 30 Speed/Accel + 30 Rebounding +30 Ball Handling + 30 3PT +30 Close Shot"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
 [node name="HSeparator2" type="HSeparator" parent="MainBox"]
 layout_mode = 2
+theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxEmpty_ujlt3")
 
 [node name="ButtonBox" type="HBoxContainer" parent="MainBox"]

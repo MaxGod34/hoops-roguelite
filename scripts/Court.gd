@@ -239,12 +239,9 @@ func _on_hoop_basket_scored(points, scorer):
 		print("-------VICTORY!--------")
 		game_over.emit("Player")
 		
-		# Placeholder Item
-		var reward = {
-			"name": "Stone Sandal",
-			"description": "+20 Strength  |  -5 Spd/Accel",
-			"type": "left_shoe"
-		}
+		# Grab a random AccessoryData resource from LootManager
+		var reward: AccessoryData = LootManager.roll_for_loot()
+		
 		
 		$VictoryScreen.show_victory(reward)
 		get_tree().paused = true

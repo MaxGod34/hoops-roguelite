@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_phgwr")
 item_name = "Fortune Gauntlet"
+tier = "Divine"
 slot_type = "right_arm"
 item_texture = ExtResource("1_w7lbu")
 close_shot_bonus = 0

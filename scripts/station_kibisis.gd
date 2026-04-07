@@ -44,7 +44,7 @@ func _on_retrieve_pressed(locker_index: int):
 	if locker_index < PlayerData.locker_storage.size():
 		var item = PlayerData.locker_storage[locker_index]
 		# Need item's dictionary to tell what slot it belongs to
-		var target_slot = item["slot_type"]
+		var target_slot = item.slot_type
 		
 		PlayerData.equip_from_locker(locker_index, target_slot)
 		_refresh_ui()

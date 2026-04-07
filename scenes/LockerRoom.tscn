@@ -5,9 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://ccovcylm84s3m" path="res://assets/locker_room/CaveProto.png" id="2_4qkvb"]
 [ext_resource type="Texture2D" uid="uid://db801hss2uvli" path="res://assets/locker_room/Whiteboard Proto.png" id="3_3fb16"]
 [ext_resource type="Script" uid="uid://dgobowy8xi74g" path="res://scripts/station_styx.gd" id="4_twet0"]
-[ext_resource type="Texture2D" uid="uid://dkssvfww1o5x5" path="res://assets/locker_room/StyxBargainStation.png" id="4_txlc3"]
 [ext_resource type="Script" uid="uid://b5ce8nu0rihus" path="res://scripts/station_kibisis.gd" id="6_i0i2h"]
 [ext_resource type="Texture2D" uid="uid://ccvmo61pbwrmd" path="res://assets/locker_room/KibisisProto.png" id="6_lcfti"]
+[ext_resource type="Texture2D" uid="uid://b58bq4sviyjyk" path="res://assets/locker_room/StyxBargainStationv1.2.png" id="6_o67jq"]
 [ext_resource type="Script" uid="uid://do45rgakg8osc" path="res://scripts/station_prompt.gd" id="7_epmqv"]
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="7_fsaij"]
 [ext_resource type="Texture2D" uid="uid://c0o1u1t74cqry" path="res://assets/accessories/BananaBandanaProto.png" id="7_rv06o"]
@@ -852,7 +852,7 @@ skew = -0.790634
 texture = ExtResource("3_3fb16")
 
 [node name="Station_Styx" type="Area2D" parent="."]
-position = Vector2(1055, 96)
+position = Vector2(1068, 97)
 script = ExtResource("4_twet0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Station_Styx"]
@@ -861,11 +861,13 @@ scale = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_lcfti")
 
 [node name="Sprite2D" type="Sprite2D" parent="Station_Styx"]
+rotation = 0.785398
 scale = Vector2(1.5, 1.5)
-texture = ExtResource("4_txlc3")
+skew = -0.420624
+texture = ExtResource("6_o67jq")
 
 [node name="StyxStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(1060, 92)
+position = Vector2(1095, 89)
 scale = Vector2(10, 10)
 
 [node name="StyxStaticCollision" type="CollisionShape2D" parent="StyxStaticWall"]
@@ -1489,7 +1491,7 @@ shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="StyxIceBath"]
 rotation = 1.5708
-skew = -0.863938
+skew = -0.938987
 texture = ExtResource("17_eo1ny")
 
 [node name="ApollosChalk" type="Area2D" parent="."]
@@ -1506,7 +1508,7 @@ shape = SubResource("RectangleShape2D_k8rc4")
 texture = ExtResource("18_fyfyi")
 
 [node name="Forge" type="Area2D" parent="."]
-position = Vector2(908, 28)
+position = Vector2(913, 28)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("15_smqfs")
 station_type = "Forge"

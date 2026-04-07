@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_dsg55")
 item_name = "Rollerblade"
+tier = "Heroic"
 slot_type = "right_shoe"
 item_texture = ExtResource("1_g1wry")
 close_shot_bonus = 0
