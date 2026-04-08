@@ -73,6 +73,14 @@ func _physics_process(delta: float) -> void:
 	
 	# MOVE YOUR ASS...stupid bot
 	move_and_slide()
+	
+	#==================DRIBBLE CONTROLLER====================
+	if has_ball and held_ball != null:
+		# Only bounce if the game is live and we aren't mid-check/cutscene
+		if get_parent().game_state == "PLAYING" and state != "CHECKING":
+			held_ball.is_dribbling = true
+		else:
+			held_ball.is_dribbling = false
 
 # -- LOGIC --
 
@@ -324,7 +332,7 @@ func force_turnover():
 
 func _on_pickup_zone_body_entered(body: Node2D) -> void:
 	# Is it the ball and is it allowed to be grabbed?
-	if body.is_in_group("ball") and body.can_be_picked_up:
+	if body.is_in_group("ball") and body.can_be_picked_up and not body.is_held:
 		# Check is the ball flying over my stupid bot head
 		if body.z_height > 3.0:
 			return

@@ -106,6 +106,13 @@ func _physics_process(delta: float) -> void:
 				# Tell ref if we got a rebound or a steal
 				if previous_state == "LOOSE" or previous_state == "REBOUNDING":
 					get_parent().handle_rebound(self)
+					
+	if has_ball and held_ball != null:
+		# Only bounce if the game is live and player has control
+		if get_parent().game_state == "PLAYING" and has_control:
+			held_ball.is_dribbling = true
+		else:
+			held_ball.is_dribbling = false
 				
 
 func start_check_sequence(role: String):
@@ -143,10 +150,12 @@ func process_check_up(delta: float):
 			var dir = global_position.direction_to(target_pos)
 			velocity = dir * (SPEED * 0.75)
 			
+			
 		else:
 			# 2. Got the ball, walk to the defense spawn
 			target_pos = court.get_node("DefenseSpawn").global_position
 			distance_to_target = global_position.distance_to(target_pos)
+			held_ball.is_dribbling = false
 			
 			if distance_to_target > 15.0:
 				var dir = global_position.direction_to(target_pos)
@@ -187,11 +196,13 @@ func process_check_up(delta: float):
 
 func force_turnover():
 	if held_ball:
+		held_ball.is_dribbling = false
 		# Create a random direction for the ball to pop out
 		var random_dir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 		
 		# Use throw function with zero player momentum so it pops out
 		held_ball.throw(random_dir, Vector2.ZERO)
+		
 		
 		held_ball = null
 		has_ball = false

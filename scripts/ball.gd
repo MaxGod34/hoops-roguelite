@@ -1,13 +1,24 @@
 extends CharacterBody2D
+
 @onready var ball_sprite = $Sprite2D
+@onready var collision = $CollisionShape2D
 
 @export var base_throw_speed = 700.0
 @export var roll_friction: float = 400.0
 
-var is_held = false
+var is_held: bool = false
+var is_dribbling: bool = false
+
 var player = null
 var can_be_picked_up = true # Cooldown Flag
 
+# Dribble math variables
+var time_passed: float = 0.0
+@export var bounce_height: float = 15.0
+@export var bounce_speed: float = 8.0
+
+# Standard gravity
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Visual Illusion Vars
 var z_height: float = 0.0
@@ -19,9 +30,13 @@ var active_z_tween: Tween
 
 # Scoring
 var point_value: int = 2 # Default 2 pter
+@onready var court_node: Node2D = get_parent()
 
 # When player touches ball
 func pickup(new_player):
+	if new_player == null:
+		push_error("ERROR: Tried to pick up ball, but the player variable was null!")
+		return
 	# Ignore pickup if we just threw it
 	if not can_be_picked_up:
 		return
@@ -29,14 +44,15 @@ func pickup(new_player):
 	state = "HELD"
 	is_held = true
 	player = new_player
-	
-	velocity = Vector2.ZERO	
 
 	$CollisionShape2D.set_deferred("disabled", true)
+	
+	call_deferred("_deferred_pickup_reparent", new_player)
 
 
 func _physics_process(delta: float) -> void:
 	if state == "LOOSE":
+		ball_sprite.position.y = 0
 		velocity = velocity.move_toward(Vector2.ZERO, roll_friction * delta)
 		
 		# Snapshot of speed before Godot tries to kill it
@@ -44,21 +60,31 @@ func _physics_process(delta: float) -> void:
 		
 		if move_and_slide():
 			# Get data of of wall just hit
-			var collision = get_last_slide_collision()
-			if collision:
+			var collision_last = get_last_slide_collision()
+			if collision_last:
 				# Reflect velocity off wall's angle
 				# Use 0.8 to reduce speed off wall slightly
-				velocity = pre_collision_velocity.bounce(collision.get_normal()) * 0.8
+				velocity = pre_collision_velocity.bounce(collision_last.get_normal()) * 0.8
 	
 	
 	elif state == "HELD" and player != null:
-		global_position = player.global_position + Vector2(30, 0)
-		
+		if is_dribbling:
+			time_passed += delta
+			var bounce_offset = abs(sin(time_passed * bounce_speed)) * -bounce_height
+			ball_sprite.position.y = bounce_offset
+		else:
+			ball_sprite.position.y = 0
+			time_passed = 0.0
+			
 	elif state == "SHOOTING" or state == "REBOUNDING":
 		# Airbourne State
 		pass
 
 func throw(aim_direction: Vector2, player_velocity: Vector2, speed_modifier: float = 1.0):
+	if player == null:
+		push_error("ERROR: Tried to throw the ball, but the player variable was null! (ball.gd throw())")
+		return
+	
 	# Stand-Still Fix
 	# If standing still, default to throwing "up" the court 
 	# so it doesn't spawn inside chest
@@ -67,13 +93,22 @@ func throw(aim_direction: Vector2, player_velocity: Vector2, speed_modifier: flo
 	
 	state = "LOOSE"
 	is_held = false
+	is_dribbling = false
 	
-
-	global_position = player.global_position + (aim_direction * 80)
+	# Snapshots the math before we delete the player ref
+	var spawn_position = player.global_position + (aim_direction * 80)
+	var throw_velocity = (aim_direction * base_throw_speed * speed_modifier) + player_velocity
 	
-	velocity = (aim_direction * base_throw_speed * speed_modifier) + player_velocity
-	
+	# Clear player
 	player = null
+	
+	# Move the ball to the Court FIRST
+	get_parent().remove_child(self)
+	court_node.add_child(self)
+	
+	# Now apply the corrdinates so Godot can know where the ball goes
+	global_position = spawn_position
+	velocity = throw_velocity
 	
 	$CollisionShape2D.set_deferred("disabled", false)
 	
@@ -86,16 +121,26 @@ func throw(aim_direction: Vector2, player_velocity: Vector2, speed_modifier: flo
 
 func shoot_ball(target_pos: Vector2, arc_height: float = 1.5, flight_time: float = 1.0):
 	
-	var hoop = get_parent().get_node("Hoop")
+	var hoop = court_node.get_node("Hoop")
 	var peak_z = hoop.rim_height + (arc_height * 20)
 	
 	stop_tweens() # Leftover bounces
 	state = "SHOOTING"
-	set_collision_mask_value(1, false)
 	is_held = false
-	player = null
-	$CollisionShape2D.set_deferred("disabled", false)
 	
+	# Snapshot the position while still attached to the player
+	var start_pos = global_position
+	
+	player = null
+	
+	# Move to the court
+	get_parent().remove_child(self)
+	court_node.add_child(self)
+	
+	# Reapply snapshot so Tween start from shooter's hands
+	global_position = start_pos
+	
+	$CollisionShape2D.set_deferred("disabled", false)
 	set_collision_mask_value(1, false)
 	set_collision_layer_value(1, false)
 	
@@ -146,6 +191,17 @@ func layup_ball(target_pos: Vector2):
 	# Detach from player
 	is_held = false
 	z_height = 2.0
+	
+	# Snapshot
+	var start_pos = global_position
+	
+	# Reparent
+	get_parent().remove_child(self)
+	court_node.add_child(self)
+	player = null
+	
+	# REAPPLY snapshot
+	global_position = start_pos
 	
 	$CollisionShape2D.set_deferred("disabled", false)
 	set_collision_mask_value(1, false)
@@ -258,6 +314,16 @@ func swish(net_center: Vector2):
 	
 	# Turn layers back on
 	active_z_tween.finished.connect(_on_bounce_landed)
+
+func _deferred_pickup_reparent(new_player):
+	# Double check the ball hasn't been deleted while waiting
+	if get_parent() != null and new_player != null:
+		get_parent().remove_child(self)
+		new_player.add_child(self)
+		
+		# Snap to the hip after reparenting is finished
+		position = Vector2(25, 0)
+
 
 func stop_tweens():
 	if active_move_tween and active_move_tween.is_valid():

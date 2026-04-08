@@ -4,7 +4,7 @@ signal timeout_violation
 
 @onready var time_label = $Lbl_Shot_Clock_Remaining
 
-var max_time: float = 30.0
+@export var max_time: float = 30.0
 var current_time: float = 30.0
 var is_running: bool = false
 
