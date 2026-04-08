@@ -6,19 +6,25 @@ extends CharacterBody2D
 @export var base_throw_speed = 700.0
 @export var roll_friction: float = 400.0
 
+#========FLAGS=========
 var is_held: bool = false
 var is_dribbling: bool = false
+var can_be_picked_up = true # Cooldown Flag
+#======================
 
 var player = null
-var can_be_picked_up = true # Cooldown Flag
 
-# Dribble math variables
+#=========DRIBBLE===========
+var current_hand: String = "RIGHT" # RIGHT, LEFT
+var hand_offset_x: float = 25.0
+#-- Dribble math variables --
 var time_passed: float = 0.0
 @export var bounce_height: float = 15.0
 @export var bounce_speed: float = 8.0
 
 # Standard gravity
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+#============================
 
 # Visual Illusion Vars
 var z_height: float = 0.0
@@ -321,9 +327,27 @@ func _deferred_pickup_reparent(new_player):
 		get_parent().remove_child(self)
 		new_player.add_child(self)
 		
-		# Snap to the hip after reparenting is finished
-		position = Vector2(25, 0)
+		# Snap to the hip after reparenting is finished and use the CORRECT hand
+		var target_x = hand_offset_x if current_hand == "RIGHT" else -hand_offset_x
+		position = Vector2(target_x, 0)
 
+func perform_crossover(duration: float):
+	# Determine new hand position
+	var target_x = -hand_offset_x if current_hand == "RIGHT" else hand_offset_x
+	
+	# Swap the internal tracker
+	current_hand = "LEFT" if current_hand == "RIGHT" else "RIGHT"
+	
+	# Tween the ball's root X position across the body
+	var cross_tween = create_tween()
+	cross_tween.tween_property(self, "position:x", target_x, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	
+	# Game Feel/Polish
+	var old_speed = bounce_speed	# Snapshot
+	bounce_speed = 25.0
+	await get_tree().create_timer(duration).timeout
+	bounce_speed = old_speed		# Restore
 
 func stop_tweens():
 	if active_move_tween and active_move_tween.is_valid():

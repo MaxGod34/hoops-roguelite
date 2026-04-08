@@ -19,6 +19,7 @@ class_name AccessoryData
 @export var steal_bonus: int = 0
 @export var block_bonus: int = 0
 @export var rebounding_bonus: int = 0
+@export var all_attribute_bonus: int = 0
 
 # Unique Passive Effects (ID)
 @export var passive_effect: String = ""

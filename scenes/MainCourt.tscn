@@ -81,7 +81,7 @@ polygon = PackedVector2Array(0, 11, 0, 174, 6, 192, 21, 214, 46, 237, 85, 262, 1
 
 [node name="OffenseSpawn" type="Marker2D" parent="."]
 position = Vector2(576, 556)
-scale = Vector2(4, 4)
+scale = Vector2(6, 6)
 
 [node name="DefenseSpawn" type="Marker2D" parent="."]
 position = Vector2(576, 382)

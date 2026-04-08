@@ -2,19 +2,23 @@
 extends CharacterBody2D
 
 
-const SPEED = 500.0
+const SPEED = 400.0
 const ACCELERATION = 2500.0
-const FRICTION = 3000.0
+const FRICTION = 2000.0
 
 # For moving test ball around, magic number
 const PUSH_FORCE = 20.0
 
 var held_ball = null
-var has_control = true
+var has_control: bool = true
 var has_ball: bool = false
+
+var is_tricking: bool = false
 
 # Check Up Vars
 var check_role: String = "" # FETCH, RECEIVE
+
+
 
 
 func _physics_process(delta: float) -> void:
@@ -29,7 +33,14 @@ func _physics_process(delta: float) -> void:
 			
 		move_and_slide()
 		return
-
+	
+	# TRICK LOCKOUT
+	if is_tricking:
+		# Let the dash friction out smoothly ignoring player input
+		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+		move_and_slide()
+		return
+	
 
 	# Get movement input (Left/Right) and apply acceleration
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -79,7 +90,12 @@ func _physics_process(delta: float) -> void:
 			#---------------------
 			held_ball = null
 			has_ball = false
-
+	
+	
+	if Input.is_action_just_pressed("dribble_move") and held_ball:
+		execute_crossover()
+	
+	
 	move_and_slide()
 	
 	#--Ball Collision Logic--
@@ -206,3 +222,28 @@ func force_turnover():
 		
 		held_ball = null
 		has_ball = false
+
+func execute_crossover():
+	is_tricking = true
+	var trick_duration = 0.3
+	
+	# Tell the ball to animate the crossover
+	held_ball.perform_crossover(trick_duration)
+	
+	# Determine Dash Direction (Toward's new ball hand)
+	var side_dash = Vector2.RIGHT if held_ball.current_hand == "RIGHT" else Vector2.LEFT
+	var dash_dir = side_dash
+	
+	# Game Feel/Polish: if player is moving, blend dash so it angles forward
+	var current_input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if current_input != Vector2.ZERO:
+		dash_dir = (current_input * 2.0 + side_dash).normalized()
+		
+	# Apply a massive burst of velocity on the dash
+	velocity = dash_dir * (SPEED * 1.7)
+	
+	# Wait for the tree to finish before giving controller back
+	await get_tree().create_timer(trick_duration).timeout
+	is_tricking = false
+	
+	#========= Eventually add style/mach meter stuff here...============

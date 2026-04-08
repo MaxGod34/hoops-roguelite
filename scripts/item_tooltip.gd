@@ -48,6 +48,7 @@ func display_item(item: AccessoryData):
 	if item.steal_bonus > 0: stat_text += "\n+" + str(item.steal_bonus) + " STEAL "
 	if item.block_bonus > 0: stat_text += "\n+" + str(item.block_bonus) + " BLOCK "
 	if item.rebounding_bonus > 0: stat_text += "\n+" + str(item.rebounding_bonus) + " REBOUND "
+	if item.all_attribute_bonus > 0: stat_text += "\n+" + str(item.all_attribute_bonus) + " ALL STATS "
 	
 	
 	if stat_text == "":
