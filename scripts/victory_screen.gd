@@ -29,8 +29,16 @@ func show_victory(rewards: Array[AccessoryData]):
 			# Listen for if player takes the item
 			new_btn.item_claimed.connect(_on_item_claimed)
 
-	# FIANLLY, show screen
+	# Start invisible
+	modulate.a = 0.0
 	show()
+	
+	# Create Tween
+	var fade_tween = create_tween()
+	# Tell Tween to keep running even though game is paused
+	fade_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	# Fade in over 1 second smoothly
+	fade_tween.tween_property(self, "modulate:a", 1.0, 1.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 func _on_item_claimed(item: AccessoryData):
 	# Pipe directly into PlayerData
@@ -39,4 +47,5 @@ func _on_item_claimed(item: AccessoryData):
 
 func _on_btn_proceed_pressed() -> void:
 	get_tree().paused = false
-	GameManager.go_to_locker_room()
+	TransitionManager.transition_to_scene("res://scenes/LockerRoom.tscn")
+	#GameManager.go_to_locker_room()

@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.4", "GL Compatibility")
 PlayerData="*res://scripts/PlayerData.gd"
 GameManager="*res://scripts/GameManager.gd"
 LootManager="*res://scenes/LootManager.tscn"
+TransitionManager="*res://scenes/TransitionManager.tscn"
 
 [global_group]
 

@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://3gxsrvvfgilf"]
+
+[ext_resource type="Script" uid="uid://covm0ldv75nck" path="res://scripts/transition_manager.gd" id="1_8fdwc"]
+[ext_resource type="Texture2D" uid="uid://dvvnkhobcq5vq" path="res://assets/basketballproto.png" id="1_op1bx"]
+
+[node name="TransitionManager" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_8fdwc")
+
+[node name="BgFade" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(64, 64)
+offset_left = 499.0
+offset_top = 685.0
+offset_right = 563.0
+offset_bottom = 749.0
+pivot_offset = Vector2(32, 32)
+texture = ExtResource("1_op1bx")
+expand_mode = 1
+stretch_mode = 5

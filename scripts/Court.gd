@@ -238,6 +238,12 @@ func _on_hoop_basket_scored(points, scorer):
 	if player_score >= target_score:
 		print("-------VICTORY!--------")
 		game_over.emit("Player")
+		# Stop the clock
+		get_tree().call_group("shot_clock", "stop_clock")
+		# Stop the bot from moving!
+		bot.state = "IDLE"
+		# 1.5 sec delay so the player can watch the shot go in
+		await get_tree().create_timer(1.5).timeout
 		
 		# Grab a random AccessoryData resource from LootManager
 		var reward: AccessoryData = LootManager.roll_for_loot()

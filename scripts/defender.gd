@@ -85,6 +85,8 @@ func _physics_process(delta: float) -> void:
 # -- LOGIC --
 
 func evaluate_state():
+	if state == "IDLE":
+		return
 	# -- Top Level Split
 	if ball.state == "HELD" and ball.player == self:
 		# ===============================================
