@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export var friction: float = 800.0
 
 var state: String = "IDLE" 
-# IDLE, CHASING, GUARDING, CONTESTING, 
+# IDLE, CHASING, GUARDING, CONTESTING, SWIPING
 # OFFENSE_IDLE, DRIVING, BOT_SHOOTING, CLEARING_BALL
 
 
@@ -17,12 +17,24 @@ var ball: Node2D = null
 var held_ball: Node2D = null
 var has_ball: bool = false
 
+@export var steal_rating: int = 75
+# Steal Mechanic
+var swipe_cooldown: float = 0.0
+var swipe_range: float = 65.0 	# 5 more than the guard range!
+
+@export var ball_handle: int = 70
 var offense_timer: float = 0.0
 var size_up_time: float = 1.5
 var drive_speed_multiplier: float = 1.2
 
+# SHOOTING MECHANICS
+var jump_z: float = 0.0
+var jump_tween: Tween
+var jump_duration: float = 0.6
+
 # Check Up Vars
 var check_role: String = "" # FETCH, RECEIVE
+
 
 
 func _ready():
@@ -36,11 +48,13 @@ func _ready():
 	var hoops = get_tree().get_nodes_in_group("hoop")
 	if hoops.size() > 0: hoop = hoops[0]
 
-
-func _physics_process(delta: float) -> void:
+func _physics_process(delta: float):
 	if not ball or not player or not hoop:
 		return # Safety Net
-		
+	
+	if swipe_cooldown > 0:
+		swipe_cooldown -= delta
+	
 	# Think you stupid bot
 	if state != "CHECK_UP_CUTSCENE":
 		evaluate_state()
@@ -50,17 +64,20 @@ func _physics_process(delta: float) -> void:
 		
 		"CHECK_UP_CUTSCENE":
 			process_check_up(delta)
-		
+		#======================================DEF===============================================
 		"GUARDING":
 			guard_player(delta)
 		"CHASING":
 			chase_ball(delta)
 		"CONTESTING":
 			contest_shot(delta)
-		
+		"SWIPTING":
+			# Freeze bot so they stand still while reaching
+			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+		#=========================================================================================
 		"CLEARING_BALL":
 			clear_ball(delta)
-
+		#=====================================OFF=================================================
 		"DRIVING":
 			drive_to_hoop(delta)
 		"BOT_SHOOTING":
@@ -68,6 +85,7 @@ func _physics_process(delta: float) -> void:
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		"OFFENSE_IDLE":
 			offense_idle(delta)
+		#=========================================================================================
 		"IDLE":
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	
@@ -81,6 +99,13 @@ func _physics_process(delta: float) -> void:
 			held_ball.is_dribbling = true
 		else:
 			held_ball.is_dribbling = false
+			
+	#-- VISUAL JUMP STATE --
+	if has_node("Sprite2D"):
+		$Sprite2D.position.y = -jump_z
+	if held_ball != null and state == "BOT_SHOOTING":
+		held_ball.position.y = -jump_z
+
 
 # -- LOGIC --
 
@@ -125,11 +150,12 @@ func offense_idle(delta: float):
 	if offense_timer <= 0:
 		# Make a decision, random for now
 		var decision = randi() % 100
-		if decision < 50:
+		if decision < 0:
 			state = "DRIVING"
 		else:
 			state = "BOT_SHOOTING"
 			bot_shoot()
+
 
 func drive_to_hoop(_delta: float):
 	var rim_pos = hoop.get_node("ShotTarget").global_position
@@ -166,37 +192,73 @@ func drive_to_hoop(_delta: float):
 		
 	# Apply speed burst on a drive
 	velocity = move_dir * (move_speed * drive_speed_multiplier)
-	
+
+
 func bot_shoot():
 	if not has_ball or not held_ball:
 		return
-		
-	# Tell the court/ref we are shooting
-	get_parent().record_shot(self)
-	# Give pts to the ball
-	ball.point_value = get_parent().pending_points
 	
+	# Stop dribbling and move the ball to the front
+	# THE GATHER
+	held_ball.is_dribbling = false
 	var rim_position = hoop.get_node("ShotTarget").global_position
+	
 	
 	# -- Distance Check --
 	# Calculate how far hoop is to make shot look natural
 	var dist = global_position.distance_to(rim_position)
+	
 	if dist < 180.0: 	# LAYUP
 		print("Bot drives to the paint for a LAYUP!")
-		ball.layup_ball(rim_position)
+		execute_bot_shot(rim_position, dist, true)
 	else:				# JUMPER
 		print("Bot pulls up for the JUMPER!")
-		var flight_time = clamp(dist / ball.base_throw_speed, 0.5, 1.2)
-		var arc = clamp(dist / 200.0, 1.1, 1.6)
-		ball.shoot_ball(rim_position, arc, flight_time)
+		start_bot_jump_tween(rim_position, dist)
 	#----------------------
+
 	
+
+func start_bot_jump_tween(rim_position: Vector2, dist: float):
+	jump_tween = create_tween()
+	var peak_time = jump_duration / 2.0
+	
+	# GOING UP
+	jump_tween.tween_property(self, "jump_z", 25.0, peak_time).set_trans(
+											Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	# GOING DOWN
+	jump_tween.tween_property(self, "jump_z", 0.0, peak_time).set_trans(
+											Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+	# AI will always release the ball at the apex of their jump
+	await get_tree().create_timer(peak_time).timeout
+	
+	# Double check they aren't stripped/blocked in the air
+	if state == "BOT_SHOOTING" and has_ball:
+		execute_bot_shot(rim_position, dist, false)
+
+func execute_bot_shot(rim_position: Vector2, dist: float, is_layup: bool):
+	get_parent().record_shot(self)
+	if held_ball != null:
+		held_ball.point_value = get_parent().pending_points
+	# Fire the correct shot type
+	if is_layup:
+		held_ball.layup_ball(rim_position)
+	else:
+		var flight_time = clamp(dist / held_ball.base_throw_speed, 0.5, 1.2)
+		var arc = clamp(dist / 200.0, 1.1, 1.6)
+		held_ball.shoot_ball(rim_position, arc, flight_time)
+		
 	# Detach ball logic
 	has_ball = false
 	held_ball = null
-	state = "CHASING"
+	state = "CHASING" # Go after the rebound
 	
-		
+	# Snap visuals back to floor
+	if jump_tween and jump_tween.is_valid():
+		jump_tween.kill()
+	if has_node("Sprite2D"): $Sprite2D.position.y = 0
+	jump_z = 0.0
+
 
 
 func guard_player(delta: float):
@@ -217,11 +279,49 @@ func guard_player(delta: float):
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		
+	var distance_to_player = global_position.distance_to(player.global_position)
+	if distance_to_player < swipe_range and swipe_cooldown <= 0:
+		attempt_swipe()
+		
 func chase_ball(_delta: float):
 	# Sprint straight for the ball's coordinates
 	var direction_to_ball = global_position.direction_to(ball.global_position)
 	velocity = direction_to_ball * move_speed
+
+func attempt_swipe():
+	# Put bot on cooldwon and freeze on the reach
+	swipe_cooldown = 2.5
+	state = "SWIPING"
 	
+	# Dice roll o'clock
+	var base_chance = 30
+	var stat_diff = steal_rating - player.ball_handle
+	
+	# If player is doing a crossover in front of my face, punish them
+	if player.is_tricking:
+		stat_diff += 30
+		
+	# Clamp it at min 5% and max 95% chance
+	var success_chance = clamp(base_chance + stat_diff, 5, 95)
+	var roll = randi() % 100
+	
+	print("Bot swipes! Need < ", success_chance, ". Rolled: ", roll)
+	
+	# The Result
+	if roll < success_chance:
+		print("STEAL SUCCESSFUL! Ball knocked loose!")
+		player.force_turnover()
+	else:
+		print("WHIFF! Bot reached in and missed! Make him suffer!")
+		
+	# Freeze bot for 0.4 seconds then let them recover
+	await get_tree().create_timer(0.4).timeout
+	
+	# Return to normal logic if they didn't grab the ball during the freeze
+	if state == "SWIPING":
+		state = "IDLE"
+
+
 func contest_shot(delta:float):
 	# For now, just stop and watch the ball go towards the hoop
 	# Later add z_height on a jump so defender can block the shot
@@ -322,14 +422,21 @@ func process_check_up(delta: float):
 
 func force_turnover():
 	if held_ball:
-		# Create a random direction for the ball to pop out
+		held_ball.is_dribbling = false
 		var random_dir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-		
-		# Use throw function with zero player momentum so it pops out
+		# Use throw function with zero momentum so it pops out
 		held_ball.throw(random_dir, Vector2.ZERO)
 		
 		held_ball = null
 		has_ball = false
+		
+	# Reset physical states so the bot return to the floor in case they are stripped/blocked
+	if jump_tween and jump_tween.is_valid():
+		jump_tween.kill()
+	if has_node("Sprite2D"): $Sprite2D.position.y = 0
+	jump_z = 0.0
+	
+	# Evaluate state will automatically switch them to "CHASING" since ball will be loose
 
 
 func _on_pickup_zone_body_entered(body: Node2D) -> void:

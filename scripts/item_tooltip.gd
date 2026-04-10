@@ -12,7 +12,7 @@ func _process(_delta):
 	if visible:
 		var mouse_pos = get_global_mouse_position()
 		var offset = Vector2.ZERO
-		if mouse_pos.x < (get_viewport().size.x / 2.0) + 80:
+		if mouse_pos.x < (get_viewport().size.x / 2.0) + 100:
 			offset.x = 15
 			#offset = Vector2(15, -size.y / 2.0)
 		else:

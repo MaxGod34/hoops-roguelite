@@ -177,8 +177,7 @@ func turnover(violator: Node2D):
 	else:
 		bot_turnovers += 1
 	
-	if violator.has_method("force_turnover"):
-		violator.force_turnover
+	if violator.has_method("force_turnover"): violator.force_turnover()
 		
 	print("Player TO: " + str(player_turnovers))
 	print("Bot TO: " + str(bot_turnovers))

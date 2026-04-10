@@ -13,47 +13,63 @@ var held_ball = null
 var has_control: bool = true
 var has_ball: bool = false
 
+
+
+@export var steal_rating: int = 75
+
+# Steal Mechanic
+var is_swiping: bool = false
+var swipe_cooldown: float = 0.0
+var swipe_range: float = 65.0
+
+#=== Shooting & Dribble Mechanics ===
+var dribble_picked_up: bool = false
+var is_shooting: bool = false
+var shoot_timer: float = 0.0
+
+var jump_z: float = 0.0 # Visual Jump Height
+var jump_tween: Tween
+var jump_duration: float = 0.6 # Total air time (up & down)
+
 var is_tricking: bool = false
+@export var ball_handle: int = 80
+#====================================
 
 # Check Up Vars
 var check_role: String = "" # FETCH, RECEIVE
 
 
 
-
 func _physics_process(delta: float) -> void:
 	# Removed jump mechanics for top down 8-way movement implementation
 	
-	# FREEZE LOGIC
-	if not has_control:
-		if "game_state" in get_parent() and get_parent().game_state == "CHECKING":
+	if swipe_cooldown > 0:
+		swipe_cooldown -= delta
+	
+	
+	# MOVEMENT AND FREEZE LOGIC
+	if not has_control or is_tricking or is_swiping or dribble_picked_up:
+		if not has_control and "game_state" in get_parent() and get_parent().game_state == "CHECKING":
 			process_check_up(delta)
-		else:
-			velocity = Vector2.ZERO
 			
-		move_and_slide()
-		return
-	
-	# TRICK LOCKOUT
-	if is_tricking:
-		# Let the dash friction out smoothly ignoring player input
-		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
-		move_and_slide()
-		return
-	
-
-	# Get movement input (Left/Right) and apply acceleration
-	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	if direction:
-		# Speed up smoothly toward top speed
-		velocity = velocity.move_toward(direction * SPEED, ACCELERATION * delta)
+		else:
+			# Let the dash friction out smoothly ignoring player input
+			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+			
 	else:
-		# Skid to a stop instead of a hard stop
-		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+		var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+		if direction:
+			velocity = velocity.move_toward(direction * SPEED, ACCELERATION * delta)
+		else:
+			# Skid to a stop instead of a hard stop
+			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+
+
 		
-	# Passing Logic
-	if Input.is_action_just_pressed("pass") and held_ball:
+	#-- Passing Logic --
+	if Input.is_action_just_pressed("pass") and held_ball and not is_shooting:
 		# Default to throwing 'up" if player is totally still, otherwise throw in movement direction
+		var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		var aim_dir = direction
 		if aim_dir == Vector2.ZERO and velocity != Vector2.ZERO:
 			aim_dir = velocity.normalized()
@@ -64,37 +80,58 @@ func _physics_process(delta: float) -> void:
 		held_ball = null # Hands will now be empty
 		has_ball = false
 		
-	if Input.is_action_just_pressed("shoot") and held_ball:
-		# Find Hoop in the scene
-		var hoops_in_scene = get_tree().get_nodes_in_group("hoop")
+		dribble_picked_up = false
 		
+	#-- SHOOTING --
+	if Input.is_action_just_pressed("shoot") and held_ball:
+		# THE GATHER (Initial Press)
+		is_shooting = true
+		dribble_picked_up = true
+		shoot_timer = 0.0
+		held_ball.is_dribbling = false
+		
+		# Move ball to the front of the player towards the hoop
+		var hoops_in_scene = get_tree().get_nodes_in_group("hoop")
 		if hoops_in_scene.size() > 0:
 			var target_hoop = hoops_in_scene[0]
-			# Get the target from the Marker2D
-			var rim_position = target_hoop.get_node("ShotTarget").global_position
+			var dir_to_hoop = global_position.direction_to(target_hoop.global_position)
+			held_ball.position = dir_to_hoop * 25
+	
+	if is_shooting:
+		if Input.is_action_pressed("shoot"):
+			# THE HOLD
+			shoot_timer += delta
 			
-			
-			# Tell the court/ref we are shooting
-			get_parent().record_shot(self)
-			
-			held_ball.point_value = get_parent().pending_points
-			
-			# -- Distance check --
-			var dist_to_hoop = global_position.distance_to(rim_position)
-			if dist_to_hoop < 120.0:
-				print("Player puts up a LAYUP!")
-				held_ball.layup_ball(rim_position)
+			# If held past the 0.15s "gather window", start the jump!
+			if shoot_timer > 0.15 and (jump_tween == null or not jump_tween.is_valid()):
+				start_jump_tween()
+				
+		if Input.is_action_just_released("shoot"):
+			# THE RELEASE
+			if shoot_timer <= 0.15:
+				# IT WAS A TAP! A TAP! pump fake bb
+				is_shooting = false
+				print("PUMP FAKE! Dribble is dead!")
+				await get_tree().create_timer(0.1).timeout
+				# Bring ball back to the hip
+				var hip_x = 25 if held_ball.current_hand == "RIGHT" else -25
+				held_ball.position = Vector2(hip_x, 0)
+				
 			else:
-				print("Player shoots a JUMPER!")
-				held_ball.shoot_ball(rim_position)
-			#---------------------
-			held_ball = null
-			has_ball = false
+				# Released DURING the jump! SHOOT IT!
+				execute_shot()
+		
+	if has_node("Sprite2D"):
+		$Sprite2D.position.y = -jump_z
+	if held_ball != null and is_shooting:
+		held_ball.position.y = -jump_z
 	
 	
 	if Input.is_action_just_pressed("dribble_move") and held_ball:
 		execute_crossover()
 	
+	if Input.is_action_just_pressed("steal") and not has_ball and swipe_cooldown <= 0:
+		attempt_swipe()
 	
 	move_and_slide()
 	
@@ -125,7 +162,7 @@ func _physics_process(delta: float) -> void:
 					
 	if has_ball and held_ball != null:
 		# Only bounce if the game is live and player has control
-		if get_parent().game_state == "PLAYING" and has_control:
+		if get_parent().game_state == "PLAYING" and has_control and not dribble_picked_up:
 			held_ball.is_dribbling = true
 		else:
 			held_ball.is_dribbling = false
@@ -213,15 +250,24 @@ func process_check_up(delta: float):
 func force_turnover():
 	if held_ball:
 		held_ball.is_dribbling = false
-		# Create a random direction for the ball to pop out
 		var random_dir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-		
-		# Use throw function with zero player momentum so it pops out
 		held_ball.throw(random_dir, Vector2.ZERO)
 		
 		
 		held_ball = null
 		has_ball = false
+		
+		
+	dribble_picked_up = false
+	is_shooting = false
+	is_tricking = false
+	is_swiping = false
+	jump_z = 0.0
+	
+	if jump_tween and jump_tween.is_valid():
+		jump_tween.kill()
+	if has_node("Sprite2D"):
+		$Sprite2D.position.y = 0
 
 func execute_crossover():
 	is_tricking = true
@@ -247,3 +293,96 @@ func execute_crossover():
 	is_tricking = false
 	
 	#========= Eventually add style/mach meter stuff here...============
+
+func attempt_swipe():
+	is_swiping = true
+	swipe_cooldown = 1.5
+	
+	var bot = get_parent().get_node("Defender")
+	
+	# Am I close enough and does the bot have the ball?
+	if bot.has_ball and global_position.distance_to(bot.global_position) < swipe_range:
+		
+		# Dice roll o'clock
+		var base_chance = 30
+		var stat_diff = steal_rating - bot.ball_handle
+		
+		# Clamp the math min: 5, max: 95
+		var success_chance = clamp(base_chance + stat_diff, 5, 95)
+		var roll = randi() % 100
+		
+		print("Player Reaches! Need < ", success_chance, ". Rolled: ", roll)
+		
+		# The Result
+		if roll < success_chance:
+			print("RIPPED IT! Ball knocked loose!")
+			bot.force_turnover()
+		else:
+			print("PLAYER WHIFFED THE STEAL!")
+			
+	else:
+		print("PLAYER REACHED AT THE AIR! MOVE CLOSER!")
+		
+	# Whiff penalty freeze
+	await get_tree().create_timer(0.4).timeout
+	is_swiping = false
+
+func start_jump_tween():
+	jump_tween = create_tween()
+	var peak_time = jump_duration / 2.0
+	
+	# GOING UP
+	jump_tween.tween_property(self, "jump_z", 25.0, peak_time).set_trans(
+									Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	# GOING DOWN
+	jump_tween.tween_property(self, "jump_z", 0.0, peak_time).set_trans(
+									Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+	# If the Tween finishes and they nver let go, force a late shot
+	jump_tween.finished.connect(func():
+			if is_shooting:
+				print("HELD TOO LONG! VERY LATE RELEASE!")
+				execute_shot()
+	)
+	
+func execute_shot():
+	is_shooting = false
+	
+	# Stop them from floating if they release early
+	if jump_tween and jump_tween.is_valid():
+		jump_tween.kill()
+		
+	# Snap visuals back to ground
+	if has_node("Sprite2D"): $Sprite2D.position.y = 0
+	jump_z = 0.0
+	
+	#-- TIMING MATH --
+	var gather_time = 0.15
+	var time_to_peak = gather_time + (jump_duration / 2.0)	# 0.15 + 0.3 = 0.45s target
+	
+	var time_difference = abs(shoot_timer - time_to_peak)
+	
+	if time_difference < 0.1: # 100 millisecond window for a perfect release
+		print("IRISH SPRING GREEN! Perfect Release! Double Shot %")
+		# Add actual attribute implementation later here
+	else:
+		print("Normal Release. Off by: ", time_difference, " seconds.")
+		
+	# OLD SHOT LOGIC
+	var hoops_in_scene = get_tree().get_nodes_in_group("hoop")
+	if hoops_in_scene.size() > 0:
+		var target_hoop = hoops_in_scene[0]
+		var rim_position = target_hoop.get_node("ShotTarget").global_position
+		
+		get_parent().record_shot(self)
+		held_ball.point_value = get_parent().pending_points
+		
+		var dist_to_hoop = global_position.distance_to(rim_position)
+		if dist_to_hoop < 180.0:
+			held_ball.layup_ball(rim_position)
+		else:
+			held_ball.shoot_ball(rim_position)
+			
+	held_ball = null
+	has_ball = false
+	dribble_picked_up = false
