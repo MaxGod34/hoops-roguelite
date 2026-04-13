@@ -17,10 +17,14 @@ var has_ball: bool = false
 
 @export var steal_rating: int = 75
 
+
 # Steal Mechanic
 var is_swiping: bool = false
 var swipe_cooldown: float = 0.0
 var swipe_range: float = 65.0
+
+@export var block_rating: int = 60
+var is_contesting: bool = false
 
 #=== Shooting & Dribble Mechanics ===
 var dribble_picked_up: bool = false
@@ -46,9 +50,12 @@ func _physics_process(delta: float) -> void:
 	if swipe_cooldown > 0:
 		swipe_cooldown -= delta
 	
+	if Input.is_action_just_pressed("shoot") and not has_ball and not is_contesting:
+		attempt_block()
+	
 	
 	# MOVEMENT AND FREEZE LOGIC
-	if not has_control or is_tricking or is_swiping or dribble_picked_up:
+	if not has_control or is_tricking or is_swiping or dribble_picked_up or is_contesting:
 		if not has_control and "game_state" in get_parent() and get_parent().game_state == "CHECKING":
 			process_check_up(delta)
 			
@@ -56,7 +63,16 @@ func _physics_process(delta: float) -> void:
 			# Let the dash friction out smoothly ignoring player input
 			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 			
+		
+		if has_node("Sprite2D"):
+			$Sprite2D.position.y = -jump_z
+		if is_contesting:
+			check_for_block()
+			
+
+			
 	else:
+		# NORMAL MOVEMENT
 		var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		if direction:
 			velocity = velocity.move_toward(direction * SPEED, ACCELERATION * delta)
@@ -67,7 +83,7 @@ func _physics_process(delta: float) -> void:
 
 		
 	#-- Passing Logic --
-	if Input.is_action_just_pressed("pass") and held_ball and not is_shooting:
+	if Input.is_action_just_pressed("pass") and held_ball and not is_shooting and has_control and not is_tricking:
 		# Default to throwing 'up" if player is totally still, otherwise throw in movement direction
 		var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		var aim_dir = direction
@@ -83,7 +99,7 @@ func _physics_process(delta: float) -> void:
 		dribble_picked_up = false
 		
 	#-- SHOOTING --
-	if Input.is_action_just_pressed("shoot") and held_ball:
+	if Input.is_action_just_pressed("shoot") and held_ball and has_control and not is_tricking:
 		# THE GATHER (Initial Press)
 		is_shooting = true
 		dribble_picked_up = true
@@ -129,38 +145,17 @@ func _physics_process(delta: float) -> void:
 		held_ball.position.y = -jump_z
 	
 	
-	if Input.is_action_just_pressed("dribble_move") and held_ball:
+	if Input.is_action_just_pressed("dribble_move") and held_ball and has_control and not is_shooting and not is_tricking:
 		execute_crossover()
 	
-	if Input.is_action_just_pressed("steal") and not has_ball and swipe_cooldown <= 0:
+	if Input.is_action_just_pressed("steal") and not has_ball and swipe_cooldown <= 0 and has_control and not is_contesting:
 		attempt_swipe()
 	
 	move_and_slide()
 	
-	#--Ball Collision Logic--
-	for i in get_slide_collision_count():
-		var collision = get_slide_collision(i)
-		var collider = collision.get_collider()
-		
-		# If we bump into the ball
-		if collider is CharacterBody2D and collider.has_method("pickup"):
-			if collider.z_height > 3.0: return
-			
-			# Check if ball has the pickup function, make sure player isn't holding it already
-			elif not collider.is_held:
-				# State Snapshot
-				var previous_state = collider.state
-				# Grab Ball
-				collider.pickup(self)
-				held_ball = collider # Remember which ball we just grabbed
-				has_ball = true
+	_vacuum_check()
+	
 				
-				get_parent().register_possession_change(self, previous_state)
-				
-				# Use previous state cuz of OoOperations
-				# Tell ref if we got a rebound or a steal
-				if previous_state == "LOOSE" or previous_state == "REBOUNDING":
-					get_parent().handle_rebound(self)
 					
 	if has_ball and held_ball != null:
 		# Only bounce if the game is live and player has control
@@ -185,7 +180,7 @@ func process_check_up(delta: float):
 		target_pos = court.get_node("OffenseSpawn").global_position
 		distance_to_target = global_position.distance_to(target_pos)
 		
-		if distance_to_target > 15.0:
+		if distance_to_target > 32.0:
 			var dir = global_position.direction_to(target_pos)
 			velocity = dir * (SPEED * 0.75)
 		else:
@@ -388,3 +383,78 @@ func execute_shot():
 	held_ball = null
 	has_ball = false
 	dribble_picked_up = false
+
+func attempt_block():
+	is_contesting = true
+	print("Player goes up for the block!")
+	
+	jump_tween = create_tween()
+	var peak_time = jump_duration / 2.0
+	var max_jump = 15 + (block_rating * 0.15)
+	
+	# Going Up
+	jump_tween.tween_property(self, "jump_z", max_jump, peak_time).set_trans(
+															Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	# Going Down
+	jump_tween.tween_property(self, "jump_z", 0.0, peak_time).set_trans(
+															Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+	await jump_tween.finished
+	is_contesting = false
+	
+func check_for_block():
+	# Scan for the ball in the scene
+	var ball_nodes = get_tree().get_nodes_in_group("ball")
+	if ball_nodes.size() > 0:
+		var active_ball = ball_nodes[0]
+		
+		# Only block it if it's officially in the air
+		if active_ball.state == "SHOOTING":
+			
+			# Are we horizontally close
+			if global_position.distance_to(active_ball.global_position) < 35.0:
+				
+				# 3D Interact: Are our Z-height matching?
+				if abs(active_ball.z_height - jump_z) < 12.0:
+					execute_block(active_ball)
+
+func execute_block(active_ball):
+	print("PLAYER SAYS UNH UH, NOT TODAY! BLOCKED!")
+	
+	# Stop checking for multiple blocks
+	is_contesting = false
+	
+	# Send it flying back the other way
+	var hoops = get_tree().get_nodes_in_group("hoop")
+	if hoops.size() > 0:
+		var target_hoop = hoops[0]
+		var deflect_dir = (active_ball.global_position - target_hoop.global_position).normalized()
+		active_ball.reject_shot(deflect_dir)
+														
+
+
+
+func _vacuum_check():
+	if not has_node("PickupZone"): return
+	
+	# Actively scan the zone every frame
+	var bodies = $PickupZone.get_overlapping_bodies()
+	for body in bodies:
+		if body.is_in_group("ball") and body.has_method("pickup"):
+			if body.z_height > 3.0: continue
+			
+			if not body.is_held and body.can_be_picked_up:
+				# State Snapshot
+				var previous_state = body.state
+				
+				# Grab Ball
+				body.pickup(self)
+				held_ball = body # Remember which ball we just grabbed
+				has_ball = true
+				
+				get_parent().register_possession_change(self, previous_state)
+				
+				# Use previous state cuz of OoOperations
+				# Tell ref if we got a rebound or a steal
+				if previous_state == "LOOSE" or previous_state == "REBOUNDING":
+					get_parent().handle_rebound(self)

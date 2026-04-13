@@ -1,9 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://p40hdpg4fmes"]
+[gd_scene load_steps=5 format=3 uid="uid://p40hdpg4fmes"]
 
 [ext_resource type="Script" uid="uid://dsqxy103skbjx" path="res://scripts/player.gd" id="1_v6fml"]
 [ext_resource type="Texture2D" uid="uid://5eenx87um3f4" path="res://assets/basic_square_with_border.png" id="2_3li8b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mdl7e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v6fml"]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
@@ -14,7 +16,15 @@ modulate = Color(0, 0.458824, 1, 1)
 texture = ExtResource("2_3li8b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(2, 2)
+scale = Vector2(1.8, 1.8)
 shape = SubResource("RectangleShape2D_mdl7e")
 
 [node name="BallSpawn" type="Marker2D" parent="."]
+
+[node name="PickupZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupZone"]
+scale = Vector2(4, 4)
+shape = SubResource("RectangleShape2D_v6fml")
+
+[connection signal="body_entered" from="PickupZone" to="." method="_on_pickup_zone_body_entered"]

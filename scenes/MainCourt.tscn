@@ -11,13 +11,13 @@
 [ext_resource type="PackedScene" uid="uid://b03r31tpamy5b" path="res://scenes/victory_screen.tscn" id="10_oyip4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jgdc"]
-size = Vector2(103, 657)
+size = Vector2(232.5, 657)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5n6sh"]
 size = Vector2(1169, 126.188)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h0gog"]
-size = Vector2(430, 128)
+size = Vector2(430, 131)
 
 [node name="MainCourt" type="Node2D"]
 y_sort_enabled = true
@@ -30,11 +30,11 @@ texture = ExtResource("1_h0gog")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D-LeftWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-12, 323.5)
+position = Vector2(-76.75, 323.5)
 shape = SubResource("RectangleShape2D_5jgdc")
 
 [node name="CollisionShape2D-RightWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(1179.5, 317)
+position = Vector2(1244.5, 317)
 shape = SubResource("RectangleShape2D_5jgdc")
 
 [node name="CollisionShape2D-TopWall" type="CollisionShape2D" parent="StaticBody2D"]
@@ -46,7 +46,7 @@ position = Vector2(579, 684.313)
 shape = SubResource("RectangleShape2D_5n6sh")
 
 [node name="CollisionShape2D-LeftBackBaselineWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(216, 66)
+position = Vector2(216, 67.5)
 shape = SubResource("RectangleShape2D_h0gog")
 
 [node name="CollisionShape2D-RightBackBaselineWall" type="CollisionShape2D" parent="StaticBody2D"]
@@ -61,15 +61,14 @@ z_index = 1
 position = Vector2(576, 64)
 
 [node name="Player" parent="." instance=ExtResource("2_5jgdc")]
-z_index = 1
+z_index = 2
 position = Vector2(917, 283)
 
 [node name="Ball" parent="." instance=ExtResource("3_5n6sh")]
-z_index = 1
 position = Vector2(576, 195)
 
 [node name="Defender" parent="." instance=ExtResource("5_i0pnj")]
-z_index = 1
+z_index = 2
 position = Vector2(911, 168)
 
 [node name="ClearZone" type="Area2D" parent="."]

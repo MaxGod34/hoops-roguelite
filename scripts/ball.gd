@@ -68,11 +68,25 @@ func _physics_process(delta: float) -> void:
 			# Get data of of wall just hit
 			var collision_last = get_last_slide_collision()
 			if collision_last:
+				var collider = collision_last.get_collider()
+				
+				if collider and collider.has_method("pickup"):
+					pass
 				# Reflect velocity off wall's angle
 				# Use 0.8 to reduce speed off wall slightly
 				velocity = pre_collision_velocity.bounce(collision_last.get_normal()) * 0.8
-	
-	
+		
+		var court_left_edge = 42
+		var court_right_edge = 1127
+		var court_top_edge = 134
+		var court_bottom_edge = 618
+
+		if global_position.x < court_left_edge or global_position.x > court_right_edge or global_position.y < court_top_edge or global_position.y > court_bottom_edge:
+			# If it escapes, snap it back inside and reverse its velocity so it bounces!
+			global_position.x = clamp(global_position.x, court_left_edge + 10, court_right_edge - 10)
+			global_position.y = clamp(global_position.y, court_top_edge + 10, court_bottom_edge - 10)
+			velocity = -velocity * 0.5 # Bounce back inward with half speed
+
 	elif state == "HELD" and player != null:
 		if is_dribbling:
 			time_passed += delta
@@ -120,7 +134,7 @@ func throw(aim_direction: Vector2, player_velocity: Vector2, speed_modifier: flo
 	
 	# Anti-Self-Pass Fix
 	can_be_picked_up = false
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.05).timeout
 	can_be_picked_up = true
 	
 
@@ -307,16 +321,43 @@ func _on_bounce_landed():
 		velocity = Vector2(cos(random_angle), sin(random_angle)) * 2
 
 func swish(net_center: Vector2):
-	stop_tweens()
+	
+	if active_move_tween and active_move_tween.is_valid():
+		active_move_tween.kill()
+	if active_z_tween and active_z_tween.is_valid():
+		active_z_tween.kill()
 	
 	state = "REBOUNDING"
 	
 	# Magnet pull the ball and snap to the center of the net
 	global_position = net_center
 	
+	var hoop = court_node.get_node("Hoop")
+	var drop_distance = 60.0
+	if hoop and hoop.rim_height > 60.0:
+		drop_distance = hoop.rim_height
+	
+	var floor_pos = net_center + Vector2(0, drop_distance) 
+	
+	
+	active_move_tween = create_tween()
 	active_z_tween = create_tween()
-	active_z_tween.tween_property(ball_sprite, "scale", Vector2(1.0, 1.0), 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	active_z_tween.parallel().tween_property(self, "z_height", 0.0, 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+	var net_bottom_pos = net_center + Vector2(0, 15.0)
+	var catch_time = 0.15
+	active_move_tween.tween_property(self, "global_position", net_bottom_pos, catch_time).set_trans(
+																						Tween.TRANS_LINEAR)
+	
+	var drop_time = 0.25
+	active_move_tween.tween_property(self, "global_position", floor_pos, drop_time).set_trans(
+																	Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+	
+	var total_time = catch_time + drop_time
+	active_z_tween.tween_property(ball_sprite, "scale", Vector2(1.0, 1.0), total_time).set_trans(
+																						Tween.TRANS_LINEAR)
+	active_z_tween.parallel().tween_property(self, "z_height", 0.0, total_time).set_trans(
+																						Tween.TRANS_LINEAR)
 	
 	# Turn layers back on
 	active_z_tween.finished.connect(_on_bounce_landed)
