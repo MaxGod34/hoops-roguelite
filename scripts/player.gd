@@ -106,13 +106,15 @@ func _physics_process(delta: float) -> void:
 			if shoot_timer > 0.15 and (jump_tween == null or not jump_tween.is_valid()):
 				start_jump_tween()
 				
-		if Input.is_action_just_released("shoot"):
+		if Input.is_action_just_released("shoot") and held_ball:
 			# THE RELEASE
 			if shoot_timer <= 0.15:
 				# IT WAS A TAP! A TAP! pump fake bb
 				is_shooting = false
 				print("PUMP FAKE! Dribble is dead!")
 				await get_tree().create_timer(0.1).timeout
+				if held_ball == null:
+					return
 				# Bring ball back to the hip
 				var hip_x = 25 if held_ball.current_hand == "RIGHT" else -25
 				held_ball.position = Vector2(hip_x, 0)

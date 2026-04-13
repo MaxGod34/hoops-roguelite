@@ -349,6 +349,33 @@ func perform_crossover(duration: float):
 	await get_tree().create_timer(duration).timeout
 	bounce_speed = old_speed		# Restore
 
+func reject_shot(deflect_dir: Vector2):
+	# Kill flight path immidiately
+	stop_tweens()
+	
+	# Reset state so anyone can scramble for it
+	state = "LOOSE"
+	can_be_picked_up = true
+	
+	# Re-enable floor collisions so it bounces and players can bump/interact w it
+	$CollisionShape2D.set_deferred("disabled", false)
+	set_collision_mask_value(1, true)
+	set_collision_layer_value(1, true)
+	
+	# Horizontal Spike
+	# Give the ball a massive velocity burst in the direction of the block
+	velocity = deflect_dir * 800.0
+	
+	# Vertical Spike
+	# Slam the ball back to the floor visually in just 0.15 seconds
+	var spike_tween = create_tween()
+	spike_tween.tween_property(self, "z_height", 0.0, 0.15).set_trans(
+															Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	spike_tween.parallel().tween_property(ball_sprite, "scale", Vector2(1.0, 1.0), 0.15).set_trans(
+															Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+
+
+
 func stop_tweens():
 	if active_move_tween and active_move_tween.is_valid():
 		active_move_tween.kill()

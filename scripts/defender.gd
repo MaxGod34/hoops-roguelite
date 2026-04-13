@@ -27,6 +27,10 @@ var offense_timer: float = 0.0
 var size_up_time: float = 1.5
 var drive_speed_multiplier: float = 1.2
 
+@export var block_rating: int = 60
+var contest_range: float = 75.0
+var is_contesting: bool = false
+
 # SHOOTING MECHANICS
 var jump_z: float = 0.0
 var jump_tween: Tween
@@ -110,7 +114,7 @@ func _physics_process(delta: float):
 # -- LOGIC --
 
 func evaluate_state():
-	if state == "IDLE":
+	if state in ["SWIPING", "CONTESTING", "BOT_SHOOTING", "CHECK_UP_CUTSCENE"]:
 		return
 	# -- Top Level Split
 	if ball.state == "HELD" and ball.player == self:
@@ -123,7 +127,6 @@ func evaluate_state():
 			state = "CLEARING_BALL"
 		# If cleared, PROCEED TO BALL OUT
 		elif state not in ["OFFENSE_IDLE", "DRIVING", "BOT_SHOOTING"]:
-			
 			state = "OFFENSE_IDLE"
 			offense_timer = size_up_time
 	else:
@@ -132,10 +135,13 @@ func evaluate_state():
 		# ===============================================
 		if ball.state == "LOOSE" or ball.state == "REBOUNDING":
 			state = "CHASING"
+		elif player.is_shooting and not is_contesting and global_position.distance_to(
+															player.global_position) < contest_range:
+			attempt_contest()
+			
 		elif ball.state == "HELD" and ball.player == player:
 			state = "GUARDING"
-		elif ball.state == "SHOOTING":
-			state = "CONTESTING"
+		
 		else:
 			# Default Fallback
 			state = "IDLE"
@@ -323,9 +329,32 @@ func attempt_swipe():
 
 
 func contest_shot(delta:float):
-	# For now, just stop and watch the ball go towards the hoop
-	# Later add z_height on a jump so defender can block the shot
+	# Freeze horizontal movement while in the air
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+	
+	# Only check for a physical block if the ball has actually left the player's hands
+	if ball.state == "SHOOTING":
+		
+		# Are we horizontally close to the ball?
+		if global_position.distance_to(ball.global_position) < 35.0:
+			# Are we vertically intersecting? (3D Check)
+			# If ball's height and bot's height are wihtin 12 pixels, it's a block
+			if abs(ball.z_height - jump_z) < 12.0:
+				execute_block()
+
+func execute_block():
+	print("GET THAT WEAK SHIT OUTTA HERE!")
+	
+	# Stop checking for multiple blocks on the same frame
+	state = "IDLE"
+	
+	# Calc a rough vector to spike the ball away from the hoop
+	var deflect_dir = (ball.global_position - hoop.global_position).normalized()
+	
+	# Tell the ball it just got rejected
+	ball.reject_shot(deflect_dir)
+
+
 
 func clear_ball(_delta: float):
 	# Safety Net: Stop backing up if you already have the ball in the clear zone
@@ -438,6 +467,41 @@ func force_turnover():
 	
 	# Evaluate state will automatically switch them to "CHASING" since ball will be loose
 
+
+func attempt_contest():
+	is_contesting = true
+	state = "CONTESTING"
+	
+	# Add a tiny reaction delay so the bot isn't reading inputs instantly
+	await get_tree().create_timer(0.1).timeout
+	
+	# If player passed the ball during reaction time, cancel the jump
+	if not player.is_shooting and ball.state != "SHOOTING":
+		is_contesting = false
+		state = "IDLE"
+		return 	# Fallback to exit
+		
+	print ("BOT BITES! Jumping to contest!")
+	
+	jump_tween = create_tween()
+	var peak_time = jump_duration / 2.0
+	
+	# Calculate block height based on the attribute
+	var max_jump = 15.0 + (block_rating * 0.15)
+	
+	# Go Up
+	jump_tween.tween_property(self, "jump_z", max_jump, peak_time).set_trans(
+															Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	# Go Down
+	jump_tween.tween_property(self, "jump_z", 0.0, peak_time).set_trans(
+															Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+	await jump_tween.finished
+	
+	is_contesting = false
+	if state == "CONTESTING":
+		state = "IDLE" # Let evaluate state figure out next move/state
+	
 
 func _on_pickup_zone_body_entered(body: Node2D) -> void:
 	# Is it the ball and is it allowed to be grabbed?
