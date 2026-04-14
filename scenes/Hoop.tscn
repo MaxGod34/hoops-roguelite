@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://u2gal06p4nlq"]
+[gd_scene load_steps=6 format=3 uid="uid://u2gal06p4nlq"]
 
 [ext_resource type="Texture2D" uid="uid://ib7vb0g4m60q" path="res://assets/hoop proto.png" id="1_3u8ya"]
 [ext_resource type="Script" uid="uid://di7c8nn02paej" path="res://scripts/hoop.gd" id="1_g3qab"]
@@ -7,6 +7,8 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g3qab"]
 radius = 15.1327
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g3qab"]
 
 [node name="Hoop_Root" type="Node2D"]
 script = ExtResource("1_g3qab")
@@ -44,3 +46,17 @@ collision_mask = 512
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zone_Net"]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_g3qab")
+
+[node name="PlayerBlocker" type="StaticBody2D" parent="."]
+position = Vector2(0, 14)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBlocker"]
+position = Vector2(0, -6)
+scale = Vector2(7, 6)
+shape = SubResource("RectangleShape2D_g3qab")
+
+[node name="DunkSpot" type="Marker2D" parent="."]
+position = Vector2(2, 110)
+gizmo_extents = 32.0

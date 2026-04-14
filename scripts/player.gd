@@ -56,7 +56,7 @@ func _physics_process(delta: float) -> void:
 	
 	# MOVEMENT AND FREEZE LOGIC
 	if not has_control or is_tricking or is_swiping or dribble_picked_up or is_contesting:
-		if not has_control and "game_state" in get_parent() and get_parent().game_state == "CHECKING":
+		if not has_control and "game_state" in get_parent() and get_parent().game_state == "CHECKING" and not is_shooting:
 			process_check_up(delta)
 			
 		else:
@@ -100,20 +100,35 @@ func _physics_process(delta: float) -> void:
 		
 	#-- SHOOTING --
 	if Input.is_action_just_pressed("shoot") and held_ball and has_control and not is_tricking:
-		# THE GATHER (Initial Press)
-		is_shooting = true
-		dribble_picked_up = true
-		shoot_timer = 0.0
-		held_ball.is_dribbling = false
-		
-		# Move ball to the front of the player towards the hoop
+		# Get Court Data
 		var hoops_in_scene = get_tree().get_nodes_in_group("hoop")
 		if hoops_in_scene.size() > 0:
 			var target_hoop = hoops_in_scene[0]
-			var dir_to_hoop = global_position.direction_to(target_hoop.global_position)
-			held_ball.position = dir_to_hoop * 25
+			var rim_position = target_hoop.get_node("ShotTarget").global_position
+			var dist_to_hoop = global_position.distance_to(rim_position)
+			
+			# Is the player moving (If velocity is greater than deadzone check)
+			var is_driving = velocity.length() > 50.0
+			
+			var intent_to_dunk = Input.is_action_pressed("style_modifier")
+			
+			# Context Decision
+			if dist_to_hoop < 180.0 and is_driving:
+				# Untimed smooth finish (layup/dunk)
+				execute_driving_finish(rim_position, intent_to_dunk)
+			
+			else:
+				# Standard Gather (Jump Shot or standing close shot/pump fake)
+				is_shooting = true
+				dribble_picked_up = true
+				shoot_timer = 0.0
+				held_ball.is_dribbling = false
+		
+				# Move ball to the front of the player towards the hoop
+				var dir_to_hoop = global_position.direction_to(target_hoop.global_position)
+				held_ball.position = dir_to_hoop * 25
 	
-	if is_shooting:
+	if is_shooting and has_control:
 		if Input.is_action_pressed("shoot"):
 			# THE HOLD
 			shoot_timer += delta
@@ -364,8 +379,15 @@ func execute_shot():
 		# Add actual attribute implementation later here
 	else:
 		print("Normal Release. Off by: ", time_difference, " seconds.")
-		
-	# OLD SHOT LOGIC
+	
+	
+	# SAFETY NET FOR STEALS & STUFF
+	if held_ball == null:
+		print("Ball was stolen mid_air! Aborting shot!")
+		dribble_picked_up = false
+		return
+	
+	
 	var hoops_in_scene = get_tree().get_nodes_in_group("hoop")
 	if hoops_in_scene.size() > 0:
 		var target_hoop = hoops_in_scene[0]
@@ -433,6 +455,90 @@ func execute_block(active_ball):
 														
 
 
+func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
+	print("Player triggers a driving finish!")
+	
+	has_control = false
+	is_shooting = true	# Let's bot know we are mid-shot
+	held_ball.is_dribbling = false
+	
+	# Move ball to the dominant/driving hand high up
+	var hip_x = 25 if held_ball.current_hand == "RIGHT" else -25
+	held_ball.position = Vector2(hip_x, -15)	# 15 pixels "up"
+	
+	var takeoff_time = 1.0
+	var dir_to_rim = global_position.direction_to(rim_position)
+	var target_spot = Vector2.ZERO
+	var max_jump = 0.0
+	var peak_scale = Vector2(1.0, 1.0)
+	#===============================================
+	# BRANCHING LOGIC
+	#===============================================
+	if is_dunk:
+		print("Player goes up for the POSTER DUNK!")
+		max_jump = 45.0 # Tie to attribute later
+		peak_scale = Vector2(1.3, 1.3)
+		var hoops = get_tree().get_nodes_in_group("hoop")
+		if hoops.size() > 0 and hoops[0].has_node("DunkSpot"):
+			target_spot = hoops[0].get_node("DunkSpot").global_position
+		else:
+			target_spot = rim_position - (dir_to_rim * 15.0) # Fallback
+	
+	else:
+		print("Player goes up for the smooth LAYUP!")
+		max_jump = 15.0 # Lower, controlled jump
+		peak_scale = Vector2(1.2, 1.2)
+		# Stop short! 60 pxls away from the rim
+		target_spot = rim_position - (dir_to_rim * 60.0)
+	#=================================================
+	
+	# 1. Glide to chosen spot
+	var drive_tween = create_tween()
+	drive_tween.tween_property(self, "global_position", 
+											target_spot, takeoff_time / 2.0).set_trans(Tween.TRANS_SINE)
+	
+	
+	
+	# 2. Visual Jump
+	jump_tween = create_tween()
+	jump_tween.tween_property(self, "jump_z", max_jump, takeoff_time / 2.0).set_trans(
+											Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	if has_node("Sprite2D"):
+		jump_tween.parallel().tween_property($Sprite2D, "scale", peak_scale, takeoff_time / 2.0).set_trans(
+											Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	
+	# Wait for apex
+	await get_tree().create_timer(takeoff_time / 2.0).timeout
+	
+	# APEX ACTIONS
+	if held_ball != null:
+		get_parent().record_shot(self)
+		held_ball.point_value = get_parent().pending_points
+		held_ball.layup_ball(rim_position)
+		held_ball = null
+		has_ball = false
+		dribble_picked_up = false
+		
+	# RIM HANG
+	if is_dunk:
+		await get_tree().create_timer(0.3).timeout
+	
+	# 3. Come back down
+	jump_tween = create_tween()
+	jump_tween.tween_property(self, "jump_z", 0.0, takeoff_time / 2.0).set_trans(
+											Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	if has_node("Sprite2D"):
+		jump_tween.parallel().tween_property($Sprite2D, "scale", Vector2(
+				1.0, 1.0), takeoff_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+	await jump_tween.finished
+	
+	# 4. Regain control (SAFETY NET)
+	if get_parent().game_state == "PLAYING": has_control = true
+	
+	is_shooting = false
+	if has_node("Sprite2D") : $Sprite2D.position.y = 0
+	jump_z = 0.0
 
 func _vacuum_check():
 	if not has_node("PickupZone"): return
@@ -443,7 +549,7 @@ func _vacuum_check():
 		if body.is_in_group("ball") and body.has_method("pickup"):
 			if body.z_height > 3.0: continue
 			
-			if not body.is_held and body.can_be_picked_up:
+			if not body.is_held and body.can_be_picked_up and not is_shooting:
 				# State Snapshot
 				var previous_state = body.state
 				

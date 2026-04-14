@@ -8,6 +8,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v6fml"]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_v6fml")
 
