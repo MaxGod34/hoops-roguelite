@@ -38,6 +38,10 @@ var jump_z: float = 0.0
 var jump_tween: Tween
 var jump_duration: float = 0.6
 
+
+@export var strength: int = 100
+
+
 # Check Up Vars
 var check_role: String = "" # FETCH, RECEIVE
 
@@ -67,6 +71,8 @@ func _physics_process(delta: float):
 	
 	# Act on it...you stupid bot
 	match state:
+		"BUMPED":
+			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		
 		"CHECK_UP_CUTSCENE":
 			process_check_up(delta)
@@ -97,6 +103,9 @@ func _physics_process(delta: float):
 	
 	# MOVE YOUR ASS...stupid bot
 	move_and_slide()
+	
+	# Scan for player while driving
+	check_physical_contact()
 	
 	#==================DRIBBLE CONTROLLER====================
 	if has_ball and held_ball != null:
@@ -312,7 +321,7 @@ func attempt_swipe():
 	state = "SWIPING"
 	
 	# Dice roll o'clock
-	var base_chance = 30
+	var base_chance = 10
 	var stat_diff = steal_rating - player.ball_handle
 	
 	# If player is doing a crossover in front of my face, punish them
@@ -490,7 +499,7 @@ func attempt_contest():
 	await get_tree().create_timer(0.1).timeout
 	
 	# If player passed the ball during reaction time, cancel the jump
-	if not player.is_shooting and ball.state != "SHOOTING":
+	if not player.has_ball and ball.state != "SHOOTING":
 		is_contesting = false
 		state = "IDLE"
 		return 	# Fallback to exit
@@ -599,8 +608,62 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	
 	if has_node("Sprite2D"): $Sprite2D.position.y = 0
 	jump_z = 0.0
+
+
+func apply_bump(bump_velocity: Vector2, duration: float):
+	var previous_state = state
+	state = "BUMPED"
+	velocity = bump_velocity
 	
+	await get_tree().create_timer(duration).timeout
 	
+	# Only restore if they didn't magically get a steal/rebound during the slide
+	if state == "BUMPED":
+		state = previous_state
+
+func check_physical_contact():
+	# Only calculate bulldozer math if we are driving with the ball
+	if not has_ball: return
+	
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		# Did the player hit an entity that can be bumped?
+		if collider.has_method("apply_bump"):
+			
+			# Don't trigger if someone is already sliding
+			if state == "BUMPED" or ("is_bumped" in collider and collider.is_bumped): continue
+			
+			var str_diff = strength - collider.strength
+			var hit_normal = collision.get_normal()
+			
+			#============================
+			# MOMENTUM SHIFT
+			# Normal points FROM player TO bot
+			#============================
+			if str_diff >= 15:
+				# BULLDOZE: Offense runs them over
+				print("TITAN BULLDOZER! Player gets crushed!")
+				# Push Player away
+				collider.apply_bump(-hit_normal * 400.0, 0.25)
+				# Have player try to make a steal mid bump
+				collider.attempt_swipe()
+				
+			elif str_diff <= -15:
+				# BRICK WALL: Bot bounces off!
+				print("BRICK WALL: Bot bounces off!")
+				# Push player away
+				apply_bump(hit_normal * 500.0, 0.15)
+				
+			else:
+				# NEUTRAL: Both take a tiny step back to avoid sticking
+				apply_bump(hit_normal * 200.0, 0.1)
+				collider.apply_bump(-hit_normal * 200.0, 0.1)
+
+
+	
+
 func _on_pickup_zone_body_entered(body: Node2D) -> void:
 	# Is it the ball and is it allowed to be grabbed?
 	if body.is_in_group("ball") and body.can_be_picked_up and not body.is_held:

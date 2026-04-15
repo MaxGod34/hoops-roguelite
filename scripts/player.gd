@@ -13,7 +13,8 @@ var held_ball = null
 var has_control: bool = true
 var has_ball: bool = false
 
-
+@export var strength: int = 75
+var is_bumped: bool = false
 
 @export var steal_rating: int = 75
 
@@ -55,7 +56,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 	# MOVEMENT AND FREEZE LOGIC
-	if not has_control or is_tricking or is_swiping or dribble_picked_up or is_contesting:
+	if not has_control or is_tricking or is_swiping or dribble_picked_up or is_contesting or is_bumped:
 		if not has_control and "game_state" in get_parent() and get_parent().game_state == "CHECKING" and not is_shooting:
 			process_check_up(delta)
 			
@@ -167,6 +168,8 @@ func _physics_process(delta: float) -> void:
 		attempt_swipe()
 	
 	move_and_slide()
+	
+	check_physical_contact()
 	
 	_vacuum_check()
 	
@@ -539,6 +542,58 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	is_shooting = false
 	if has_node("Sprite2D") : $Sprite2D.position.y = 0
 	jump_z = 0.0
+
+func apply_bump(bump_velocity: Vector2, duration: float):
+	is_bumped = true
+	velocity = bump_velocity
+	
+	if is_tricking: is_tricking = false
+	
+	await get_tree().create_timer(duration).timeout
+	is_bumped = false
+
+func check_physical_contact():
+	# Only calculate bulldozer math if we are driving with the ball
+	if not has_ball: return
+	
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		# Did the player hit an entity that can be bumped?
+		if collider.has_method("apply_bump"):
+			
+			# Don't trigger if someone is already sliding
+			if is_bumped or collider.state == "BUMPED": continue
+			
+			var str_diff = strength - collider.strength
+			var hit_normal = collision.get_normal()
+			
+			#============================
+			# MOMENTUM SHIFT
+			# Normal points FROM defender to us
+			#============================
+			if str_diff >= 15:
+				# BULLDOZE: Offense runs them over
+				print("BULLDOZER! Defender gets crushed!")
+				# Push Defender away
+				collider.apply_bump(-hit_normal * 400.0, 0.25)
+				# Have defender try to make a steal mid bump
+				collider.attempt_swipe()
+				
+			elif str_diff <= -15:
+				# BRICK WALL: Offense bounces off!
+				print("BRICK WALL: Offense bounces off!")
+				# Push player away
+				apply_bump(hit_normal * 500.0, 0.15)
+				
+			else:
+				# NEUTRAL: Both take a tiny step back to avoid sticking
+				apply_bump(hit_normal * 200.0, 0.1)
+				collider.apply_bump(-hit_normal * 200.0, 0.1)
+				
+
+
 
 func _vacuum_check():
 	if not has_node("PickupZone"): return
