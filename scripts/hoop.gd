@@ -1,7 +1,7 @@
 # hoop.gd
 extends Node2D
 
-@export var rim_height: float = 0.0 #ball has to be at this z_height to interact
+@export var rim_height: float = 45.0 #ball has to be at this z_height to interact
 
 @onready var zone_backboard = $Zone_Backboard
 @onready var zone_rim = $Zone_Rim

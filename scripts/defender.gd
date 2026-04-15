@@ -17,6 +17,8 @@ var ball: Node2D = null
 var held_ball: Node2D = null
 var has_ball: bool = false
 
+@export var dunk_rating: int = 85 # Higher/Lower set a threshold
+
 @export var steal_rating: int = 75
 # Steal Mechanic
 var swipe_cooldown: float = 0.0
@@ -156,7 +158,7 @@ func offense_idle(delta: float):
 	if offense_timer <= 0:
 		# Make a decision, random for now
 		var decision = randi() % 100
-		if decision < 0:
+		if decision < 100:
 			state = "DRIVING"
 		else:
 			state = "BOT_SHOOTING"
@@ -209,20 +211,30 @@ func bot_shoot():
 	held_ball.is_dribbling = false
 	var rim_position = hoop.get_node("ShotTarget").global_position
 	
-	
 	# -- Distance Check --
 	# Calculate how far hoop is to make shot look natural
 	var dist = global_position.distance_to(rim_position)
 	
-	if dist < 180.0: 	# LAYUP
-		print("Bot drives to the paint for a LAYUP!")
-		execute_bot_shot(rim_position, dist, true)
+	if dist < 180.0: 	# LAYUP/DUNK
+		# Are we moving?
+		var is_driving = velocity.length() > 20.0
+		
+		if is_driving:
+			# Decide to dunk based on an arbitrary rating
+			# 70 seems good m'lord
+			var intent_to_dunk = dunk_rating >= 70
+			execute_driving_finish(rim_position, intent_to_dunk)
+		else:
+			print("BOT shoots a standing LAYUP!")
+			execute_bot_shot(rim_position, dist, true)
+		
+
 	else:				# JUMPER
 		print("Bot pulls up for the JUMPER!")
 		start_bot_jump_tween(rim_position, dist)
-	#----------------------
 
-	
+
+
 
 func start_bot_jump_tween(rim_position: Vector2, dist: float):
 	jump_tween = create_tween()
@@ -380,7 +392,9 @@ func clear_ball(_delta: float):
 
 func start_check_sequence(role: String):
 	check_role = role
-	state = "CHECK_UP_CUTSCENE"
+	
+	if state != "BOT_SHOOTING":
+		state = "CHECK_UP_CUTSCENE"
 
 func process_check_up(delta: float):
 	var target_pos = Vector2.ZERO
@@ -501,8 +515,92 @@ func attempt_contest():
 	is_contesting = false
 	if state == "CONTESTING":
 		state = "IDLE" # Let evaluate state figure out next move/state
-	
 
+
+func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
+	# Lock the bot's state so it stops running normal pathing logic
+	state = "BOT_SHOOTING"
+	held_ball.is_dribbling = false
+	
+	# Move ball to the dominant hand high up
+	var hip_x = 25.0 if held_ball.current_hand == "RIGHT" else -25.0
+	held_ball.position = Vector2(hip_x, -15.0)
+	
+	var takeoff_time = 1.0
+	var dir_to_rim = global_position.direction_to(rim_position)
+	var target_spot = Vector2.ZERO
+	var max_jump = 0.0
+	var peak_scale = Vector2(1.0, 1.0)
+	
+	#================================
+	# BRANCHING LOGIC
+	#================================
+	if is_dunk:
+		print("Bot goes up for the POSTER DUNK!")
+		max_jump = 45.0
+		peak_scale = Vector2(1.3, 1.3)
+		
+		var hoops = get_tree().get_nodes_in_group("hoop")
+		if hoops.size() > 0 and hoops[0].has_node("DunkSpot"):
+			target_spot = hoops[0].get_node("DunkSpot").global_position
+		else:
+			target_spot = rim_position - (dir_to_rim * 15.0)
+	
+	else:
+		print("Bot goes up for the smooth LAYUP!")
+		max_jump = 15.0
+		peak_scale = Vector2(1.2, 1.2)
+		target_spot = rim_position - (dir_to_rim * 60.0)
+	
+	# 1. Glide to chosen floor spot
+	var drive_tween = create_tween()
+	drive_tween.tween_property(self, "global_position", target_spot, takeoff_time / 2.0).set_trans(
+																					Tween.TRANS_SINE)
+	
+	# 2. Visual Jump & Scale Up
+	jump_tween = create_tween()
+	jump_tween.tween_property(self, "jump_z", max_jump, takeoff_time / 2.0).set_trans(
+															Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	
+	if has_node("Sprite2D"):
+		jump_tween.parallel().tween_property($Sprite2D, "scale", peak_scale, 
+							takeoff_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	
+	await get_tree().create_timer(takeoff_time / 2.0).timeout
+	
+	#-- APEX ACTIONS --
+	if held_ball != null:
+		get_parent().record_shot(self)
+		held_ball.point_value = get_parent().pending_points
+		held_ball.layup_ball(rim_position)
+		has_ball = false
+		held_ball = null
+	
+	# RIM HANG
+	if is_dunk:
+		await get_tree().create_timer(0.3).timeout
+	
+	# 3. Come Back Down
+	jump_tween = create_tween()
+	jump_tween.tween_property(self, "jump_z", 0.0, takeoff_time / 2.0).set_trans(
+															Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+	if has_node("Sprite2D"):
+		jump_tween.parallel().tween_property($Sprite2D, "scale", Vector2(1.0, 1.0), 
+								takeoff_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+	await jump_tween.finished
+	
+	# 4. Regain AI control
+	if get_parent().game_state == "PLAYING":
+		state = "CHASING" # Automatically crashthe boards for a rebound
+	else:
+		state = "CHECK_UP_CUTSCENE"
+	
+	if has_node("Sprite2D"): $Sprite2D.position.y = 0
+	jump_z = 0.0
+	
+	
 func _on_pickup_zone_body_entered(body: Node2D) -> void:
 	# Is it the ball and is it allowed to be grabbed?
 	if body.is_in_group("ball") and body.can_be_picked_up and not body.is_held:

@@ -58,5 +58,5 @@ scale = Vector2(7, 6)
 shape = SubResource("RectangleShape2D_g3qab")
 
 [node name="DunkSpot" type="Marker2D" parent="."]
-position = Vector2(2, 110)
+position = Vector2(2, 120)
 gizmo_extents = 32.0
