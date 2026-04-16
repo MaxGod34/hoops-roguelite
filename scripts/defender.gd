@@ -17,6 +17,8 @@ var ball: Node2D = null
 var held_ball: Node2D = null
 var has_ball: bool = false
 
+var active_stats: DefenderStats
+
 @export var dunk_rating: int = 85 # Higher/Lower set a threshold
 
 @export var steal_rating: int = 75
@@ -121,6 +123,23 @@ func _physics_process(delta: float):
 	if held_ball != null and state == "BOT_SHOOTING":
 		held_ball.position.y = -jump_z
 
+func initialize_stats(new_stats: DefenderStats):
+	if new_stats == null: return
+	
+	active_stats = new_stats
+	
+	# Apply Raw State
+	move_speed = 100.0 * active_stats.speed_multiplier
+	strength = active_stats.strength_rating
+	steal_rating = active_stats.steal_rating
+	block_rating = active_stats.block_rating
+	dunk_rating = active_stats.dunks_rating
+	
+	if has_node("Sprite2D") and active_stats.body_sprite != null:
+		$Sprite2D.texture = active_stats.body_sprite
+	
+	print("Spawned Titan: ", active_stats.defender_name, " | Playstyle: ", active_stats.playstyle)
+	
 
 # -- LOGIC --
 

@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://uq0cgtrigks0"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_ftnj1"]
+
+[resource]
+script = ExtResource("1_ftnj1")
+defender_name = "Speed Glove"
+playstyle = "Benchwarmer"
+intro_quote = "..."
+close_shot_rating = 50
+mid_shot_rating = 30
+three_pt_rating = 30
+layups_rating = 50
+dunks_rating = 30
+ball_handling_rating = 65
+speed_rating = 140
+strength_rating = 50
+steal_rating = 95
+block_rating = 30
+rebounding_rating = 30
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+disable_dribble_moves = false
+half_shot_clock = true
+make_it_take_it = false
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

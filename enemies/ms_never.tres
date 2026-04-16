@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://ci0am8xfdwr6l"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_058yi"]
+
+[resource]
+script = ExtResource("1_058yi")
+defender_name = "Ms. Never"
+playstyle = "Benchwarmer"
+intro_quote = "..."
+close_shot_rating = 50
+mid_shot_rating = 80
+three_pt_rating = 80
+layups_rating = 60
+dunks_rating = 10
+ball_handling_rating = 50
+speed_rating = 80
+strength_rating = 30
+steal_rating = 60
+block_rating = 20
+rebounding_rating = 20
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+disable_dribble_moves = false
+half_shot_clock = false
+make_it_take_it = true
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

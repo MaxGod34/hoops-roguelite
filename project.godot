@@ -20,6 +20,7 @@ PlayerData="*res://scripts/PlayerData.gd"
 GameManager="*res://scripts/GameManager.gd"
 LootManager="*res://scenes/LootManager.tscn"
 TransitionManager="*res://scenes/TransitionManager.tscn"
+GlobalData="*res://scripts/global_data.gd"
 
 [global_group]
 

@@ -61,6 +61,21 @@ func _ready():
 	# Fire off so we start at 0-0
 	score_changed.emit(player_score, bot_score)
 	
+	
+	# Enemy Initialization
+	var next_enemy = GlobalData.pick_random_enemy("Q1")
+	if next_enemy == "":
+		print("Pool empty!")
+		return
+	GlobalData.current_enemy_id = next_enemy
+	var active_stats = GlobalData.get_current_enemy_data()
+	
+	if bot and bot.has_method("initialize_stats"):
+		bot.initialize_stats(active_stats)
+	
+	apply_arena_rules(active_stats)
+	
+	
 	#=============GAME START=================
 	print("Tip Off! Setting up initial check...")
 	# Force bot to grab ball and start on D
@@ -135,10 +150,26 @@ func reset_play(scorer: Node2D):
 	else:
 		inbounder = bot
 		receiver = player
+	
+	var active_stats = GlobalData.get_current_enemy_data()
+	if active_stats != null and active_stats.make_it_take_it:
+		print("ARENA RULE: Make It Take It! Scorer keeps the ball!")
 		
+		# RESET
+		inbounder = scorer
+		receiver = scorer
+		
+		# Scorer keeps the ball, the scored on has to fetch
+		# Inbounder will be the player if the bot scored, otherwise, bot must be inbounder
+		inbounder = player if scorer == bot else bot
+		receiver = scorer
+	
+	
 	# Give them their stage directions
 	inbounder.start_check_sequence("FETCH")
 	receiver.start_check_sequence("RECEIVE")
+	
+	self.receiver = receiver
 
 
 
@@ -220,7 +251,14 @@ func register_possession_change(new_holder: Node2D, previous_ball_state: String)
 		print("DEFENSIVE REBOUND by " + new_holder.name + "! (Shot Clock Reset)")
 
 
-
+func apply_arena_rules(stats: DefenderStats):
+	if stats == null: return
+	
+	if stats.half_shot_clock:
+		print("ARENA RULE: 1/2 Shot Clock Active!")
+	
+	if stats.disable_dribble_moves:
+		print("ARENA RULE: Crossovers Disabled!")
 
 
 func _on_hoop_basket_scored(points, scorer):
@@ -243,6 +281,9 @@ func _on_hoop_basket_scored(points, scorer):
 		bot.state = "IDLE"
 		# 1.5 sec delay so the player can watch the shot go in
 		await get_tree().create_timer(1.5).timeout
+		
+		# Mark the enemy as defeated!
+		GlobalData.mark_current_enemy_defeated()
 		
 		# Grab a random AccessoryData resource from LootManager
 		var reward: AccessoryData = LootManager.roll_for_loot()

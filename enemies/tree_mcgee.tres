@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://c6m63rfdwi8ay"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_w8c4h"]
+
+[resource]
+script = ExtResource("1_w8c4h")
+defender_name = "Tree McGee"
+playstyle = "Benchwarmer"
+intro_quote = "..."
+close_shot_rating = 70
+mid_shot_rating = 25
+three_pt_rating = 25
+layups_rating = 60
+dunks_rating = 85
+ball_handling_rating = 50
+speed_rating = 60
+strength_rating = 100
+steal_rating = 40
+block_rating = 95
+rebounding_rating = 80
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+disable_dribble_moves = true
+half_shot_clock = false
+make_it_take_it = false
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"
