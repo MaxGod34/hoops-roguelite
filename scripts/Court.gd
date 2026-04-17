@@ -11,7 +11,7 @@ signal game_over(winner_name)
 @onready var ball = get_node("Ball")
 
 # Score Tracking
-var player_score: int = 0
+var player_score: int = 10
 var bot_score: int = 0
 var target_score: int = 11
 var pending_points: int = 2
@@ -35,6 +35,9 @@ var force_no_take_back: bool = false
 var game_state: String = "PLAYING" # Playing or Checking
 var inbounder: Node2D = null
 var receiver: Node2D = null
+
+# Opponent Unique Vars
+var sammy_required_shot: int = 0 # 0 means any shot is allowed
 
 
 func _ready():
@@ -62,8 +65,13 @@ func _ready():
 	score_changed.emit(player_score, bot_score)
 	
 	
-	# Enemy Initialization
-	var next_enemy = GlobalData.pick_random_enemy("Q1")
+	#===========Enemy Initialization==========
+	var pool_to_pull = "Q1_REGULAR"
+	
+	if GlobalData.defeated_enemies.size() >= 4:
+		pool_to_pull = "Q1_BOSS"
+	
+	var next_enemy = GlobalData.pick_random_enemy(pool_to_pull)
 	if next_enemy == "":
 		print("Pool empty!")
 		return
@@ -87,7 +95,12 @@ func record_shot(shooter: Node2D):
 	# The instant the ball is shot, the ball is uncleared and we'll set it back if need be
 	is_ball_cleared = false
 	
-
+	var attempted_points = 2
+	var active_stats = GlobalData.get_current_enemy_data()
+	
+	var threes_allowed = true
+	if active_stats != null and active_stats.no_threes:
+		threes_allowed = false
 	
 	
 	print("--- SHOT WENT UP ---")
@@ -95,12 +108,24 @@ func record_shot(shooter: Node2D):
 	print("Who is in the VIP List right now: ", bodies_in_clear_zone)
 	# ------------------------------
 	
-	if bodies_in_clear_zone.has(shooter) or $ClearZone.overlaps_body(shooter):
-		pending_points = 3
-		print(shooter.name + " put up a 3 pter!")
-	else:
-		pending_points = 2
-		print(shooter.name + " put up a 2 pter!")
+	if threes_allowed and (bodies_in_clear_zone.has(shooter) or $ClearZone.overlaps_body(shooter)):
+		attempted_points = 3
+
+	# SAMMY SPICE RULE
+	if active_stats != null and active_stats.alternating_shots:
+		if sammy_required_shot != 0 and attempted_points != sammy_required_shot:
+			print("BZZZZZT! Sammy Spice Violation! Expected a ", sammy_required_shot, "!")
+			turnover(shooter)
+			return
+		
+		# Legal shot
+		sammy_required_shot = 2 if attempted_points == 3 else 3
+		print("Next shot must be a: ", sammy_required_shot)
+	
+	
+	pending_points = attempted_points
+	print(shooter.name + " puts up a " + str(pending_points) + " pter")
+	
 	
 	
 func handle_rebound(rebounder: Node2D):
@@ -253,12 +278,27 @@ func register_possession_change(new_holder: Node2D, previous_ball_state: String)
 
 func apply_arena_rules(stats: DefenderStats):
 	if stats == null: return
-	
+	# Speed Glove
 	if stats.half_shot_clock:
 		print("ARENA RULE: 1/2 Shot Clock Active!")
-	
+		get_tree().call_group("shot_clock", "set_active_max", 15.0)
+	else:
+		get_tree().call_group("shot_clock", "set_active_max", 30.0)
+	# Tree McGee
 	if stats.disable_dribble_moves:
 		print("ARENA RULE: Crossovers Disabled!")
+	# Ol' Reggie
+	if stats.no_take_backs:
+		print("ARENA RULE: Ol Reggie says NO TAKE BACKS! NO 3s!")
+		force_no_take_back = true
+	else:
+		force_no_take_back = false
+	# Janitor
+	if stats.slippery_floor:
+		print("ARENA RULE: ICE RINK! SLIPPERY FLOOR ACTIVE!")
+		player.friction = 400.0
+	else:
+		player.friction = 2000.0
 
 
 func _on_hoop_basket_scored(points, scorer):

@@ -6,14 +6,19 @@ var defeated_enemies: Array[String] = []
 
 # The Encounters Deck
 var pools = {
-	"Q1": ["tree_mcgee", "speed_glove", "ms_never"]
+	"Q1_REGULAR": ["tree_mcgee", "speed_glove", "janitor", "ol_reggie"],
+	"Q1_BOSS": ["ms_never", "sammy_spice"]
 }
 
 # Master Database
 var enemy_database = {
 	"tree_mcgee": preload("res://enemies/tree_mcgee.tres"),
 	"speed_glove": preload("res://enemies/speed_glove.tres"),
-	"ms_never": preload("res://enemies/ms_never.tres")
+	"janitor": preload("res://enemies/the_janitor.tres"),
+	"ol_reggie": preload("res://enemies/ol_reggie.tres"),
+	
+	"ms_never": preload("res://enemies/ms_never.tres"),
+	"sammy_spice": preload("res://enemies/sammy_spice.tres")
 }
 
 func _ready():

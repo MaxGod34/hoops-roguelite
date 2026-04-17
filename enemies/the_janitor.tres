@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://5mu0hw34hb4j"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_h4vij"]
+
+[resource]
+script = ExtResource("1_h4vij")
+defender_name = "The Janitor"
+playstyle = "Benchwarmer"
+intro_quote = "..."
+close_shot_rating = 50
+mid_shot_rating = 30
+three_pt_rating = 20
+layups_rating = 40
+dunks_rating = 65
+ball_handling_rating = 25
+speed_rating = 40
+strength_rating = 75
+steal_rating = 75
+block_rating = 75
+rebounding_rating = 75
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+disable_dribble_moves = false
+half_shot_clock = false
+make_it_take_it = false
+no_take_backs = false
+no_threes = false
+slippery_floor = true
+alternating_shots = false
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

@@ -4,7 +4,8 @@ extends CharacterBody2D
 
 const SPEED = 400.0
 const ACCELERATION = 2500.0
-const FRICTION = 2000.0
+
+var friction = 2000.0
 
 # For moving test ball around, magic number
 const PUSH_FORCE = 20.0
@@ -62,7 +63,7 @@ func _physics_process(delta: float) -> void:
 			
 		else:
 			# Let the dash friction out smoothly ignoring player input
-			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 			
 		
 		if has_node("Sprite2D"):
@@ -79,7 +80,7 @@ func _physics_process(delta: float) -> void:
 			velocity = velocity.move_toward(direction * SPEED, ACCELERATION * delta)
 		else:
 			# Skid to a stop instead of a hard stop
-			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
 
 		
@@ -162,7 +163,16 @@ func _physics_process(delta: float) -> void:
 	
 	
 	if Input.is_action_just_pressed("dribble_move") and held_ball and has_control and not is_shooting and not is_tricking:
-		execute_crossover()
+		var can_dribble = true
+		var active_stats = GlobalData.get_current_enemy_data()
+		
+		if active_stats != null and active_stats.disable_dribble_moves:
+			can_dribble = false
+			print("Tree McGee's roots grab your ankles! No Crossovers!")
+		
+		
+		if can_dribble:
+			execute_crossover()
 	
 	if Input.is_action_just_pressed("steal") and not has_ball and swipe_cooldown <= 0 and has_control and not is_contesting:
 		attempt_swipe()
@@ -198,12 +208,12 @@ func process_check_up(delta: float):
 		target_pos = court.get_node("OffenseSpawn").global_position
 		distance_to_target = global_position.distance_to(target_pos)
 		
-		if distance_to_target > 32.0:
+		if distance_to_target > 5.0:
 			var dir = global_position.direction_to(target_pos)
 			velocity = dir * (SPEED * 0.75)
 		else:
 			# Arrived
-			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+			velocity = Vector2.ZERO
 			
 			
 	elif check_role == "FETCH":
@@ -225,7 +235,7 @@ func process_check_up(delta: float):
 			distance_to_target = global_position.distance_to(target_pos)
 			held_ball.is_dribbling = false
 			
-			if distance_to_target > 15.0:
+			if distance_to_target > 5.0:
 				var dir = global_position.direction_to(target_pos)
 				velocity = dir * (SPEED * 0.5)
 			else:

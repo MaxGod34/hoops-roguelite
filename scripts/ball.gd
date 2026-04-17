@@ -199,9 +199,7 @@ func shoot_ball(target_pos: Vector2, arc_height: float = 1.5, flight_time: float
 		var drop_tween = create_tween()
 		drop_tween.tween_property(self, "z_height", 0.0, 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		
-		# Anti stuck fix
-		var random_angle = randf_range(0, TAU)
-		velocity = Vector2(cos(random_angle), sin(random_angle)) * randf_range(50.0, 100.0)
+		
 		
 		print("CLANK! Brick kicked out ball is live!")
 
@@ -231,6 +229,7 @@ func layup_ball(target_pos: Vector2):
 	var dist = global_position.distance_to(target_pos)
 	var fast_flight_time = clamp(dist / (base_throw_speed * 0.5), 0.2, 0.5)
 	var arc_height = 1.4 # Lower arc for a layup
+	var hoop_rim_height = get_parent().get_node("Hoop").rim_height
 	
 	
 	# ------------------------ TWEEEEEEEEEEEN ----------------------------
@@ -247,7 +246,7 @@ func layup_ball(target_pos: Vector2):
 	
 	# Coming down
 	active_z_tween.tween_property(ball_sprite, "scale", Vector2(1.0, 1.0), fast_flight_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	active_z_tween.parallel().tween_property(self, "z_height", 0.0, fast_flight_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	active_z_tween.parallel().tween_property(self, "z_height", hoop_rim_height + 10.0, fast_flight_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	# ----------------------------------------------------------------------
 	
 	
@@ -264,6 +263,14 @@ func layup_ball(target_pos: Vector2):
 		set_collision_mask_value(1, true)
 		set_collision_layer_value(1, true)
 		print("Shot timer ended! Ball is live!")
+		
+		# Gravity drop
+		var drop_tween = create_tween()
+		drop_tween.tween_property(self, "z_height", 0.0, 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		
+		# Anti stuck fix
+		var random_angle = randf_range(0, TAU)
+		velocity = Vector2(cos(random_angle), sin(random_angle)) * randf_range(50.0, 100.0)
 		
 func bounce_vertical(normal: Vector2):
 	

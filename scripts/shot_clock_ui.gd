@@ -5,6 +5,8 @@ signal timeout_violation
 @onready var time_label = $Lbl_Shot_Clock_Remaining
 
 @export var max_time: float = 30.0
+var active_max_time: float = 30.0
+
 var current_time: float = 30.0
 var is_running: bool = false
 
@@ -13,6 +15,7 @@ var warning_color = Color.RED
 
 
 func _ready() -> void:
+	active_max_time = max_time
 	reset_clock()
 
 
@@ -44,9 +47,14 @@ func start_clock():
 	
 func stop_clock():
 	is_running = false
-	
+
+func set_active_max(new_max: float):
+	active_max_time = new_max
+	reset_clock()
+
+
 func reset_clock():
-	current_time = max_time
+	current_time = active_max_time
 	update_display()
 	
 func trigger_violation():

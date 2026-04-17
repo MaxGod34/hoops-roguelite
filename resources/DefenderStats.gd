@@ -25,6 +25,11 @@ class_name DefenderStats
 @export var disable_dribble_moves: bool = false
 @export var half_shot_clock: bool = false
 @export var make_it_take_it: bool = false
+@export var no_take_backs: bool = false
+@export var no_threes: bool = false
+@export var slippery_floor: bool = false
+@export var alternating_shots: bool = false
+
 
 
 @export_group("Assets")

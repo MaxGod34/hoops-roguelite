@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://b5v6gpqht6gxn"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_coa5l"]
+
+[resource]
+script = ExtResource("1_coa5l")
+defender_name = "Sammy Spice"
+playstyle = "Benchwarmer"
+intro_quote = "..."
+close_shot_rating = 50
+mid_shot_rating = 50
+three_pt_rating = 50
+layups_rating = 65
+dunks_rating = 65
+ball_handling_rating = 50
+speed_rating = 75
+strength_rating = 65
+steal_rating = 80
+block_rating = 80
+rebounding_rating = 100
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+disable_dribble_moves = false
+half_shot_clock = false
+make_it_take_it = false
+no_take_backs = false
+no_threes = false
+slippery_floor = false
+alternating_shots = true
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

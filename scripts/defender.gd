@@ -109,6 +109,8 @@ func _physics_process(delta: float):
 	# Scan for player while driving
 	check_physical_contact()
 	
+	_vacuum_check()
+	
 	#==================DRIBBLE CONTROLLER====================
 	if has_ball and held_ball != null:
 		# Only bounce if the game is live and we aren't mid-check/cutscene
@@ -434,12 +436,12 @@ func process_check_up(delta: float):
 		target_pos = court.get_node("OffenseSpawn").global_position
 		distance_to_target = global_position.distance_to(target_pos)
 		
-		if distance_to_target > 15.0:
+		if distance_to_target > 5.0:
 			var dir = global_position.direction_to(target_pos)
 			velocity = dir * (move_speed)
 		else:
 			# Arrived
-			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+			velocity = Vector2.ZERO
 			
 			
 			
@@ -460,7 +462,7 @@ func process_check_up(delta: float):
 			target_pos = court.get_node("DefenseSpawn").global_position
 			distance_to_target = global_position.distance_to(target_pos)
 			
-			if distance_to_target > 15.0:
+			if distance_to_target > 5.0:
 				var dir = global_position.direction_to(target_pos)
 				velocity = dir * move_speed
 			else:
@@ -680,33 +682,26 @@ func check_physical_contact():
 				apply_bump(hit_normal * 200.0, 0.1)
 				collider.apply_bump(-hit_normal * 200.0, 0.1)
 
-
+func _vacuum_check():
+	if not has_node("PickupZone"): return
 	
-
-func _on_pickup_zone_body_entered(body: Node2D) -> void:
-	# Is it the ball and is it allowed to be grabbed?
-	if body.is_in_group("ball") and body.can_be_picked_up and not body.is_held:
-		# Check is the ball flying over my stupid bot head
-		if body.z_height > 3.0:
-			return
-		
-		# Snapshot of state
-		var previous_state = body.state
+	var bodies = $PickupZone.get_overlapping_bodies()
+	for body in bodies:
+		if body.is_in_group("ball") and body.can_be_picked_up and not body.is_held:
+			# Check is the ball flying over my stupid bot head
+			if body.z_height > 3.0: continue
 			
-		# Grab the ball!
-		body.pickup(self)
-		held_ball = body
-		has_ball = true
-		
-		print("Bot grabbed the ball! State was: ", body.state)
-		
-		get_parent().register_possession_change(self, previous_state)
-		
-		# If the ball was loose, it means it's a rebound or a steal
-		if previous_state == "LOOSE" or previous_state == "REBOUNDING":
-			get_parent().handle_rebound(self)
-		
-		
-		# Physics process will change the state automatically because
-		# The bot has the ball now
-		# Will snap to OFFENSE_IDLE
+			var previous_state = body.state
+			
+			# Grab the ball
+			body.pickup(self)
+			held_ball = body
+			has_ball = true
+			
+			print("Bot vacuumed the ball! State was: ", body.state)
+			
+			get_parent().register_possession_change(self, previous_state)
+			
+			if previous_state == "LOOSE" or previous_state == "REBOUNDING":
+				get_parent().handle_rebound(self)
+	
