@@ -46,7 +46,7 @@ theme_override_constants/shadow_offset_x = -6
 theme_override_constants/shadow_offset_y = -5
 theme_override_constants/outline_size = 16
 theme_override_fonts/font = ExtResource("1_cssje")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 36
 text = "Stone Sandal"
 
 [node name="Lbl_Slot" type="Label" parent="VBox"]
@@ -58,11 +58,11 @@ theme_override_constants/shadow_offset_x = -6
 theme_override_constants/shadow_offset_y = -5
 theme_override_constants/outline_size = 16
 theme_override_fonts/font = ExtResource("1_cssje")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 36
 text = "Slot: Left Shoe"
 
 [node name="Lbl_Stats" type="Label" parent="VBox"]
-custom_minimum_size = Vector2(320, 0)
+custom_minimum_size = Vector2(480, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.760784, 0, 1)
 theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
@@ -71,7 +71,7 @@ theme_override_constants/shadow_offset_x = -4
 theme_override_constants/shadow_offset_y = -4
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("1_cssje")
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 32
 text = "+25 SPD/ACCEL"
 horizontal_alignment = 1
 autowrap_mode = 2

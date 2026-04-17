@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 
 @onready var lbl_player_score = $PanelContainer/VBoxContainer/HBoxScore/Lbl_PlayerScore
 @onready var lbl_bot_score = $PanelContainer/VBoxContainer/HBoxScore/Lbl_BotScore

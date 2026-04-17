@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://c6mnop7wjkxqv"]
+[gd_scene load_steps=8 format=3 uid="uid://c6mnop7wjkxqv"]
 
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_ucmtr"]
 [ext_resource type="Script" uid="uid://1al4fn2edpp" path="res://scripts/scoreboard.gd" id="1_w5fga"]
-[ext_resource type="PackedScene" uid="uid://bv5mx3q7le18e" path="res://scenes/shot_clock_ui.tscn" id="3_g67ru"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucmtr"]
 bg_color = Color(0, 0, 0, 1)
@@ -46,14 +45,20 @@ corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w5fga"]
 
-[node name="Scoreboard" type="CanvasLayer"]
-script = ExtResource("1_w5fga")
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="Scoreboard" type="Control"]
+layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -472.0
+grow_horizontal = 0
+script = ExtResource("1_w5fga")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_right = 472.0
 offset_bottom = 121.0
 grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ucmtr")
@@ -208,11 +213,6 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 96
 theme_override_styles/separator = SubResource("StyleBoxEmpty_w5fga")
-
-[node name="ShotClockUI" parent="PanelContainer/VBoxContainer/HBoxProgression" instance=ExtResource("3_g67ru")]
-layer = 2
-offset = Vector2(-150, 60)
-transform = Transform2D(1, 0, 0, 1, -150, 60)
 
 [node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2

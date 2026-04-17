@@ -1588,6 +1588,10 @@ shape = SubResource("RectangleShape2D_k8rc4")
 [node name="Sprite2D" type="Sprite2D" parent="Exit"]
 texture = ExtResource("25_o67jq")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(575, 323)
+zoom = Vector2(1.67, 1.67)
+
 [connection signal="body_entered" from="Zone_Upgrades" to="." method="_on_zone_upgrades_body_entered"]
 [connection signal="body_exited" from="Zone_Upgrades" to="." method="_on_zone_upgrades_body_exited"]
 [connection signal="body_entered" from="Station_Styx" to="Station_Styx" method="_on_body_entered"]

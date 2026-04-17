@@ -16,11 +16,14 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="ShotClockUI" type="CanvasLayer" groups=["shot_clock"]]
+[node name="ShotClockUI" type="Control" groups=["shot_clock"]]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_ovice")
 
 [node name="Lbl_Shot_Clock_Remaining" type="Label" parent="."]
 custom_minimum_size = Vector2(80, 48)
+layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.74
 anchor_top = 0.007

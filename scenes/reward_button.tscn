@@ -7,9 +7,11 @@
 default_font = ExtResource("1_wp60y")
 
 [node name="RewardButton" type="TextureButton"]
+custom_minimum_size = Vector2(256, 256)
 offset_right = 40.0
 offset_bottom = 40.0
 theme = SubResource("Theme_yh07d")
+stretch_mode = 0
 script = ExtResource("2_6eb35")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

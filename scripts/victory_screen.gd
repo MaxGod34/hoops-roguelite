@@ -28,7 +28,12 @@ func show_victory(rewards: Array[AccessoryData]):
 			
 			# Listen for if player takes the item
 			new_btn.item_claimed.connect(_on_item_claimed)
-
+	
+	var enemy_stats = GlobalData.get_current_enemy_data()
+	var enemy_name = enemy_stats.defender_name
+	lbl_name.text = "You defeated " + enemy_name
+	
+	
 	# Start invisible
 	modulate.a = 0.0
 	show()
