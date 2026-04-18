@@ -18,7 +18,8 @@ var stats = {
 	# Physicals
 	"speed_accel": 50,
 	"strength": 50,
-	"vertical": 50
+	# Mach
+	"mach": 50
 }
 
 # Inventory
@@ -32,8 +33,7 @@ var equipment = {
 	"ball": null
 }
 
-# Stat Upgrade Currency (Placeholder name)
-var amps = 500
+
 
 # -- STYX CONTRACTS --
 var active_contracts = {}

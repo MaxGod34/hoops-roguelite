@@ -9,6 +9,12 @@ var playback_data: Array = []
 @onready var ghost_ball = $GhostContainer/GhostBall
 @onready var ui_layer = $UI
 
+# UI References
+@onready var lbl_mach = $UI/StatsContainer/Lbl_Mach
+@onready var lbl_reward = $UI/StatsContainer/Lbl_Reward
+@onready var stat_grid = $UI/StatsContainer/StatGrid
+@onready var btn_next = $UI/Btn_Next
+
 var time_passed: float = 0.0
 const FPS: float = 60.0
 const FRAME_TIME: float = 1.0 / FPS
@@ -19,7 +25,7 @@ func _ready():
 	hide()
 	ui_layer.hide()
 
-func start_replay():
+func start_replay(ending_mach: int):
 	playback_data = HighlightManager.play_of_the_game
 	
 	if playback_data.size() == 0:
@@ -31,6 +37,60 @@ func start_replay():
 	is_playing = true
 	show()
 	ui_layer.show()
+	
+	# Reward Math
+	var base_reward = 1
+	var total_reward = base_reward * ending_mach
+	
+	lbl_mach.text = "ENDING MACH: x" + str(ending_mach)
+	lbl_reward.text = "BASE REWARD +1 x " + str(ending_mach)
+	
+	# Clear out grid in case we replay multiple times
+	for child in stat_grid.get_children():
+		child.queue_free()
+	
+	# Create master Tween and tell it to run everything at the exact same time
+	var ui_tween = create_tween()
+	ui_tween.set_parallel(true)
+	
+	#===CASCADE VARIABLES===
+	var cascade_delay: float = 1.0
+	var animation_duration: float = 4.0
+	
+	# Dynamic Stat Generation
+	for stat_key in PlayerData.stats.keys():
+		var start_val = PlayerData.stats[stat_key]
+		var end_val = start_val + total_reward
+		
+		var custom_theme = load("res://scenes/lbl_theme_stats_replay.tres")
+		
+		# 1. Actually upgrade the true stats in the background
+		PlayerData.upgrade_stat(stat_key, total_reward)
+		
+		# 2. Spawn the Name Label
+		var name_lbl = Label.new()
+		# Format dictionary key to look nice
+		name_lbl.text = stat_key.capitalize().replace("_", " ") + ": "
+		name_lbl.theme = custom_theme
+		stat_grid.add_child(name_lbl)
+		
+		# 3. Spawn the Value Label
+		var val_lbl = Label.new()
+		val_lbl.text = str(start_val)
+		val_lbl.theme = custom_theme
+		stat_grid.add_child(val_lbl)
+		
+		# 4. The Lambda Tween (Dopamine Magic)
+		ui_tween.tween_method(
+			func(value: int): val_lbl.text = str(value),
+			start_val,
+			end_val,
+			animation_duration
+		).set_delay(cascade_delay).set_trans(Tween.TRANS_QUAD)
+		
+		cascade_delay += 0.15
+	
+	
 	
 	print("PLAY OF THE GAME: ", playback_data.size(), " frames loaded.")
 

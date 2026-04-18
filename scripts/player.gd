@@ -14,18 +14,14 @@ var held_ball = null
 var has_control: bool = true
 var has_ball: bool = false
 
-@export var strength: int = 75
+
 var is_bumped: bool = false
-
-@export var steal_rating: int = 75
-
 
 # Steal Mechanic
 var is_swiping: bool = false
 var swipe_cooldown: float = 0.0
 var swipe_range: float = 65.0
 
-@export var block_rating: int = 60
 var is_contesting: bool = false
 
 #=== Shooting & Dribble Mechanics ===
@@ -38,12 +34,30 @@ var jump_tween: Tween
 var jump_duration: float = 0.6 # Total air time (up & down)
 
 var is_tricking: bool = false
-@export var ball_handle: int = 80
 #====================================
+
+# Stats pulled from PlayerData
+var strength: int = 50
+var steal_rating: int = 50
+var block_rating: int = 50
+var ball_handle: int = 50
+
 
 # Check Up Vars
 var check_role: String = "" # FETCH, RECEIVE
 
+func _ready():
+	# Sync player mechanics with the global true stats
+	strength = PlayerData.stats["strength"]
+	steal_rating = PlayerData.stats["steal"]
+	block_rating = PlayerData.stats["block"]
+	ball_handle = PlayerData.stats["ball_handling"]
+	# Speed
+	# Rebound
+	# Close/Mid/3pt Shot
+	# Layup
+	# Dunk
+	# Mach Modifier Stat
 
 
 func _physics_process(delta: float) -> void:

@@ -9,10 +9,6 @@ var max_games_per_quarter: int = 5
 var player_inventory: Array = []
 var owned_items: Array[AccessoryData] = []
 
-# Base Attributes
-var player_3pt_rating: int = 50
-var player_layup_rating: int = 50
-var player_speed: float = 500.0
 
 # ==================
 # SCENE MANAGEMENT
@@ -59,9 +55,7 @@ func reset_run():
 	current_quarter = 1
 	current_game = 1
 	player_inventory.clear()
-	player_3pt_rating = 50
-	player_layup_rating = 50
-	player_speed = 500.0
+
 	
 	current_energy = 2
 	banked_energy = 0

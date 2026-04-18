@@ -366,7 +366,7 @@ func _on_hoop_basket_scored(points, scorer):
 		if ball: ball.hide()
 		
 		# Roll the tape!
-		$ReplayViewer.start_replay()
+		$ReplayViewer.start_replay(MachManager.visual_mach)
 		
 		# Grab a random AccessoryData resource from LootManager
 		#var reward: AccessoryData = LootManager.roll_for_loot()
