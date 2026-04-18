@@ -90,6 +90,11 @@ func _ready():
 	reset_play(bot)
 
 
+func _process(delta: float):
+	$CanvasLayer/DebugMach.text = "MACH: X" + str(MachManager.visual_mach) + " (" + str(
+														snapped(MachManager.current_mach, 0.01)) + ")"
+
+
 func record_shot(shooter: Node2D):
 	last_shooter = shooter
 	# The instant the ball is shot, the ball is uncleared and we'll set it back if need be
@@ -126,7 +131,7 @@ func record_shot(shooter: Node2D):
 	pending_points = attempted_points
 	print(shooter.name + " puts up a " + str(pending_points) + " pter")
 	
-	
+
 	
 func handle_rebound(rebounder: Node2D):
 	#-- Reroutes --
@@ -228,7 +233,8 @@ func resume_game():
 func turnover(violator: Node2D):
 	print("Violation! Turnover committed by: ", violator.name)
 	
-	if violator.name == "Player":
+	if violator == player:
+		MachManager.reset_to_base() # Full Reset on a Turnover
 		player_turnovers += 1
 	else:
 		bot_turnovers += 1
@@ -310,9 +316,22 @@ func _on_hoop_basket_scored(points, scorer):
 		print("Bot Score: ", bot_score)
 		
 	score_changed.emit(player_score, bot_score)
-		
-		
+	
+	#========================
+	# MACH MODIFIERS
+	#========================
+	if scorer == player:
+		if points == 3:
+			MachManager.add_mach(0.75) # FROM DEEEEEEP
+		else:
+			MachManager.add_mach(0.5)	# STANDARD +0.5 add more on a dunk elsewhere
+	elif scorer == bot:
+		MachManager.reduce_mach(1.0)	# THE CROWD GOES BOOOOO
+
+
+
 	if player_score >= target_score:
+		game_state = "GAME_OVER"
 		print("-------VICTORY!--------")
 		game_over.emit("Player")
 		# Stop the clock
@@ -334,9 +353,14 @@ func _on_hoop_basket_scored(points, scorer):
 			$CanvasLayer/VictoryScreen.show_victory(rewards_array)
 			
 		get_tree().paused = true
-
+	
+	
+		
+	
+	
 	
 	elif bot_score >= target_score:
+		game_state = "GAME_OVER"
 		print("-------DEFEAT!---------")
 		game_over.emit("Bot")
 		

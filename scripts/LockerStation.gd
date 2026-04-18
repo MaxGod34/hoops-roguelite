@@ -44,6 +44,8 @@ func request_prompt(prompt_ui):
 func execute_purchase():
 	if station_type == "Exit to Court":
 		GameManager.advance_progression()
+		# MachMeter, add carryover logic later
+		MachManager.reset_to_base()
 		TransitionManager.transition_to_scene("res://scenes/MainCourt.tscn")
 		#GameManager.go_to_court()
 		return

@@ -329,7 +329,7 @@ func attempt_swipe():
 	if bot.has_ball and global_position.distance_to(bot.global_position) < swipe_range:
 		
 		# Dice roll o'clock
-		var base_chance = 30
+		var base_chance = 90
 		var stat_diff = steal_rating - bot.ball_handle
 		
 		# Clamp the math min: 5, max: 95
@@ -341,6 +341,8 @@ func attempt_swipe():
 		# The Result
 		if roll < success_chance:
 			print("RIPPED IT! Ball knocked loose!")
+			# MACH INJECTION: NICE STEAL
+			MachManager.add_mach(0.75)
 			bot.force_turnover()
 		else:
 			print("PLAYER WHIFFED THE STEAL!")
@@ -465,6 +467,8 @@ func execute_block(active_ball):
 		var target_hoop = hoops[0]
 		var deflect_dir = (active_ball.global_position - target_hoop.global_position).normalized()
 		active_ball.reject_shot(deflect_dir)
+		# MACH INJECTION: SWAT
+		MachManager.add_mach(1.0)
 														
 
 
@@ -590,6 +594,8 @@ func check_physical_contact():
 				collider.apply_bump(-hit_normal * 400.0, 0.25)
 				# Have defender try to make a steal mid bump
 				collider.attempt_swipe()
+				# MACH INJECTION
+				MachManager.add_mach(0.75)
 				
 			elif str_diff <= -15:
 				# BRICK WALL: Offense bounces off!
@@ -627,5 +633,6 @@ func _vacuum_check():
 				
 				# Use previous state cuz of OoOperations
 				# Tell ref if we got a rebound or a steal
-				if previous_state == "LOOSE" or previous_state == "REBOUNDING":
+				if (previous_state == "LOOSE" or previous_state == "REBOUNDING") and get_parent().game_state != "CHECKING":
 					get_parent().handle_rebound(self)
+					MachManager.add_mach(0.3) # HUSTLE BONUS

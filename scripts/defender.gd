@@ -146,6 +146,10 @@ func initialize_stats(new_stats: DefenderStats):
 # -- LOGIC --
 
 func evaluate_state():
+	if get_parent().game_state == "GAME_OVER":
+		state = "IDLE"
+		return
+	
 	if state in ["SWIPING", "CONTESTING", "BOT_SHOOTING", "CHECK_UP_CUTSCENE"]:
 		return
 	# -- Top Level Split

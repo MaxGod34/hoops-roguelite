@@ -21,6 +21,7 @@ GameManager="*res://scripts/GameManager.gd"
 LootManager="*res://scenes/LootManager.tscn"
 TransitionManager="*res://scenes/TransitionManager.tscn"
 GlobalData="*res://scripts/global_data.gd"
+MachManager="*res://scripts/mach_manager.gd"
 
 [display]
 

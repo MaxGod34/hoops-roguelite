@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=80 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
@@ -223,21 +223,37 @@ border_blend = true
 bg_color = Color(0.281497, 0.25563, 0.076881, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 24
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4pbd"]
 bg_color = Color(0.394565, 0.360135, 0.1224, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 24
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vacuq"]
 bg_color = Color(0.171109, 0.153695, 0.0335603, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 24
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjvu0"]
 bg_color = Color(0.281497, 0.25563, 0.076881, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 24
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4sl4j"]
 bg_color = Color(0.264926, 0.591107, 3.85046e-07, 1)
@@ -283,6 +299,8 @@ border_width_right = 24
 border_width_bottom = 24
 border_color = Color(0, 0, 0, 1)
 border_blend = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yx1fu"]
 
 [node name="LockerRoom" type="Node2D"]
 script = ExtResource("1_3fb16")
@@ -996,7 +1014,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_yx1fu")
 
 [node name="StationPrompt" type="Control" parent="PopUps"]
 visible = false
-custom_minimum_size = Vector2(256, 320)
+custom_minimum_size = Vector2(320, 320)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -1031,7 +1049,7 @@ theme_override_constants/separation = 32
 alignment = 1
 
 [node name="Lbl_PromptTitle" type="Label" parent="PopUps/StationPrompt/MainBox"]
-custom_minimum_size = Vector2(256, 0)
+custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 theme_override_constants/line_spacing = 6
 theme_override_fonts/font = ExtResource("7_fsaij")
@@ -1157,7 +1175,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_g4pbd")
 [node name="VBox_Equipped_Head_Oufit_Ball" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 16
+theme_override_constants/separation = 64
 alignment = 1
 
 [node name="Btn_Head" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Head_Oufit_Ball"]
@@ -1168,6 +1186,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
@@ -1177,7 +1197,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Head"
 icon = ExtResource("7_rv06o")
 autowrap_mode = 3
-icon_alignment = 1
+icon_alignment = 2
 vertical_icon_alignment = 2
 expand_icon = true
 
@@ -1189,6 +1209,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
@@ -1198,7 +1220,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Outfit"
 icon = ExtResource("8_i0i2h")
 autowrap_mode = 3
-icon_alignment = 1
+icon_alignment = 2
 vertical_icon_alignment = 2
 expand_icon = true
 
@@ -1210,6 +1232,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
@@ -1219,7 +1243,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Ball"
 icon = ExtResource("9_smqfs")
 autowrap_mode = 3
-icon_alignment = 1
+icon_alignment = 2
 vertical_icon_alignment = 2
 expand_icon = true
 
@@ -1237,6 +1261,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
@@ -1246,7 +1272,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Left Arm"
 icon = ExtResource("10_k8rc4")
 autowrap_mode = 3
-icon_alignment = 1
+icon_alignment = 2
 vertical_icon_alignment = 2
 expand_icon = true
 
@@ -1258,6 +1284,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
@@ -1267,7 +1295,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Left Shoe"
 icon = ExtResource("12_fyfyi")
 autowrap_mode = 3
-icon_alignment = 1
+icon_alignment = 2
 vertical_icon_alignment = 2
 expand_icon = true
 
@@ -1285,6 +1313,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
@@ -1294,7 +1324,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Right Arm"
 icon = ExtResource("11_eo1ny")
 autowrap_mode = 3
-icon_alignment = 1
+icon_alignment = 2
 vertical_icon_alignment = 2
 expand_icon = true
 
@@ -1306,6 +1336,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
@@ -1315,7 +1347,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Right Shoe"
 icon = ExtResource("13_t3frt")
 autowrap_mode = 3
-icon_alignment = 1
+icon_alignment = 2
 vertical_icon_alignment = 2
 expand_icon = true
 
@@ -1327,7 +1359,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_g4pbd")
 [node name="VBox_Storage" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 16
+theme_override_constants/separation = 32
 alignment = 1
 
 [node name="Btn_Slot1" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Storage"]
@@ -1338,6 +1370,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
@@ -1346,7 +1380,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Slot 1"
 autowrap_mode = 3
-icon_alignment = 1
+icon_alignment = 2
 vertical_icon_alignment = 2
 expand_icon = true
 
@@ -1358,6 +1392,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
@@ -1366,7 +1402,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Slot 2"
 autowrap_mode = 3
-icon_alignment = 1
+icon_alignment = 2
 vertical_icon_alignment = 2
 expand_icon = true
 
@@ -1378,6 +1414,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
@@ -1386,7 +1424,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Slot 3"
 autowrap_mode = 3
-icon_alignment = 1
+icon_alignment = 2
 vertical_icon_alignment = 2
 expand_icon = true
 
@@ -1396,7 +1434,7 @@ theme_override_constants/separation = 128
 theme_override_styles/separator = SubResource("StyleBoxEmpty_g4pbd")
 
 [node name="Btn_Close" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel"]
-custom_minimum_size = Vector2(96, 64)
+custom_minimum_size = Vector2(256, 128)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -1413,7 +1451,8 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("7_fsaij")
+theme_override_font_sizes/font_size = 32
 theme_override_styles/focus = SubResource("StyleBoxFlat_4sl4j")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_hy3a2")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gjob3")
@@ -1429,6 +1468,11 @@ offset_bottom = 132.0
 grow_horizontal = 2
 mouse_filter = 2
 
+[node name="HSeparator" type="HSeparator" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/TopRowVbox"]
+layout_mode = 2
+theme_override_constants/separation = 32
+theme_override_styles/separator = SubResource("StyleBoxEmpty_yx1fu")
+
 [node name="Lbl_Title" type="RichTextLabel" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/TopRowVbox"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
@@ -1436,7 +1480,8 @@ size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 32
+theme_override_fonts/normal_font = ExtResource("7_fsaij")
+theme_override_font_sizes/normal_font_size = 64
 text = "Kibisis Storage"
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -1448,11 +1493,13 @@ size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 24
+theme_override_fonts/normal_font = ExtResource("7_fsaij")
+theme_override_font_sizes/normal_font_size = 64
 text = "(Click an item to store/swap it)"
 horizontal_alignment = 1
 
 [node name="ItemTooltip" parent="Station_Kibisis/CanvasLayer" instance=ExtResource("20_yx1fu")]
+visible = false
 z_index = 2
 offset_left = -199.0
 offset_top = -53.5
