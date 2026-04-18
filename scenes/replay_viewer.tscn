@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5uh8y30muhju"]
+
+[ext_resource type="Script" uid="uid://kutstjhlx35i" path="res://scripts/replay_viewer.gd" id="1_lpbpc"]
+[ext_resource type="Texture2D" uid="uid://dvvnkhobcq5vq" path="res://assets/basketballproto.png" id="1_m5ayw"]
+[ext_resource type="Texture2D" uid="uid://swhe71w43u68" path="res://assets/red_ball.png" id="2_lpbpc"]
+[ext_resource type="Texture2D" uid="uid://5eenx87um3f4" path="res://assets/basic_square_with_border.png" id="3_1jhej"]
+
+[node name="ReplayViewer" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_lpbpc")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.392157)
+
+[node name="GhostContainer" type="Node2D" parent="."]
+z_index = 10
+
+[node name="GhostBall" type="Sprite2D" parent="GhostContainer"]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_m5ayw")
+
+[node name="GhostBot" type="Sprite2D" parent="GhostContainer"]
+texture = ExtResource("2_lpbpc")
+
+[node name="GhostPlayer" type="Sprite2D" parent="GhostContainer"]
+modulate = Color(0, 0.458824, 1, 1)
+texture = ExtResource("3_1jhej")

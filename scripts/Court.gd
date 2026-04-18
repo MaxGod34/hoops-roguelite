@@ -11,7 +11,7 @@ signal game_over(winner_name)
 @onready var ball = get_node("Ball")
 
 # Score Tracking
-var player_score: int = 10
+var player_score: int = 8
 var bot_score: int = 0
 var target_score: int = 11
 var pending_points: int = 2
@@ -86,8 +86,22 @@ func _ready():
 	
 	#=============GAME START=================
 	print("Tip Off! Setting up initial check...")
+	
+	HighlightManager.start_recording()
+	
 	# Force bot to grab ball and start on D
 	reset_play(bot)
+
+func _physics_process(delta: float):
+	if game_state in ["PLAYING", "CHECKING", "GAME_OVER"]:
+		# Only record if the ball is actually in the scene tree
+		var active_ball = null
+		var balls = get_tree().get_nodes_in_group("ball")
+		if balls.size() > 0:
+			active_ball = balls[0]
+		
+		HighlightManager.record_frame(player, bot, active_ball)
+
 
 
 func _process(delta: float):
@@ -334,25 +348,35 @@ func _on_hoop_basket_scored(points, scorer):
 		game_state = "GAME_OVER"
 		print("-------VICTORY!--------")
 		game_over.emit("Player")
-		# Stop the clock
 		get_tree().call_group("shot_clock", "stop_clock")
-		# Stop the bot from moving!
 		bot.state = "IDLE"
-		# 1.5 sec delay so the player can watch the shot go in
 		await get_tree().create_timer(1.5).timeout
+		
+		HighlightManager.force_pending_capture()
+		HighlightManager.stop_recording()
 		
 		# Mark the enemy as defeated!
 		GlobalData.mark_current_enemy_defeated()
 		
-		# Grab a random AccessoryData resource from LootManager
-		var reward: AccessoryData = LootManager.roll_for_loot()
-		
-		if reward != null:
-			var rewards_array: Array[AccessoryData] = [reward]
-			
-			$CanvasLayer/VictoryScreen.show_victory(rewards_array)
-			
 		get_tree().paused = true
+		
+		# Hide the real physical entities
+		player.hide()
+		bot.hide()
+		if ball: ball.hide()
+		
+		# Roll the tape!
+		$ReplayViewer.start_replay()
+		
+		# Grab a random AccessoryData resource from LootManager
+		#var reward: AccessoryData = LootManager.roll_for_loot()
+		
+		#if reward != null:
+			#var rewards_array: Array[AccessoryData] = [reward]
+			
+			#$CanvasLayer/VictoryScreen.show_victory(rewards_array)
+			
+		
 	
 	
 		

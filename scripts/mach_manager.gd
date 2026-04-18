@@ -27,6 +27,10 @@ func add_mach(amount: float):
 	# GHOST BUFFER
 	current_mach = clamp(current_mach, 1.0, 4.99)
 	_update_visuals()
+	
+	# Feed the DVR
+	if HighlightManager.is_recording:
+		HighlightManager.inject_mach_to_current_frame(amount)
 
 func reduce_mach(amount: float):
 	current_mach -= amount
