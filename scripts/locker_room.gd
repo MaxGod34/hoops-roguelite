@@ -101,7 +101,7 @@ func _attempt_upgrade(stat_name: String):
 		print("Cannot upgrade! Out of amps or stat is maxed out!")
 		
 func update_ui():
-	lbl_amps.text = "Amps: " + str(PlayerData.amps)
+	#lbl_amps.text = "Amps: " + str(PlayerData.amps)
 	# Update 12 stat labels
 	# OFFENSE
 	lbl_close_shot_val.text = str(PlayerData.stats["close_shot"])
@@ -113,7 +113,6 @@ func update_ui():
 	# DEFENSE
 	lbl_speed_accel_val.text = str(PlayerData.stats["speed_accel"])
 	lbl_strength_val.text = str(PlayerData.stats["strength"])
-	lbl_vertical_val.text = str(PlayerData.stats["vertical"])
 	lbl_steal_val.text = str(PlayerData.stats["steal"])
 	lbl_block_val.text = str(PlayerData.stats["block"])
 	lbl_rebound_val.text = str(PlayerData.stats["rebounding"])

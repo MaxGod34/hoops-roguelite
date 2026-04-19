@@ -1139,7 +1139,6 @@ texture = ExtResource("6_lcfti")
 [node name="CanvasLayer" type="CanvasLayer" parent="Station_Kibisis"]
 
 [node name="KibisisMenu" type="Control" parent="Station_Kibisis/CanvasLayer"]
-visible = false
 z_index = 1
 layout_mode = 3
 anchors_preset = 15
@@ -1179,7 +1178,7 @@ theme_override_constants/separation = 64
 alignment = 1
 
 [node name="Btn_Head" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Head_Oufit_Ball"]
-custom_minimum_size = Vector2(136, 182)
+custom_minimum_size = Vector2(136, 220)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -1197,12 +1196,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Head"
 icon = ExtResource("7_rv06o")
 autowrap_mode = 3
-icon_alignment = 2
+icon_alignment = 1
 vertical_icon_alignment = 2
-expand_icon = true
 
 [node name="Btn_Outfit" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Head_Oufit_Ball"]
-custom_minimum_size = Vector2(136, 182)
+custom_minimum_size = Vector2(136, 220)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -1220,12 +1218,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Outfit"
 icon = ExtResource("8_i0i2h")
 autowrap_mode = 3
-icon_alignment = 2
+icon_alignment = 1
 vertical_icon_alignment = 2
-expand_icon = true
 
 [node name="Btn_Ball" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Head_Oufit_Ball"]
-custom_minimum_size = Vector2(136, 182)
+custom_minimum_size = Vector2(136, 220)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -1243,18 +1240,17 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Ball"
 icon = ExtResource("9_smqfs")
 autowrap_mode = 3
-icon_alignment = 2
+icon_alignment = 1
 vertical_icon_alignment = 2
-expand_icon = true
 
 [node name="VBox_Equipped_Left" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 32
+theme_override_constants/separation = 64
 alignment = 1
 
 [node name="Btn_LeftArm" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Left"]
-custom_minimum_size = Vector2(136, 182)
+custom_minimum_size = Vector2(136, 220)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -1272,12 +1268,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Left Arm"
 icon = ExtResource("10_k8rc4")
 autowrap_mode = 3
-icon_alignment = 2
+icon_alignment = 1
 vertical_icon_alignment = 2
-expand_icon = true
 
 [node name="Btn_LeftShoe" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Left"]
-custom_minimum_size = Vector2(136, 182)
+custom_minimum_size = Vector2(136, 220)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -1295,18 +1290,17 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Left Shoe"
 icon = ExtResource("12_fyfyi")
 autowrap_mode = 3
-icon_alignment = 2
+icon_alignment = 1
 vertical_icon_alignment = 2
-expand_icon = true
 
 [node name="VBox_Equipped_Right" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 32
+theme_override_constants/separation = 64
 alignment = 1
 
 [node name="Btn_RightArm" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Right"]
-custom_minimum_size = Vector2(136, 182)
+custom_minimum_size = Vector2(136, 220)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -1324,12 +1318,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Right Arm"
 icon = ExtResource("11_eo1ny")
 autowrap_mode = 3
-icon_alignment = 2
+icon_alignment = 1
 vertical_icon_alignment = 2
-expand_icon = true
 
 [node name="Btn_RightShoe" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Right"]
-custom_minimum_size = Vector2(136, 182)
+custom_minimum_size = Vector2(136, 220)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -1347,9 +1340,8 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Right Shoe"
 icon = ExtResource("13_t3frt")
 autowrap_mode = 3
-icon_alignment = 2
+icon_alignment = 1
 vertical_icon_alignment = 2
-expand_icon = true
 
 [node name="VSeparator" type="VSeparator" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
 layout_mode = 2
@@ -1359,11 +1351,11 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_g4pbd")
 [node name="VBox_Storage" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 32
+theme_override_constants/separation = 64
 alignment = 1
 
 [node name="Btn_Slot1" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Storage"]
-custom_minimum_size = Vector2(136, 182)
+custom_minimum_size = Vector2(136, 220)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -1380,12 +1372,11 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Slot 1"
 autowrap_mode = 3
-icon_alignment = 2
+icon_alignment = 1
 vertical_icon_alignment = 2
-expand_icon = true
 
 [node name="Btn_Slot2" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Storage"]
-custom_minimum_size = Vector2(136, 182)
+custom_minimum_size = Vector2(136, 220)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -1402,12 +1393,11 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Slot 2"
 autowrap_mode = 3
-icon_alignment = 2
+icon_alignment = 1
 vertical_icon_alignment = 2
-expand_icon = true
 
 [node name="Btn_Slot3" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Storage"]
-custom_minimum_size = Vector2(136, 182)
+custom_minimum_size = Vector2(136, 220)
 layout_mode = 2
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -1424,9 +1414,8 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
 text = "Slot 3"
 autowrap_mode = 3
-icon_alignment = 2
+icon_alignment = 1
 vertical_icon_alignment = 2
-expand_icon = true
 
 [node name="VSeparator3" type="VSeparator" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
 layout_mode = 2
@@ -1494,7 +1483,7 @@ mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/normal_font = ExtResource("7_fsaij")
-theme_override_font_sizes/normal_font_size = 64
+theme_override_font_sizes/normal_font_size = 36
 text = "(Click an item to store/swap it)"
 horizontal_alignment = 1
 

@@ -57,6 +57,10 @@ func _ready():
 	# Connect Signals
 	score_changed.connect($Scoreboard.update_scores)
 	game_over.connect($Scoreboard.show_game_over)
+	
+	$ReplayViewer.replay_finished.connect(_on_replay_finished)
+	
+	
 	var shot_clocks = get_tree().get_nodes_in_group("shot_clock")
 	if shot_clocks.size() > 0:
 		shot_clocks[0].timeout_violation.connect(_on_shot_clock_violation)
@@ -92,7 +96,7 @@ func _ready():
 	# Force bot to grab ball and start on D
 	reset_play(bot)
 
-func _physics_process(delta: float):
+func _physics_process(_delta: float):
 	if game_state in ["PLAYING", "CHECKING", "GAME_OVER"]:
 		# Only record if the ball is actually in the scene tree
 		var active_ball = null
@@ -104,7 +108,7 @@ func _physics_process(delta: float):
 
 
 
-func _process(delta: float):
+func _process(_delta: float):
 	$CanvasLayer/DebugMach.text = "MACH: X" + str(MachManager.visual_mach) + " (" + str(
 														snapped(MachManager.current_mach, 0.01)) + ")"
 
@@ -368,17 +372,7 @@ func _on_hoop_basket_scored(points, scorer):
 		# Roll the tape!
 		$ReplayViewer.start_replay(MachManager.visual_mach)
 		
-		# Grab a random AccessoryData resource from LootManager
-		#var reward: AccessoryData = LootManager.roll_for_loot()
 		
-		#if reward != null:
-			#var rewards_array: Array[AccessoryData] = [reward]
-			
-			#$CanvasLayer/VictoryScreen.show_victory(rewards_array)
-			
-		
-	
-	
 		
 	
 	
@@ -422,3 +416,17 @@ func _on_clear_zone_body_exited(body: Node2D):
 	# Remove them from the list
 	if bodies_in_clear_zone.has(body):
 		bodies_in_clear_zone.erase(body)
+
+
+func _on_replay_finished():
+	# Grab a random AccessoryData resource from LootManager
+		var reward: AccessoryData = LootManager.roll_for_loot()
+		
+		if reward != null:
+			var rewards_array: Array[AccessoryData] = [reward]
+			$CanvasLayer/VictoryScreen.show_victory(rewards_array)
+		
+		else:
+			# Safety Fallback: If loot pool is empty, go straight to locker room
+			get_tree().paused = false
+			TransitionManager.transition_to_scene("res://scenes/LockerRoom.tscn")

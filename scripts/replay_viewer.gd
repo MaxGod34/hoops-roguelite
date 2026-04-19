@@ -1,5 +1,7 @@
 extends Node2D
 
+signal replay_finished
+
 var is_playing: bool = false
 var current_frame: int = 0
 var playback_data: Array = []
@@ -24,6 +26,7 @@ const FRAME_TIME: float = 1.0 / FPS
 func _ready():
 	hide()
 	ui_layer.hide()
+	btn_next.pressed.connect(_on_next_pressed)
 
 func start_replay(ending_mach: int):
 	playback_data = HighlightManager.play_of_the_game
@@ -124,3 +127,12 @@ func _process(delta: float):
 		# 4. Loop back to the start if we hit the end of the 5 seconds
 		if current_frame >= playback_data.size():
 			current_frame = 0
+			
+			
+
+
+func _on_next_pressed():
+	is_playing = false
+	hide()
+	ui_layer.hide()
+	replay_finished.emit()

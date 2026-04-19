@@ -212,7 +212,7 @@ func start_check_sequence(role: String):
 	has_control = false
 
 
-func process_check_up(delta: float):
+func process_check_up(_delta: float):
 	var target_pos = Vector2.ZERO
 	var distance_to_target = 0.0
 	var court = get_parent()
