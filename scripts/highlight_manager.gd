@@ -23,7 +23,7 @@ func start_recording():
 func stop_recording():
 	is_recording = false
 
-func record_frame(player_node, bot_node, ball_node):
+func record_frame(player_node, bot_node, ball_node, p_score: int, b_score: int, current_mach: float, clock_time: float):
 	if not is_recording: return
 	
 	# 1. Take the Snapshot of the exact physical state this frame
@@ -37,7 +37,12 @@ func record_frame(player_node, bot_node, ball_node):
 		"ball_sprite_z": ball_node.get_node("Sprite2D").position.y if ball_node and ball_node.has_node("Sprite2D") else 0.0,
 		"ball_scale": ball_node.get_node("Sprite2D").scale * 0.4 if ball_node and ball_node.has_node("Sprite2D") else Vector2.ONE,
 		# Default 0.0, inject Mach into this specific frame later
-		"mach_earned": 0.0
+		"mach_earned": 0.0,
+		# HUD STATES
+		"p_score": p_score,
+		"b_score": b_score,
+		"mach": current_mach,
+		"clock": clock_time
 	}
 	
 	# 2. Add it to the Ring Buffer

@@ -1,6 +1,7 @@
 extends Node2D
 
 signal replay_finished
+signal replay_tick(p_score, b_score, mach_val, clock_time)
 
 var is_playing: bool = false
 var current_frame: int = 0
@@ -75,17 +76,50 @@ func start_replay(ending_mach: int):
 		# Format dictionary key to look nice
 		name_lbl.text = stat_key.capitalize().replace("_", " ") + ": "
 		name_lbl.theme = custom_theme
+		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		stat_grid.add_child(name_lbl)
+		
+		# Spawn a value label WRAPPER
+		var val_wrapper = Control.new()
+		val_wrapper.custom_minimum_size = Vector2(40, 30)
+		stat_grid.add_child(val_wrapper)
+		
 		
 		# 3. Spawn the Value Label
 		var val_lbl = Label.new()
 		val_lbl.text = str(start_val)
 		val_lbl.theme = custom_theme
-		stat_grid.add_child(val_lbl)
+		
+		val_lbl.pivot_offset = Vector2(12, 12)
+		
+		val_wrapper.add_child(val_lbl)
+		
+		var tick_func = func(value: int):
+			var new_text = str(value)
+			
+			if val_lbl.text != new_text:
+				val_lbl.text = new_text
+			
+				# Ignore first frame
+				if value > start_val:
+					# Micro pop
+					var pop_tween = val_lbl.create_tween()
+					pop_tween.set_parallel(true)
+					
+					# Instantly make it big and hype green
+					val_lbl.scale = Vector2(1.5, 1.5)
+					val_lbl.modulate = Color(0.2, 1.0, 0.2)
+					val_lbl.position.y = -10.0
+					
+					# Snap back to normal after 0.2 sec
+					pop_tween.tween_property(val_lbl, "position:y", 0.0, 0.2).set_trans(Tween.TRANS_BOUNCE)
+					pop_tween.tween_property(val_lbl, "scale", Vector2.ONE, 0.2).set_trans(Tween.TRANS_BOUNCE)
+					pop_tween.tween_property(val_lbl, "modulate", Color.WHITE, 0.3)
+		
 		
 		# 4. The Lambda Tween (Dopamine Magic)
 		ui_tween.tween_method(
-			func(value: int): val_lbl.text = str(value),
+			tick_func,
 			start_val,
 			end_val,
 			animation_duration
@@ -120,6 +154,9 @@ func _process(delta: float):
 		ghost_ball.global_position = data["ball_pos"]
 		ghost_ball.position.y += data["ball_sprite_z"]
 		ghost_ball.scale = data["ball_scale"]
+		
+		# Tell court about HUD elements
+		replay_tick.emit(data["p_score"], data["b_score"], data["mach"], data["clock"])
 		
 		# 3. Advance the tape
 		current_frame += 1

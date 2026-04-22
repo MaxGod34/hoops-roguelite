@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cn0mnhhe6ul0y"]
+[gd_scene load_steps=18 format=3 uid="uid://cn0mnhhe6ul0y"]
 
 [ext_resource type="PackedScene" uid="uid://u2gal06p4nlq" path="res://scenes/Hoop.tscn" id="1_562al"]
 [ext_resource type="Texture2D" uid="uid://clo87i3kmodxr" path="res://assets/CourtProtov1.1.png" id="1_h0gog"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://bv5mx3q7le18e" path="res://scenes/shot_clock_ui.tscn" id="10_ty61t"]
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="10_urecc"]
 [ext_resource type="PackedScene" uid="uid://c5uh8y30muhju" path="res://scenes/replay_viewer.tscn" id="12_urecc"]
+[ext_resource type="PackedScene" uid="uid://syytg40r1v7h" path="res://scenes/arena_coils.tscn" id="13_krthx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jgdc"]
 size = Vector2(232.5, 657)
@@ -21,6 +22,9 @@ size = Vector2(1169, 126.188)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h0gog"]
 size = Vector2(560, 129.5)
+
+[sub_resource type="Environment" id="Environment_krthx"]
+glow_enabled = true
 
 [node name="MainCourt" type="Node2D"]
 y_sort_enabled = true
@@ -92,9 +96,9 @@ scale = Vector2(4, 4)
 
 [node name="Scoreboard" parent="." instance=ExtResource("8_5ld8u")]
 z_index = 1
-offset_left = 684.0
+offset_left = 646.0
 offset_top = 2.0
-offset_right = 684.0
+offset_right = 646.0
 offset_bottom = 2.0
 metadata/_edit_use_anchors_ = true
 
@@ -108,6 +112,7 @@ layer = 3
 visible = false
 
 [node name="DebugMach" type="Label" parent="CanvasLayer"]
+visible = false
 anchors_preset = -1
 anchor_top = 0.03
 anchor_right = 0.25
@@ -124,10 +129,17 @@ metadata/_edit_use_anchors_ = true
 
 [node name="ShotClockUI" parent="." instance=ExtResource("10_ty61t")]
 z_index = 1
-offset_left = 711.0
-offset_top = 63.0
-offset_right = 711.0
-offset_bottom = 63.0
+offset_left = 656.0
+offset_top = 64.0
+offset_right = 656.0
+offset_bottom = 64.0
 metadata/_edit_use_anchors_ = true
 
 [node name="ReplayViewer" parent="." instance=ExtResource("12_urecc")]
+
+[node name="ArenaCoils" parent="." instance=ExtResource("13_krthx")]
+z_index = 1
+position = Vector2(123, 64)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_krthx")

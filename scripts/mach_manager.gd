@@ -1,5 +1,7 @@
 extends Node
 
+signal mach_generated(amount_earned)
+
 # Math
 var current_mach: float = 1.0
 # UI & reward
@@ -27,6 +29,8 @@ func add_mach(amount: float):
 	# GHOST BUFFER
 	current_mach = clamp(current_mach, 1.0, 4.99)
 	_update_visuals()
+	
+	mach_generated.emit(amount)
 	
 	# Feed the DVR
 	if HighlightManager.is_recording:

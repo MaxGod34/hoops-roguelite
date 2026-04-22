@@ -54,11 +54,12 @@ grow_horizontal = 0
 script = ExtResource("1_w5fga")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(512, 0)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_right = 472.0
+offset_right = 512.0
 offset_bottom = 121.0
 grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ucmtr")
@@ -146,6 +147,40 @@ horizontal_alignment = 1
 layout_mode = 2
 alignment = 2
 
+[node name="Lbl_MachTitle" type="Label" parent="PanelContainer/VBoxContainer/HBoxProgression"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.404555, 5.77569e-07, 1)
+theme_override_colors/font_outline_color = Color(0.133196, 0.133196, 0.133196, 1)
+theme_override_constants/shadow_offset_x = -3
+theme_override_constants/shadow_offset_y = -3
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("1_ucmtr")
+theme_override_font_sizes/font_size = 24
+text = "MACH"
+horizontal_alignment = 1
+
+[node name="Lbl_MachValue" type="Label" parent="PanelContainer/VBoxContainer/HBoxProgression"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.404555, 5.77569e-07, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -2
+theme_override_constants/shadow_offset_y = -2
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("1_ucmtr")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_g67ru")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator3" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxProgression"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_styles/separator = SubResource("StyleBoxEmpty_w5fga")
+
 [node name="Lbl_QuarterTitle" type="Label" parent="PanelContainer/VBoxContainer/HBoxProgression"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.647059, 0, 1)
@@ -177,7 +212,7 @@ vertical_alignment = 1
 
 [node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxProgression"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 theme_override_styles/separator = SubResource("StyleBoxEmpty_w5fga")
 
 [node name="Lbl_GameTitle" type="Label" parent="PanelContainer/VBoxContainer/HBoxProgression"]
@@ -211,7 +246,7 @@ vertical_alignment = 1
 
 [node name="VSeparator2" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxProgression"]
 layout_mode = 2
-theme_override_constants/separation = 96
+theme_override_constants/separation = 8
 theme_override_styles/separator = SubResource("StyleBoxEmpty_w5fga")
 
 [node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]

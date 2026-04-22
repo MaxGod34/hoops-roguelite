@@ -1,0 +1,84 @@
+[gd_scene load_steps=10 format=3 uid="uid://syytg40r1v7h"]
+
+[ext_resource type="Script" uid="uid://crxrei52jnuwn" path="res://scripts/arena_coils.gd" id="1_aq0jk"]
+[ext_resource type="Texture2D" uid="uid://dqh1vrsb7in8y" path="res://assets/MachCoilProtoV1.0.png" id="2_e8c2i"]
+[ext_resource type="PackedScene" uid="uid://b2luu2b0my7a7" path="res://scenes/lightning_arc.tscn" id="2_l3k6u"]
+
+[sub_resource type="Gradient" id="Gradient_l3k6u"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hil0e"]
+gradient = SubResource("Gradient_l3k6u")
+width = 2
+height = 10
+use_hdr = true
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Curve" id="Curve_l3k6u"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_hil0e"]
+curve = SubResource("Curve_l3k6u")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oo8b0"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(0.5, 3, 1)
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 400, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_hil0e")
+color = Color(2, 2.5, 4, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hbhqg"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(0.5, 3, 1)
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 400, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_hil0e")
+color = Color(2, 2.5, 4, 1)
+
+[node name="ArenaCoils" type="Node2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_aq0jk")
+lightning_scene = ExtResource("2_l3k6u")
+
+[node name="LeftCoil" type="Sprite2D" parent="."]
+texture = ExtResource("2_e8c2i")
+
+[node name="LeftSparks" type="GPUParticles2D" parent="LeftCoil"]
+z_index = 2
+position = Vector2(0, -48)
+emitting = false
+amount = 12
+texture = SubResource("GradientTexture2D_hil0e")
+one_shot = true
+explosiveness = 0.8
+process_material = SubResource("ParticleProcessMaterial_oo8b0")
+
+[node name="RightCoil" type="Sprite2D" parent="."]
+position = Vector2(256, 0)
+texture = ExtResource("2_e8c2i")
+
+[node name="RightSparks" type="GPUParticles2D" parent="RightCoil"]
+z_index = 2
+position = Vector2(0, -48)
+emitting = false
+amount = 12
+texture = SubResource("GradientTexture2D_hil0e")
+one_shot = true
+explosiveness = 0.8
+process_material = SubResource("ParticleProcessMaterial_hbhqg")
+
+[node name="ArcContainer" type="Node2D" parent="."]

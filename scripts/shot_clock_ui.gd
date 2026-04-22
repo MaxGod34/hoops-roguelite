@@ -64,3 +64,14 @@ func trigger_violation():
 	print("BZZZZZZZ! SHOT CLOCK VIOLATION!")
 	
 	timeout_violation.emit()
+
+func force_displayed_time(recorded_time: float):
+	if recorded_time < 5.0:
+		time_label.text = str(snapped(recorded_time, 0.1))
+		time_label.add_theme_color_override("font_color", warning_color)
+		time_label.add_theme_color_override("font_shadow_color", Color("b90000"))
+		
+	else:
+		time_label.text = str(int(ceil(recorded_time)))
+		time_label.add_theme_color_override("font_color", normal_color)
+		time_label.add_theme_color_override("font_shadow_color", Color("cdcdcd"))

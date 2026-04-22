@@ -648,5 +648,10 @@ func _vacuum_check():
 				# Use previous state cuz of OoOperations
 				# Tell ref if we got a rebound or a steal
 				if (previous_state == "LOOSE" or previous_state == "REBOUNDING") and get_parent().game_state != "CHECKING":
+					var was_inbound_pass = get_parent().is_inbound_pass
+					
+					
 					get_parent().handle_rebound(self)
-					MachManager.add_mach(0.3) # HUSTLE BONUS
+					
+					if not was_inbound_pass:
+						MachManager.add_mach(0.3) # HUSTLE BONUS

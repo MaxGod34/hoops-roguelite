@@ -87,11 +87,12 @@ offset_right = -80.0
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
+theme_override_constants/separation = 8
 
 [node name="Lbl_Mach" type="Label" parent="UI/StatsContainer"]
 layout_mode = 2
 theme = ExtResource("2_h5t4w")
-theme_override_colors/font_color = Color(1, 1, 0, 0.588235)
+theme_override_colors/font_color = Color(1, 1, 0, 0.784314)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = -6
@@ -104,7 +105,7 @@ text = "ENDING MACH: X1"
 [node name="Lbl_Reward" type="Label" parent="UI/StatsContainer"]
 layout_mode = 2
 theme = ExtResource("2_h5t4w")
-theme_override_colors/font_color = Color(1, 1, 0, 0.588235)
+theme_override_colors/font_color = Color(1, 1, 0, 0.784314)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = -6
@@ -116,11 +117,13 @@ text = "BASE REWARD +1 x 1"
 
 [node name="HSeparator" type="HSeparator" parent="UI/StatsContainer"]
 layout_mode = 2
-theme_override_constants/separation = 128
+theme_override_constants/separation = 32
 theme_override_styles/separator = SubResource("StyleBoxEmpty_h5t4w")
 
 [node name="StatGrid" type="GridContainer" parent="UI/StatsContainer"]
 layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
 columns = 2
 
 [node name="Btn_Next" type="Button" parent="UI"]

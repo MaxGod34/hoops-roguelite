@@ -11,7 +11,7 @@ signal game_over(winner_name)
 @onready var ball = get_node("Ball")
 
 # Score Tracking
-var player_score: int = 8
+var player_score: int = 0
 var bot_score: int = 0
 var target_score: int = 11
 var pending_points: int = 2
@@ -56,9 +56,10 @@ func _ready():
 			
 	# Connect Signals
 	score_changed.connect($Scoreboard.update_scores)
-	game_over.connect($Scoreboard.show_game_over)
+
 	
 	$ReplayViewer.replay_finished.connect(_on_replay_finished)
+	$ReplayViewer.replay_tick.connect(_on_replay_tick)
 	
 	
 	var shot_clocks = get_tree().get_nodes_in_group("shot_clock")
@@ -66,7 +67,7 @@ func _ready():
 		shot_clocks[0].timeout_violation.connect(_on_shot_clock_violation)
 	
 	# Fire off so we start at 0-0
-	score_changed.emit(player_score, bot_score)
+	score_changed.emit(player_score, bot_score, MachManager.visual_mach)
 	
 	
 	#===========Enemy Initialization==========
@@ -104,7 +105,20 @@ func _physics_process(_delta: float):
 		if balls.size() > 0:
 			active_ball = balls[0]
 		
-		HighlightManager.record_frame(player, bot, active_ball)
+		var current_clock: float = 0.0
+		var shot_clocks = get_tree().get_nodes_in_group("shot_clock")
+		if shot_clocks.size() > 0:
+			current_clock = shot_clocks[0].current_time
+		
+		HighlightManager.record_frame(
+			player, 
+			bot, 
+			active_ball, 
+			player_score, 
+			bot_score, 
+			MachManager.current_mach,
+			current_clock
+		)
 
 
 
@@ -333,7 +347,7 @@ func _on_hoop_basket_scored(points, scorer):
 		bot_score += points
 		print("Bot Score: ", bot_score)
 		
-	score_changed.emit(player_score, bot_score)
+	
 	
 	#========================
 	# MACH MODIFIERS
@@ -346,7 +360,7 @@ func _on_hoop_basket_scored(points, scorer):
 	elif scorer == bot:
 		MachManager.reduce_mach(1.0)	# THE CROWD GOES BOOOOO
 
-
+	score_changed.emit(player_score, bot_score, MachManager.visual_mach)
 
 	if player_score >= target_score:
 		game_state = "GAME_OVER"
@@ -430,3 +444,12 @@ func _on_replay_finished():
 			# Safety Fallback: If loot pool is empty, go straight to locker room
 			get_tree().paused = false
 			TransitionManager.transition_to_scene("res://scenes/LockerRoom.tscn")
+
+func _on_replay_tick(p_score, b_score, mach_val, clock_val):
+	# Instantly update visual scoreboard to the frame's exact score
+	score_changed.emit(p_score, b_score, mach_val)
+	
+	# Update the Mach text to show what the coil was doing at the exact moment
+	$CanvasLayer/DebugMach.text = "MACH: X" + str(mach_val) + " (REPLAY)"
+	
+	get_tree().call_group("shot_clock", "force_displayed_time", clock_val)
