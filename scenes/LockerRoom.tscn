@@ -328,6 +328,7 @@ position = Vector2(12, 330.5)
 shape = SubResource("RectangleShape2D_3fb16")
 
 [node name="Player" parent="." instance=ExtResource("1_07kbb")]
+z_index = 1
 position = Vector2(581, 142)
 
 [node name="UpgradeMenu" type="CanvasLayer" parent="."]
@@ -886,7 +887,7 @@ scale = Vector2(9, 4.5)
 shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="Forge" type="Area2D" parent="."]
-position = Vector2(913, 28)
+position = Vector2(904, 36)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("15_smqfs")
 station_type = "Forge"
@@ -900,7 +901,7 @@ shape = SubResource("RectangleShape2D_k8rc4")
 texture = ExtResource("23_epmqv")
 
 [node name="ForgeStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(911, 33)
+position = Vector2(902, 39)
 scale = Vector2(4.5, 4.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ForgeStaticWall"]
@@ -1139,6 +1140,7 @@ texture = ExtResource("6_lcfti")
 [node name="CanvasLayer" type="CanvasLayer" parent="Station_Kibisis"]
 
 [node name="KibisisMenu" type="Control" parent="Station_Kibisis/CanvasLayer"]
+visible = false
 z_index = 1
 layout_mode = 3
 anchors_preset = 15
@@ -1562,7 +1564,7 @@ scale = Vector2(4.5, 4.5)
 shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="StyxIceBath" type="Area2D" parent="."]
-position = Vector2(1112, 301)
+position = Vector2(1104, 301)
 script = ExtResource("15_smqfs")
 station_type = "Styx Ice Bath"
 
@@ -1572,13 +1574,13 @@ scale = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="StyxIceBath"]
-rotation = 1.5708
-skew = -0.938987
+rotation = 1.46782
+skew = -0.785398
 texture = ExtResource("17_eo1ny")
 
 [node name="IceBathStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(1135, 329)
-scale = Vector2(6.5, 6.5)
+position = Vector2(1124, 324)
+scale = Vector2(6.5, 7)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="IceBathStaticWall"]
 shape = SubResource("RectangleShape2D_o67jq")
@@ -1604,7 +1606,7 @@ scale = Vector2(2.5, 2.5)
 shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="ExitStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(589, 17)
+position = Vector2(589, 7)
 scale = Vector2(7, 4.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitStaticWall"]
@@ -1617,11 +1619,12 @@ script = ExtResource("15_smqfs")
 station_type = "Exit to Court"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Exit"]
-position = Vector2(-2, 18)
+position = Vector2(-2, -12)
 scale = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="Exit"]
+position = Vector2(0, 10)
 texture = ExtResource("25_o67jq")
 
 [node name="Camera2D" type="Camera2D" parent="."]

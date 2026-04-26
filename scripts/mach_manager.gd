@@ -1,6 +1,7 @@
 extends Node
 
 signal mach_generated(amount_earned)
+signal mach_level_changed(new_level)
 
 # Math
 var current_mach: float = 1.0
@@ -51,3 +52,5 @@ func _update_visuals():
 	if new_visual != visual_mach:
 		visual_mach = new_visual
 		print("MACH LEVEL CHANGED! X", visual_mach, " ACHIEVED!")
+		
+		mach_level_changed.emit(visual_mach)

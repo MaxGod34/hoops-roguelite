@@ -139,7 +139,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="ArenaCoils" parent="." instance=ExtResource("13_krthx")]
 z_index = 1
-position = Vector2(123, 64)
+position = Vector2(123, 80)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_krthx")

@@ -92,7 +92,7 @@ func _on_close_button_pressed():
 func _attempt_upgrade(stat_name: String):
 	var upgrade_cost = 100
 	
-	if PlayerData.amps >= upgrade_cost and PlayerData.stats[stat_name] < 100:
+	if PlayerData.amps >= upgrade_cost and PlayerData.base_stats[stat_name] < 100:
 		PlayerData.amps -= upgrade_cost
 		PlayerData.upgrade_stat(stat_name, 1)
 		
@@ -104,15 +104,15 @@ func update_ui():
 	#lbl_amps.text = "Amps: " + str(PlayerData.amps)
 	# Update 12 stat labels
 	# OFFENSE
-	lbl_close_shot_val.text = str(PlayerData.stats["close_shot"])
-	lbl_mid_shot_val.text = str(PlayerData.stats["mid_shot"])
-	lbl_3pt_val.text = str(PlayerData.stats["three_pt"])
-	lbl_layup_val.text = str(PlayerData.stats["layups"])
-	lbl_dunk_val.text = str(PlayerData.stats["dunks"])
-	lbl_ball_handle_val.text = str(PlayerData.stats["ball_handling"])
+	lbl_close_shot_val.text = str(PlayerData.base_stats["close_shot"])
+	lbl_mid_shot_val.text = str(PlayerData.base_stats["mid_shot"])
+	lbl_3pt_val.text = str(PlayerData.base_stats["three_pt"])
+	lbl_layup_val.text = str(PlayerData.base_stats["layups"])
+	lbl_dunk_val.text = str(PlayerData.base_stats["dunks"])
+	lbl_ball_handle_val.text = str(PlayerData.base_stats["ball_handling"])
 	# DEFENSE
-	lbl_speed_accel_val.text = str(PlayerData.stats["speed_accel"])
-	lbl_strength_val.text = str(PlayerData.stats["strength"])
-	lbl_steal_val.text = str(PlayerData.stats["steal"])
-	lbl_block_val.text = str(PlayerData.stats["block"])
-	lbl_rebound_val.text = str(PlayerData.stats["rebounding"])
+	lbl_speed_accel_val.text = str(PlayerData.base_stats["speed_accel"])
+	lbl_strength_val.text = str(PlayerData.base_stats["strength"])
+	lbl_steal_val.text = str(PlayerData.base_stats["steal"])
+	lbl_block_val.text = str(PlayerData.base_stats["block"])
+	lbl_rebound_val.text = str(PlayerData.base_stats["rebounding"])

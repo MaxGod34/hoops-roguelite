@@ -65,8 +65,9 @@ func spawn_arc():
 	new_arc.end_pos = Vector2(right_coil.position.x, right_coil.position.y - 40)
 
 func kill_arc():
-	if active_arcs.size() > 0:
-		var arc = active_arcs.pop_back()
+	if arc_container.get_child_count() > 0:
+		var arc = arc_container.get_child(0)
+		active_arcs.erase(arc)
 		arc.queue_free()
 		current_arc_count -= 1
 

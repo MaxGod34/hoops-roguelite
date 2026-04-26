@@ -12,6 +12,9 @@ func _ready():
 
 
 func _process(_delta):
+	if station_type == "Exit to Court":
+		return
+	
 	if player_in_zone and Input.is_action_just_pressed("interact"):
 		var prompts = get_tree().get_nodes_in_group("station_prompt")
 		if prompts.size() > 0 and not prompts[0].visible:
@@ -34,20 +37,20 @@ func request_prompt(prompt_ui):
 			flavor_text = "Take the bait\nVoluntary difficulty spikes for targeted stat buffs"
 		"Forge":
 			flavor_text = "Out of order!\nObtain your lightning bolt to access!"
-		"Exit to Court":
-			flavor_text = "Ready to ball?"
-			cost = 0
 			
 	prompt_ui.open_prompt(self, flavor_text, cost)
 
 		
 func execute_purchase():
 	if station_type == "Exit to Court":
+		var players = get_tree().get_nodes_in_group("player")
+		if players.size() > 0:
+			players[0].walk_through_door(global_position)
+		
 		GameManager.advance_progression()
 		# MachMeter, add carryover logic later
 		MachManager.reset_to_base()
 		TransitionManager.transition_to_scene("res://scenes/MainCourt.tscn")
-		#GameManager.go_to_court()
 		return
 	
 	
@@ -87,6 +90,11 @@ func apply_station_effect():
 func _on_body_entered(body):
 	if body.name == "Player":
 		player_in_zone = true
+		
+		# AUTO DOOR
+		if station_type == "Exit to Court":
+			execute_purchase()
+		
 		print("Press Interact to use " + station_type + " (Cost: 1 Energy)")
 		
 func _on_body_exited(body):

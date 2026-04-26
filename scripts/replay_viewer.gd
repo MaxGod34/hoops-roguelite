@@ -62,8 +62,8 @@ func start_replay(ending_mach: int):
 	var animation_duration: float = 4.0
 	
 	# Dynamic Stat Generation
-	for stat_key in PlayerData.stats.keys():
-		var start_val = PlayerData.stats[stat_key]
+	for stat_key in PlayerData.base_stats.keys():
+		var start_val = PlayerData.base_stats[stat_key]
 		var end_val = start_val + total_reward
 		
 		var custom_theme = load("res://scenes/lbl_theme_stats_replay.tres")

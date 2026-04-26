@@ -1,8 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://syytg40r1v7h"]
+[gd_scene load_steps=11 format=3 uid="uid://syytg40r1v7h"]
 
 [ext_resource type="Script" uid="uid://crxrei52jnuwn" path="res://scripts/arena_coils.gd" id="1_aq0jk"]
 [ext_resource type="Texture2D" uid="uid://dqh1vrsb7in8y" path="res://assets/MachCoilProtoV1.0.png" id="2_e8c2i"]
 [ext_resource type="PackedScene" uid="uid://b2luu2b0my7a7" path="res://scenes/lightning_arc.tscn" id="2_l3k6u"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_l3k6u"]
+blend_mode = 1
 
 [sub_resource type="Gradient" id="Gradient_l3k6u"]
 colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
@@ -59,6 +62,7 @@ texture = ExtResource("2_e8c2i")
 
 [node name="LeftSparks" type="GPUParticles2D" parent="LeftCoil"]
 z_index = 2
+material = SubResource("CanvasItemMaterial_l3k6u")
 position = Vector2(0, -48)
 emitting = false
 amount = 12
@@ -68,11 +72,12 @@ explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_oo8b0")
 
 [node name="RightCoil" type="Sprite2D" parent="."]
-position = Vector2(256, 0)
+position = Vector2(320, 0)
 texture = ExtResource("2_e8c2i")
 
 [node name="RightSparks" type="GPUParticles2D" parent="RightCoil"]
 z_index = 2
+material = SubResource("CanvasItemMaterial_l3k6u")
 position = Vector2(0, -48)
 emitting = false
 amount = 12

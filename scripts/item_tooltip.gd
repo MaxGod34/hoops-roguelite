@@ -44,7 +44,7 @@ func display_item(item: AccessoryData):
 	#===============================DEF/REB/PHYS===============================
 	if item.speed_bonus > 0: stat_text += "\n+" + str(item.speed_bonus) + " SPD/ACCEL "
 	if item.strength_bonus > 0: stat_text += "\n+" + str(item.strength_bonus) + " STRENGTH "
-	if item.vertical_bonus > 0: stat_text += "\n+" + str(item.vertical_bonus) + " VERTICAL "
+	if item.mach_bonus > 0: stat_text += "\n+" + str(item.vertical_bonus) + " MACH "
 	if item.steal_bonus > 0: stat_text += "\n+" + str(item.steal_bonus) + " STEAL "
 	if item.block_bonus > 0: stat_text += "\n+" + str(item.block_bonus) + " BLOCK "
 	if item.rebounding_bonus > 0: stat_text += "\n+" + str(item.rebounding_bonus) + " REBOUND "

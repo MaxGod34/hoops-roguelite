@@ -33,6 +33,7 @@ var state: String = "LOOSE" # LOOSE, HELD, SHOOTING, REBOUNDING
 # Tween Tracking
 var active_move_tween: Tween
 var active_z_tween: Tween
+var cross_tween: Tween
 
 # Scoring
 var point_value: int = 2 # Default 2 pter
@@ -104,6 +105,9 @@ func throw(aim_direction: Vector2, player_velocity: Vector2, speed_modifier: flo
 	if player == null:
 		push_error("ERROR: Tried to throw the ball, but the player variable was null! (ball.gd throw())")
 		return
+	
+	if cross_tween and cross_tween.is_valid():
+		cross_tween.kill()
 	
 	# Stand-Still Fix
 	# If standing still, default to throwing "up" the court 
@@ -386,8 +390,12 @@ func perform_crossover(duration: float):
 	# Swap the internal tracker
 	current_hand = "LEFT" if current_hand == "RIGHT" else "RIGHT"
 	
+	if cross_tween and cross_tween.is_valid():
+		cross_tween.kill()
+	
+	
 	# Tween the ball's root X position across the body
-	var cross_tween = create_tween()
+	cross_tween = create_tween()
 	cross_tween.tween_property(self, "position:x", target_x, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	
 	

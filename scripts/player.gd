@@ -47,17 +47,28 @@ var ball_handle: int = 50
 var check_role: String = "" # FETCH, RECEIVE
 
 func _ready():
+	# Door Transition Resets
+	modulate.a = 1.0
+	if has_node("Sprite2D"):
+		$Sprite2D.scale = Vector2(1.0, 1.0)
+	
+	update_player_stats()
+	PlayerData.stats_updated.connect(update_player_stats)
+	
+
+func update_player_stats():
 	# Sync player mechanics with the global true stats
-	strength = PlayerData.stats["strength"]
-	steal_rating = PlayerData.stats["steal"]
-	block_rating = PlayerData.stats["block"]
-	ball_handle = PlayerData.stats["ball_handling"]
+	strength = PlayerData.get_effective_stat("strength")
+	steal_rating = PlayerData.get_effective_stat("steal")
+	block_rating = PlayerData.get_effective_stat("block")
+	ball_handle = PlayerData.get_effective_stat("ball_handling")
 	# Speed
 	# Rebound
 	# Close/Mid/3pt Shot
 	# Layup
 	# Dunk
 	# Mach Modifier Stat
+	print("Player Stats Refreshed! Current Steal: ", steal_rating)
 
 
 func _physics_process(delta: float) -> void:
@@ -66,7 +77,7 @@ func _physics_process(delta: float) -> void:
 	if swipe_cooldown > 0:
 		swipe_cooldown -= delta
 	
-	if Input.is_action_just_pressed("shoot") and not has_ball and not is_contesting:
+	if Input.is_action_just_pressed("block") and not has_ball and not is_contesting:
 		attempt_block()
 	
 	
@@ -207,6 +218,9 @@ func _physics_process(delta: float) -> void:
 			held_ball.is_dribbling = false
 				
 
+
+
+
 func start_check_sequence(role: String):
 	check_role = role
 	has_control = false
@@ -290,7 +304,7 @@ func force_turnover():
 	if held_ball:
 		held_ball.is_dribbling = false
 		var random_dir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-		held_ball.throw(random_dir, Vector2.ZERO)
+		held_ball.throw(random_dir, Vector2.ZERO, 0.75)
 		
 		
 		held_ball = null
@@ -634,9 +648,16 @@ func _vacuum_check():
 		if body.is_in_group("ball") and body.has_method("pickup"):
 			if body.z_height > 3.0: continue
 			
+		#--------------------CHECK-UP FALLBACK----------------------------------------
+			if "game_state" in get_parent() and get_parent().game_state == "CHECKING":
+				if check_role != "FETCH":
+					continue
+		#-----------------------------------------------------------------------------
+			
 			if not body.is_held and body.can_be_picked_up and not is_shooting:
 				# State Snapshot
 				var previous_state = body.state
+				var previous_owner = get_parent().current_possession
 				
 				# Grab Ball
 				body.pickup(self)
@@ -650,8 +671,31 @@ func _vacuum_check():
 				if (previous_state == "LOOSE" or previous_state == "REBOUNDING") and get_parent().game_state != "CHECKING":
 					var was_inbound_pass = get_parent().is_inbound_pass
 					
-					
 					get_parent().handle_rebound(self)
 					
 					if not was_inbound_pass:
-						MachManager.add_mach(0.3) # HUSTLE BONUS
+						if previous_state == "LOOSE" and previous_owner == self:
+							print("Recovered Own Fumble! No Mach reward!")
+						else:
+							MachManager.add_mach(0.3) # HUSTLE BONUS
+
+
+func walk_through_door(door_pos: Vector2):
+	has_control = false
+	is_shooting = false
+	velocity = Vector2.ZERO
+	
+	var trans_time: float = 0.4
+	var enter_tween = create_tween()
+	enter_tween.set_parallel(true)
+	
+	# 1. Walk them to the center of the door and slightly up into the tunnel
+	var target_pos = door_pos + Vector2(0, -30)
+	enter_tween.tween_property(self, "global_position", target_pos, trans_time).set_trans(Tween.TRANS_SINE)
+	
+	# 2. Fade them into the darkness
+	enter_tween.tween_property(self, "modulate:a", 0.0, trans_time)
+	
+	# 3. Shrink them slightly to sell 3D depth of walking away
+	if has_node("Sprite2D"):
+		enter_tween.tween_property($Sprite2D, "scale", Vector2(0.8, 0.8), trans_time)

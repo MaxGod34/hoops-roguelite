@@ -1,7 +1,9 @@
 extends Node
 
+signal stats_updated
+
 # 12 Attribute Matrix
-var stats = {
+var base_stats = {
 	# Shooting
 	"close_shot": 50,
 	"mid_shot": 50,
@@ -21,6 +23,29 @@ var stats = {
 	# Mach
 	"mach": 50
 }
+
+
+var thread_bonuses = {
+	# Shooting
+	"close_shot": 0,
+	"mid_shot": 0,
+	"three_pt": 0,
+	# Finishing
+	"layups": 0,
+	"dunks": 0,
+	# Handle/Rebound
+	"ball_handling": 0,
+	"rebounding": 0,
+	# Defense
+	"steal": 0,
+	"block": 0,
+	# Physicals
+	"speed_accel": 0,
+	"strength": 0,
+	# Mach
+	"mach": 0
+}
+
 
 # Inventory
 var equipment = {
@@ -53,12 +78,44 @@ func advance_game_state():
 
 # -- HELPER FUNCTIONS --
 func upgrade_stat(stat_name: String, amount: int):
-	if stats.has(stat_name):
-		stats[stat_name] += amount
-		stats[stat_name] = clamp(stats[stat_name], 0, 100)
-		print(stat_name + " upgraded to: " + str(stats[stat_name]))
+	if base_stats.has(stat_name):
+		base_stats[stat_name] += amount
+		base_stats[stat_name] = clamp(base_stats[stat_name], 0, 100)
+		print(stat_name + " upgraded to: " + str(base_stats[stat_name]))
 		
+
+
+func get_effective_stat(stat_name: String) -> int:
+	var base = base_stats.get(stat_name, 0)
+	var bonus = thread_bonuses.get(stat_name, 0)
+	
+	return base + bonus
+
+func apply_thread_bonus(stat_name: String, amount: int):
+	if thread_bonuses.has(stat_name):
+		thread_bonuses[stat_name] += amount
+
+
+func recalculate_thread_bonuses():
+	# 1. Zero everything out to prevent ghost stats
+	for stat in thread_bonuses.keys():
+		thread_bonuses[stat] = 0
+	
+	# 2. Loop through only the items actively on your body
+	for slot in equipment.keys():
+		var item = equipment[slot]
 		
+		if item != null and item.has_method("get_boosts"):
+			var item_boosts = item.get_boosts()
+			
+			for stat_name in item_boosts.keys():
+				if thread_bonuses.has(stat_name):
+					thread_bonuses[stat_name] += item_boosts[stat_name]
+	
+	# 3. Tell player script the math changed
+	stats_updated.emit()
+
+
 # -- THE STORAGE LCOKER --
 var locker_storage = []
 const MAX_LOCKER_SLOTS = 3
@@ -74,6 +131,7 @@ func stash_equipped_items(slot_name: String):
 		locker_storage.append(equipment[slot_name])
 		# Remove the item from the player
 		equipment[slot_name] = null
+		recalculate_thread_bonuses()
 		
 		print("Item stashed successfully. Your ", slot_name, " slot is now empty.")
 		return true
@@ -101,7 +159,7 @@ func equip_from_locker(locker_index: int, target_slot: String):
 			locker_storage.remove_at(locker_index)
 			print("Equipped item from locker.")
 		
-		
+	recalculate_thread_bonuses()
 
 	
 func receive_new_item(new_item: AccessoryData) -> bool:
@@ -111,6 +169,7 @@ func receive_new_item(new_item: AccessoryData) -> bool:
 	if equipment.has(slot) and equipment[slot] == null:
 		equipment[slot] = new_item
 		print("Auto-equipped: ", new_item.item_name)
+		recalculate_thread_bonuses()
 		return true
 	# If body slot is full, check if there is room
 	elif locker_storage.size() < 3:

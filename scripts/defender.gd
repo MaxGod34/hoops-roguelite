@@ -502,7 +502,7 @@ func force_turnover():
 		held_ball.is_dribbling = false
 		var random_dir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 		# Use throw function with zero momentum so it pops out
-		held_ball.throw(random_dir, Vector2.ZERO)
+		held_ball.throw(random_dir, Vector2.ZERO, 0.75)
 		
 		held_ball = null
 		has_ball = false
@@ -695,7 +695,14 @@ func _vacuum_check():
 			# Check is the ball flying over my stupid bot head
 			if body.z_height > 3.0: continue
 			
+			#--------------------CHECK-UP FALLBACK----------------------------------------
+			if "game_state" in get_parent() and get_parent().game_state == "CHECKING":
+				if check_role != "FETCH":
+					continue
+			#-----------------------------------------------------------------------------
+			
 			var previous_state = body.state
+			
 			
 			# Grab the ball
 			body.pickup(self)
