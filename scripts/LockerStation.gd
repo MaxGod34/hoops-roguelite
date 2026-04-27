@@ -2,7 +2,7 @@ extends Area2D
 
 @export_enum("Oracle Film Room", "Offer Libations", "Styx Ice Bath", "Exit to Court",
 			"Apollo's Chalk", "Oceanus Bait Shop", "Forge", "Altar", 
-			"Wheel of Fate", "The Showers") var station_type: String
+			"Wheel of Fate", "The Showers", "Scouting Board") var station_type: String
 
 var player_in_zone: bool = false
 
@@ -17,15 +17,31 @@ func _process(_delta):
 		return
 	
 	if player_in_zone and Input.is_action_just_pressed("interact"):
-		#-------------WHEEL-------------
+		#-----------------------------------WHEEL-------------------------------
 		if station_type == "Wheel of Fate":
 			# Find wheel in the scene and open it
 			var wheel_menu = get_tree().get_first_node_in_group("locker_wheel")
 			if wheel_menu:
 				wheel_menu.open_menu()
 			return
-		#-------------------------------
-		
+		#-----------------------------------------------------------------------
+		#-----------------------------SCOUTING BOARD----------------------------
+		if station_type == "Scouting Board":
+			var scout_board = get_tree().get_first_node_in_group("scout_board")
+			if scout_board:
+				# If already paid, view for free
+				if GameManager.is_scouted:
+					scout_board.open_menu()
+				# If not paid, check energy
+				elif GameManager.current_energy >= 2:
+					GameManager.current_energy -= 2
+					GameManager.is_scouted = true
+					print("Scouting Report Purchased!")
+					scout_board.open_menu()
+				else:
+					print("Not enough energy to scout! Cost: 2 energy")
+			return
+		#-----------------------------------------------------------------------
 		
 		
 		# Standard Stations (Yes/No Prompt)
@@ -62,7 +78,6 @@ func execute_purchase():
 		if players.size() > 0:
 			players[0].walk_through_door(global_position)
 		
-		GameManager.advance_progression()
 		# MachMeter, add carryover logic later
 		MachManager.reset_to_base()
 		TransitionManager.transition_to_scene("res://scenes/MainCourt.tscn")

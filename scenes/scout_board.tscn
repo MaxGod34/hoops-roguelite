@@ -1,0 +1,585 @@
+[gd_scene load_steps=11 format=3 uid="uid://chf53dwxt4tv1"]
+
+[ext_resource type="Script" uid="uid://cyxtj0taf1hhh" path="res://scripts/scout_board.gd" id="1_m1xfj"]
+[ext_resource type="Texture2D" uid="uid://swhe71w43u68" path="res://assets/red_ball.png" id="2_88ci1"]
+[ext_resource type="Theme" uid="uid://cmthdl2hsat1i" path="res://scenes/lbl_theme_stats_replay.tres" id="3_lb2st"]
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="4_okxd1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3fb16"]
+bg_color = Color(0.894694, 0.940427, 0.901908, 1)
+border_width_left = 32
+border_width_top = 32
+border_width_right = 32
+border_width_bottom = 32
+border_color = Color(0.36283, 0.362829, 0.362829, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vacuq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtgom"]
+bg_color = Color(1, 0.458824, 0, 0.607843)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udugu"]
+bg_color = Color(0.262932, 0.262932, 0.262932, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vvigs"]
+bg_color = Color(0.481789, 0.481789, 0.481789, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bdufn"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[node name="ScoutMenu" type="Control" groups=["scout_board"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m1xfj")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3fb16")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="TopRow" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="OpponentTexture" type="TextureRect" parent="VBoxContainer/TopRow"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_88ci1")
+
+[node name="Lbl_Opp_Name" type="Label" parent="VBoxContainer/TopRow"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vacuq")
+text = "The Janitor"
+
+[node name="StatsGrid" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 32
+theme_override_constants/v_separation = 24
+columns = 4
+
+[node name="Lbl_CloseShotTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Close Shot:"
+horizontal_alignment = 2
+
+[node name="Lbl_CloseShotValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_MidShotTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Mid Shot:"
+horizontal_alignment = 2
+
+[node name="Lbl_MidShotValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_ThreePtShotTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "3PT:"
+horizontal_alignment = 2
+
+[node name="Lbl_ThreePtShotValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_BallHandleTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Ball Handle:"
+horizontal_alignment = 2
+
+[node name="Lbl_BallHandleValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_LayupTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Layup:"
+horizontal_alignment = 2
+
+[node name="Lbl_LayupValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_DunkTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Dunk:"
+horizontal_alignment = 2
+
+[node name="Lbl_DunkValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_StealTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Steal:"
+horizontal_alignment = 2
+
+[node name="Lbl_StealValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_BlockTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Block:"
+horizontal_alignment = 2
+
+[node name="Lbl_BlockValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_SpeedTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Speed:"
+horizontal_alignment = 2
+
+[node name="Lbl_SpeedValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_StrengthTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Strength:"
+horizontal_alignment = 2
+
+[node name="Lbl_StrengthValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_ReboundTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Rebound:"
+horizontal_alignment = 2
+
+[node name="Lbl_ReboundValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "100"
+horizontal_alignment = 1
+
+[node name="Lbl_MachTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "Mach:"
+horizontal_alignment = 2
+
+[node name="Lbl_MachValue" type="Label" parent="VBoxContainer/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "0"
+horizontal_alignment = 1
+
+[node name="AbilityRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Lbl_AbilitiesTitle" type="Label" parent="VBoxContainer/AbilityRow"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.784674, 0.748988, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vacuq")
+text = "Ability:"
+
+[node name="Lbl_AbilitiesValue" type="Label" parent="VBoxContainer/AbilityRow"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(1, 0.784674, 0.748988, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vacuq")
+text = "N/A"
+
+[node name="ArenaRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Lbl_ArenaRuleTitle" type="Label" parent="VBoxContainer/ArenaRow"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.698247, 1, 0.671603, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vacuq")
+text = "Arena Rule:"
+
+[node name="Lbl_ArenaRuleValue" type="Label" parent="VBoxContainer/ArenaRow"]
+layout_mode = 2
+theme = ExtResource("3_lb2st")
+theme_override_colors/font_color = Color(0.698247, 1, 0.671603, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vacuq")
+text = "Must Take Alternating Shots"
+
+[node name="Btn_Leave" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 0.759174, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("4_okxd1")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/focus = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vvigs")
+theme_override_styles/hover = SubResource("StyleBoxFlat_udugu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bdufn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_bdufn")
+text = "Leave"

@@ -34,5 +34,5 @@ class_name DefenderStats
 
 @export_group("Assets")
 @export var body_sprite: Texture2D
-@export var accessorty_sprite: Texture2D
+@export var accessory_sprite: Texture2D
 @export var voice_sfx: AudioStream

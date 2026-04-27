@@ -26,7 +26,7 @@ var banked_energy: int = 0
 var oracle_scourt_active: bool = false
 var styx_ice_bath_active: bool = false
 var apollo_chalk_active: bool = false
-
+var is_scouted: bool = false
 
 # Oceanus Bait Shop
 var active_oceanus_buff: String = ""
@@ -40,6 +40,8 @@ var threads_disabled_next_game: bool = false
 var start_down_0_1: bool = false
 
 
+
+
 func advance_progression():
 	current_game += 1
 	if current_game > max_games_per_quarter:
@@ -47,6 +49,10 @@ func advance_progression():
 		current_quarter += 1
 		
 		# Eventually add final boss stuff here
+	
+	# Roll next enemy
+	GlobalData.roll_next_opponent()
+	
 
 # -- TRANSITION FUNCTIONS --
 func go_to_locker_room():
@@ -72,16 +78,20 @@ func reset_run():
 	
 	PlayerData.attribute_cap = 100
 	
+	GlobalData.roll_next_opponent()
+	
 	go_to_court()
 	
 func prepare_locker_room():
 	current_energy = 2 + banked_energy
 	banked_energy = 0
+	is_scouted = false
 	
 func clear_match_modifiers():
 	oracle_scourt_active = false
 	styx_ice_bath_active = false
 	apollo_chalk_active = false
+	is_scouted = false
 	
 	active_oceanus_buff = ""
 	active_oceanus_debuff = ""

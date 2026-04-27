@@ -54,3 +54,18 @@ func get_current_enemy_data() -> DefenderStats:
 	if enemy_database.has(current_enemy_id):
 		return enemy_database[current_enemy_id]
 	return null
+
+func roll_next_opponent():
+	var pool_to_pull = "Q1_REGULAR"
+	
+	if GameManager.current_game == GameManager.max_games_per_quarter:
+		pool_to_pull = "Q1_BOSS"
+	
+	var next_enemy = GlobalData.pick_random_enemy(pool_to_pull)
+	
+	if next_enemy == "":
+		print("Pool empty!")
+		return
+	
+	current_enemy_id = next_enemy
+	print("Scouting report updated: Next opponent is: ", current_enemy_id)

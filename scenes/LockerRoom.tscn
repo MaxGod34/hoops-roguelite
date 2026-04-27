@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=61 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
@@ -12,6 +12,7 @@
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="7_fsaij"]
 [ext_resource type="Texture2D" uid="uid://c0o1u1t74cqry" path="res://assets/accessories/BananaBandanaProto.png" id="7_rv06o"]
 [ext_resource type="Texture2D" uid="uid://budlwkxvff1p4" path="res://assets/accessories/OverallsProto.png" id="8_i0i2h"]
+[ext_resource type="PackedScene" uid="uid://chf53dwxt4tv1" path="res://scenes/scout_board.tscn" id="8_udugu"]
 [ext_resource type="Texture2D" uid="uid://c6sym54t4mabm" path="res://assets/WheelProto.png" id="9_phwrl"]
 [ext_resource type="Texture2D" uid="uid://du0dxyvkknx7b" path="res://assets/accessories/8BallProto.png" id="9_smqfs"]
 [ext_resource type="Texture2D" uid="uid://b1yxhw4xdkfgs" path="res://assets/accessories/LeftArmMummyWrapProto.png" id="10_k8rc4"]
@@ -37,19 +38,17 @@ size = Vector2(1167, 86)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3fb16"]
 size = Vector2(109, 681)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3fb16"]
-bg_color = Color(0.964706, 0.964706, 0.964706, 1)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_twet0"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_txlc3"]
-size = Vector2(20, 23.3333)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lcfti"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_o67jq"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8rc4"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtgom"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_epmqv"]
 bg_color = Color(0.682353, 0.560784, 0.121569, 1)
@@ -143,6 +142,12 @@ expand_margin_left = 8.0
 expand_margin_top = 12.0
 expand_margin_right = 8.0
 expand_margin_bottom = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lcfti"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o67jq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8rc4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tg3a6"]
 
@@ -280,9 +285,9 @@ horizontal_alignment = 1
 
 [node name="Lbl_Exit" type="Label" parent="."]
 offset_left = 430.0
-offset_top = 8.0
-offset_right = 497.0
-offset_bottom = 53.0
+offset_top = 6.0
+offset_right = 501.0
+offset_bottom = 55.0
 theme = ExtResource("29_4nymk")
 theme_override_colors/font_color = Color(1, 0.380392, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -291,131 +296,15 @@ theme_override_constants/shadow_offset_x = -3
 theme_override_constants/shadow_offset_y = -3
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
 text = "EXIT
---->"
+-->"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Player" parent="." instance=ExtResource("1_07kbb")]
 z_index = 1
 position = Vector2(581, 142)
-
-[node name="UpgradeMenu" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="Panel" type="Panel" parent="UpgradeMenu"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_3fb16")
-
-[node name="UpgradeStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(120, 159)
-scale = Vector2(5, 5)
-
-[node name="StaticWallCollision" type="CollisionShape2D" parent="UpgradeStaticWall"]
-position = Vector2(187.8, 82.6)
-rotation = -0.349066
-scale = Vector2(1.75, 1)
-shape = SubResource("RectangleShape2D_twet0")
-
-[node name="Zone_Upgrades" type="Area2D" parent="."]
-position = Vector2(1061, 555)
-rotation = 2.35619
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Zone_Upgrades"]
-position = Vector2(29.6981, 24.1426)
-rotation = -0.698132
-scale = Vector2(6.5, 6.5)
-shape = SubResource("RectangleShape2D_txlc3")
-
-[node name="Sprite2D" type="Sprite2D" parent="Zone_Upgrades"]
-skew = -0.790634
-texture = ExtResource("3_3fb16")
-
-[node name="Station_Styx" type="Area2D" parent="."]
-position = Vector2(1068, 97)
-script = ExtResource("4_twet0")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Station_Styx"]
-position = Vector2(42, -13)
-rotation = 0.785398
-scale = Vector2(10, 10)
-shape = SubResource("RectangleShape2D_lcfti")
-
-[node name="Sprite2D" type="Sprite2D" parent="Station_Styx"]
-rotation = 0.785398
-scale = Vector2(1.5, 1.5)
-skew = -0.420624
-texture = ExtResource("6_o67jq")
-
-[node name="StyxStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(1072, 112)
-rotation = 0.785398
-scale = Vector2(9, 4.5)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StyxStaticWall"]
-shape = SubResource("RectangleShape2D_o67jq")
-
-[node name="Forge" type="Area2D" parent="."]
-position = Vector2(904, 36)
-scale = Vector2(0.8, 0.8)
-script = ExtResource("15_smqfs")
-station_type = "Forge"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Forge"]
-position = Vector2(-2.5, 6.25)
-scale = Vector2(7, 7)
-shape = SubResource("RectangleShape2D_k8rc4")
-
-[node name="Sprite2D" type="Sprite2D" parent="Forge"]
-texture = ExtResource("23_epmqv")
-
-[node name="Showers" type="Area2D" parent="."]
-position = Vector2(474, 612)
-skew = -1.028
-script = ExtResource("15_smqfs")
-station_type = "The Showers"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Showers"]
-position = Vector2(18.5431, 12.5495)
-rotation = -0.907571
-scale = Vector2(9, 9)
-skew = -0.645772
-shape = SubResource("RectangleShape2D_k8rc4")
-
-[node name="Sprite2D" type="Sprite2D" parent="Showers"]
-position = Vector2(6.3786, 7.30273)
-rotation = 3.14159
-scale = Vector2(1.25, 1.25)
-skew = 0.851721
-texture = ExtResource("10_wjvu0")
-
-[node name="Wheel" type="Area2D" parent="."]
-position = Vector2(785, 610)
-scale = Vector2(0.8, 0.8)
-script = ExtResource("15_smqfs")
-station_type = "Wheel of Fate"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wheel"]
-position = Vector2(-2.5, 6.25)
-scale = Vector2(11, 7)
-shape = SubResource("RectangleShape2D_k8rc4")
-
-[node name="Sprite2D" type="Sprite2D" parent="Wheel"]
-position = Vector2(0, 7.5)
-rotation = 3.4383
-scale = Vector2(0.25, 0.25)
-skew = 0.898845
-texture = ExtResource("9_phwrl")
-
-[node name="ForgeStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(902, 39)
-scale = Vector2(4.5, 4.5)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ForgeStaticWall"]
-shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="PopUps" type="CanvasLayer" parent="."]
 
@@ -621,6 +510,131 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_8r6bx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_o3sog")
 theme_override_styles/normal = SubResource("StyleBoxFlat_o3sog")
 text = "NAH"
+
+[node name="LockerWheel" parent="PopUps" instance=ExtResource("28_4nymk")]
+visible = false
+
+[node name="ScoutMenu" parent="PopUps" instance=ExtResource("8_udugu")]
+visible = false
+
+[node name="Station_Styx" type="Area2D" parent="."]
+position = Vector2(1068, 97)
+script = ExtResource("4_twet0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Station_Styx"]
+position = Vector2(42, -13)
+rotation = 0.785398
+scale = Vector2(10, 10)
+shape = SubResource("RectangleShape2D_lcfti")
+
+[node name="Sprite2D" type="Sprite2D" parent="Station_Styx"]
+rotation = 0.785398
+scale = Vector2(1.5, 1.5)
+skew = -0.420624
+texture = ExtResource("6_o67jq")
+
+[node name="StyxStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(1072, 112)
+rotation = 0.785398
+scale = Vector2(9, 4.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StyxStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
+
+[node name="Forge" type="Area2D" parent="."]
+position = Vector2(904, 36)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("15_smqfs")
+station_type = "Forge"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Forge"]
+position = Vector2(-2.5, 6.25)
+scale = Vector2(7, 7)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Forge"]
+texture = ExtResource("23_epmqv")
+
+[node name="ForgeStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(902, 39)
+scale = Vector2(4.5, 4.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForgeStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
+
+[node name="Showers" type="Area2D" parent="."]
+position = Vector2(1047, 581)
+rotation = -0.977384
+skew = -1.15017
+script = ExtResource("15_smqfs")
+station_type = "The Showers"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Showers"]
+position = Vector2(37.5997, -27.563)
+rotation = -0.907571
+scale = Vector2(10, 9)
+skew = -0.645772
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Showers"]
+position = Vector2(6.3786, 7.30273)
+rotation = 3.14159
+scale = Vector2(1.25, 1.25)
+skew = 0.712094
+texture = ExtResource("10_wjvu0")
+
+[node name="ShowerStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(1061, 575)
+rotation = 0.593412
+scale = Vector2(3, 8)
+skew = -0.0174533
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShowerStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
+
+[node name="Wheel" type="Area2D" parent="."]
+position = Vector2(817, 610)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("15_smqfs")
+station_type = "Wheel of Fate"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wheel"]
+position = Vector2(-2.5, 6.25)
+scale = Vector2(11, 7)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wheel"]
+position = Vector2(0, 7.5)
+rotation = 3.4383
+scale = Vector2(0.25, 0.25)
+skew = 0.898845
+texture = ExtResource("9_phwrl")
+
+[node name="ScoutBoardStation" type="Area2D" parent="."]
+position = Vector2(557, 605)
+skew = -0.802851
+script = ExtResource("15_smqfs")
+station_type = "Scouting Board"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoutBoardStation"]
+position = Vector2(31.5011, -23.9808)
+scale = Vector2(8, 7)
+skew = 0.853466
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="ScoutBoardStation"]
+position = Vector2(0, 7.5)
+rotation = 3.14159
+scale = Vector2(1.25, 1.25)
+skew = 0.818559
+texture = ExtResource("3_3fb16")
+
+[node name="ScoutBoardStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(576, 615)
+scale = Vector2(4.5, 4.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoutBoardStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="KibisisStaticWall" type="StaticBody2D" parent="."]
 position = Vector2(111, 561)
@@ -1007,9 +1021,6 @@ offset_top = -53.5
 offset_right = 199.0
 offset_bottom = 53.5
 
-[node name="LockerWheel" parent="Station_Kibisis/CanvasLayer" instance=ExtResource("28_4nymk")]
-visible = false
-
 [node name="OracleFilmRoom" type="Area2D" parent="."]
 position = Vector2(61, 353)
 rotation = -1.5708
@@ -1118,13 +1129,6 @@ scale = Vector2(2.5, 2.5)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ChalkStaticWall"]
 shape = SubResource("RectangleShape2D_o67jq")
 
-[node name="ExitStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(589, 7)
-scale = Vector2(7, 4.5)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitStaticWall"]
-shape = SubResource("RectangleShape2D_o67jq")
-
 [node name="Exit" type="Area2D" parent="."]
 position = Vector2(591, 28)
 scale = Vector2(1, 0.5)
@@ -1140,12 +1144,17 @@ shape = SubResource("RectangleShape2D_k8rc4")
 position = Vector2(0, 10)
 texture = ExtResource("25_o67jq")
 
+[node name="ExitStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(589, 7)
+scale = Vector2(7, 4.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(575, 323)
 zoom = Vector2(1.67, 1.67)
 
-[connection signal="body_entered" from="Zone_Upgrades" to="." method="_on_zone_upgrades_body_entered"]
-[connection signal="body_exited" from="Zone_Upgrades" to="." method="_on_zone_upgrades_body_exited"]
 [connection signal="body_entered" from="Station_Styx" to="Station_Styx" method="_on_body_entered"]
 [connection signal="body_exited" from="Station_Styx" to="Station_Styx" method="_on_body_exited"]
 [connection signal="body_entered" from="Station_Kibisis" to="Station_Kibisis" method="_on_body_entered"]

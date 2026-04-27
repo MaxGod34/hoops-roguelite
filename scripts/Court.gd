@@ -89,18 +89,10 @@ func _ready():
 	
 	
 	#===========Enemy Initialization==========
-	var pool_to_pull = "Q1_REGULAR"
+	if GlobalData.current_enemy_id == "":
+		print("DEBUG: No enemy loaded! Rolling one out automatically!")
+		GlobalData.roll_next_opponent()
 	
-	if GameManager.current_game == GameManager.max_games_per_quarter:
-		pool_to_pull = "Q1_BOSS"
-	
-	var next_enemy = GlobalData.pick_random_enemy(pool_to_pull)
-	
-	if next_enemy == "":
-		print("Pool empty!")
-		return
-		
-	GlobalData.current_enemy_id = next_enemy
 	var active_stats = GlobalData.get_current_enemy_data()
 	
 	if bot and bot.has_method("initialize_stats"):

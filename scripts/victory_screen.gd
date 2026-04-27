@@ -29,8 +29,11 @@ func show_victory(rewards: Array[AccessoryData]):
 			# Listen for if player takes the item
 			new_btn.item_claimed.connect(_on_item_claimed)
 	
+	var enemy_name = "the Opponent"
+	
+	
 	var enemy_stats = GlobalData.get_current_enemy_data()
-	var enemy_name = enemy_stats.defender_name
+	enemy_name = enemy_stats.defender_name
 	lbl_name.text = "You defeated " + enemy_name
 	
 	
@@ -61,5 +64,6 @@ func _on_btn_proceed_pressed() -> void:
 		GameManager.threads_disabled_next_game = false
 		PlayerData.recalculate_thread_bonuses() # Give em their bonuses back
 	#-----------------------
+	GameManager.advance_progression()
 	GameManager.prepare_locker_room()
 	TransitionManager.transition_to_scene("res://scenes/LockerRoom.tscn")
