@@ -52,5 +52,9 @@ func _on_item_claimed(item: AccessoryData):
 
 func _on_btn_proceed_pressed() -> void:
 	get_tree().paused = false
+	
+	#LockerRoomResets
+	GameManager.styx_ice_bath_active = false
+	
 	TransitionManager.transition_to_scene("res://scenes/LockerRoom.tscn")
 	#GameManager.go_to_locker_room()

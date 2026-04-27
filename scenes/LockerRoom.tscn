@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=82 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
@@ -12,6 +12,7 @@
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="7_fsaij"]
 [ext_resource type="Texture2D" uid="uid://c0o1u1t74cqry" path="res://assets/accessories/BananaBandanaProto.png" id="7_rv06o"]
 [ext_resource type="Texture2D" uid="uid://budlwkxvff1p4" path="res://assets/accessories/OverallsProto.png" id="8_i0i2h"]
+[ext_resource type="Texture2D" uid="uid://c6sym54t4mabm" path="res://assets/WheelProto.png" id="9_phwrl"]
 [ext_resource type="Texture2D" uid="uid://du0dxyvkknx7b" path="res://assets/accessories/8BallProto.png" id="9_smqfs"]
 [ext_resource type="Texture2D" uid="uid://b1yxhw4xdkfgs" path="res://assets/accessories/LeftArmMummyWrapProto.png" id="10_k8rc4"]
 [ext_resource type="Texture2D" uid="uid://dgcm72tv2w2pq" path="res://assets/accessories/RightFortuneGauntletProto.png" id="11_eo1ny"]
@@ -26,6 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://icicvnlongj2" path="res://scenes/ItemTooltip.tscn" id="20_yx1fu"]
 [ext_resource type="Texture2D" uid="uid://dts8fcu4iowo5" path="res://assets/locker_room/AttributeUpgradeStation.png" id="23_epmqv"]
 [ext_resource type="Texture2D" uid="uid://cuv0qgg7tcauy" path="res://assets/locker_room/CaveExit.png" id="25_o67jq"]
+[ext_resource type="PackedScene" uid="uid://d2ihkuyw4bl8l" path="res://scenes/locker_wheel.tscn" id="28_4nymk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nmlxb"]
 size = Vector2(1167, 86)
@@ -900,6 +902,24 @@ shape = SubResource("RectangleShape2D_k8rc4")
 [node name="Sprite2D" type="Sprite2D" parent="Forge"]
 texture = ExtResource("23_epmqv")
 
+[node name="Wheel" type="Area2D" parent="."]
+position = Vector2(785, 610)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("15_smqfs")
+station_type = "Wheel of Fate"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wheel"]
+position = Vector2(-2.5, 6.25)
+scale = Vector2(11, 7)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wheel"]
+position = Vector2(0, 7.5)
+rotation = 3.4383
+scale = Vector2(0.25, 0.25)
+skew = 0.898845
+texture = ExtResource("9_phwrl")
+
 [node name="ForgeStaticWall" type="StaticBody2D" parent="."]
 position = Vector2(902, 39)
 scale = Vector2(4.5, 4.5)
@@ -1496,6 +1516,9 @@ offset_left = -199.0
 offset_top = -53.5
 offset_right = 199.0
 offset_bottom = 53.5
+
+[node name="LockerWheel" parent="Station_Kibisis/CanvasLayer" instance=ExtResource("28_4nymk")]
+visible = false
 
 [node name="OracleFilmRoom" type="Area2D" parent="."]
 position = Vector2(61, 353)

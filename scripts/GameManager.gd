@@ -32,6 +32,12 @@ var apollo_chalk_active: bool = false
 var active_oceanus_buff: String = ""
 var active_oceanus_debuff: String = ""
 
+# Wheel Flags
+var wheel_extra_thread_next_game: bool = false
+var start_up_1_0: bool = false
+var start_mach_3: bool = false
+var threads_disabled_next_game: bool = false
+var start_down_0_1: bool = false
 
 
 func advance_progression():
@@ -77,3 +83,9 @@ func clear_match_modifiers():
 	
 	active_oceanus_buff = ""
 	active_oceanus_debuff = ""
+	
+	wheel_extra_thread_next_game = false
+	start_up_1_0 = false
+	start_mach_3 = false
+	threads_disabled_next_game = false
+	start_down_0_1 = false

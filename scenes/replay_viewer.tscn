@@ -115,6 +115,19 @@ theme_override_fonts/font = ExtResource("2_1jhej")
 theme_override_font_sizes/font_size = 32
 text = "BASE REWARD +1 x 1"
 
+[node name="Lbl_IceBathBonus" type="Label" parent="UI/StatsContainer"]
+layout_mode = 2
+theme = ExtResource("2_h5t4w")
+theme_override_colors/font_color = Color(0.439007, 0.831241, 1, 0.784314)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -6
+theme_override_constants/shadow_offset_y = -4
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("2_1jhej")
+theme_override_font_sizes/font_size = 32
+text = "STYX ICE BATH X2"
+
 [node name="HSeparator" type="HSeparator" parent="UI/StatsContainer"]
 layout_mode = 2
 theme_override_constants/separation = 32

@@ -1,7 +1,7 @@
 extends Area2D
 
 @export_enum("Oracle Film Room", "Offer Libations", "Styx Ice Bath", "Exit to Court",
-				"Apollo's Chalk", "Oceanus Bait Shop", "Forge", "Altar") var station_type: String
+				"Apollo's Chalk", "Oceanus Bait Shop", "Forge", "Altar", "Wheel of Fate") var station_type: String
 
 var player_in_zone: bool = false
 
@@ -16,6 +16,18 @@ func _process(_delta):
 		return
 	
 	if player_in_zone and Input.is_action_just_pressed("interact"):
+		#-------------WHEEL-------------
+		if station_type == "Wheel of Fate":
+			# Find wheel in the scene and open it
+			var wheel_menu = get_tree().get_first_node_in_group("locker_wheel")
+			if wheel_menu:
+				wheel_menu.open_menu()
+			return
+		#-------------------------------
+		
+		
+		
+		# Standard Stations (Yes/No Prompt)
 		var prompts = get_tree().get_nodes_in_group("station_prompt")
 		if prompts.size() > 0 and not prompts[0].visible:
 			request_prompt(prompts[0])

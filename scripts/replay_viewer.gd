@@ -15,6 +15,7 @@ var playback_data: Array = []
 # UI References
 @onready var lbl_mach = $UI/StatsContainer/Lbl_Mach
 @onready var lbl_reward = $UI/StatsContainer/Lbl_Reward
+@onready var lbl_bath_boost = $UI/StatsContainer/Lbl_IceBathBonus
 @onready var stat_grid = $UI/StatsContainer/StatGrid
 @onready var btn_next = $UI/Btn_Next
 
@@ -46,6 +47,16 @@ func start_replay(ending_mach: int):
 	var base_reward = 1
 	var total_reward = base_reward * ending_mach
 	
+	#---STYX ICE BATH---
+	var is_styx_active = GameManager.styx_ice_bath_active
+	lbl_bath_boost.visible = is_styx_active
+	
+	var visual_total_reward = total_reward
+	if is_styx_active:
+		visual_total_reward *= 2
+		lbl_bath_boost.text = "STYX ICE BATH X2"
+	#--------------------
+	
 	lbl_mach.text = "ENDING MACH: x" + str(ending_mach)
 	lbl_reward.text = "BASE REWARD +1 x " + str(ending_mach)
 	
@@ -64,7 +75,7 @@ func start_replay(ending_mach: int):
 	# Dynamic Stat Generation
 	for stat_key in PlayerData.base_stats.keys():
 		var start_val = PlayerData.base_stats[stat_key]
-		var end_val = start_val + total_reward
+		var end_val = start_val + visual_total_reward
 		
 		var custom_theme = load("res://scenes/lbl_theme_stats_replay.tres")
 		
