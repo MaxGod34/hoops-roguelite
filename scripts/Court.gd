@@ -11,7 +11,7 @@ signal game_over(winner_name)
 @onready var ball = get_node("Ball")
 
 # Score Tracking
-var player_score: int = 0
+var player_score: int = 10
 var bot_score: int = 0
 var target_score: int = 11
 var pending_points: int = 2

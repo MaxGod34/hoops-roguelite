@@ -70,6 +70,8 @@ func reset_run():
 	
 	owned_items.clear()
 	
+	PlayerData.attribute_cap = 100
+	
 	go_to_court()
 	
 func prepare_locker_room():

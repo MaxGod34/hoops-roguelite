@@ -2,6 +2,7 @@ extends Node
 
 signal stats_updated
 
+var attribute_cap: int = 100
 # 12 Attribute Matrix
 var base_stats = {
 	# Shooting
@@ -86,7 +87,7 @@ func upgrade_stat(stat_name: String, amount: int):
 	
 	if base_stats.has(stat_name):
 		base_stats[stat_name] += actual_gain
-		base_stats[stat_name] = clamp(base_stats[stat_name], 0, 100)
+		base_stats[stat_name] = clamp(base_stats[stat_name], 0, attribute_cap)
 		print(stat_name + " upgraded to: " + str(base_stats[stat_name]))
 		stats_updated.emit()
 		

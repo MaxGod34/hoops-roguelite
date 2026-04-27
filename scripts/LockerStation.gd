@@ -1,7 +1,8 @@
 extends Area2D
 
 @export_enum("Oracle Film Room", "Offer Libations", "Styx Ice Bath", "Exit to Court",
-				"Apollo's Chalk", "Oceanus Bait Shop", "Forge", "Altar", "Wheel of Fate") var station_type: String
+			"Apollo's Chalk", "Oceanus Bait Shop", "Forge", "Altar", 
+			"Wheel of Fate", "The Showers") var station_type: String
 
 var player_in_zone: bool = false
 
@@ -49,6 +50,8 @@ func request_prompt(prompt_ui):
 			flavor_text = "Take the bait\nVoluntary difficulty spikes for targeted stat buffs"
 		"Forge":
 			flavor_text = "Out of order!\nObtain your lightning bolt to access!"
+		"The Showers":
+			flavor_text = "Embrace the dark and decompress.\nRaise attribute cap by 5."
 			
 	prompt_ui.open_prompt(self, flavor_text, cost)
 
@@ -98,6 +101,10 @@ func apply_station_effect():
 			GameManager.active_oceanus_buff = "+15 3pt Rating"
 			GameManager.active_oceanus_debuff = "-10 Speed"
 			print("Took the bait! Gained 3pt rating, but lost speed")
+		
+		"The Showers":
+			PlayerData.attribute_cap += 5
+			print("Attribute Cap raised by 5 to a cap of: ", PlayerData.attribute_cap)
 			
 func _on_body_entered(body):
 	if body.name == "Player":

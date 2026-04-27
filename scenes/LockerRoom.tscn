@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=62 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://c6sym54t4mabm" path="res://assets/WheelProto.png" id="9_phwrl"]
 [ext_resource type="Texture2D" uid="uid://du0dxyvkknx7b" path="res://assets/accessories/8BallProto.png" id="9_smqfs"]
 [ext_resource type="Texture2D" uid="uid://b1yxhw4xdkfgs" path="res://assets/accessories/LeftArmMummyWrapProto.png" id="10_k8rc4"]
+[ext_resource type="Texture2D" uid="uid://drkbdvfeln36v" path="res://assets/ShowerProto.png" id="10_wjvu0"]
 [ext_resource type="Texture2D" uid="uid://dgcm72tv2w2pq" path="res://assets/accessories/RightFortuneGauntletProto.png" id="11_eo1ny"]
 [ext_resource type="Texture2D" uid="uid://c3gfkl6cvc7rl" path="res://assets/accessories/LeftSandalProto.png" id="12_fyfyi"]
 [ext_resource type="Texture2D" uid="uid://dplappbp8tjxy" path="res://assets/accessories/RightRollerbladeProto.png" id="13_t3frt"]
@@ -28,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://dts8fcu4iowo5" path="res://assets/locker_room/AttributeUpgradeStation.png" id="23_epmqv"]
 [ext_resource type="Texture2D" uid="uid://cuv0qgg7tcauy" path="res://assets/locker_room/CaveExit.png" id="25_o67jq"]
 [ext_resource type="PackedScene" uid="uid://d2ihkuyw4bl8l" path="res://scenes/locker_wheel.tscn" id="28_4nymk"]
+[ext_resource type="Theme" uid="uid://cmthdl2hsat1i" path="res://scenes/lbl_theme_stats_replay.tres" id="29_4nymk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nmlxb"]
 size = Vector2(1167, 86)
@@ -37,70 +39,6 @@ size = Vector2(109, 681)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3fb16"]
 bg_color = Color(0.964706, 0.964706, 0.964706, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_txlc3"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lcfti"]
-bg_color = Color(0.145328, 1, 0.463988, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b831f"]
-bg_color = Color(5.58317e-06, 0.688999, 0.299058, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1hyx0"]
-bg_color = Color(5.58317e-06, 0.688999, 0.299058, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_twet0"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eo1ny"]
-bg_color = Color(1, 0.827214, 0.626354, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rv06o"]
-bg_color = Color(1, 0.647059, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fyfyi"]
-bg_color = Color(1, 0.477854, 0.410056, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t3frt"]
-bg_color = Color(1, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d6tvq"]
-bg_color = Color(1, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tg3a6"]
-bg_color = Color(0.780691, 1, 0.759367, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_citog"]
-bg_color = Color(0, 0.905882, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogbxd"]
-bg_color = Color(0, 0.905882, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_txlc3"]
-bg_color = Color(0.226707, 0.226707, 0.226707, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twet0"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w4rq8"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i0i2h"]
-bg_color = Color(0.31321, 0.522067, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smqfs"]
-bg_color = Color(0, 0, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k8rc4"]
-bg_color = Color(0, 0, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fsaij"]
-bg_color = Color(0.793757, 0.805146, 0.951646, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4qkvb"]
-bg_color = Color(0.880947, 0.88848, 0.972762, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_myeo6"]
-bg_color = Color(0.793757, 0.805146, 0.951646, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_twet0"]
 
@@ -329,6 +267,34 @@ shape = SubResource("RectangleShape2D_3fb16")
 position = Vector2(12, 330.5)
 shape = SubResource("RectangleShape2D_3fb16")
 
+[node name="Lbl_EnergyWall" type="Label" parent="."]
+offset_left = 669.0
+offset_top = 17.0
+offset_right = 842.0
+offset_bottom = 42.0
+theme = ExtResource("29_4nymk")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Energy: 2"
+horizontal_alignment = 1
+
+[node name="Lbl_Exit" type="Label" parent="."]
+offset_left = 430.0
+offset_top = 8.0
+offset_right = 497.0
+offset_bottom = 53.0
+theme = ExtResource("29_4nymk")
+theme_override_colors/font_color = Color(1, 0.380392, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -3
+theme_override_constants/shadow_offset_y = -3
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 20
+text = "EXIT
+--->"
+horizontal_alignment = 1
+
 [node name="Player" parent="." instance=ExtResource("1_07kbb")]
 z_index = 1
 position = Vector2(581, 142)
@@ -343,502 +309,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3fb16")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UpgradeMenu/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 16
-
-[node name="Lbl_PrimalPower" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 1, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 42
-text = "PRIMAL POWER"
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="HSeparator" type="HSeparator" parent="UpgradeMenu/Panel/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_txlc3")
-
-[node name="OffenseHBox" type="HBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 32
-alignment = 1
-
-[node name="CloseShotCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_CloseShot" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/CloseShotCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0.690196, 0.298039, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_CloseShot" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/CloseShotCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_lcfti")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_b831f")
-theme_override_styles/normal = SubResource("StyleBoxFlat_1hyx0")
-text = "+ 1"
-
-[node name="Lbl_CloseShot" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/CloseShotCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0.690196, 0.298039, 1)
-theme_override_colors/font_outline_color = Color(0, 0.690196, 0.298039, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Close Shot"
-horizontal_alignment = 1
-
-[node name="MidShotCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_MidShot" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/MidShotCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0.690196, 0.298039, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_MidShot" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/MidShotCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_lcfti")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_b831f")
-theme_override_styles/normal = SubResource("StyleBoxFlat_1hyx0")
-text = "+ 1"
-
-[node name="Lbl_MidShot" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/MidShotCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0.690196, 0.298039, 1)
-theme_override_colors/font_outline_color = Color(0, 0.690196, 0.298039, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Mid Shot"
-horizontal_alignment = 1
-
-[node name="Col3pt" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_3pt" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/Col3pt"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0.690196, 0.298039, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_3pt" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/Col3pt"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_lcfti")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_b831f")
-theme_override_styles/normal = SubResource("StyleBoxFlat_1hyx0")
-text = "+ 1"
-
-[node name="Lbl_3pt" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/Col3pt"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0.690196, 0.298039, 1)
-theme_override_colors/font_outline_color = Color(0, 0.690196, 0.298039, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "3pt"
-horizontal_alignment = 1
-
-[node name="VSeparator2" type="VSeparator" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_twet0")
-
-[node name="LayupCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_Layup" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/LayupCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 0.647059, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_Layup" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/LayupCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_eo1ny")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_rv06o")
-theme_override_styles/normal = SubResource("StyleBoxFlat_rv06o")
-text = "+ 1"
-
-[node name="Lbl_Layup" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/LayupCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 0.647059, 0, 1)
-theme_override_colors/font_outline_color = Color(1, 0.647059, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Layup"
-horizontal_alignment = 1
-
-[node name="DunkCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_Dunk" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/DunkCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 0.647059, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_Dunk" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/DunkCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_eo1ny")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_rv06o")
-theme_override_styles/normal = SubResource("StyleBoxFlat_rv06o")
-text = "+ 1"
-
-[node name="Lbl_Dunk" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/DunkCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 0.647059, 0, 1)
-theme_override_colors/font_outline_color = Color(1, 0.647059, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Dunk"
-horizontal_alignment = 1
-
-[node name="VSeparator3" type="VSeparator" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_twet0")
-
-[node name="BallHandleCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_BallHandle" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/BallHandleCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_BallHandle" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/BallHandleCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_fyfyi")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_t3frt")
-theme_override_styles/normal = SubResource("StyleBoxFlat_d6tvq")
-text = "+ 1"
-
-[node name="Lbl_BallHandle" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/OffenseHBox/BallHandleCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Ball Handle"
-horizontal_alignment = 1
-
-[node name="HSeparator2" type="HSeparator" parent="UpgradeMenu/Panel/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_txlc3")
-
-[node name="DefRebPhysicalsHBox" type="HBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 32
-alignment = 1
-
-[node name="SpeedAccelCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_SpeedAccel" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/SpeedAccelCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0.905882, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_SpeedAccel" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/SpeedAccelCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_tg3a6")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_citog")
-theme_override_styles/normal = SubResource("StyleBoxFlat_ogbxd")
-text = "+ 1"
-
-[node name="Lbl_SpeedAccel" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/SpeedAccelCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1.41504e-05, 0.907729, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0.905882, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Speed/
-Acceleration"
-horizontal_alignment = 1
-
-[node name="StrengthCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_Strength" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/StrengthCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0.905882, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_Strength" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/StrengthCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_tg3a6")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_citog")
-theme_override_styles/normal = SubResource("StyleBoxFlat_ogbxd")
-text = "+ 1"
-
-[node name="Lbl_Strength" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/StrengthCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1.41504e-05, 0.907729, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0.905882, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Strength"
-horizontal_alignment = 1
-
-[node name="VerticalCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_Vertical" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/VerticalCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0.905882, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_Vertical" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/VerticalCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_tg3a6")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_citog")
-theme_override_styles/normal = SubResource("StyleBoxFlat_ogbxd")
-text = "+ 1"
-
-[node name="Lbl_Vertical" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/VerticalCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1.41504e-05, 0.907729, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0.905882, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Vertical"
-horizontal_alignment = 1
-
-[node name="VSeparator2" type="VSeparator" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_twet0")
-
-[node name="StealCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_Steal" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/StealCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_Steal" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/StealCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_txlc3")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_twet0")
-theme_override_styles/normal = SubResource("StyleBoxFlat_w4rq8")
-text = "+ 1"
-
-[node name="Lbl_Steal" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/StealCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Steal"
-horizontal_alignment = 1
-
-[node name="BlockCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_Block" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/BlockCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_Block" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/BlockCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_txlc3")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_twet0")
-theme_override_styles/normal = SubResource("StyleBoxFlat_w4rq8")
-text = "+ 1"
-
-[node name="Lbl_Block" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/BlockCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Block"
-horizontal_alignment = 1
-
-[node name="VSeparator4" type="VSeparator" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_twet0")
-
-[node name="ReboundCol" type="VBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-
-[node name="Value_Rebound" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/ReboundCol"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 0, 1, 1)
-theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
-theme_override_font_sizes/normal_font_size = 36
-text = "50"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_Rebound" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/ReboundCol"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-theme_override_styles/hover = SubResource("StyleBoxFlat_i0i2h")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_smqfs")
-theme_override_styles/normal = SubResource("StyleBoxFlat_k8rc4")
-text = "+ 1"
-
-[node name="Lbl_Rebound" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/DefRebPhysicalsHBox/ReboundCol"]
-custom_minimum_size = Vector2(96, 64)
-layout_mode = 2
-theme_override_colors/default_color = Color(0, 0, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 1, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/normal_font_size = 20
-text = "Rebound"
-horizontal_alignment = 1
-
-[node name="HSeparator3" type="HSeparator" parent="UpgradeMenu/Panel/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_txlc3")
-
-[node name="BottomRow" type="HBoxContainer" parent="UpgradeMenu/Panel/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 128
-alignment = 1
-
-[node name="Lbl_Amps" type="RichTextLabel" parent="UpgradeMenu/Panel/VBoxContainer/BottomRow"]
-custom_minimum_size = Vector2(224, 0)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 1, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
-theme_override_font_sizes/normal_font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_fsaij")
-text = "200 Amps"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Btn_CloseMenu" type="Button" parent="UpgradeMenu/Panel/VBoxContainer/BottomRow"]
-custom_minimum_size = Vector2(320, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_colors/font_color = Color(1, 1, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 24
-theme_override_styles/hover = SubResource("StyleBoxFlat_4qkvb")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_myeo6")
-theme_override_styles/normal = SubResource("StyleBoxFlat_fsaij")
-text = "RETURN TO LOCKER ROOM"
-
-[node name="HSeparator4" type="HSeparator" parent="UpgradeMenu/Panel/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_txlc3")
-
-[node name="HSeparator5" type="HSeparator" parent="UpgradeMenu/Panel/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_txlc3")
 
 [node name="UpgradeStaticWall" type="StaticBody2D" parent="."]
 position = Vector2(120, 159)
@@ -901,6 +371,26 @@ shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="Forge"]
 texture = ExtResource("23_epmqv")
+
+[node name="Showers" type="Area2D" parent="."]
+position = Vector2(474, 612)
+skew = -1.028
+script = ExtResource("15_smqfs")
+station_type = "The Showers"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Showers"]
+position = Vector2(18.5431, 12.5495)
+rotation = -0.907571
+scale = Vector2(9, 9)
+skew = -0.645772
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Showers"]
+position = Vector2(6.3786, 7.30273)
+rotation = 3.14159
+scale = Vector2(1.25, 1.25)
+skew = 0.851721
+texture = ExtResource("10_wjvu0")
 
 [node name="Wheel" type="Area2D" parent="."]
 position = Vector2(785, 610)

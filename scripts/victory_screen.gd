@@ -61,5 +61,5 @@ func _on_btn_proceed_pressed() -> void:
 		GameManager.threads_disabled_next_game = false
 		PlayerData.recalculate_thread_bonuses() # Give em their bonuses back
 	#-----------------------
-	
+	GameManager.prepare_locker_room()
 	TransitionManager.transition_to_scene("res://scenes/LockerRoom.tscn")

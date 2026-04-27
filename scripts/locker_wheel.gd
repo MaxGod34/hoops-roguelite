@@ -12,7 +12,7 @@ var wheel_rewards = [
 	# POSITIVES
 	"+10 All Attributes",
 	"+5 Energy",
-	"+1 Thread Next Game",
+	"+1 Thread Next Game (MAX 1)",
 	"Start Next Game Up 1-0",
 	"Start Next Game at Mach 3",
 	# NEGATIVES
@@ -32,12 +32,28 @@ func _ready():
 
 
 func open_menu():
-	visible = true
-	
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		players[0].has_control = false
 		players[0].velocity = Vector2.ZERO
+	
+	if GameManager.current_energy > 0:
+		btn_spin.disabled = false
+	else:
+		btn_spin.disabled = true
+	
+	# 1. Calculate the screen height to know exactly how far to hide it
+	var screen_height = get_viewport_rect().size.y
+	
+	# 2. Snap it off-screen to the top, then turn visiblity on
+	position.y = -screen_height
+	visible = true
+	
+	# 3. Slide it down with a bounce
+	var slide_tween = create_tween()
+	slide_tween.tween_property(self, "position:y", 0.0, 0.75)\
+		.set_trans(Tween.TRANS_BACK)\
+		.set_ease(Tween.EASE_OUT)
 
 
 
@@ -95,7 +111,7 @@ func _on_spin_finished(winning_index: int):
 	# Only unlock button if it wasn't a respin
 	if reward_text != "Re-spin!":
 		is_spinning = false
-		btn_spin.disabled = false
+
 
 func apply_reward(reward: String):
 	match reward:
@@ -107,7 +123,7 @@ func apply_reward(reward: String):
 		"+5 Energy":
 			GameManager.current_energy += 5
 		
-		"+1 Thread Next Game":
+		"+1 Thread Next Game (MAX 1)":
 			print("Loot Incoming!")
 			GameManager.wheel_extra_thread_next_game = true
 		
@@ -145,6 +161,11 @@ func apply_reward(reward: String):
 			return #Exit so the spin button doesn't get enabled
 	
 	print("Reward applied!")
+	if GameManager.current_energy > 0:
+		btn_spin.disabled = false
+		btn_spin.release_focus()
+	else:
+		btn_spin.disabled = true
 
 func lose_random_thread():
 	var active_slots = []
@@ -169,6 +190,17 @@ func lose_random_thread():
 
 func _on_leave_pressed():
 	if is_spinning: return
+	
+	var screen_height = get_viewport_rect().size.y
+	
+	# 1. Slide it back up to the ceiling
+	var slide_tween = create_tween()
+	slide_tween.tween_property(self, "position:y", -screen_height, 0.3)\
+		.set_trans(Tween.TRANS_BACK)\
+		.set_ease(Tween.EASE_IN)
+	
+	# 2. Wait for it to fully disappear
+	await slide_tween.finished
 	
 	visible = false
 	

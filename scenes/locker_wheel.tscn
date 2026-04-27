@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://do3xtnirhmi7d" path="res://assets/PointerProto.png" id="3_gkuyc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_78mda"]
-bg_color = Color(0, 0, 0, 0.627451)
+bg_color = Color(0, 0, 0, 0.784314)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wsnc2"]
 bg_color = Color(0.262932, 0.262932, 0.262932, 1)
@@ -100,10 +100,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_top = 160.0
-offset_right = 20.0
-offset_bottom = 200.0
+offset_left = -32.0
+offset_top = 172.0
+offset_right = 32.0
+offset_bottom = 236.0
 grow_horizontal = 2
 texture = ExtResource("3_gkuyc")
 
