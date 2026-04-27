@@ -131,6 +131,8 @@ func apply_reward(reward: String):
 		"Threads Disabled 1 Game":
 			print("Naked run! Threads disabled next match!")
 			GameManager.threads_disabled_next_game = true
+			# Force update so their UI instantly shows
+			PlayerData.recalculate_thread_bonuses()
 		
 		"Start Next Game Down 0-1":
 			print("Get out of the hole! Start down 0-1")

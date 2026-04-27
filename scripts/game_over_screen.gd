@@ -19,4 +19,10 @@ func show_game_over(winner_name: String, p_pts: int, p_to: int):
 
 func _on_restart_pressed():
 	get_tree().paused = false
+	#--- Remove Curse(s) ---
+	if GameManager.threads_disabled_next_game:
+		GameManager.threads_disabled_next_game = false
+		PlayerData.recalculate_thread_bonuses() # Give em their bonuses back
+	#-----------------------
+	GameManager.reset_run()
 	get_tree().reload_current_scene()

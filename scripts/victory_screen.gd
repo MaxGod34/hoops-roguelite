@@ -56,5 +56,10 @@ func _on_btn_proceed_pressed() -> void:
 	#LockerRoomResets
 	GameManager.styx_ice_bath_active = false
 	
+	#--- Remove Curse(s) ---
+	if GameManager.threads_disabled_next_game:
+		GameManager.threads_disabled_next_game = false
+		PlayerData.recalculate_thread_bonuses() # Give em their bonuses back
+	#-----------------------
+	
 	TransitionManager.transition_to_scene("res://scenes/LockerRoom.tscn")
-	#GameManager.go_to_locker_room()

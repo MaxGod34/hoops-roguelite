@@ -5,7 +5,7 @@ extends Node
 # =================
 var current_quarter: int = 1
 var current_game: int = 1
-var max_games_per_quarter: int = 5
+var max_games_per_quarter: int = 7
 var player_inventory: Array = []
 var owned_items: Array[AccessoryData] = []
 

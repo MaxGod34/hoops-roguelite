@@ -11,7 +11,7 @@ signal game_over(winner_name)
 @onready var ball = get_node("Ball")
 
 # Score Tracking
-var player_score: int = 10
+var player_score: int = 0
 var bot_score: int = 0
 var target_score: int = 11
 var pending_points: int = 2
@@ -66,20 +66,40 @@ func _ready():
 	if shot_clocks.size() > 0:
 		shot_clocks[0].timeout_violation.connect(_on_shot_clock_violation)
 	
-	# Fire off so we start at 0-0
+	# ================ WHEEL OF FATE MODIFIERS ==================
+	if GameManager.start_up_1_0:
+		player_score = 1
+		print("Wheel Buff: Player starts up 1")
+	elif GameManager.start_down_0_1:
+		bot_score = 1
+		print("Wheel Debuff: Bot starts up 1")
+	
+	if GameManager.start_mach_3:
+		MachManager.add_mach(2.0)
+		print("Wheel Buff: Starting at Mach 3")
+	
+	GameManager.start_up_1_0 = false
+	GameManager.start_down_0_1 = false
+	GameManager.start_mach_3 = false
+	# ===========================================================
+	
+	
+	# Fire off so we start at 0-0 plus any wheel buffs/debuffs
 	score_changed.emit(player_score, bot_score, MachManager.visual_mach)
 	
 	
 	#===========Enemy Initialization==========
 	var pool_to_pull = "Q1_REGULAR"
 	
-	if GlobalData.defeated_enemies.size() >= 4:
+	if GameManager.current_game == GameManager.max_games_per_quarter:
 		pool_to_pull = "Q1_BOSS"
 	
 	var next_enemy = GlobalData.pick_random_enemy(pool_to_pull)
+	
 	if next_enemy == "":
 		print("Pool empty!")
 		return
+		
 	GlobalData.current_enemy_id = next_enemy
 	var active_stats = GlobalData.get_current_enemy_data()
 	
@@ -87,7 +107,7 @@ func _ready():
 		bot.initialize_stats(active_stats)
 	
 	apply_arena_rules(active_stats)
-	
+	#========================================
 	
 	#=============GAME START=================
 	print("Tip Off! Setting up initial check...")
@@ -433,17 +453,38 @@ func _on_clear_zone_body_exited(body: Node2D):
 
 
 func _on_replay_finished():
-	# Grab a random AccessoryData resource from LootManager
-		var reward: AccessoryData = LootManager.roll_for_loot()
-		
+	# 1. Determine base drops based on current game in quarter
+	var drop_count = 1
+	var current_game = GameManager.current_game
+	if current_game == 3 or current_game == 4:
+		drop_count = 2
+	elif current_game == 5 or current_game == 6:
+		drop_count = 3
+	elif current_game == 7:
+		pass
+	
+	# 2. Check Wheel of Fate +1 bonus
+	if GameManager.wheel_extra_thread_next_game:
+		drop_count += 1
+		print("Wheel Buff: Dropping an extra thread!")
+		GameManager.wheel_extra_thread_next_game = false
+	
+	# 3. Roll the loot!
+	var rewards_array: Array[AccessoryData] = []
+	
+	for i in range(drop_count):
+		var reward = LootManager.roll_for_loot()
+		# Make sure we still have items in the pool
 		if reward != null:
-			var rewards_array: Array[AccessoryData] = [reward]
-			$CanvasLayer/VictoryScreen.show_victory(rewards_array)
-		
-		else:
-			# Safety Fallback: If loot pool is empty, go straight to locker room
-			get_tree().paused = false
-			TransitionManager.transition_to_scene("res://scenes/LockerRoom.tscn")
+			rewards_array.append(reward)
+	
+	# 4. Send the array to the victory screen
+	if rewards_array.size() > 0:
+		$CanvasLayer/VictoryScreen.show_victory(rewards_array)
+	else:
+		# Safety Fallback: If loot pool is empty, go straight to locker room
+		get_tree().paused = false
+		TransitionManager.transition_to_scene("res://scenes/LockerRoom.tscn")
 
 func _on_replay_tick(p_score, b_score, mach_val, clock_val):
 	# Instantly update visual scoreboard to the frame's exact score

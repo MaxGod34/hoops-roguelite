@@ -108,6 +108,15 @@ func recalculate_thread_bonuses():
 	for stat in thread_bonuses.keys():
 		thread_bonuses[stat] = 0
 	
+	
+	#--- Wheel Curse Intercept ---
+	if GameManager.threads_disabled_next_game:
+		print("Curse active! Thread bonuses are null! NULL!")
+		stats_updated.emit()
+		return # Exit so it doesn't execute any of the bonuses
+	#-----------------------------
+	
+	
 	# 2. Loop through only the items actively on your body
 	for slot in equipment.keys():
 		var item = equipment[slot]
