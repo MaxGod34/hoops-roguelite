@@ -1,0 +1,91 @@
+[gd_scene load_steps=4 format=3 uid="uid://y2flifl8wg6q"]
+
+[ext_resource type="Script" uid="uid://dbr1gcpb13m7x" path="res://scripts/bait_tooltip.gd" id="1_3aamv"]
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="2_0ioly"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x6e2y"]
+bg_color = Color(0.0846899, 0.0846899, 0.0846899, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
+
+[node name="BaitTooltip" type="PanelContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -122.0
+offset_top = -35.5
+offset_right = 122.0
+offset_bottom = 35.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_x6e2y")
+script = ExtResource("1_3aamv")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Lbl_Name" type="Label" parent="VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.407246, 0.338652, 1)
+theme_override_colors/font_shadow_color = Color(1, 0.407843, 0.337255, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -3
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("2_0ioly")
+theme_override_font_sizes/font_size = 36
+text = "The Leech"
+
+[node name="Lbl_Cost" type="Label" parent="VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -3
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("2_0ioly")
+theme_override_font_sizes/font_size = 32
+text = "Cost: 1 Energy"
+
+[node name="Lbl_Duration" type="Label" parent="VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -3
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("2_0ioly")
+theme_override_font_sizes/font_size = 32
+text = "Term: Quarter End"
+
+[node name="Lbl_Details" type="Label" parent="VBox"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1.73271e-06, 0.63337, 0.63337, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.635294, 0.635294, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -3
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("2_0ioly")
+theme_override_font_sizes/font_size = 28
+text = "+25 SPD/ACCEL"
+horizontal_alignment = 1
+autowrap_mode = 2

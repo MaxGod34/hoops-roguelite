@@ -12,13 +12,18 @@ func setup(item: AccessoryData):
 
 
 func _on_mouse_entered():
-	get_tree().get_first_node_in_group("tooltip").display_item(item_data)
+	var tooltip = get_tree().get_first_node_in_group("tooltip")
+	if tooltip != null:
+		tooltip.display_item(item_data)
 	if self.disabled == false:
 		self.scale = Vector2(1.2, 1.2)
 
 
 func _on_mouse_exited():
-	get_tree().get_first_node_in_group("tooltip").hide_tooltip()
+	var tooltip = get_tree().get_first_node_in_group("tooltip")
+	if tooltip != null:
+		tooltip.hide_tooltip()
+	
 	self.scale = Vector2(1.0, 1.0)
 
 
@@ -28,4 +33,6 @@ func _on_pressed():
 	modulate.a = 0.3
 	self.scale = Vector2(1.0, 1.0)
 	
-	get_tree().get_first_node_in_group("tooltip").hide_tooltip()
+	var tooltip = get_tree().get_first_node_in_group("tooltip")
+	if tooltip != null:
+		tooltip.hide_tooltip()

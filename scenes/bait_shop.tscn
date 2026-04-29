@@ -1,0 +1,236 @@
+[gd_scene load_steps=22 format=3 uid="uid://polg108afqtt"]
+
+[ext_resource type="Theme" uid="uid://cmthdl2hsat1i" path="res://scenes/lbl_theme_stats_replay.tres" id="1_4aadx"]
+[ext_resource type="Script" uid="uid://8pu0065duwum" path="res://scripts/bait_shop.gd" id="1_b25l3"]
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="2_acata"]
+[ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="2_unk4q"]
+[ext_resource type="Resource" uid="uid://dkjj5etgatbqi" path="res://resources/BaitShop/TheScales/icarus_delay.tres" id="3_m0ljq"]
+[ext_resource type="Resource" uid="uid://de54pye0u2sfm" path="res://resources/BaitShop/TheScales/kinetic_potential.tres" id="4_gp2hm"]
+[ext_resource type="PackedScene" uid="uid://y2flifl8wg6q" path="res://scenes/BaitTooltip.tscn" id="4_oi2k8"]
+[ext_resource type="Resource" uid="uid://b1n0aofce33ky" path="res://resources/BaitShop/TheScales/deep_cap.tres" id="5_ar2tn"]
+[ext_resource type="Resource" uid="uid://d1mwdacrmeobs" path="res://resources/BaitShop/TheDeep/range_lure.tres" id="6_hbvr8"]
+[ext_resource type="Resource" uid="uid://bxub15pkd14eg" path="res://resources/BaitShop/TheDeep/relaxed_butter.tres" id="7_icdlq"]
+[ext_resource type="Resource" uid="uid://d3m37bxl6ubdg" path="res://resources/BaitShop/TheDeep/turbo_mach.tres" id="8_k80ds"]
+[ext_resource type="Resource" uid="uid://dnon0fch31617" path="res://resources/BaitShop/TheUndercurrent/the_leech.tres" id="9_pe6ql"]
+[ext_resource type="Resource" uid="uid://cxg8vvtdqm56w" path="res://resources/BaitShop/TheUndercurrent/style_more.tres" id="10_x7jll"]
+[ext_resource type="Resource" uid="uid://4txhxt0xpk8p" path="res://resources/BaitShop/TheUndercurrent/sirens_call.tres" id="11_dbh5e"]
+[ext_resource type="Theme" uid="uid://dfsvom5bkyrxp" path="res://scenes/theme_bait_shop_btn.tres" id="13_m0ljq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b25l3"]
+bg_color = Color(0, 1, 1, 1)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color(0.733005, 0.733005, 0.733005, 1)
+expand_margin_left = 64.0
+expand_margin_top = 64.0
+expand_margin_right = 64.0
+expand_margin_bottom = 64.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_unk4q"]
+bg_color = Color(0.321728, 0.321728, 0.321728, 1)
+expand_margin_left = 16.0
+expand_margin_top = 8.0
+expand_margin_right = 16.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oi2k8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0rv7w"]
+bg_color = Color(0.262932, 0.262932, 0.262932, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8lv00"]
+bg_color = Color(0.481789, 0.481789, 0.481789, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sy6m8"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 24.0
+expand_margin_top = 24.0
+expand_margin_right = 24.0
+expand_margin_bottom = 24.0
+
+[node name="BaitShop" type="Control" groups=["bait_shop"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b25l3")
+scales_pool = Array[ExtResource("2_unk4q")]([ExtResource("3_m0ljq"), ExtResource("4_gp2hm"), ExtResource("5_ar2tn")])
+deep_pool = Array[ExtResource("2_unk4q")]([ExtResource("6_hbvr8"), ExtResource("7_icdlq"), ExtResource("8_k80ds")])
+undercurrent_pool = Array[ExtResource("2_unk4q")]([ExtResource("9_pe6ql"), ExtResource("10_x7jll"), ExtResource("11_dbh5e")])
+
+[node name="BgDim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.490196)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainPanel" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_b25l3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MainPanel"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Lbl_Title" type="Label" parent="CenterContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_4aadx")
+theme_override_colors/font_color = Color(0, 0.819608, 1, 1)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_unk4q")
+text = "OCEANUS BAIT SHOP"
+horizontal_alignment = 1
+
+[node name="Lbl_Energy" type="Label" parent="CenterContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_4aadx")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_unk4q")
+text = "Energy: 2"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_oi2k8")
+
+[node name="Row_Scales" type="HBoxContainer" parent="CenterContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Btn_Scale1" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Scales"]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+theme = ExtResource("13_m0ljq")
+
+[node name="Btn_Scale2" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Scales"]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+theme = ExtResource("13_m0ljq")
+
+[node name="Btn_Scale3" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Scales"]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+theme = ExtResource("13_m0ljq")
+
+[node name="Row_Deep" type="HBoxContainer" parent="CenterContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Btn_Deep1" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Deep"]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+theme = ExtResource("13_m0ljq")
+
+[node name="Btn_Deep2" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Deep"]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+theme = ExtResource("13_m0ljq")
+
+[node name="Btn_Deep3" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Deep"]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+theme = ExtResource("13_m0ljq")
+
+[node name="Row_Undercurrent" type="HBoxContainer" parent="CenterContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Btn_Under1" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Undercurrent"]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+theme = ExtResource("13_m0ljq")
+
+[node name="Btn_Under2" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Undercurrent"]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+theme = ExtResource("13_m0ljq")
+
+[node name="Btn_Under3" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Undercurrent"]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+theme = ExtResource("13_m0ljq")
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_oi2k8")
+
+[node name="Btn_Leave" type="Button" parent="CenterContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 0.759174, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("2_acata")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/focus = SubResource("StyleBoxFlat_0rv7w")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_0rv7w")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8lv00")
+theme_override_styles/hover = SubResource("StyleBoxFlat_0rv7w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sy6m8")
+theme_override_styles/normal = SubResource("StyleBoxFlat_sy6m8")
+text = "Leave"
+
+[node name="BaitTooltip" parent="." instance=ExtResource("4_oi2k8")]
+layout_mode = 1
+offset_left = -898.0
+offset_top = 228.0
+offset_right = -269.0
+offset_bottom = 392.0

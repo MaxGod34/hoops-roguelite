@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://5mu0hw34hb4j"]
 
-[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_h4vij"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_awbwb"]
 
 [resource]
-script = ExtResource("1_h4vij")
+script = ExtResource("1_awbwb")
 defender_name = "The Janitor"
 playstyle = "Benchwarmer"
 intro_quote = "..."

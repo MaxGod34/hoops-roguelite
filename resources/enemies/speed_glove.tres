@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://uq0cgtrigks0"]
 
-[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_ftnj1"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_c3ltt"]
 
 [resource]
-script = ExtResource("1_ftnj1")
+script = ExtResource("1_c3ltt")
 defender_name = "Speed Glove"
 playstyle = "Benchwarmer"
 intro_quote = "..."

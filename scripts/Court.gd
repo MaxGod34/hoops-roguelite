@@ -15,6 +15,7 @@ var player_score: int = 10
 var bot_score: int = 0
 var target_score: int = 11
 var pending_points: int = 2
+var pending_shot_is_dunk: bool = false
 
 # Stat Tracking
 var player_turnovers: int = 0
@@ -82,9 +83,13 @@ func _ready():
 	GameManager.start_down_0_1 = false
 	GameManager.start_mach_3 = false
 	# ===========================================================
+	# --- STYLE MORE PENALTY ---
+	if GameManager.has_active_mutation("style_more"):
+		bot_score += 4
+		print("Bait Debuff: Style More starts the bot up by an additional 4 pts!")
+	#---------------------------
 	
-	
-	# Fire off so we start at 0-0 plus any wheel buffs/debuffs
+	# Fire off so we start at 0-0 plus any wheel/bait/thread buffs/debuffs
 	score_changed.emit(player_score, bot_score, MachManager.visual_mach)
 	
 	
@@ -139,10 +144,10 @@ func _process(_delta: float):
 														snapped(MachManager.current_mach, 0.01)) + ")"
 
 
-func record_shot(shooter: Node2D):
+func record_shot(shooter: Node2D, is_dunk: bool = false):
 	last_shooter = shooter
-	# The instant the ball is shot, the ball is uncleared and we'll set it back if need be
 	is_ball_cleared = false
+	pending_shot_is_dunk = is_dunk
 	
 	var attempted_points = 2
 	var active_stats = GlobalData.get_current_enemy_data()
@@ -173,6 +178,17 @@ func record_shot(shooter: Node2D):
 	
 	
 	pending_points = attempted_points
+	
+	#-------------------------RANGE LURE BAIT MODIFIER--------------------------
+	if GameManager.has_active_mutation("range_lure"):
+		if attempted_points == 3:
+			pending_points += 1
+			print("Range Lure active! 3-pointer boosted by 1!")
+		elif attempted_points == 2:
+			pending_points -= 1
+			print("Range Lure active! 2-pointer reduced by 1!")
+	#---------------------------------------------------------------------------
+	
 	print(shooter.name + " puts up a " + str(pending_points) + " pter")
 	
 
@@ -183,11 +199,8 @@ func handle_rebound(rebounder: Node2D):
 		return # Check Up Reroute
 	if force_no_take_back:
 		is_ball_cleared = true
+		last_shooter = null
 		return # Ol Reggies/Accessory Reroute
-	if is_inbound_pass:
-		if rebounder == receiver:
-			is_inbound_pass = false
-		return
 	#--------------
 	
 	if rebounder == last_shooter:
@@ -201,10 +214,15 @@ func handle_rebound(rebounder: Node2D):
 		else:
 			is_ball_cleared = false
 			print("Defensive Rebound! CLEAR BALL ASAP!")
+	
+	#--------RESET SHOOTER SO NEXT FUMBLE IS A TURNOVER---------
+	last_shooter = null
 
 func reset_play(scorer: Node2D):
 	game_state = "CHECKING"
 	is_ball_cleared = true
+	
+	last_shooter = null
 	
 	# Allows phasing through each other during the transition
 	player.add_collision_exception_with(bot)
@@ -274,23 +292,42 @@ func resume_game():
 	is_ball_cleared = true
 
 
-func turnover(violator: Node2D):
-	print("Violation! Turnover committed by: ", violator.name)
-	
+func apply_turnover_penalties(violator: Node2D):
 	if violator == player:
 		MachManager.reset_to_base() # Full Reset on a Turnover
 		player_turnovers += 1
+	
+		#-------RELAXED BUTTER BAIT-------
+		if GameManager.has_active_mutation("relaxed_butter"):
+			print("Relaxed Butter Penalty! -2 Points!")
+			player_score -= 2
+			if player_score < 0: player_score = 0
+			
+			# Update Scoreboard
+			score_changed.emit(player_score, bot_score, MachManager.visual_mach)
+	
+			# Tell Game Manager to Tick Down Charges
+			GameManager.consume_charge("relaxed_butter")
+			
+			# Force Re-Sync In Case Butter Is Consumed
+			apply_arena_rules(GlobalData.get_current_enemy_data())
+	
 	else:
 		bot_turnovers += 1
+	print("Player TO: " + str(player_turnovers) + " | Bot TO: " + str(bot_turnovers))
+
+
+func turnover(violator: Node2D):
+	print("Dead Ball Violation! Turnover committed by: ", violator.name)
+	
+	apply_turnover_penalties(violator)
 	
 	if violator.has_method("force_turnover"): violator.force_turnover()
 		
-	print("Player TO: " + str(player_turnovers))
-	print("Bot TO: " + str(bot_turnovers))
-		
 	reset_play(violator)
 
-func register_possession_change(new_holder: Node2D, previous_ball_state: String):
+# Utilize previous ball state or remove it!
+func register_possession_change(new_holder: Node2D, _previous_ball_state: String):
 	# Did game just start?
 	if current_possession == null:
 		current_possession = new_holder
@@ -309,31 +346,30 @@ func register_possession_change(new_holder: Node2D, previous_ball_state: String)
 	
 	# IGNORE CHECK UP PASS REF CMON
 	if is_inbound_pass:
+		is_inbound_pass = false
 		return
 	
 	
 	# For stats: was it a rebound or a turnover?
-	if previous_ball_state == "LOOSE" and is_ball_cleared == true:
+	if last_shooter == null:
+		# Since nobody shot the ball. It's a clean steal or a fumble recovery
 		print("LIVE BALL TURNOVER! " + loser.name + " lost it to " + new_holder.name)
 		
-		# Log stat
-		if loser.name == "Player":
-			player_turnovers += 1
-		else:
-			bot_turnovers += 1
+		apply_turnover_penalties(loser)
 	
-	elif previous_ball_state == "REBOUNDING" or (previous_ball_state == "LOOSE" and is_ball_cleared == false):
+	else:
+		# Someone shot the ball, so this possession change is a REBOUND
 		print("DEFENSIVE REBOUND by " + new_holder.name + "! (Shot Clock Reset)")
 
 
 func apply_arena_rules(stats: DefenderStats):
+	var base_clock = 30.0 # Base shot clock/Eventually set var for diff/class modifiers
+	
 	if stats == null: return
 	# Speed Glove
 	if stats.half_shot_clock:
 		print("ARENA RULE: 1/2 Shot Clock Active!")
-		get_tree().call_group("shot_clock", "set_active_max", 15.0)
-	else:
-		get_tree().call_group("shot_clock", "set_active_max", 30.0)
+		base_clock = 15.0
 	# Tree McGee
 	if stats.disable_dribble_moves:
 		print("ARENA RULE: Crossovers Disabled!")
@@ -349,12 +385,28 @@ func apply_arena_rules(stats: DefenderStats):
 		player.friction = 400.0
 	else:
 		player.friction = 2000.0
-
+	
+	#------------------------------RELAXED BUTTER-------------------------------
+	if GameManager.has_active_mutation("relaxed_butter"):
+		print("Bait Buff: Relaxed Butter adds 5s to the shot clock!")
+		base_clock += 5.0
+	#---------------------------------------------------------------------------
+	
+	# Apply final calculated shot clock with all modifiers
+	get_tree().call_group("shot_clock", "set_active_max", base_clock)
+	
 
 func _on_hoop_basket_scored(points, scorer):
 	if scorer.name == "Player":
 		player_score += points
 		print("Player Score: ", player_score)
+		
+		#-------------------------- ICARUS DELAY DEBUFF ------------------------
+		if pending_shot_is_dunk and GameManager.has_active_mutation("icarus_delay"):
+			print("ICARUS DELAY! Flew too close to the sun...Score reset to 0!")
+			player_score = 0
+		#-----------------------------------------------------------------------
+		
 	else:
 		bot_score += points
 		print("Bot Score: ", bot_score)
@@ -447,6 +499,7 @@ func _on_clear_zone_body_exited(body: Node2D):
 func _on_replay_finished():
 	# 1. Determine base drops based on current game in quarter
 	var drop_count = 1
+	var extra_thread = 0
 	var current_game = GameManager.current_game
 	if current_game == 3 or current_game == 4:
 		drop_count = 2
@@ -457,9 +510,18 @@ func _on_replay_finished():
 	
 	# 2. Check Wheel of Fate +1 bonus
 	if GameManager.wheel_extra_thread_next_game:
-		drop_count += 1
+		extra_thread += 1
 		print("Wheel Buff: Dropping an extra thread!")
 		GameManager.wheel_extra_thread_next_game = false
+	
+	# 2B. Check Style More Bait Buff
+	if GameManager.has_active_mutation("style_more"):
+		extra_thread += 1
+		print("Bait Buff: Style More Drops an extra thread")
+	
+	# 2C. Apply extra thread(s) with a max of 1
+	if extra_thread > 0:
+		drop_count += 1
 	
 	# 3. Roll the loot!
 	var rewards_array: Array[AccessoryData] = []

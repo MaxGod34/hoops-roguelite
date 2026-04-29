@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://b5v6gpqht6gxn"]
 
-[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_coa5l"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_4n3cq"]
 
 [resource]
-script = ExtResource("1_coa5l")
+script = ExtResource("1_4n3cq")
 defender_name = "Sammy Spice"
 playstyle = "Benchwarmer"
 intro_quote = "..."

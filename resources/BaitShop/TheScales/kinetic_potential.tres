@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://de54pye0u2sfm"]
+
+[ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_jl7uk"]
+
+[resource]
+script = ExtResource("1_jl7uk")
+bait_name = "Kinetic Potential"
+category = "The Scales"
+cost = 2
+description = "+25 Attribute Cap
+-9 All Stats"
+stat_target = "All"
+stat_boost = 0
+cap_boost = 25
+stat_penalty = 9
+duration_type = "Permanent"
+duration_value = 0
+unique_effect_id = "kinetic_potential"
+metadata/_custom_type_script = "uid://exna5fjfa3hg"

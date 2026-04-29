@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://4txhxt0xpk8p"]
+
+[ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_me4pe"]
+
+[resource]
+script = ExtResource("1_me4pe")
+bait_name = "Sirens Call"
+category = "The Undercurrent"
+cost = 2
+description = "Skip to the Boss;
++10 Energy 
+next locker room visit"
+stat_target = ""
+stat_boost = 0
+cap_boost = 0
+stat_penalty = 0
+duration_type = "Games"
+duration_value = 1
+unique_effect_id = "sirens_call"
+metadata/_custom_type_script = "uid://exna5fjfa3hg"

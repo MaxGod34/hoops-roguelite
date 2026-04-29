@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://c6m63rfdwi8ay"]
 
-[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_w8c4h"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_vi441"]
 
 [resource]
-script = ExtResource("1_w8c4h")
+script = ExtResource("1_vi441")
 defender_name = "Tree McGee"
 playstyle = "Benchwarmer"
 intro_quote = "..."

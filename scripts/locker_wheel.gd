@@ -5,6 +5,13 @@ extends Control
 @onready var btn_leave = $HBoxContainer/Btn_Leave
 @onready var lbl_result = $Lbl_Result
 
+#--------------------FOR IMPLEMENTATION, GUARANTEE SPIN-------------------------
+@export_enum("+10 All Attributes", "+5 Energy", "+1 Thread Next Game (MAX 1)",
+	"Start Next Game Up 1-0", "Start Next Game at Mach 3",
+	"NOTHING!", "Lose Random Thread", "Threads Disabled 1 Game", "Start Next Game Down 0-1",
+	"Re-spin!", "N/A") var guaranteed_spin: String = "N/A"
+#-------------------------------------------------------------------------------
+
 var is_spinning: bool = false
 
 # OFFICIAL WHEEL ROSTER (10 SLICES)
@@ -78,6 +85,8 @@ func spin_the_wheel():
 	
 	# 1. Pick a random winner
 	var winning_index = randi() % slice_count
+	# Guarantee spin, if needed gets passed
+	if guaranteed_spin != "N/A": winning_index = wheel_rewards.find(guaranteed_spin) 
 	
 	# 2. Calculate Target Angle
 	# Because the image is mapped counter-clockwise, index * slice_degrees bring the winning slice to the top

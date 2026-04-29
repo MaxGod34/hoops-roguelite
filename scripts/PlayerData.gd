@@ -79,19 +79,22 @@ func advance_game_state():
 
 # -- HELPER FUNCTIONS --
 func upgrade_stat(stat_name: String, amount: int):
-	var actual_gain = amount
-	
-	if GameManager.styx_ice_bath_active:
-		actual_gain *= 2
-		print("STYX ICE BATH ACTIVE! Gain doubled from ", amount, " to ", actual_gain, "!")
-	
 	if base_stats.has(stat_name):
-		base_stats[stat_name] += actual_gain
+		base_stats[stat_name] += amount
 		base_stats[stat_name] = clamp(base_stats[stat_name], 0, attribute_cap)
 		print(stat_name + " upgraded to: " + str(base_stats[stat_name]))
 		stats_updated.emit()
 		
 
+func apply_post_game_mach_stats(stat_name: String, amount: int):
+	var actual_gain = amount
+	
+	if GameManager.styx_ice_bath_active:
+		actual_gain *= 2
+		print("STYX ICE BATH ACTIVE! Post-game gain doubled from ", amount, " to ", actual_gain, "!")
+	
+	# Route safely back through the normal pipeline
+	upgrade_stat(stat_name, actual_gain)
 
 func get_effective_stat(stat_name: String) -> int:
 	var base = base_stats.get(stat_name, 0)

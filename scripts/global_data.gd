@@ -12,13 +12,13 @@ var pools = {
 
 # Master Database
 var enemy_database = {
-	"tree_mcgee": preload("res://enemies/tree_mcgee.tres"),
-	"speed_glove": preload("res://enemies/speed_glove.tres"),
-	"janitor": preload("res://enemies/the_janitor.tres"),
-	"ol_reggie": preload("res://enemies/ol_reggie.tres"),
+	"tree_mcgee": preload("res://resources/enemies/tree_mcgee.tres"),
+	"speed_glove": preload("res://resources/enemies/speed_glove.tres"),
+	"janitor": preload("res://resources/enemies/the_janitor.tres"),
+	"ol_reggie": preload("res://resources/enemies/ol_reggie.tres"),
 	
-	"ms_never": preload("res://enemies/ms_never.tres"),
-	"sammy_spice": preload("res://enemies/sammy_spice.tres")
+	"ms_never": preload("res://resources/enemies/ms_never.tres"),
+	"sammy_spice": preload("res://resources/enemies/sammy_spice.tres")
 }
 
 func _ready():

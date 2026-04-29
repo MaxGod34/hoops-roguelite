@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://b1n0aofce33ky"]
+
+[ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_vko0h"]
+
+[resource]
+script = ExtResource("1_vko0h")
+bait_name = "Deep Cap"
+category = "The Scales"
+cost = 1
+description = "+15 3PT;
+Max Mach Capped at 3 "
+stat_target = "three_pt"
+stat_boost = 15
+cap_boost = 0
+stat_penalty = 0
+duration_type = "Games"
+duration_value = 3
+unique_effect_id = "deep_cap"
+metadata/_custom_type_script = "uid://exna5fjfa3hg"

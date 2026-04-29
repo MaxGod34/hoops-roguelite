@@ -604,7 +604,7 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	
 	#-- APEX ACTIONS --
 	if held_ball != null:
-		get_parent().record_shot(self)
+		get_parent().record_shot(self, is_dunk)
 		held_ball.point_value = get_parent().pending_points
 		held_ball.layup_ball(rim_position)
 		has_ball = false
@@ -702,6 +702,7 @@ func _vacuum_check():
 			#-----------------------------------------------------------------------------
 			
 			var previous_state = body.state
+			var was_inbound_pass = get_parent().is_inbound_pass
 			
 			
 			# Grab the ball
@@ -714,5 +715,6 @@ func _vacuum_check():
 			get_parent().register_possession_change(self, previous_state)
 			
 			if previous_state == "LOOSE" or previous_state == "REBOUNDING":
-				get_parent().handle_rebound(self)
+				if not was_inbound_pass:
+					get_parent().handle_rebound(self)
 	

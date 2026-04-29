@@ -56,7 +56,7 @@ func display_item(item: AccessoryData):
 	
 	lbl_stats.text = stat_text
 	
-
+	size = Vector2.ZERO
 	
 	show()
 	

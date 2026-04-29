@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://ci0am8xfdwr6l"]
 
-[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_058yi"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_tgvcs"]
 
 [resource]
-script = ExtResource("1_058yi")
+script = ExtResource("1_tgvcs")
 defender_name = "Ms. Never"
 playstyle = "Benchwarmer"
 intro_quote = "..."

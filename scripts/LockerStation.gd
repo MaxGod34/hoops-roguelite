@@ -17,7 +17,14 @@ func _process(_delta):
 		return
 	
 	if player_in_zone and Input.is_action_just_pressed("interact"):
-		#-----------------------------------WHEEL-------------------------------
+		#-----------------------------BAIT SHOP---------------------------------
+		if station_type == "Oceanus Bait Shop":
+			var bait_menu = get_tree().get_first_node_in_group("bait_shop")
+			if bait_menu:
+				bait_menu.open_menu()
+			return
+		#-----------------------------------------------------------------------
+		#--------------------------------WHEEL----------------------------------
 		if station_type == "Wheel of Fate":
 			# Find wheel in the scene and open it
 			var wheel_menu = get_tree().get_first_node_in_group("locker_wheel")
@@ -43,6 +50,11 @@ func _process(_delta):
 			return
 		#-----------------------------------------------------------------------
 		
+		if GameManager.has_active_mutation("the_leech"):
+			# Check if this is blocked
+			if station_type == "The Showers" or station_type == "Styx Ice Bath" or station_type == "Altar":
+				print("The Leech has drained this station! Cannot use until the end of this Quarter!")
+				return # Stop interaction immidiately
 		
 		# Standard Stations (Yes/No Prompt)
 		var prompts = get_tree().get_nodes_in_group("station_prompt")
@@ -62,13 +74,14 @@ func request_prompt(prompt_ui):
 			flavor_text = "Numb the body, focus the mind.\nDouble attribute gain next game"
 		"Apollo's Chalk":
 			flavor_text = "Dust from the sun chariot.\nFirst unblocked shot is guaranteed to go in"
-		"Oceanus Bait Shop":
-			flavor_text = "Take the bait\nVoluntary difficulty spikes for targeted stat buffs"
 		"Forge":
 			flavor_text = "Out of order!\nObtain your lightning bolt to access!"
 		"The Showers":
 			flavor_text = "Embrace the dark and decompress.\nRaise attribute cap by 5."
-			
+	
+	
+	
+	
 	prompt_ui.open_prompt(self, flavor_text, cost)
 
 		
@@ -111,11 +124,6 @@ func apply_station_effect():
 		"Apollo's Chalk":
 			GameManager.apollo_chalk_active = true
 			print("Chalked: First unblocked shot is a guaranteed perfect release.")
-			
-		"Oceanus Bait Shop":
-			GameManager.active_oceanus_buff = "+15 3pt Rating"
-			GameManager.active_oceanus_debuff = "-10 Speed"
-			print("Took the bait! Gained 3pt rating, but lost speed")
 		
 		"The Showers":
 			PlayerData.attribute_cap += 5

@@ -138,7 +138,7 @@ func throw(aim_direction: Vector2, player_velocity: Vector2, speed_modifier: flo
 	
 	# Anti-Self-Pass Fix
 	can_be_picked_up = false
-	await get_tree().create_timer(0.05).timeout
+	await get_tree().create_timer(0.15).timeout
 	can_be_picked_up = true
 	
 

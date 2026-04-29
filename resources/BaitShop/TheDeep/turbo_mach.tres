@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://d3m37bxl6ubdg"]
+
+[ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_pftkp"]
+
+[resource]
+script = ExtResource("1_pftkp")
+bait_name = "Turbo Mach"
+category = "The Deep"
+cost = 2
+description = "+1 Maximum Mach Multiplier, 
+MachCoil fills 50% slower"
+stat_target = ""
+stat_boost = 0
+cap_boost = 0
+stat_penalty = 0
+duration_type = "Quarter End"
+duration_value = 0
+unique_effect_id = "turbo_mach"
+metadata/_custom_type_script = "uid://exna5fjfa3hg"

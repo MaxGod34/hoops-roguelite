@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://cxg8vvtdqm56w"]
+
+[ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_1njyc"]
+
+[resource]
+script = ExtResource("1_1njyc")
+bait_name = "Style More"
+category = "The Undercurrent"
+cost = 1
+description = "+1 thread next game;
+(MAX 1/GAME)
+Start down 4 (MORE)"
+stat_target = ""
+stat_boost = 0
+cap_boost = 0
+stat_penalty = 0
+duration_type = "Games"
+duration_value = 1
+unique_effect_id = "style_more"
+metadata/_custom_type_script = "uid://exna5fjfa3hg"

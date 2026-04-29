@@ -80,7 +80,8 @@ func start_replay(ending_mach: int):
 		var custom_theme = load("res://scenes/lbl_theme_stats_replay.tres")
 		
 		# 1. Actually upgrade the true stats in the background
-		PlayerData.upgrade_stat(stat_key, total_reward)
+		# Use new and improved post_game function to safely run modifiers
+		PlayerData.apply_post_game_mach_stats(stat_key, total_reward)
 		
 		# 2. Spawn the Name Label
 		var name_lbl = Label.new()

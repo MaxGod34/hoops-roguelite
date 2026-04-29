@@ -1,10 +1,11 @@
-[gd_scene load_steps=61 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=62 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
 [ext_resource type="Texture2D" uid="uid://ccovcylm84s3m" path="res://assets/locker_room/CaveProto.png" id="2_4qkvb"]
 [ext_resource type="Texture2D" uid="uid://db801hss2uvli" path="res://assets/locker_room/Whiteboard Proto.png" id="3_3fb16"]
 [ext_resource type="Script" uid="uid://dgobowy8xi74g" path="res://scripts/station_styx.gd" id="4_twet0"]
+[ext_resource type="PackedScene" uid="uid://polg108afqtt" path="res://scenes/bait_shop.tscn" id="5_vacuq"]
 [ext_resource type="Script" uid="uid://b5ce8nu0rihus" path="res://scripts/station_kibisis.gd" id="6_i0i2h"]
 [ext_resource type="Texture2D" uid="uid://ccvmo61pbwrmd" path="res://assets/locker_room/KibisisProto.png" id="6_lcfti"]
 [ext_resource type="Texture2D" uid="uid://b58bq4sviyjyk" path="res://assets/locker_room/StyxBargainStationv1.2.png" id="6_o67jq"]
@@ -143,11 +144,11 @@ expand_margin_top = 12.0
 expand_margin_right = 8.0
 expand_margin_bottom = 12.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lcfti"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8rc4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o67jq"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8rc4"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lcfti"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tg3a6"]
 
@@ -274,13 +275,24 @@ shape = SubResource("RectangleShape2D_3fb16")
 
 [node name="Lbl_EnergyWall" type="Label" parent="."]
 offset_left = 669.0
-offset_top = 17.0
-offset_right = 842.0
-offset_bottom = 42.0
+offset_top = 8.0
+offset_right = 813.0
+offset_bottom = 29.0
 theme = ExtResource("29_4nymk")
 theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_font_sizes/font_size = 20
 text = "Energy: 2"
+horizontal_alignment = 1
+
+[node name="Lbl_BankedWall" type="Label" parent="."]
+offset_left = 669.0
+offset_top = 39.0
+offset_right = 796.0
+offset_bottom = 56.0
+theme = ExtResource("29_4nymk")
+theme_override_colors/font_color = Color(0, 0.462885, 1.05888e-06, 1)
+theme_override_font_sizes/font_size = 16
+text = "Banked: 0"
 horizontal_alignment = 1
 
 [node name="Lbl_Exit" type="Label" parent="."]
@@ -290,15 +302,15 @@ offset_right = 501.0
 offset_bottom = 55.0
 theme = ExtResource("29_4nymk")
 theme_override_colors/font_color = Color(1, 0.380392, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
-theme_override_constants/shadow_offset_x = -3
-theme_override_constants/shadow_offset_y = -3
-theme_override_constants/outline_size = 8
+theme_override_colors/font_shadow_color = Color(1, 0.380392, 0, 1)
+theme_override_colors/font_outline_color = Color(0.81502, 3.58574e-06, 7.70092e-07, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = -2
+theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
 text = "EXIT
--->"
+--->"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -307,6 +319,9 @@ z_index = 1
 position = Vector2(581, 142)
 
 [node name="PopUps" type="CanvasLayer" parent="."]
+
+[node name="BaitShop" parent="PopUps" instance=ExtResource("5_vacuq")]
+visible = false
 
 [node name="ContractMenu" type="Control" parent="PopUps"]
 visible = false
@@ -412,6 +427,12 @@ layout_mode = 2
 theme_override_constants/separation = 32
 theme_override_styles/separator = SubResource("StyleBoxLine_yx1fu")
 
+[node name="LockerWheel" parent="PopUps" instance=ExtResource("28_4nymk")]
+visible = false
+
+[node name="ScoutMenu" parent="PopUps" instance=ExtResource("8_udugu")]
+visible = false
+
 [node name="StationPrompt" type="Control" parent="PopUps"]
 visible = false
 custom_minimum_size = Vector2(320, 320)
@@ -511,11 +532,27 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_o3sog")
 theme_override_styles/normal = SubResource("StyleBoxFlat_o3sog")
 text = "NAH"
 
-[node name="LockerWheel" parent="PopUps" instance=ExtResource("28_4nymk")]
-visible = false
+[node name="OceanusBaitShop" type="Area2D" parent="."]
+position = Vector2(166, 70)
+script = ExtResource("15_smqfs")
+station_type = "Oceanus Bait Shop"
 
-[node name="ScoutMenu" parent="PopUps" instance=ExtResource("8_udugu")]
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OceanusBaitShop"]
+position = Vector2(-13, 17)
+scale = Vector2(11, 11)
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="OceanusBaitShop"]
+rotation = 1.5708
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("16_k8rc4")
+
+[node name="BaitShopStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(164, 69)
+scale = Vector2(10, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BaitShopStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="Station_Styx" type="Area2D" parent="."]
 position = Vector2(1068, 97)
@@ -565,7 +602,7 @@ shape = SubResource("RectangleShape2D_o67jq")
 [node name="Showers" type="Area2D" parent="."]
 position = Vector2(1047, 581)
 rotation = -0.977384
-skew = -1.15017
+skew = -1.09781
 script = ExtResource("15_smqfs")
 station_type = "The Showers"
 
@@ -584,13 +621,13 @@ skew = 0.712094
 texture = ExtResource("10_wjvu0")
 
 [node name="ShowerStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(1061, 575)
-rotation = 0.593412
+position = Vector2(1058, 576)
+rotation = 0.610865
 scale = Vector2(3, 8)
 skew = -0.0174533
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ShowerStaticWall"]
-shape = SubResource("RectangleShape2D_o67jq")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShowerStaticWall"]
+polygon = PackedVector2Array(-10.6751, 10.0069, -10.5049, -10.2414, 7.89169, -10.6418, 8.27423, 9.46312)
 
 [node name="Wheel" type="Area2D" parent="."]
 position = Vector2(817, 610)
@@ -633,8 +670,8 @@ texture = ExtResource("3_3fb16")
 position = Vector2(576, 615)
 scale = Vector2(4.5, 4.5)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoutBoardStaticWall"]
-shape = SubResource("RectangleShape2D_o67jq")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ScoutBoardStaticWall"]
+polygon = PackedVector2Array(-10, -9.55556, -6.88889, -9.55556, -0.444443, -8, 0.444443, -8, 7.77779, -9.55556, 10.8889, -9.55556, 11.1111, -9.55556, 10.8889, -9.33334, 0.444443, -7.11111, 0.444443, -6.88889, -0.888885, -6.88889, -0.888885, -7.11111, -9.77778, -9.33334, -10, -9.33334)
 
 [node name="KibisisStaticWall" type="StaticBody2D" parent="."]
 position = Vector2(111, 561)
@@ -1043,28 +1080,6 @@ position = Vector2(40, 369)
 scale = Vector2(7, 7)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FilmStaticWall"]
-shape = SubResource("RectangleShape2D_o67jq")
-
-[node name="OceanusBaitShop" type="Area2D" parent="."]
-position = Vector2(166, 70)
-script = ExtResource("15_smqfs")
-station_type = "Oceanus Bait Shop"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OceanusBaitShop"]
-position = Vector2(0, 17)
-scale = Vector2(11, 11)
-shape = SubResource("RectangleShape2D_k8rc4")
-
-[node name="Sprite2D" type="Sprite2D" parent="OceanusBaitShop"]
-rotation = 1.5708
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("16_k8rc4")
-
-[node name="BaitShopStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(164, 69)
-scale = Vector2(10, 10)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BaitShopStaticWall"]
 shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="OfferLibations" type="Area2D" parent="."]

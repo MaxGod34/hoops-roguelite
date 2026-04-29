@@ -25,10 +25,21 @@ func _process(delta: float):
 		reduce_mach(decay_amount)
 		print("Mach Decayed. Current: ", current_mach)
 
+
+
+#===============================================================================
+# CORE FUNCTIONS
+#===============================================================================
+
 func add_mach(amount: float):
+	# Turbo Mach Modifier
+	if GameManager.has_active_mutation("turbo_mach"):
+		amount *= 0.5
+	
+	
 	current_mach += amount
 	# GHOST BUFFER
-	current_mach = clamp(current_mach, 1.0, 4.99)
+	current_mach = clamp(current_mach, 1.0, get_max_mach())
 	_update_visuals()
 	
 	mach_generated.emit(amount)
@@ -36,10 +47,12 @@ func add_mach(amount: float):
 	# Feed the DVR
 	if HighlightManager.is_recording:
 		HighlightManager.inject_mach_to_current_frame(amount)
+	
+	print("Mach Gained! Gained: ", amount, " Mach now at ", current_mach)
 
 func reduce_mach(amount: float):
 	current_mach -= amount
-	current_mach = clamp(current_mach, 1.0, 4.99)
+	current_mach = clamp(current_mach, 1.0, get_max_mach())
 	_update_visuals()
 
 func reset_to_base():
@@ -54,3 +67,24 @@ func _update_visuals():
 		print("MACH LEVEL CHANGED! X", visual_mach, " ACHIEVED!")
 		
 		mach_level_changed.emit(visual_mach)
+
+
+#===============================================================================
+# BAIT SHOP MODIFIERS
+#===============================================================================
+func get_max_mach() -> float:
+	# Deep Cap Curse Overrides everything and locks it to 3
+	if GameManager.has_active_mutation("deep_cap"):
+		return 3.99
+	
+	# Standard Ceiling
+	var ceiling = 4.99
+	
+	# Turbo Mach Buff
+	if GameManager.has_active_mutation("turbo_mach"):
+		ceiling += 1.0
+	
+	return ceiling
+	
+	
+	
