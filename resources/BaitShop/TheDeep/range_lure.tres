@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://d1mwdacrmeobs"]
+[gd_resource type="Resource" script_class="BaitData" load_steps=3 format=3 uid="uid://d1mwdacrmeobs"]
 
 [ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_guabw"]
+[ext_resource type="Texture2D" uid="uid://c8av5cs1mo6hh" path="res://assets/bait/RangeLureBaitProto.png" id="2_b7ld0"]
 
 [resource]
 script = ExtResource("1_guabw")
@@ -9,6 +10,7 @@ category = "The Deep"
 cost = 1
 description = "3s count for 1 more point;
 2s count for 1 point less"
+sprite = ExtResource("2_b7ld0")
 stat_target = ""
 stat_boost = 0
 cap_boost = 0

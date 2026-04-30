@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://d3m37bxl6ubdg"]
+[gd_resource type="Resource" script_class="BaitData" load_steps=3 format=3 uid="uid://d3m37bxl6ubdg"]
 
 [ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_pftkp"]
+[ext_resource type="Texture2D" uid="uid://d22i1mkjpt8o1" path="res://assets/bait/TurboMachBaitProto.png" id="2_lh3qc"]
 
 [resource]
 script = ExtResource("1_pftkp")
@@ -9,6 +10,7 @@ category = "The Deep"
 cost = 2
 description = "+1 Maximum Mach Multiplier, 
 MachCoil fills 50% slower"
+sprite = ExtResource("2_lh3qc")
 stat_target = ""
 stat_boost = 0
 cap_boost = 0

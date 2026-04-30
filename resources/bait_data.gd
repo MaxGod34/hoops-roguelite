@@ -6,6 +6,7 @@ class_name BaitData
 @export_enum("The Scales", "The Deep", "The Undercurrent") var category: String = "The Scales"
 @export var cost: int = 1
 @export_multiline var description: String = "What does this do?"
+@export var sprite: Texture2D
 
 @export_category("The Scales (Stat Mods)")
 # Leave 0 if it doesn't affect stats

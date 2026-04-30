@@ -157,16 +157,19 @@ alignment = 1
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 theme = ExtResource("13_m0ljq")
+icon_alignment = 1
 
 [node name="Btn_Scale2" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Scales"]
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 theme = ExtResource("13_m0ljq")
+icon_alignment = 1
 
 [node name="Btn_Scale3" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Scales"]
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 theme = ExtResource("13_m0ljq")
+icon_alignment = 1
 
 [node name="Row_Deep" type="HBoxContainer" parent="CenterContainer/MainPanel/VBoxContainer"]
 layout_mode = 2
@@ -177,16 +180,19 @@ alignment = 1
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 theme = ExtResource("13_m0ljq")
+icon_alignment = 1
 
 [node name="Btn_Deep2" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Deep"]
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 theme = ExtResource("13_m0ljq")
+icon_alignment = 1
 
 [node name="Btn_Deep3" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Deep"]
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 theme = ExtResource("13_m0ljq")
+icon_alignment = 1
 
 [node name="Row_Undercurrent" type="HBoxContainer" parent="CenterContainer/MainPanel/VBoxContainer"]
 layout_mode = 2
@@ -197,16 +203,19 @@ alignment = 1
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 theme = ExtResource("13_m0ljq")
+icon_alignment = 1
 
 [node name="Btn_Under2" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Undercurrent"]
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 theme = ExtResource("13_m0ljq")
+icon_alignment = 1
 
 [node name="Btn_Under3" type="Button" parent="CenterContainer/MainPanel/VBoxContainer/Row_Undercurrent"]
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
 theme = ExtResource("13_m0ljq")
+icon_alignment = 1
 
 [node name="HSeparator2" type="HSeparator" parent="CenterContainer/MainPanel/VBoxContainer"]
 layout_mode = 2

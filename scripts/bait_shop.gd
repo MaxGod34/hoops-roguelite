@@ -59,7 +59,7 @@ func _populate_row(row_node: HBoxContainer, pool: Array[BaitData]):
 	var cost_1_baits = pool.filter(func(b): return b.cost == 1)
 	var cost_2_baits = pool.filter(func(b): return b.cost == 2)
 	
-	# 2. Shuffle them so it's random every time
+	# 2. Shuffle em up bb
 	cost_1_baits.shuffle()
 	cost_2_baits.shuffle()
 	
@@ -96,7 +96,7 @@ func _populate_row(row_node: HBoxContainer, pool: Array[BaitData]):
 
 func setup_bait_button(button_node: Button, bait: BaitData):
 	# Set texture
-	button_node.text = bait.bait_name
+	button_node.icon = bait.sprite
 	
 	# Hover on
 	button_node.mouse_entered.connect(func():

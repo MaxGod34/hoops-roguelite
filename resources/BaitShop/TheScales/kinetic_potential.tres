@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://de54pye0u2sfm"]
+[gd_resource type="Resource" script_class="BaitData" load_steps=3 format=3 uid="uid://de54pye0u2sfm"]
 
 [ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_jl7uk"]
+[ext_resource type="Texture2D" uid="uid://drhaxsffbgivt" path="res://assets/bait/KineticPotentialProto.png" id="2_krb4j"]
 
 [resource]
 script = ExtResource("1_jl7uk")
@@ -9,6 +10,7 @@ category = "The Scales"
 cost = 2
 description = "+25 Attribute Cap
 -9 All Stats"
+sprite = ExtResource("2_krb4j")
 stat_target = "All"
 stat_boost = 0
 cap_boost = 25

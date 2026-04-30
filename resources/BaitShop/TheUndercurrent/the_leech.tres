@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://dnon0fch31617"]
+[gd_resource type="Resource" script_class="BaitData" load_steps=3 format=3 uid="uid://dnon0fch31617"]
 
 [ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_0k8fs"]
+[ext_resource type="Texture2D" uid="uid://dob103xynb6q" path="res://assets/bait/TheLeechBaitProto.png" id="2_ypj1q"]
 
 [resource]
 script = ExtResource("1_0k8fs")
@@ -9,6 +10,7 @@ category = "The Undercurrent"
 cost = 1
 description = "Gain 5 Energy Instantly;
 Showers, Ice Bath, & Altar DISABLED"
+sprite = ExtResource("2_ypj1q")
 stat_target = ""
 stat_boost = 0
 cap_boost = 0

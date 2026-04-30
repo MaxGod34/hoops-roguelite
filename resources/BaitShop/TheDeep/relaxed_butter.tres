@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://bxub15pkd14eg"]
+[gd_resource type="Resource" script_class="BaitData" load_steps=3 format=3 uid="uid://bxub15pkd14eg"]
 
 [ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_xumhg"]
+[ext_resource type="Texture2D" uid="uid://egey3tgjaf4o" path="res://assets/bait/RelaxedButterProto.png" id="2_h2n0n"]
 
 [resource]
 script = ExtResource("1_xumhg")
@@ -9,6 +10,7 @@ category = "The Deep"
 cost = 1
 description = "+5 sec to shot clock; 
 Turnovers lose you 2 points"
+sprite = ExtResource("2_h2n0n")
 stat_target = ""
 stat_boost = 0
 cap_boost = 0

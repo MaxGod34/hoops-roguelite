@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://4txhxt0xpk8p"]
+[gd_resource type="Resource" script_class="BaitData" load_steps=3 format=3 uid="uid://4txhxt0xpk8p"]
 
 [ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_me4pe"]
+[ext_resource type="Texture2D" uid="uid://b2gw6n74gmk6" path="res://assets/bait/SirensCallBaitProto.png" id="2_cs0x2"]
 
 [resource]
 script = ExtResource("1_me4pe")
@@ -10,6 +11,7 @@ cost = 2
 description = "Skip to the Boss;
 +10 Energy 
 next locker room visit"
+sprite = ExtResource("2_cs0x2")
 stat_target = ""
 stat_boost = 0
 cap_boost = 0

@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://cxg8vvtdqm56w"]
+[gd_resource type="Resource" script_class="BaitData" load_steps=3 format=3 uid="uid://cxg8vvtdqm56w"]
 
 [ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_1njyc"]
+[ext_resource type="Texture2D" uid="uid://cqs8lwfj7hkb1" path="res://assets/bait/StyleMoreBaitProto.png" id="2_ivj13"]
 
 [resource]
 script = ExtResource("1_1njyc")
@@ -10,6 +11,7 @@ cost = 1
 description = "+1 thread next game;
 (MAX 1/GAME)
 Start down 4 (MORE)"
+sprite = ExtResource("2_ivj13")
 stat_target = ""
 stat_boost = 0
 cap_boost = 0

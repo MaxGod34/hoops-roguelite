@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://dkjj5etgatbqi"]
+[gd_resource type="Resource" script_class="BaitData" load_steps=3 format=3 uid="uid://dkjj5etgatbqi"]
 
 [ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_r3vlh"]
+[ext_resource type="Texture2D" uid="uid://b2nuwrbqp7ar4" path="res://assets/bait/IcarusDelayBaitProto.png" id="2_86v8r"]
 
 [resource]
 script = ExtResource("1_r3vlh")
@@ -9,6 +10,7 @@ category = "The Scales"
 cost = 1
 description = "+20 Dunks;
 Dunks reset your score to 0"
+sprite = ExtResource("2_86v8r")
 stat_target = "dunks"
 stat_boost = 20
 cap_boost = 0
