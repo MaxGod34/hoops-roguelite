@@ -12,6 +12,8 @@ extends Control
 @onready var row_deep = $CenterContainer/MainPanel/VBoxContainer/Row_Deep
 @onready var row_undercurrent = $CenterContainer/MainPanel/VBoxContainer/Row_Undercurrent
 
+var shop_generated: bool = false
+
 
 func _ready():
 	visible = false
@@ -29,8 +31,10 @@ func open_menu():
 		players[0].has_control = false
 		players[0].velocity = Vector2.ZERO
 	
-	# Generate the bait
-	generate_shop()
+	# Generate the bait once per visit
+	if not shop_generated:
+		generate_shop()
+		shop_generated = true
 	
 	
 	# 3. Start it completely off-screen at the BOTTOM
@@ -55,22 +59,27 @@ func generate_shop():
 
 
 func _populate_row(row_node: HBoxContainer, pool: Array[BaitData]):
+	# --- HIGHLANDER RULE ---
+	# Only allow Permanent baits OR temp baits that aren't currently active
+	var valid_pool = pool.filter(func(b):
+		return b.duration_type == "Permanent" or not GameManager.has_active_mutation(b.unique_effect_id)
+	)
+	#------------------------
+	
 	# 1. Separate Pool By Cost
-	var cost_1_baits = pool.filter(func(b): return b.cost == 1)
-	var cost_2_baits = pool.filter(func(b): return b.cost == 2)
+	var cost_1_baits = valid_pool.filter(func(b): return b.cost == 1)
+	var cost_2_baits = valid_pool.filter(func(b): return b.cost == 2)
 	
 	# 2. Shuffle em up bb
 	cost_1_baits.shuffle()
 	cost_2_baits.shuffle()
 	
-	# 3. Draft the exact spread (Two 1-Cost, One 2-Cost)
-	var drafted_baits: Array[BaitData] = []
+	# 3. Strict Slot Assignment [1-Cost] [1-Cost] [2-Cost]
+	var slot_assignments = [null, null, null]
 	
-	for i in range(min(2, cost_1_baits.size())):
-		drafted_baits.append(cost_1_baits[i])
-		
-	for i in range(min(1, cost_2_baits.size())):
-		drafted_baits.append(cost_2_baits[i])
+	if cost_1_baits.size() > 0: slot_assignments[0] = cost_1_baits[0]
+	if cost_1_baits.size() > 1: slot_assignments[1] = cost_1_baits[1]
+	if cost_2_baits.size() > 0: slot_assignments[2] = cost_2_baits[0]
 	
 	# 4. Assign them to the physical UI buttons
 	var buttons = row_node.get_children()
@@ -80,17 +89,24 @@ func _populate_row(row_node: HBoxContainer, pool: Array[BaitData]):
 		# Disconnect old signals so clicking a button doesn't buy 5 things at once
 		_disconnect_all_signals(btn)
 		
-		# Reset Visual State in case it was bought previously
-		btn.disabled = false
-		btn.modulate = Color(1, 1, 1, 1)
+		var assigned_bait = slot_assignments[i]
 		
-		if i < drafted_baits.size():
+		if assigned_bait != null:
+			# Valid items go here
+			btn.disabled = false
+			btn.modulate = Color(1, 1, 1, 1)
 			btn.visible = true
-			setup_bait_button(btn, drafted_baits[i])
+			btn.text = ""
+			setup_bait_button(btn, assigned_bait)
 		
 		else:
-			btn.visible = false # Hide the button if out of test data
-
+			# --- UI CONSISTENCY IN CASE OF SUPPLY ISSUES ---
+			btn.visible = true # Hide the button if out of test data
+			btn.disabled = true
+			btn.text = "OUT OF STOCK" # YOU BOUGHT IT ALL lol
+			btn.icon = null
+			btn.modulate = Color(0.3, 0.3, 0.3, 1)
+			#------------------------------------------------
 
 
 
