@@ -1,0 +1,704 @@
+[gd_scene load_steps=14 format=3 uid="uid://bqko8nf1tcj65"]
+
+[ext_resource type="Script" uid="uid://bjcbhvaa0bw28" path="res://scripts/pause_menu.gd" id="1_jvnd5"]
+[ext_resource type="Texture2D" uid="uid://b1yxhw4xdkfgs" path="res://assets/accessories/LeftArmMummyWrapProto.png" id="2_5w6ei"]
+[ext_resource type="Theme" uid="uid://cmthdl2hsat1i" path="res://scenes/lbl_theme_stats_replay.tres" id="2_40atx"]
+[ext_resource type="PackedScene" uid="uid://y2flifl8wg6q" path="res://scenes/BaitTooltip.tscn" id="2_komsw"]
+[ext_resource type="Theme" uid="uid://d0cmqr0txotc" path="res://scenes/pause_menu_btn_style.tres" id="2_yx35g"]
+[ext_resource type="PackedScene" uid="uid://icicvnlongj2" path="res://scenes/ItemTooltip.tscn" id="3_5w6ei"]
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="3_yx35g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yx35g"]
+bg_color = Color(0.556953, 0.556953, 0.556953, 1)
+border_width_right = 16
+border_blend = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vd2mf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yx35g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vd2mf"]
+bg_color = Color(0.529067, 0.529067, 0.529067, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_abn1t"]
+bg_color = Color(0, 0.713726, 0.219608, 1)
+border_width_right = 96
+border_color = Color(1, 0.377991, 0.31005, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ti4s"]
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+layer = 100
+script = ExtResource("1_jvnd5")
+
+[node name="Bg-ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.980392)
+
+[node name="MainLayout" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="NavPanel" type="PanelContainer" parent="MainLayout"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yx35g")
+
+[node name="LeftNav" type="VBoxContainer" parent="MainLayout/NavPanel"]
+custom_minimum_size = Vector2(384, 0)
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Btn_Resume" type="Button" parent="MainLayout/NavPanel/LeftNav"]
+layout_mode = 2
+theme = ExtResource("2_yx35g")
+text = "Resume"
+
+[node name="Btn_Clipboard" type="Button" parent="MainLayout/NavPanel/LeftNav"]
+layout_mode = 2
+theme = ExtResource("2_yx35g")
+text = "Clipboard"
+
+[node name="Btn_Options" type="Button" parent="MainLayout/NavPanel/LeftNav"]
+layout_mode = 2
+theme = ExtResource("2_yx35g")
+text = "Options"
+
+[node name="Btn_Guidebook" type="Button" parent="MainLayout/NavPanel/LeftNav"]
+layout_mode = 2
+theme = ExtResource("2_yx35g")
+text = "Guidebook"
+
+[node name="Btn_Quit" type="Button" parent="MainLayout/NavPanel/LeftNav"]
+layout_mode = 2
+theme = ExtResource("2_yx35g")
+text = "Quit"
+
+[node name="ContentStage" type="MarginContainer" parent="MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel_Clipboard" type="HBoxContainer" parent="MainLayout/ContentStage"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Col2_Build" type="VBoxContainer" parent="MainLayout/ContentStage/Panel_Clipboard"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Lbl_AttributesTitle" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_colors/font_color = Color(0.984314, 0.447059, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.984314, 0.447059, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -8
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 24
+theme_override_constants/shadow_outline_size = 12
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vd2mf")
+text = "Attributes"
+horizontal_alignment = 1
+
+[node name="StatsGrid" type="GridContainer" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 9
+columns = 2
+
+[node name="TestLbl" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl2" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl3" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl4" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl5" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl6" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl7" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl8" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl9" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl10" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl11" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="TestLbl12" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+text = "Close Shot: 50"
+horizontal_alignment = 2
+
+[node name="HSeparator" type="HSeparator" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
+layout_mode = 2
+theme_override_constants/separation = 24
+theme_override_styles/separator = SubResource("StyleBoxEmpty_yx35g")
+
+[node name="Lbl_ThreadsTitle" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/shadow_offset_x = -8
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_outline_size = 8
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vd2mf")
+text = "Threads"
+horizontal_alignment = 1
+
+[node name="ThreadsGrid" type="GridContainer" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
+custom_minimum_size = Vector2(906, 571)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 9
+columns = 2
+
+[node name="TestBtn" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_fonts/font = ExtResource("3_yx35g")
+text = "MUMMY WRAP"
+icon = ExtResource("2_5w6ei")
+flat = true
+
+[node name="TestBtn2" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_fonts/font = ExtResource("3_yx35g")
+text = "MUMMY WRAP"
+icon = ExtResource("2_5w6ei")
+flat = true
+
+[node name="TestBtn3" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_fonts/font = ExtResource("3_yx35g")
+text = "MUMMY WRAP"
+icon = ExtResource("2_5w6ei")
+flat = true
+
+[node name="TestBtn4" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_fonts/font = ExtResource("3_yx35g")
+text = "MUMMY WRAP"
+icon = ExtResource("2_5w6ei")
+flat = true
+
+[node name="TestBtn5" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_fonts/font = ExtResource("3_yx35g")
+text = "MUMMY WRAP"
+icon = ExtResource("2_5w6ei")
+flat = true
+
+[node name="TestBtn6" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+modulate = Color(0.4, 0.4, 0.4, 1)
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_fonts/font = ExtResource("3_yx35g")
+text = "SLOT: EMPTY"
+flat = true
+
+[node name="TestBtn7" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+modulate = Color(0.4, 0.4, 0.4, 1)
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_fonts/font = ExtResource("3_yx35g")
+text = "Slot: EMPTY"
+icon = ExtResource("2_5w6ei")
+flat = true
+
+[node name="Col3_Ledger" type="VBoxContainer" parent="MainLayout/ContentStage/Panel_Clipboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator" type="HSeparator" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger"]
+layout_mode = 2
+theme_override_constants/separation = 48
+theme_override_styles/separator = SubResource("StyleBoxEmpty_yx35g")
+
+[node name="Lbl_LedgerTitle" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.984314, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -8
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 24
+theme_override_constants/shadow_outline_size = 12
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vd2mf")
+text = "Ledger"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger"]
+layout_mode = 2
+theme_override_constants/separation = 48
+theme_override_styles/separator = SubResource("StyleBoxFlat_vd2mf")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger"]
+custom_minimum_size = Vector2(0, 320)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+
+[node name="LedgerList" type="VBoxContainer" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainer"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainer/LedgerList"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_font_sizes/font_size = 28
+text = "--No Active Curses--"
+horizontal_alignment = 1
+
+[node name="Panel_Options" type="VBoxContainer" parent="MainLayout/ContentStage"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Lbl_OptionsTitle" type="Label" parent="MainLayout/ContentStage/Panel_Options"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/shadow_offset_x = -8
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_outline_size = 8
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vd2mf")
+text = "OPTIONS:"
+horizontal_alignment = 1
+
+[node name="Btn_FOV" type="Button" parent="MainLayout/ContentStage/Panel_Options"]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_yx35g")
+text = "FOV: 60"
+
+[node name="Btn_FrameRate" type="Button" parent="MainLayout/ContentStage/Panel_Options"]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_yx35g")
+text = "FrameRate: 120"
+
+[node name="Btn_Joke1" type="Button" parent="MainLayout/ContentStage/Panel_Options"]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_yx35g")
+text = "Press if you are paralyzed by options"
+
+[node name="Btn_Joke2" type="Button" parent="MainLayout/ContentStage/Panel_Options"]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_yx35g")
+text = "Press if you need a sandwich"
+
+[node name="Btn_Joke3" type="Button" parent="MainLayout/ContentStage/Panel_Options"]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_yx35g")
+text = "HELP, I'm stuck!"
+
+[node name="Btn_Joke4" type="Button" parent="MainLayout/ContentStage/Panel_Options"]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_yx35g")
+text = "Can anybody hear me?"
+
+[node name="Btn_Joke5" type="Button" parent="MainLayout/ContentStage/Panel_Options"]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_yx35g")
+text = "Am I a Joke to YOU?!!!"
+
+[node name="Btn_Joke6" type="Button" parent="MainLayout/ContentStage/Panel_Options"]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_yx35g")
+text = "Anti-Aliasing: OFF"
+
+[node name="Panel_Guidebook" type="RichTextLabel" parent="MainLayout/ContentStage"]
+visible = false
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="MainLayout/ContentStage/Panel_Guidebook"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GuidebookNavPanel" type="PanelContainer" parent="MainLayout/ContentStage/Panel_Guidebook/VBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_abn1t")
+
+[node name="GuidebookNav" type="HBoxContainer" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 128
+alignment = 1
+
+[node name="Btn_General" type="Button" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav"]
+layout_mode = 2
+theme = ExtResource("2_yx35g")
+text = "General"
+
+[node name="Btn_Threads" type="Button" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav"]
+layout_mode = 2
+theme = ExtResource("2_yx35g")
+text = "Threads"
+
+[node name="Btn_Bait" type="Button" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav"]
+layout_mode = 2
+theme = ExtResource("2_yx35g")
+text = "Bait"
+
+[node name="Btn_LockerRoom" type="Button" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav"]
+layout_mode = 2
+theme = ExtResource("2_yx35g")
+text = "Locker Room"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainLayout/ContentStage/Panel_Guidebook/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollVbox" type="VBoxContainer" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSeparator" type="HSeparator" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_styles/separator = SubResource("StyleBoxEmpty_8ti4s")
+
+[node name="Lbl_TitleGeneral" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_fonts/normal_font = ExtResource("3_yx35g")
+theme_override_fonts/bold_font = ExtResource("3_yx35g")
+theme_override_font_sizes/normal_font_size = 42
+bbcode_enabled = true
+text = "Ballomachy General Tips and Tricks
+"
+horizontal_alignment = 1
+
+[node name="Lbl_ExplanationGeneral" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_constants/line_separation = 8
+theme_override_fonts/normal_font = ExtResource("3_yx35g")
+theme_override_font_sizes/normal_font_size = 42
+text = "
+So, you're ass at ballomachy?
+
+It's a tough game, but you're in the right hands!
+
+First things First: The Basics
+
+Reach the target score before your opponent, or face certain death!
+
+There are 4 quarters with 7 games each, with a boss at the end of each quarter offering incalculable rewards!
+
+You'll gain threads throughout the games that will help you conquer the increasing difficulty. See threads for more info!
+
+
+Gain \"Mach\" by styling on your opponent!
+
+Mach Can be generated in the following ways:
+
+*Steals
+*Blocks
+*Dunks
+*3pters
+*Thread modifiers
+*Bait Manipulation
+*Bulldozing the opponent to the dirt!
+
+Your Max Mach Multiplier is 4, but can be raised or lowered in various ways!
+
+After each game, you'll gain an attribute bonus equal to 1 times your mach multiplier.
+
+e.g. ending mach 3, +3 to all stats!
+
+If you ever turn the ball over, that's a big no-no. Your MachMultiplier will reset!
+
+Now, with the basics out of the way, go out there and tear it up, we're all counting on you!
+
+
+
+
+
+"
+
+[node name="Lbl_TitleThreads" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+visible = false
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_fonts/normal_font = ExtResource("3_yx35g")
+theme_override_font_sizes/normal_font_size = 42
+text = "Threads, your stylish counterpart
+"
+horizontal_alignment = 1
+
+[node name="Lbl_ExplanationThreads" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_constants/line_separation = 8
+theme_override_fonts/normal_font = ExtResource("3_yx35g")
+theme_override_font_sizes/normal_font_size = 42
+text = "Depending on your class/difficulty, you'll have empty thread slots that can be filled with threads you'll acquire after defeating opponents.
+
+In most cases you will have:
+*A left/Right arm slot
+*A left/Right Shoe Slot
+*An outfit slot
+*A head slot for headgear
+*A ball Slot
+
+
+Utilize these slots and roll with the punches to have your best chance of reaching cronus!
+
+Some Threads give you flat bonuses to things like your 3pt, your speed, etc.
+
+Some Threads are purely utility, like increasing the shot clock, or raising your maximum MachMultiplier.
+
+There's a wide variety of threads you'll encounter throughout the run.
+
+
+Depending on your class/Difficulty, you'll have storage slots in the locker room where you can store your extra threads if you ever want to swap them out, or even better: Make useless ones use-ful!
+
+See the Locker Room for info on the Altar!
+
+
+Don't worry about trying to find a perfect thread to go with your build! 
+
+It's randomized, not intentionally annoying, and if you lean into what's given, you'll forget you even had to read this tutorial!
+
+Last Note: Threads are only obtained at the end of games, I assure you. 
+
+Now ball, with styyyylllleee!
+
+
+
+"
+
+[node name="Lbl_TitleBait" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+visible = false
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_fonts/normal_font = ExtResource("3_yx35g")
+theme_override_font_sizes/normal_font_size = 42
+text = "Bait, you know you want it!
+"
+horizontal_alignment = 1
+
+[node name="Lbl_ExplanationBait" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_constants/line_separation = 8
+theme_override_fonts/normal_font = ExtResource("3_yx35g")
+theme_override_font_sizes/normal_font_size = 42
+text = "Bait can be acquired from the Oceanus Bait Shop, and is mighty tempting.
+
+Baits cost energy (See locker room) and come with both a catch and a hook.
+
+
+Each bait has a positive that is hard to ignore and a drawback that you can see at any point on your clipboard!
+
+The duration for each bait varies, but the types of duration are consistent.
+
+
+Certain bait will be permanent, like stat buffs and drawbacks that are instantly realized and never go away!
+
+Others (and most of them) have an expiration time where you will lose the debuff.
+
+Not all Hooks Expire, but most of them are simple short-Term helpers that will fade away.
+
+No fun! Well at least the curse goes away too!
+
+Every Locker Room visit will refresh the bait shop and you can peruse it any time you feel.
+
+The only cost is for buying them with your limited energy you get every locker Room visit.
+
+
+I'm not a salesman for Oceanus, but give it a try and you may find it can help give you the edge or help you lean into your build more!
+
+See ya at the shop!
+"
+
+[node name="Lbl_TitleLockerRoom" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+visible = false
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_fonts/normal_font = ExtResource("3_yx35g")
+theme_override_font_sizes/normal_font_size = 42
+text = "The Locker Room: Your safe haven
+"
+horizontal_alignment = 1
+
+[node name="Lbl_ExplanationLockerRoom" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_constants/line_separation = 8
+theme_override_fonts/normal_font = ExtResource("3_yx35g")
+theme_override_font_sizes/normal_font_size = 42
+text = "The Locker Room is where you can tune your run from mediocre, to interstellar!
+
+There are several stations in the locker room for you to inteact with on any visit that will give you some form of a benefit.
+
+Each Visit you will have a base amount of energy to spend that is not carried over.
+
+You can modify this amount several ways in the game, but you can find those for yourself!
+
+
+Let's get into the stations:
+
+*For the bait shop (See Bait)
+
+*Offer Libations: Here you can spend 1 Energy to bank 2 Energy for your next visit!
+
+*Styx Ice Bath: Double Attribute gain next game. (i.e. if your ending MachMultiplier is 3, instead of +3 all stats, you get +6!)
+
+*The Showers: Permanently raise your attribute cap by 5
+
+*The Wheel: Spin the wheel for great rewards, or devastating punishment!
+
+*The Whiteboard: Scout your next opponent out and get ahead of the game!
+
+*Bargain with the Abyss: The Ferryman will offer you a contract a grant a random stat boost in exchange for a curse, very similar to the bait shop.
+
+*The Altar: Working on it now, i'll let you know what it does when it's ready!
+
+*The Kibisis: Your locker! This is where your Extra threads are stored and can be swapped out at any time!
+
+*Apollo's Chalk: Chalk up for the next game and hit your first, UnBlocked Shot, guaranteed!
+
+
+That's the basics of the locker room. There will be plenty of fun interactions you'll find the more you play!
+
+For now, you've got the basics covered. I'll see you in the showers ;)
+
+"
+
+[node name="BaitTooltip" parent="." instance=ExtResource("2_komsw")]
+visible = false
+z_index = 2
+
+[node name="ItemTooltip" parent="." instance=ExtResource("3_5w6ei")]
+visible = false
+z_index = 2

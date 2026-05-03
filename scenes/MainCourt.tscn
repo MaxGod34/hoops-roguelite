@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cn0mnhhe6ul0y"]
+[gd_scene load_steps=19 format=3 uid="uid://cn0mnhhe6ul0y"]
 
 [ext_resource type="PackedScene" uid="uid://u2gal06p4nlq" path="res://scenes/Hoop.tscn" id="1_562al"]
 [ext_resource type="Texture2D" uid="uid://clo87i3kmodxr" path="res://assets/CourtProtov1.1.png" id="1_h0gog"]
@@ -13,6 +13,7 @@
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="10_urecc"]
 [ext_resource type="PackedScene" uid="uid://c5uh8y30muhju" path="res://scenes/replay_viewer.tscn" id="12_urecc"]
 [ext_resource type="PackedScene" uid="uid://syytg40r1v7h" path="res://scenes/arena_coils.tscn" id="13_krthx"]
+[ext_resource type="PackedScene" uid="uid://bqko8nf1tcj65" path="res://scenes/PauseMenu.tscn" id="14_b6m7p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jgdc"]
 size = Vector2(232.5, 657)
@@ -143,3 +144,6 @@ position = Vector2(123, 80)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_krthx")
+
+[node name="PauseMenu" parent="." instance=ExtResource("14_b6m7p")]
+visible = false

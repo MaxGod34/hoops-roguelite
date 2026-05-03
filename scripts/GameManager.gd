@@ -44,7 +44,8 @@ var start_mach_3: bool = false
 var threads_disabled_next_game: bool = false
 var start_down_0_1: bool = false
 
-
+# Altar
+var aegis_charges: int = 0
 
 
 func advance_progression():

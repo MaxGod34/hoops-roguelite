@@ -40,7 +40,10 @@ func display_bait(bait: BaitData):
 	lbl_details.text = "\n" + bait.description
 	
 	size = Vector2.ZERO
+	
+	
 	show()
 
 func hide_tooltip():
+
 	hide()

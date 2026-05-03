@@ -12,6 +12,8 @@ expand_margin_bottom = 4.0
 [resource]
 default_font = ExtResource("1_0ie27")
 default_font_size = 32
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 18
 Label/colors/font_color = Color(1, 1, 1, 0.784314)
 Label/colors/font_outline_color = Color(0, 0, 0, 0.784314)
 Label/colors/font_shadow_color = Color(0, 0, 0, 0.784314)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://polg108afqtt"]
+[gd_scene load_steps=23 format=3 uid="uid://polg108afqtt"]
 
 [ext_resource type="Theme" uid="uid://cmthdl2hsat1i" path="res://scenes/lbl_theme_stats_replay.tres" id="1_4aadx"]
 [ext_resource type="Script" uid="uid://8pu0065duwum" path="res://scripts/bait_shop.gd" id="1_b25l3"]
@@ -14,6 +14,7 @@
 [ext_resource type="Resource" uid="uid://dnon0fch31617" path="res://resources/BaitShop/TheUndercurrent/the_leech.tres" id="9_pe6ql"]
 [ext_resource type="Resource" uid="uid://cxg8vvtdqm56w" path="res://resources/BaitShop/TheUndercurrent/style_more.tres" id="10_x7jll"]
 [ext_resource type="Resource" uid="uid://4txhxt0xpk8p" path="res://resources/BaitShop/TheUndercurrent/sirens_call.tres" id="11_dbh5e"]
+[ext_resource type="Texture2D" uid="uid://gfnwd7i63n5x" path="res://assets/BaitShopWoodFloorProto.png" id="12_gp2hm"]
 [ext_resource type="Theme" uid="uid://dfsvom5bkyrxp" path="res://scenes/theme_bait_shop_btn.tres" id="13_m0ljq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b25l3"]
@@ -23,6 +24,7 @@ border_width_top = 16
 border_width_right = 16
 border_width_bottom = 16
 border_color = Color(0.733005, 0.733005, 0.733005, 1)
+border_blend = true
 expand_margin_left = 64.0
 expand_margin_top = 64.0
 expand_margin_right = 64.0
@@ -108,6 +110,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.490196)
+
+[node name="WoodFloorBg" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(128, 72)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1425.0
+offset_bottom = -810.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+texture = ExtResource("12_gp2hm")
+stretch_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1

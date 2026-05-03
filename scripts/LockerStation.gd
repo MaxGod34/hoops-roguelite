@@ -49,6 +49,13 @@ func _process(_delta):
 					print("Not enough energy to scout! Cost: 2 energy")
 			return
 		#-----------------------------------------------------------------------
+		#---------------------------THE ALTAR-----------------------------------
+		if station_type == "Altar":
+			var altar_menu = get_tree().get_first_node_in_group("altar_menu")
+			if altar_menu:
+				altar_menu.open_menu()
+				return
+		#-----------------------------------------------------------------------
 		
 		if GameManager.has_active_mutation("the_leech"):
 			# Check if this is blocked

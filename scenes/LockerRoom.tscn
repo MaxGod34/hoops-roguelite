@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=65 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://chf53dwxt4tv1" path="res://scenes/scout_board.tscn" id="8_udugu"]
 [ext_resource type="Texture2D" uid="uid://c6sym54t4mabm" path="res://assets/WheelProto.png" id="9_phwrl"]
 [ext_resource type="Texture2D" uid="uid://du0dxyvkknx7b" path="res://assets/accessories/8BallProto.png" id="9_smqfs"]
+[ext_resource type="PackedScene" uid="uid://cxgimbobuq5a0" path="res://scenes/altar_menu.tscn" id="10_hy3a2"]
 [ext_resource type="Texture2D" uid="uid://b1yxhw4xdkfgs" path="res://assets/accessories/LeftArmMummyWrapProto.png" id="10_k8rc4"]
 [ext_resource type="Texture2D" uid="uid://drkbdvfeln36v" path="res://assets/ShowerProto.png" id="10_wjvu0"]
 [ext_resource type="Texture2D" uid="uid://dgcm72tv2w2pq" path="res://assets/accessories/RightFortuneGauntletProto.png" id="11_eo1ny"]
@@ -27,11 +28,13 @@
 [ext_resource type="Texture2D" uid="uid://d1r1418iudl62" path="res://assets/locker_room/IceBathProto.png" id="17_eo1ny"]
 [ext_resource type="Texture2D" uid="uid://qkxf8ijqg6b7" path="res://assets/locker_room/LibationsProto.png" id="17_t3frt"]
 [ext_resource type="Texture2D" uid="uid://4weuuwo178q1" path="res://assets/locker_room/ChalkZoneProto.png" id="18_fyfyi"]
+[ext_resource type="Texture2D" uid="uid://dqh1vrsb7in8y" path="res://assets/MachCoilProtoV1.0.png" id="19_gjob3"]
 [ext_resource type="PackedScene" uid="uid://icicvnlongj2" path="res://scenes/ItemTooltip.tscn" id="20_yx1fu"]
 [ext_resource type="Texture2D" uid="uid://dts8fcu4iowo5" path="res://assets/locker_room/AttributeUpgradeStation.png" id="23_epmqv"]
 [ext_resource type="Texture2D" uid="uid://cuv0qgg7tcauy" path="res://assets/locker_room/CaveExit.png" id="25_o67jq"]
 [ext_resource type="PackedScene" uid="uid://d2ihkuyw4bl8l" path="res://scenes/locker_wheel.tscn" id="28_4nymk"]
 [ext_resource type="Theme" uid="uid://cmthdl2hsat1i" path="res://scenes/lbl_theme_stats_replay.tres" id="29_4nymk"]
+[ext_resource type="PackedScene" uid="uid://bqko8nf1tcj65" path="res://scenes/PauseMenu.tscn" id="33_g4pbd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nmlxb"]
 size = Vector2(1167, 86)
@@ -532,6 +535,9 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_o3sog")
 theme_override_styles/normal = SubResource("StyleBoxFlat_o3sog")
 text = "NAH"
 
+[node name="AltarMenu" parent="PopUps" groups=["altar_menu"] instance=ExtResource("10_hy3a2")]
+visible = false
+
 [node name="OceanusBaitShop" type="Area2D" parent="."]
 position = Vector2(166, 70)
 script = ExtResource("15_smqfs")
@@ -665,6 +671,25 @@ rotation = 3.14159
 scale = Vector2(1.25, 1.25)
 skew = 0.818559
 texture = ExtResource("3_3fb16")
+
+[node name="Altar" type="Area2D" parent="."]
+position = Vector2(301, 605)
+skew = -0.802851
+script = ExtResource("15_smqfs")
+station_type = "Altar"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Altar"]
+position = Vector2(31.5011, -23.9808)
+scale = Vector2(8, 7)
+skew = 0.853466
+shape = SubResource("RectangleShape2D_k8rc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Altar"]
+position = Vector2(0, 7.5)
+rotation = 3.14159
+scale = Vector2(1.25, 1.25)
+skew = 0.818559
+texture = ExtResource("19_gjob3")
 
 [node name="ScoutBoardStaticWall" type="StaticBody2D" parent="."]
 position = Vector2(576, 615)
@@ -1169,6 +1194,9 @@ shape = SubResource("RectangleShape2D_o67jq")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(575, 323)
 zoom = Vector2(1.67, 1.67)
+
+[node name="PauseMenu" parent="." instance=ExtResource("33_g4pbd")]
+visible = false
 
 [connection signal="body_entered" from="Station_Styx" to="Station_Styx" method="_on_body_entered"]
 [connection signal="body_exited" from="Station_Styx" to="Station_Styx" method="_on_body_exited"]

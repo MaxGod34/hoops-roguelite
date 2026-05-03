@@ -1,0 +1,101 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxgimbobuq5a0"]
+
+[ext_resource type="Theme" uid="uid://cmthdl2hsat1i" path="res://scenes/lbl_theme_stats_replay.tres" id="1_xbmfg"]
+[ext_resource type="Script" uid="uid://cmoea075f11ax" path="res://scripts/altar_menu.gd" id="1_ymf35"]
+[ext_resource type="Theme" uid="uid://o7pkgh4yhfc5" path="res://scenes/altar_btn_style.tres" id="2_ymf35"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c04c8"]
+
+[node name="AltarMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ymf35")
+
+[node name="Bg_ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.107703, 0.0639195, 0, 1)
+
+[node name="MainLayout" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 128
+alignment = 1
+
+[node name="Lbl_Energy" type="Label" parent="MainLayout"]
+layout_mode = 2
+theme = ExtResource("1_xbmfg")
+theme_override_colors/font_color = Color(0.984314, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.984314, 1, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -4
+theme_override_constants/outline_size = 24
+theme_override_constants/shadow_outline_size = 12
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxEmpty_c04c8")
+text = "Energy: 2"
+horizontal_alignment = 1
+
+[node name="ThreadsGrid" type="GridContainer" parent="MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 32
+columns = 7
+
+[node name="Lbl_SelectionInfo" type="Label" parent="MainLayout"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+theme = ExtResource("1_xbmfg")
+theme_override_colors/font_color = Color(0.984314, 0.588235, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.984314, 0.694118, 0, 1)
+theme_override_colors/font_outline_color = Color(0.394559, 0.428871, 4.81307e-07, 1)
+theme_override_constants/line_spacing = 8
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -4
+theme_override_constants/outline_size = 18
+theme_override_constants/shadow_outline_size = 12
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxEmpty_c04c8")
+text = "Select Thread to Sacrifice...
+test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ActionRow" type="HBoxContainer" parent="MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_ymf35")
+theme_override_constants/separation = 128
+alignment = 1
+
+[node name="Btn_Tithe" type="Button" parent="MainLayout/ActionRow"]
+layout_mode = 2
+theme = ExtResource("2_ymf35")
+text = "The Tithe: 
+(+1 Energy)"
+
+[node name="Btn_Aegis" type="Button" parent="MainLayout/ActionRow"]
+layout_mode = 2
+theme = ExtResource("2_ymf35")
+text = "The Aegis: 
+(-1 Energy)
+(+1 Ward)"
+
+[node name="Btn_Leave" type="Button" parent="MainLayout/ActionRow" groups=["altar_menu"]]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme = ExtResource("2_ymf35")
+text = "Leave"
