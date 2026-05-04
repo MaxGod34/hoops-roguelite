@@ -1,0 +1,90 @@
+[gd_scene load_steps=4 format=3 uid="uid://l2778bw0hok8"]
+
+[ext_resource type="Script" uid="uid://c2x0ddkinlo00" path="res://scripts/rewind_station.gd" id="1_e8rx1"]
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="2_6k060"]
+[ext_resource type="Theme" uid="uid://d0cmqr0txotc" path="res://scenes/pause_menu_btn_style.tres" id="3_fus5x"]
+
+[node name="RewindMenu" type="Control" groups=["rewind_menu"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e8rx1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.878431)
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 256
+alignment = 1
+
+[node name="Lbl_Title" type="RichTextLabel" parent="VBox"]
+custom_minimum_size = Vector2(640, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_offset_y = -3
+theme_override_constants/shadow_offset_x = -4
+theme_override_fonts/normal_font = ExtResource("2_6k060")
+theme_override_fonts/mono_font = ExtResource("2_6k060")
+theme_override_fonts/italics_font = ExtResource("2_6k060")
+theme_override_fonts/bold_italics_font = ExtResource("2_6k060")
+theme_override_fonts/bold_font = ExtResource("2_6k060")
+theme_override_font_sizes/normal_font_size = 96
+bbcode_enabled = true
+text = "REWIND"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="Lbl_Warning" type="RichTextLabel" parent="VBox"]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_offset_y = -3
+theme_override_constants/shadow_offset_x = -4
+theme_override_fonts/normal_font = ExtResource("2_6k060")
+theme_override_fonts/mono_font = ExtResource("2_6k060")
+theme_override_fonts/italics_font = ExtResource("2_6k060")
+theme_override_fonts/bold_italics_font = ExtResource("2_6k060")
+theme_override_fonts/bold_font = ExtResource("2_6k060")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "WARNING: Activating Rewind consumes all remaining energy"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="ButtonRow" type="HBoxContainer" parent="VBox"]
+custom_minimum_size = Vector2(0, 108)
+layout_mode = 2
+theme_override_constants/separation = 128
+alignment = 1
+
+[node name="Btn_Rewind" type="Button" parent="VBox/ButtonRow"]
+layout_mode = 2
+theme = ExtResource("3_fus5x")
+text = "Rewind 1 Game
+(Drain all Energy)"
+
+[node name="Btn_Leave" type="Button" parent="VBox/ButtonRow"]
+layout_mode = 2
+theme = ExtResource("3_fus5x")
+text = "Leave"

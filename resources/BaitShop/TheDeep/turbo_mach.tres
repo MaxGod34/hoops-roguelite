@@ -8,8 +8,8 @@ script = ExtResource("1_pftkp")
 bait_name = "Turbo Mach"
 category = "The Deep"
 cost = 2
-description = "+1 Maximum Mach Multiplier, 
-MachCoil fills 50% slower"
+catch_description = "+1 Max Mach"
+hook_description = "-50% Mach Generation"
 sprite = ExtResource("2_lh3qc")
 stat_target = ""
 stat_boost = 0

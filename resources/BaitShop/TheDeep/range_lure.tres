@@ -8,8 +8,8 @@ script = ExtResource("1_guabw")
 bait_name = "Range Lure"
 category = "The Deep"
 cost = 1
-description = "3s count for 1 more point;
-2s count for 1 point less"
+catch_description = "+1 pt on 3s"
+hook_description = "-1 pt on 2s"
 sprite = ExtResource("2_b7ld0")
 stat_target = ""
 stat_boost = 0

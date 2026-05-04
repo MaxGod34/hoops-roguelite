@@ -8,8 +8,8 @@ script = ExtResource("1_jl7uk")
 bait_name = "Kinetic Potential"
 category = "The Scales"
 cost = 2
-description = "+25 Attribute Cap
--9 All Stats"
+catch_description = "+25 Attribute Cap"
+hook_description = "-9 All Stats"
 sprite = ExtResource("2_krb4j")
 stat_target = "All"
 stat_boost = 0

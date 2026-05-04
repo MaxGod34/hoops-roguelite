@@ -8,9 +8,8 @@ script = ExtResource("1_1njyc")
 bait_name = "Style More"
 category = "The Undercurrent"
 cost = 1
-description = "+1 thread next game;
-(MAX 1/GAME)
-Start down 4 (MORE)"
+catch_description = "+1 Thread Next Game (MAX 1)"
+hook_description = "Start Down 4 (MORE)"
 sprite = ExtResource("2_ivj13")
 stat_target = ""
 stat_boost = 0

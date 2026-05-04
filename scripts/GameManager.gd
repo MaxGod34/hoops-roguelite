@@ -47,6 +47,9 @@ var start_down_0_1: bool = false
 # Altar
 var aegis_charges: int = 0
 
+# The Rewind
+var rewind_base_cost: int = 5
+
 
 func advance_progression():
 	current_game += 1
@@ -119,6 +122,17 @@ func clear_match_modifiers():
 func process_bait_purchase(bait: BaitData):
 	print("Processing Bait: ", bait.bait_name)
 	
+	
+	# --- AEGIS CHECK ---
+	var warded = false
+	if aegis_charges > 0:
+		warded = true
+		aegis_charges -= 1
+		print("AEGIS TRIGGERED! The curse of ", bait.bait_name, " is nullified!")
+	#---------------------
+	
+	
+	
 	# Tick downs happen in advance_progression() NOT HERE
 	
 	# 1. Apply Permanent Scales Stats Instantly
@@ -132,29 +146,38 @@ func process_bait_purchase(bait: BaitData):
 				for stat in PlayerData.base_stats.keys():
 					PlayerData.upgrade_stat(stat, bait.stat_boost)
 			if bait.stat_penalty > 0:
-				for stat in PlayerData.base_stats.keys():
-					# Add a subtraction bool to the upgrade_stats() later
-					# Quick & Dirty Subtraction (Replace!)
-					PlayerData.base_stats[stat] -= bait.stat_penalty
-					PlayerData.base_stats[stat] = max(0, PlayerData.base_stats[stat])
+				# WARD Intercept
+				if warded:
+					print("Aegis blocked permanent stat debuff!")
+				else:
+					for stat in PlayerData.base_stats.keys():
+						# Add a subtraction bool to the upgrade_stats() later
+						# Quick & Dirty Subtraction (Replace!)
+						PlayerData.base_stats[stat] -= bait.stat_penalty
+						PlayerData.base_stats[stat] = max(0, PlayerData.base_stats[stat])
 		
 		#====================STAT SPECIFIC TARGETS==============================
 		elif bait.stat_target != "":
 			if bait.stat_boost > 0:
 				PlayerData.upgrade_stat(bait.stat_target, bait.stat_boost)
 			if bait.stat_penalty > 0:
-				if PlayerData.base_stats.has(bait.stat_target):
-					PlayerData.base_stats[bait.stat_target] -= bait.stat_penalty
-					PlayerData.base_stats[bait.stat_target] = max(0, PlayerData.base_stats[bait.stat_target])
+				# WARD Intercept
+				if warded:
+					print("Aegis blocked permanent ", bait.stat_target, " penalty!")
+				else:
+					if PlayerData.base_stats.has(bait.stat_target):
+						PlayerData.base_stats[bait.stat_target] -= bait.stat_penalty
+						PlayerData.base_stats[bait.stat_target] = max(0, PlayerData.base_stats[bait.stat_target])
 		
 	# 2. File Mutations INTO the LEDGER
 	# Track durations and wacky hooks
 	if bait.duration_type != "Permanent" or bait.unique_effect_id != "":
 		active_mutations.append({
 			"bait": bait,
-			"remaining": bait.duration_value
+			"remaining": bait.duration_value,
+			"is_warded": warded
 		})
-		print(bait.bait_name, " added to the Ledger! Type: ", bait.duration_type)
+		print(bait.bait_name, " added to the Ledger! Type: ", bait.duration_type, " Warded: ", warded)
 	
 	# 3. SPECIAL CASES (Make a new branch if more than 2 overlap)
 	if bait.unique_effect_id == "the_leech":
@@ -216,3 +239,26 @@ func consume_charge(effect_id: String):
 			if mutation["remaining"] <= 0:
 				print(mutation["bait"].bait_name, " charges depleted! Mutation washed away!")
 				active_mutations.remove_at(i)
+
+func is_mutation_warded(effect_id: String) -> bool:
+	for mutation in active_mutations:
+		if mutation["bait"].unique_effect_id == effect_id:
+			return mutation.get("is_warded", false)
+	return false
+
+
+# --- REWIND TIME ---
+func can_rewind() -> bool:
+	if current_game <= 1: return false
+	if current_energy < rewind_base_cost: return false
+	return true
+
+func execute_rewind():
+	if can_rewind():
+		print("THE THREADS OF TIME FOLD BACK 1 GAME!")
+		current_game -= 1
+		current_energy = 0 # Energy is always completely consumed no matter the excess
+		return true
+		
+	return false
+	

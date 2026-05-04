@@ -299,12 +299,15 @@ func apply_turnover_penalties(violator: Node2D):
 	
 		#-------RELAXED BUTTER BAIT-------
 		if GameManager.has_active_mutation("relaxed_butter"):
-			print("Relaxed Butter Penalty! -2 Points!")
-			player_score -= 2
-			if player_score < 0: player_score = 0
-			
-			# Update Scoreboard
-			score_changed.emit(player_score, bot_score, MachManager.visual_mach)
+			if GameManager.is_mutation_warded("relaxed_butter"):
+				print("Aegis protects your score, turnovers still consume a charge")
+			else:
+				print("Relaxed Butter Penalty! -2 Points!")
+				player_score -= 2
+				if player_score < 0: player_score = 0
+				
+				# Update Scoreboard
+				score_changed.emit(player_score, bot_score, MachManager.visual_mach)
 	
 			# Tell Game Manager to Tick Down Charges
 			GameManager.consume_charge("relaxed_butter")

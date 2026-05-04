@@ -8,8 +8,8 @@ script = ExtResource("1_0k8fs")
 bait_name = "The Leech"
 category = "The Undercurrent"
 cost = 1
-description = "Gain 5 Energy Instantly;
-Showers, Ice Bath, & Altar DISABLED"
+catch_description = "+5 Energy"
+hook_description = "Showers, Ice Bath, Altar DISABLED"
 sprite = ExtResource("2_ypj1q")
 stat_target = ""
 stat_boost = 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=66 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
@@ -20,20 +20,21 @@
 [ext_resource type="Texture2D" uid="uid://b1yxhw4xdkfgs" path="res://assets/accessories/LeftArmMummyWrapProto.png" id="10_k8rc4"]
 [ext_resource type="Texture2D" uid="uid://drkbdvfeln36v" path="res://assets/ShowerProto.png" id="10_wjvu0"]
 [ext_resource type="Texture2D" uid="uid://dgcm72tv2w2pq" path="res://assets/accessories/RightFortuneGauntletProto.png" id="11_eo1ny"]
+[ext_resource type="PackedScene" uid="uid://l2778bw0hok8" path="res://scenes/rewind_menu.tscn" id="11_gjob3"]
 [ext_resource type="Texture2D" uid="uid://c3gfkl6cvc7rl" path="res://assets/accessories/LeftSandalProto.png" id="12_fyfyi"]
 [ext_resource type="Texture2D" uid="uid://dplappbp8tjxy" path="res://assets/accessories/RightRollerbladeProto.png" id="13_t3frt"]
 [ext_resource type="Script" uid="uid://xlscgvma03v8" path="res://scripts/LockerStation.gd" id="15_smqfs"]
-[ext_resource type="Texture2D" uid="uid://dlk0bus8ks0ga" path="res://assets/locker_room/FilmProto.png" id="16_d6tvq"]
 [ext_resource type="Texture2D" uid="uid://b2cde6horrpqs" path="res://assets/locker_room/BaitShopProto.png" id="16_k8rc4"]
 [ext_resource type="Texture2D" uid="uid://d1r1418iudl62" path="res://assets/locker_room/IceBathProto.png" id="17_eo1ny"]
 [ext_resource type="Texture2D" uid="uid://qkxf8ijqg6b7" path="res://assets/locker_room/LibationsProto.png" id="17_t3frt"]
 [ext_resource type="Texture2D" uid="uid://4weuuwo178q1" path="res://assets/locker_room/ChalkZoneProto.png" id="18_fyfyi"]
-[ext_resource type="Texture2D" uid="uid://dqh1vrsb7in8y" path="res://assets/MachCoilProtoV1.0.png" id="19_gjob3"]
+[ext_resource type="Texture2D" uid="uid://dvd66jwyosia2" path="res://assets/locker_room/AltarProto.png" id="20_gjob3"]
 [ext_resource type="PackedScene" uid="uid://icicvnlongj2" path="res://scenes/ItemTooltip.tscn" id="20_yx1fu"]
 [ext_resource type="Texture2D" uid="uid://dts8fcu4iowo5" path="res://assets/locker_room/AttributeUpgradeStation.png" id="23_epmqv"]
 [ext_resource type="Texture2D" uid="uid://cuv0qgg7tcauy" path="res://assets/locker_room/CaveExit.png" id="25_o67jq"]
 [ext_resource type="PackedScene" uid="uid://d2ihkuyw4bl8l" path="res://scenes/locker_wheel.tscn" id="28_4nymk"]
 [ext_resource type="Theme" uid="uid://cmthdl2hsat1i" path="res://scenes/lbl_theme_stats_replay.tres" id="29_4nymk"]
+[ext_resource type="Texture2D" uid="uid://c4cje4mga72xl" path="res://assets/locker_room/RewindProto.png" id="31_gjob3"]
 [ext_resource type="PackedScene" uid="uid://bqko8nf1tcj65" path="res://scenes/PauseMenu.tscn" id="33_g4pbd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nmlxb"]
@@ -538,6 +539,9 @@ text = "NAH"
 [node name="AltarMenu" parent="PopUps" groups=["altar_menu"] instance=ExtResource("10_hy3a2")]
 visible = false
 
+[node name="RewindMenu" parent="PopUps" instance=ExtResource("11_gjob3")]
+visible = false
+
 [node name="OceanusBaitShop" type="Area2D" parent="."]
 position = Vector2(166, 70)
 script = ExtResource("15_smqfs")
@@ -674,13 +678,13 @@ texture = ExtResource("3_3fb16")
 
 [node name="Altar" type="Area2D" parent="."]
 position = Vector2(301, 605)
-skew = -0.802851
+skew = -0.722566
 script = ExtResource("15_smqfs")
 station_type = "Altar"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Altar"]
-position = Vector2(31.5011, -23.9808)
-scale = Vector2(8, 7)
+position = Vector2(17.1893, -3.9837)
+scale = Vector2(9, 7)
 skew = 0.853466
 shape = SubResource("RectangleShape2D_k8rc4")
 
@@ -688,8 +692,15 @@ shape = SubResource("RectangleShape2D_k8rc4")
 position = Vector2(0, 7.5)
 rotation = 3.14159
 scale = Vector2(1.25, 1.25)
-skew = 0.818559
-texture = ExtResource("19_gjob3")
+skew = 0.938987
+texture = ExtResource("20_gjob3")
+
+[node name="AltarStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(332, 590)
+scale = Vector2(7.2, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AltarStaticWall"]
+shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="ScoutBoardStaticWall" type="StaticBody2D" parent="."]
 position = Vector2(576, 615)
@@ -1083,28 +1094,28 @@ offset_top = -53.5
 offset_right = 199.0
 offset_bottom = 53.5
 
-[node name="OracleFilmRoom" type="Area2D" parent="."]
-position = Vector2(61, 353)
+[node name="TheRewind" type="Area2D" parent="."]
+position = Vector2(35, 320)
 rotation = -1.5708
 script = ExtResource("15_smqfs")
-station_type = "Oracle Film Room"
+station_type = "The Rewind"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OracleFilmRoom"]
-position = Vector2(-9, -2.00004)
-scale = Vector2(9, 9)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TheRewind"]
+position = Vector2(-42.9999, -17.0002)
+scale = Vector2(7, 7)
 shape = SubResource("RectangleShape2D_k8rc4")
 
-[node name="Sprite2D" type="Sprite2D" parent="OracleFilmRoom"]
-skew = 0.617847
-texture = ExtResource("16_d6tvq")
+[node name="Sprite2D" type="Sprite2D" parent="TheRewind"]
+skew = 0.994838
+texture = ExtResource("31_gjob3")
 flip_h = true
 flip_v = true
 
-[node name="FilmStaticWall" type="StaticBody2D" parent="."]
-position = Vector2(40, 369)
-scale = Vector2(7, 7)
+[node name="RewindStaticWall" type="StaticBody2D" parent="."]
+position = Vector2(8.00001, 370)
+scale = Vector2(6, 6)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FilmStaticWall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RewindStaticWall"]
 shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="OfferLibations" type="Area2D" parent="."]

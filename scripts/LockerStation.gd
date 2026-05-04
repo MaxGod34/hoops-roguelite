@@ -1,6 +1,6 @@
 extends Area2D
 
-@export_enum("Oracle Film Room", "Offer Libations", "Styx Ice Bath", "Exit to Court",
+@export_enum("The Rewind", "Offer Libations", "Styx Ice Bath", "Exit to Court",
 			"Apollo's Chalk", "Oceanus Bait Shop", "Forge", "Altar", 
 			"Wheel of Fate", "The Showers", "Scouting Board") var station_type: String
 
@@ -17,6 +17,13 @@ func _process(_delta):
 		return
 	
 	if player_in_zone and Input.is_action_just_pressed("interact"):
+		
+		if GameManager.has_active_mutation("the_leech"):
+			# Check if this is blocked
+			if station_type == "The Showers" or station_type == "Styx Ice Bath" or station_type == "Altar":
+				print("The Leech has drained this station! Cannot use until the end of this Quarter!")
+				return # Stop interaction immidiately
+		
 		#-----------------------------BAIT SHOP---------------------------------
 		if station_type == "Oceanus Bait Shop":
 			var bait_menu = get_tree().get_first_node_in_group("bait_shop")
@@ -56,12 +63,15 @@ func _process(_delta):
 				altar_menu.open_menu()
 				return
 		#-----------------------------------------------------------------------
+		#--------------------------THE REWIND-----------------------------------
+		if station_type == "The Rewind":
+			var rewind_menu = get_tree().get_first_node_in_group("rewind_menu")
+			if rewind_menu:
+				rewind_menu.open_menu()
+				return
+		#-----------------------------------------------------------------------
 		
-		if GameManager.has_active_mutation("the_leech"):
-			# Check if this is blocked
-			if station_type == "The Showers" or station_type == "Styx Ice Bath" or station_type == "Altar":
-				print("The Leech has drained this station! Cannot use until the end of this Quarter!")
-				return # Stop interaction immidiately
+		
 		
 		# Standard Stations (Yes/No Prompt)
 		var prompts = get_tree().get_nodes_in_group("station_prompt")
@@ -73,8 +83,6 @@ func request_prompt(prompt_ui):
 	var cost = 1
 	
 	match station_type:
-		"Oracle Film Room":
-			flavor_text = "You watch yourself on camera, man?\nNegates enemy abilities for 2 possessions"
 		"Offer Libations":
 			flavor_text = "A drink for the divine.\nBank +2 energy next locker room visit"
 		"Styx Ice Bath":

@@ -8,9 +8,8 @@ script = ExtResource("1_me4pe")
 bait_name = "Sirens Call"
 category = "The Undercurrent"
 cost = 2
-description = "Skip to the Boss;
-+10 Energy 
-next locker room visit"
+catch_description = "+10 Banked Energy"
+hook_description = "Skip To Quarter Boss"
 sprite = ExtResource("2_cs0x2")
 stat_target = ""
 stat_boost = 0

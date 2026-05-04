@@ -177,8 +177,9 @@ func _update_equipment():
 			eq_btn.mouse_entered.connect(_on_item_hovered.bind(item))
 			eq_btn.mouse_exited.connect(_hide_item_tooltip)
 		else:
-			eq_btn.text = "%s: EMPTY" % [nice_slot]
+			eq_btn.text = "%s\n\n[EMPTY]" % [nice_slot]
 			eq_btn.modulate = Color(0.4, 0.4, 0.4) # Greyed Out
+			eq_btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		
 		threads_container.add_child(eq_btn)
 
@@ -203,11 +204,12 @@ func _update_ledger():
 	for mutation in GameManager.active_mutations:
 		var bait = mutation["bait"]
 		var remaining = mutation["remaining"]
+		var is_warded = mutation.get("is_warded", false)
 		
 		# Generate New Flat Buttons
 		var entry_btn = Button.new()
 		entry_btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		entry_btn.add_theme_font_size_override("font_size", 28)
+		entry_btn.add_theme_font_size_override("font_size", 24)
 		entry_btn.theme = load("res://scenes/lbl_theme_stats_replay.tres")
 		
 		# Set Sprite for a better in-menu reminder
@@ -228,12 +230,16 @@ func _update_ledger():
 			duration_text = "[QUARTER END]"
 			entry_btn.modulate = Color(1.0, 0.2, 0.2) # Red warning
 		
+		# --- NEW WARD OVERRIDE ---
+		if is_warded:
+			duration_text += " [WARDED]"
+			entry_btn.modulate = Color(0.4, 1.0, 1.0)
+		
 		entry_btn.text = " - %s\n%s" % [bait.bait_name, duration_text]
 		
 		# Hover Signals
-		entry_btn.mouse_entered.connect(_on_bait_hovered.bind(bait))
+		entry_btn.mouse_entered.connect(_on_bait_hovered.bind(bait, false))
 		entry_btn.mouse_exited.connect(_hide_bait_tooltip)
-		
 		
 		ledger_container.add_child(entry_btn)
 
@@ -249,9 +255,9 @@ func _hide_item_tooltip():
 	if has_node("ItemTooltip"):
 		$ItemTooltip.hide_tooltip()
 
-func _on_bait_hovered(bait: BaitData):
+func _on_bait_hovered(bait: BaitData, in_shop: bool):
 	if has_node("BaitTooltip"):
-		$BaitTooltip.display_bait(bait)
+		$BaitTooltip.display_bait(bait, in_shop)
 
 func _hide_bait_tooltip():
 	if has_node("BaitTooltip"):
