@@ -8,6 +8,11 @@ var current_game: int = 1
 var max_games_per_quarter: int = 7
 var player_inventory: Array = []
 var owned_items: Array[AccessoryData] = []
+# =================
+# THE GAUNTLET
+#==================
+var cumulative_opponent_score: int = 0
+var max_allowable_score: int = 21
 
 
 # ==================
@@ -82,6 +87,7 @@ func reset_run():
 	current_quarter = 1
 	current_game = 1
 	player_inventory.clear()
+	cumulative_opponent_score = 0
 
 	
 	current_energy = 2

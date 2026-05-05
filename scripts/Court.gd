@@ -12,7 +12,6 @@ signal game_over(winner_name)
 
 # Score Tracking
 var player_score: int = 10
-var bot_score: int = 0
 var target_score: int = 11
 var pending_points: int = 2
 var pending_shot_is_dunk: bool = false
@@ -72,7 +71,7 @@ func _ready():
 		player_score = 1
 		print("Wheel Buff: Player starts up 1")
 	elif GameManager.start_down_0_1:
-		bot_score = 1
+		GameManager.cumulative_opponent_score = 1
 		print("Wheel Debuff: Bot starts up 1")
 	
 	if GameManager.start_mach_3:
@@ -85,12 +84,12 @@ func _ready():
 	# ===========================================================
 	# --- STYLE MORE PENALTY ---
 	if GameManager.has_active_mutation("style_more"):
-		bot_score += 4
-		print("Bait Debuff: Style More starts the bot up by an additional 4 pts!")
+		GameManager.cumulative_opponent_score += 2
+		print("Bait Debuff: Style More starts the bot up by an additional 2 pts!")
 	#---------------------------
 	
 	# Fire off so we start at 0-0 plus any wheel/bait/thread buffs/debuffs
-	score_changed.emit(player_score, bot_score, MachManager.visual_mach)
+	score_changed.emit(player_score, GameManager.cumulative_opponent_score, MachManager.visual_mach)
 	
 	
 	#===========Enemy Initialization==========
@@ -132,7 +131,7 @@ func _physics_process(_delta: float):
 			bot, 
 			active_ball, 
 			player_score, 
-			bot_score, 
+			GameManager.cumulative_opponent_score, 
 			MachManager.current_mach,
 			current_clock
 		)
@@ -307,7 +306,11 @@ func apply_turnover_penalties(violator: Node2D):
 				if player_score < 0: player_score = 0
 				
 				# Update Scoreboard
-				score_changed.emit(player_score, bot_score, MachManager.visual_mach)
+				score_changed.emit(
+					player_score, 
+					GameManager.cumulative_opponent_score, 
+					MachManager.visual_mach
+				)
 	
 			# Tell Game Manager to Tick Down Charges
 			GameManager.consume_charge("relaxed_butter")
@@ -411,8 +414,8 @@ func _on_hoop_basket_scored(points, scorer):
 		#-----------------------------------------------------------------------
 		
 	else:
-		bot_score += points
-		print("Bot Score: ", bot_score)
+		GameManager.cumulative_opponent_score += points
+		print("Bot Score: ", GameManager.cumulative_opponent_score)
 		
 	
 	
@@ -427,9 +430,9 @@ func _on_hoop_basket_scored(points, scorer):
 	elif scorer == bot:
 		MachManager.reduce_mach(1.0)	# THE CROWD GOES BOOOOO
 
-	score_changed.emit(player_score, bot_score, MachManager.visual_mach)
+	score_changed.emit(player_score, GameManager.cumulative_opponent_score, MachManager.visual_mach)
 
-	if player_score >= target_score:
+	if player_score >= GameManager.max_allowable_score:
 		game_state = "GAME_OVER"
 		print("-------VICTORY!--------")
 		game_over.emit("Player")
@@ -439,10 +442,8 @@ func _on_hoop_basket_scored(points, scorer):
 		
 		HighlightManager.force_pending_capture()
 		HighlightManager.stop_recording()
-		
 		# Mark the enemy as defeated!
 		GlobalData.mark_current_enemy_defeated()
-		
 		get_tree().paused = true
 		
 		# Hide the real physical entities
@@ -452,13 +453,14 @@ func _on_hoop_basket_scored(points, scorer):
 		
 		# Roll the tape!
 		$ReplayViewer.start_replay(MachManager.visual_mach)
+		return
 		
 		
 		
 	
 	
 	
-	elif bot_score >= target_score:
+	elif GameManager.cumulative_opponent_score >= GameManager.max_allowable_score:
 		game_state = "GAME_OVER"
 		print("-------DEFEAT!---------")
 		game_over.emit("Bot")
@@ -467,8 +469,10 @@ func _on_hoop_basket_scored(points, scorer):
 		
 		# Freeze everything
 		get_tree().paused = true
+		return
 		
 	else:
+		score_changed.emit(player_score, GameManager.cumulative_opponent_score, MachManager.visual_mach)
 		reset_play(scorer)
 
 

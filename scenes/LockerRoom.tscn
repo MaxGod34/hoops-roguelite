@@ -1106,6 +1106,7 @@ scale = Vector2(7, 7)
 shape = SubResource("RectangleShape2D_k8rc4")
 
 [node name="Sprite2D" type="Sprite2D" parent="TheRewind"]
+rotation = 3.14159
 skew = 0.994838
 texture = ExtResource("31_gjob3")
 flip_h = true
