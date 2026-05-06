@@ -64,6 +64,12 @@ var equipment = {
 # -- STYX CONTRACTS --
 var active_contracts = {}
 
+func _ready():
+	RunTracker.block_achieved.connect(_on_block_achieved)
+
+
+
+
 func advance_game_state():
 	var contracts_to_remove = []
 	
@@ -200,3 +206,16 @@ func receive_new_item(new_item: AccessoryData) -> bool:
 	else:
 		print("Inventory is completely full!")
 		return false
+
+func _on_block_achieved():
+	var total_scrub = 0
+	
+	for slot in equipment.keys():
+		var item = equipment[slot]
+		if item != null and "scrub_on_block" in item:
+			total_scrub += item.scrub_on_block
+	
+	if total_scrub > 0:
+		GameManager.reduce_opponent_score(total_scrub)
+		# RunTracker.track_scrub(total_scrub) Moved to reduce function
+		print("SCRUB SUCCESSFUL! Scrubbed: ", total_scrub, " points off the opponent!")

@@ -44,6 +44,8 @@ func _ready():
 	$ClearZone.body_entered.connect(_on_clear_zone_body_entered)
 	$ClearZone.body_exited.connect(_on_clear_zone_body_exited)
 	$Hoop.basket_scored.connect(_on_hoop_basket_scored)
+	
+	RunTracker.points_scrubbed.connect(_on_points_scrubbed_mid_game)
 	#--Boot Up Scan--
 	await get_tree().physics_frame
 	
@@ -558,3 +560,7 @@ func _on_replay_tick(p_score, b_score, mach_val, clock_val):
 	$CanvasLayer/DebugMach.text = "MACH: X" + str(mach_val) + " (REPLAY)"
 	
 	get_tree().call_group("shot_clock", "force_displayed_time", clock_val)
+
+func _on_points_scrubbed_mid_game():
+	print("Court UI caught the scrub! Refreshing Scoreboard...")
+	score_changed.emit(player_score, GameManager.cumulative_opponent_score, MachManager.visual_mach)

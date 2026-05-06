@@ -44,6 +44,7 @@ theme_override_constants/separation = 8
 [node name="Lbl_Name" type="RichTextLabel" parent="VBox"]
 layout_mode = 2
 size_flags_vertical = 4
+theme_override_colors/default_color = Color(0.801263, 4.23551e-06, 2.88785e-07, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 12
 theme_override_constants/shadow_offset_y = -3
@@ -62,6 +63,7 @@ scroll_active = false
 [node name="Lbl_Cost" type="RichTextLabel" parent="VBox"]
 layout_mode = 2
 size_flags_vertical = 4
+theme_override_colors/default_color = Color(0, 1, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 12
 theme_override_constants/shadow_offset_y = -3

@@ -192,7 +192,7 @@ func offense_idle(delta: float):
 	if offense_timer <= 0:
 		# Make a decision, random for now
 		var decision = randi() % 100
-		if decision < 100:
+		if decision < 0:
 			state = "DRIVING"
 		else:
 			state = "BOT_SHOOTING"

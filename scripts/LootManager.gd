@@ -1,6 +1,7 @@
 extends Node
 
 @export var all_game_items: Array[AccessoryData] = []
+@export var guarantee_item: AccessoryData
 
 func _ready() -> void:
 	randomize()
@@ -15,7 +16,7 @@ func roll_for_loot():
 		selected_tier = "Heroic"
 	else:
 		selected_tier = "Divine"
-		
+	
 	return _get_random_item_from_tier(selected_tier)
 	
 func _get_random_item_from_tier(target_tier: String):
@@ -25,7 +26,9 @@ func _get_random_item_from_tier(target_tier: String):
 	for item in all_game_items:
 		if item.tier == target_tier and not GameManager.owned_items.has(item):
 			possible_items.append(item)
-			
+	if guarantee_item != null:
+		possible_items.clear()
+		possible_items.append(guarantee_item)
 	# Pick a random one
 	if possible_items.size() > 0:
 		var dropped_item = possible_items.pick_random()

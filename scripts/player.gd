@@ -56,6 +56,8 @@ func _ready():
 	PlayerData.stats_updated.connect(update_player_stats)
 	
 
+	
+
 func update_player_stats():
 	# Sync player mechanics with the global true stats
 	strength = PlayerData.get_effective_stat("strength")

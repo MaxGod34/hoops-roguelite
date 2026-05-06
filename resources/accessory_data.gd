@@ -5,6 +5,7 @@ class_name AccessoryData
 @export_enum("Mortal", "Heroic", "Divine", "Woven") var tier: String = "Mortal"
 @export_enum("head", "outfit", "ball", "left_shoe", "right_shoe", "left_arm", "right_arm") var slot_type: String = "ball"
 @export var item_texture: Texture2D
+@export_multiline var description: String = ""
 
 # Potential Attribute Buffs
 @export var close_shot_bonus: int = 0

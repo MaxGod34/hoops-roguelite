@@ -261,7 +261,14 @@ func execute_rewind():
 	if can_rewind():
 		print("THE THREADS OF TIME FOLD BACK 1 GAME!")
 		current_game -= 1
+		
+		var nrg_snap = current_energy
+		var diff = 0
+		
 		current_energy = 0 # Energy is always completely consumed no matter the excess
+		diff = nrg_snap # 10-10, diff = 10
+		RunTracker.track_energy_spent(diff)
+		
 		return true
 		
 	return false

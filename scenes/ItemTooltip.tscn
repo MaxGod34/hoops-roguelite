@@ -40,39 +40,59 @@ layout_mode = 2
 
 [node name="Lbl_Name" type="Label" parent="VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.619608, 0.607843, 0.564706, 1)
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.223103, 0.223103, 0.223103, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/shadow_offset_x = -6
 theme_override_constants/shadow_offset_y = -5
-theme_override_constants/outline_size = 16
+theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("1_cssje")
 theme_override_font_sizes/font_size = 36
 text = "Stone Sandal"
 
 [node name="Lbl_Slot" type="Label" parent="VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.619608, 0.607843, 0.564706, 1)
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.237539, 0.237539, 0.237539, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/shadow_offset_x = -6
 theme_override_constants/shadow_offset_y = -5
-theme_override_constants/outline_size = 16
+theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("1_cssje")
 theme_override_font_sizes/font_size = 36
 text = "Slot: Left Shoe"
 
-[node name="Lbl_Stats" type="Label" parent="VBox"]
-custom_minimum_size = Vector2(480, 0)
+[node name="Lbl_Stats" type="RichTextLabel" parent="VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.760784, 0, 1)
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/default_color = Color(0, 0.948096, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = -4
+theme_override_colors/font_shadow_color = Color(0.196078, 1, 0.494118, 1)
+theme_override_constants/outline_size = 12
 theme_override_constants/shadow_offset_y = -4
-theme_override_constants/outline_size = 8
-theme_override_fonts/font = ExtResource("1_cssje")
-theme_override_font_sizes/font_size = 32
-text = "+25 SPD/ACCEL"
+theme_override_constants/shadow_offset_x = -4
+theme_override_fonts/normal_font = ExtResource("1_cssje")
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "
+[center][color=#32ff7e][tornado radius=3.0 freq=8.0]+25 CLOSE SHOT[/tornado][/color][/center]"
+fit_content = true
+scroll_active = false
 horizontal_alignment = 1
-autowrap_mode = 2
+
+[node name="Lbl_Description" type="RichTextLabel" parent="VBox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.945098, 0.768627, 0.0588235, 1)
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_offset_y = -4
+theme_override_constants/shadow_offset_x = -4
+theme_override_fonts/normal_font = ExtResource("1_cssje")
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "[center][color=#f1c40f][wave amp=40.0 freq=6.0]Blocks Scrub 1[/wave][/color][/center]"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
