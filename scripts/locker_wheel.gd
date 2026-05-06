@@ -71,6 +71,7 @@ func _on_spin_pressed():
 	if GameManager.current_energy < 1: return
 	
 	GameManager.current_energy -= 1
+	RunTracker.track_energy_spent(1)
 	
 	is_spinning = true
 	lbl_result.text = "Spinning..."

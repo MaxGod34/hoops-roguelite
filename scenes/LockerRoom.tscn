@@ -45,15 +45,16 @@ size = Vector2(109, 681)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtgom"]
 bg_color = Color(0, 0, 0, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.226448, 0.124615, 2.40654e-08, 1)
 border_blend = true
-expand_margin_left = 4.0
-expand_margin_top = 4.0
-expand_margin_right = 4.0
-expand_margin_bottom = 4.0
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_epmqv"]
 bg_color = Color(0.682353, 0.560784, 0.121569, 1)
@@ -278,21 +279,21 @@ position = Vector2(12, 330.5)
 shape = SubResource("RectangleShape2D_3fb16")
 
 [node name="Lbl_EnergyWall" type="Label" parent="."]
-offset_left = 669.0
+offset_left = 674.0
 offset_top = 8.0
-offset_right = 813.0
-offset_bottom = 29.0
+offset_right = 790.0
+offset_bottom = 25.0
 theme = ExtResource("29_4nymk")
 theme_override_colors/font_color = Color(1, 1, 0, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 16
 text = "Energy: 2"
 horizontal_alignment = 1
 
 [node name="Lbl_BankedWall" type="Label" parent="."]
-offset_left = 669.0
-offset_top = 39.0
-offset_right = 796.0
-offset_bottom = 56.0
+offset_left = 674.0
+offset_top = 37.0
+offset_right = 790.0
+offset_bottom = 54.0
 theme = ExtResource("29_4nymk")
 theme_override_colors/font_color = Color(0, 0.462885, 1.05888e-06, 1)
 theme_override_font_sizes/font_size = 16
@@ -300,21 +301,40 @@ text = "Banked: 0"
 horizontal_alignment = 1
 
 [node name="Lbl_Exit" type="Label" parent="."]
-offset_left = 430.0
-offset_top = 6.0
-offset_right = 501.0
-offset_bottom = 55.0
+offset_left = 469.0
+offset_top = 4.0
+offset_right = 520.0
+offset_bottom = 41.0
 theme = ExtResource("29_4nymk")
 theme_override_colors/font_color = Color(1, 0.380392, 0, 1)
-theme_override_colors/font_shadow_color = Color(1, 0.380392, 0, 1)
-theme_override_colors/font_outline_color = Color(0.81502, 3.58574e-06, 7.70092e-07, 1)
+theme_override_colors/font_shadow_color = Color(0.755789, 0.279608, 4.81307e-07, 1)
+theme_override_colors/font_outline_color = Color(0.685733, 3.10443e-06, 5.77569e-07, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = -2
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
 text = "EXIT
 --->"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Lbl_OpponentScore" type="Label" parent="."]
+offset_left = 400.0
+offset_top = 4.0
+offset_right = 444.0
+offset_bottom = 41.0
+theme = ExtResource("29_4nymk")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.787251, 0.00228592, 1.92523e-07, 1)
+theme_override_colors/font_outline_color = Color(0.000459687, 1.42477e-10, 5.87534e-11, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = -2
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
+text = "OPP
+20"
 horizontal_alignment = 1
 vertical_alignment = 1
 

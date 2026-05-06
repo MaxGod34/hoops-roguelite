@@ -23,6 +23,7 @@ TransitionManager="*res://scenes/TransitionManager.tscn"
 GlobalData="*res://scripts/global_data.gd"
 MachManager="*res://scripts/mach_manager.gd"
 HighlightManager="*res://scripts/highlight_manager.gd"
+RunTracker="*res://scripts/RunTracker.gd"
 
 [display]
 

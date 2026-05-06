@@ -61,7 +61,7 @@ layout_mode = 2
 theme = ExtResource("1_xbmfg")
 theme_override_colors/font_color = Color(0.984314, 0.588235, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.984314, 0.694118, 0, 1)
-theme_override_colors/font_outline_color = Color(0.394559, 0.428871, 4.81307e-07, 1)
+theme_override_colors/font_outline_color = Color(0.294772, 0.321467, 0, 1)
 theme_override_constants/line_spacing = 8
 theme_override_constants/shadow_offset_x = -4
 theme_override_constants/shadow_offset_y = -4
@@ -93,6 +93,12 @@ theme = ExtResource("2_ymf35")
 text = "The Aegis: 
 (-1 Energy)
 (+1 Ward)"
+
+[node name="Btn_Atonement" type="Button" parent="MainLayout/ActionRow"]
+layout_mode = 2
+theme = ExtResource("2_ymf35")
+text = "Atonement:
+Scrub 3"
 
 [node name="Btn_Leave" type="Button" parent="MainLayout/ActionRow" groups=["altar_menu"]]
 custom_minimum_size = Vector2(320, 0)

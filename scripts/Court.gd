@@ -11,8 +11,7 @@ signal game_over(winner_name)
 @onready var ball = get_node("Ball")
 
 # Score Tracking
-var player_score: int = 10
-var target_score: int = 11
+var player_score: int = 20
 var pending_points: int = 2
 var pending_shot_is_dunk: bool = false
 
@@ -41,10 +40,10 @@ var sammy_required_shot: int = 0 # 0 means any shot is allowed
 
 
 func _ready():
+	RunTracker.reset_game_stats()
 	$ClearZone.body_entered.connect(_on_clear_zone_body_entered)
 	$ClearZone.body_exited.connect(_on_clear_zone_body_exited)
 	$Hoop.basket_scored.connect(_on_hoop_basket_scored)
-	
 	#--Boot Up Scan--
 	await get_tree().physics_frame
 	
@@ -57,7 +56,6 @@ func _ready():
 	# Connect Signals
 	score_changed.connect($Scoreboard.update_scores)
 
-	
 	$ReplayViewer.replay_finished.connect(_on_replay_finished)
 	$ReplayViewer.replay_tick.connect(_on_replay_tick)
 	
@@ -205,6 +203,7 @@ func handle_rebound(rebounder: Node2D):
 	if rebounder == last_shooter:
 		is_ball_cleared = true
 		print("OFFENSIVE REBOUND! Live Ball!")
+		if rebounder == player: RunTracker.add_rebound(true)
 	else:
 		# Check if you are already standing in the Clear Zone when obtaining ball
 		if bodies_in_clear_zone.has(rebounder):
@@ -213,7 +212,9 @@ func handle_rebound(rebounder: Node2D):
 		else:
 			is_ball_cleared = false
 			print("Defensive Rebound! CLEAR BALL ASAP!")
-	
+		
+		if rebounder == player: RunTracker.add_rebound(false)
+		
 	#--------RESET SHOOTER SO NEXT FUMBLE IS A TURNOVER---------
 	last_shooter = null
 
@@ -295,7 +296,7 @@ func apply_turnover_penalties(violator: Node2D):
 	if violator == player:
 		MachManager.reset_to_base() # Full Reset on a Turnover
 		player_turnovers += 1
-	
+		RunTracker.add_turnover()
 		#-------RELAXED BUTTER BAIT-------
 		if GameManager.has_active_mutation("relaxed_butter"):
 			if GameManager.is_mutation_warded("relaxed_butter"):
@@ -406,6 +407,8 @@ func _on_hoop_basket_scored(points, scorer):
 	if scorer.name == "Player":
 		player_score += points
 		print("Player Score: ", player_score)
+		RunTracker.add_points(points, pending_shot_is_dunk)
+		
 		
 		#-------------------------- ICARUS DELAY DEBUFF ------------------------
 		if pending_shot_is_dunk and GameManager.has_active_mutation("icarus_delay"):

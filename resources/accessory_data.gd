@@ -21,6 +21,14 @@ class_name AccessoryData
 @export var mach_bonus: int = 0
 @export var all_attribute_bonus: int = 0
 
+# SCRUBBING CATEGORY
+@export_category("Scrubbing (The Wash)")
+@export var scrub_on_game_end: int = 0
+@export var scrub_on_block: int = 0
+@export var scrub_on_steal: int = 0
+@export var scrub_on_mach_dunk: int = 0
+
+
 # Unique Passive Effects (ID)
 @export var passive_effect: String = ""
 
@@ -42,7 +50,7 @@ func get_boosts() -> Dictionary:
 	
 	if all_attribute_bonus != 0:
 		for stat in ["close_shot", "mid_shot", "three_pt", "layups", "dunks", 
-		"ball_handling", "speed_accel", "strength", "steal", "block", "rebounding"]:
+		"ball_handling", "speed_accel", "strength", "steal", "block", "rebounding", "mach"]:
 			if boosts.has(stat):
 				boosts[stat] += all_attribute_bonus
 			else:

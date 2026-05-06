@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_r435d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r435d"]
-bg_color = Color(0.294118, 0.188235, 0, 1)
+bg_color = Color(0.147405, 0.0860183, 0, 1)
 border_width_left = 24
 border_width_top = 24
 border_width_right = 24
@@ -37,7 +37,7 @@ expand_margin_right = 12.0
 expand_margin_bottom = 12.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5bj2a"]
-bg_color = Color(1, 0.67451, 0, 1)
+bg_color = Color(0.726411, 0.485329, 0, 1)
 border_width_left = 24
 border_width_top = 24
 border_width_right = 24
@@ -96,7 +96,7 @@ Button/colors/font_outline_color = Color(0.673649, 0.378425, 0, 1)
 Button/colors/font_pressed_color = Color(0.803922, 0.784314, 0, 1)
 Button/constants/line_spacing = 24
 Button/constants/outline_size = 12
-Button/font_sizes/font_size = 42
+Button/font_sizes/font_size = 36
 Button/fonts/font = ExtResource("1_r435d")
 Button/styles/disabled = SubResource("StyleBoxFlat_r435d")
 Button/styles/focus = SubResource("StyleBoxFlat_5esi5")

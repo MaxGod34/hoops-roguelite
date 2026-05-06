@@ -134,6 +134,7 @@ func setup_bait_button(button_node: Button, bait: BaitData):
 func _on_bait_purchased(bait: BaitData, button_node: Button):
 	if GameManager.current_energy >= bait.cost:
 		GameManager.current_energy -= bait.cost
+		RunTracker.track_energy_spent(bait.cost)
 		
 		print("Purchased Bait: ", bait.bait_name)
 		

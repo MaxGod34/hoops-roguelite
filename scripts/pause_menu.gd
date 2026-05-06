@@ -3,6 +3,9 @@ extends CanvasLayer
 @onready var stats_container = $MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid
 @onready var threads_container = $MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid
 @onready var ledger_container = $MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainer/LedgerList
+@onready var run_stats_container = $MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainerStats/RunStats
+@onready var lbl_cap = $MainLayout/ContentStage/Panel_Clipboard/Col2_Build/Lbl_Cap
+
 
 # NAV REFERENCES
 @onready var panel_clipboard = $MainLayout/ContentStage/Panel_Clipboard
@@ -71,6 +74,7 @@ func refresh_data():
 	_update_stats_matrix()
 	_update_equipment()
 	_update_ledger()
+	_update_run_stats()
 
 
 # --- Hub Switcher ---
@@ -113,6 +117,7 @@ func _show_guidebook(cat_title: Control, cat_desc: Control):
 # COLUMN 2: PLAYER BUILD
 #======================================
 func _update_stats_matrix():
+	lbl_cap.text = "Cap: " + str(PlayerData.attribute_cap)
 	# 1. Clear old data
 	for child in stats_container.get_children():
 		child.queue_free()
@@ -242,6 +247,45 @@ func _update_ledger():
 		entry_btn.mouse_exited.connect(_hide_bait_tooltip)
 		
 		ledger_container.add_child(entry_btn)
+
+func _update_run_stats():
+	for child in run_stats_container.get_children():
+		child.queue_free()
+	
+	var display_names = {
+		"points": "Total Points",
+		"steals": "Steals",
+		"blocks": "Blocks",
+		"turnovers": "Turnovers",
+		"rebounds": "Rebounds",
+		"energy_spent": "Energy Spent",
+		"threads_burned": "Threads Burned",
+		"total_scrubbed": "Points Scrubbed"
+	}
+	
+	for stat_key in RunTracker.run_stats.keys():
+		var val = RunTracker.run_stats[stat_key]
+		var nice_name = display_names.get(stat_key, stat_key)
+		
+		var stat_label = Label.new()
+		stat_label.theme = load("res://scenes/lbl_theme_stats_replay.tres")
+		stat_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		stat_label.add_theme_font_size_override("font_size", 24)
+		
+		stat_label.text = " - %s: %d" % [nice_name, val]
+		
+		# Color Polish for Readability
+		if stat_key == "turnovers":
+			stat_label.modulate = Color(1.0, 0.4, 0.4) # Dangerous Red ooo scary
+		elif stat_key == "total_scrubbed":
+			stat_label.modulate = Color(0.4, 1.0, 1.0) # Holy Cyan Batman
+		elif stat_key == "energy_spent":
+			stat_label.modulate = Color(1.0, 0.8, 0.2) # Gold
+		else:
+			stat_label.modulate = Color(0.9, 0.9, 0.9) # Off-white Default
+		
+		run_stats_container.add_child(stat_label)
+		
 
 
 #========================================

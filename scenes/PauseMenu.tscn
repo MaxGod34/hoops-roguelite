@@ -93,7 +93,7 @@ size_flags_horizontal = 3
 
 [node name="Col2_Build" type="VBoxContainer" parent="MainLayout/ContentStage/Panel_Clipboard"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 alignment = 1
 
 [node name="Lbl_AttributesTitle" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
@@ -109,6 +109,21 @@ theme_override_constants/shadow_outline_size = 12
 theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxEmpty_vd2mf")
 text = "Attributes"
+horizontal_alignment = 1
+
+[node name="Lbl_Cap" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_colors/font_color = Color(0.345098, 0.803922, 1, 1)
+theme_override_colors/font_shadow_color = Color(4.13924e-06, 0.677607, 0.756152, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -4
+theme_override_constants/shadow_offset_y = -4
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 12
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vd2mf")
+text = "Cap: 100"
 horizontal_alignment = 1
 
 [node name="StatsGrid" type="GridContainer" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
@@ -316,6 +331,39 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainer/LedgerList"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_font_sizes/font_size = 28
+text = "--No Active Curses--"
+horizontal_alignment = 1
+
+[node name="Lbl_LedgerTitle2" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger"]
+layout_mode = 2
+theme = ExtResource("2_40atx")
+theme_override_colors/font_color = Color(0, 0.647059, 0.337255, 1)
+theme_override_colors/font_shadow_color = Color(1.39579e-06, 0.495969, 0.252838, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -8
+theme_override_constants/shadow_offset_y = -8
+theme_override_constants/outline_size = 24
+theme_override_constants/shadow_outline_size = 12
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vd2mf")
+text = "Run Stats"
+horizontal_alignment = 1
+
+[node name="ScrollContainerStats" type="ScrollContainer" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger"]
+custom_minimum_size = Vector2(0, 320)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+
+[node name="RunStats" type="VBoxContainer" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainerStats"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainerStats/RunStats"]
 layout_mode = 2
 theme = ExtResource("2_40atx")
 theme_override_font_sizes/font_size = 28

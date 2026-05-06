@@ -6,6 +6,7 @@ extends Control
 
 @onready var btn_tithe = $MainLayout/ActionRow/Btn_Tithe
 @onready var btn_aegis = $MainLayout/ActionRow/Btn_Aegis
+@onready var btn_attonement = $MainLayout/ActionRow/Btn_Atonement
 @onready var btn_leave = $MainLayout/ActionRow/Btn_Leave
 
 var currently_selected_slot: String = ""
@@ -16,6 +17,7 @@ func _ready():
 	btn_leave.pressed.connect(_on_leave_pressed)
 	btn_tithe.pressed.connect(_on_tithe_pressed)
 	btn_aegis.pressed.connect(_on_aegis_pressed)
+	btn_attonement.pressed.connect(_on_attonement_pressed)
 
 
 func open_menu():
@@ -35,6 +37,8 @@ func _refresh_ui():
 	lbl_selection_info.text = "Select  Thread to sacrifice..."
 	btn_tithe.disabled = true
 	btn_aegis.disabled = true
+	btn_attonement.disabled = true
+	
 	
 	lbl_energy.text = "Energy: " + str(GameManager.current_energy)
 	
@@ -70,10 +74,9 @@ func _on_item_selected(slot_name: String, item: AccessoryData):
 	
 	btn_tithe.disabled = false
 	
-	if GameManager.current_energy >= 1:
-		btn_aegis.disabled = false
-	else:
-		btn_aegis.disabled = true
+	btn_aegis.disabled = GameManager.current_energy < 1
+	
+	btn_attonement.disabled = GameManager.cumulative_opponent_score <= 0
 	
 
 #=========================================================
@@ -84,6 +87,7 @@ func _on_tithe_pressed():
 	
 	print("THE TITHE: Burned ", currently_selected_slot, " for 1 Energy!")
 	GameManager.current_energy += 1
+	RunTracker.add_thread_burned("Tithe")
 	_execute_sacrifice()
 
 func _on_aegis_pressed():
@@ -91,8 +95,21 @@ func _on_aegis_pressed():
 	
 	print("THE AEGIS: Burned", currently_selected_slot, " and spent 1 Energy to gain a Ward!")
 	GameManager.current_energy -= 1
+	RunTracker.track_energy_spent(1)
+	RunTracker.add_thread_burned("Aegis")
 	GameManager.aegis_charges += 1
 	_execute_sacrifice()
+
+func _on_attonement_pressed():
+	if currently_selected_slot == "": return
+	
+	print("ATTONEMENT: Burned ", currently_selected_slot, " to scrub 3 points!")
+	
+	GameManager.reduce_opponent_score(3)
+	RunTracker.add_thread_burned("Attonement")
+	
+	_execute_sacrifice()
+
 
 func _execute_sacrifice():
 	# 1. Delete the item from the player's body

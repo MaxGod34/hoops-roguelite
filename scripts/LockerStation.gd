@@ -49,6 +49,7 @@ func _process(_delta):
 				# If not paid, check energy
 				elif GameManager.current_energy >= 2:
 					GameManager.current_energy -= 2
+					RunTracker.track_energy_spent(2)
 					GameManager.is_scouted = true
 					print("Scouting Report Purchased!")
 					scout_board.open_menu()
@@ -92,7 +93,7 @@ func request_prompt(prompt_ui):
 		"Forge":
 			flavor_text = "Out of order!\nObtain your lightning bolt to access!"
 		"The Showers":
-			flavor_text = "Embrace the dark and decompress.\nRaise attribute cap by 5."
+			flavor_text = "Scrub yourself clean.\nScrub 5 off the opponent's score."
 	
 	
 	
@@ -115,6 +116,7 @@ func execute_purchase():
 	
 	if GameManager.current_energy >= 1:
 		GameManager.current_energy -= 1
+		RunTracker.track_energy_spent(1)
 		apply_station_effect()
 		# This way they can't buy the same station twice in a single visit
 		$CollisionShape2D.set_deferred("disabled", true)
@@ -124,9 +126,6 @@ func execute_purchase():
 		
 func apply_station_effect():
 	match station_type:
-		"Oracle Film Room":
-			GameManager.oracle_scourt_active = true
-			print("Scouted: Enemy abilities negated for 2 possessions")
 		
 		"Offer Libations":
 			GameManager.banked_energy += 2
@@ -141,8 +140,8 @@ func apply_station_effect():
 			print("Chalked: First unblocked shot is a guaranteed perfect release.")
 		
 		"The Showers":
-			PlayerData.attribute_cap += 5
-			print("Attribute Cap raised by 5 to a cap of: ", PlayerData.attribute_cap)
+			GameManager.reduce_opponent_score(5)
+			print("Opponent's Score Reduced by 5! Current Opp. Score: ", GameManager.cumulative_opponent_score)
 			
 func _on_body_entered(body):
 	if body.name == "Player":

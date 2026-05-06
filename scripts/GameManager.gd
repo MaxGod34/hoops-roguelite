@@ -28,7 +28,6 @@ var current_energy: int = 2
 var banked_energy: int = 0
 
 # Match Modifiers
-var oracle_scourt_active: bool = false
 var styx_ice_bath_active: bool = false
 var apollo_chalk_active: bool = false
 var is_scouted: bool = false
@@ -109,7 +108,6 @@ func prepare_locker_room():
 	is_scouted = false
 	
 func clear_match_modifiers():
-	oracle_scourt_active = false
 	styx_ice_bath_active = false
 	apollo_chalk_active = false
 	is_scouted = false
@@ -267,4 +265,13 @@ func execute_rewind():
 		return true
 		
 	return false
+
+func reduce_opponent_score(amount: int):
+	var original_score = GameManager.cumulative_opponent_score
+	var amount_reduced = 0
 	
+	GameManager.cumulative_opponent_score -= amount
+	GameManager.cumulative_opponent_score = max(0, GameManager.cumulative_opponent_score)
+	amount_reduced = original_score - GameManager.cumulative_opponent_score
+	
+	RunTracker.track_scrub(amount_reduced)

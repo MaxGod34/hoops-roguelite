@@ -372,6 +372,7 @@ func attempt_swipe():
 			# MACH INJECTION: NICE STEAL
 			MachManager.add_mach(0.75)
 			bot.force_turnover()
+			RunTracker.add_steal()
 		else:
 			print("PLAYER WHIFFED THE STEAL!")
 			
@@ -497,6 +498,9 @@ func execute_block(active_ball):
 		active_ball.reject_shot(deflect_dir)
 		# MACH INJECTION: SWAT
 		MachManager.add_mach(1.0)
+		
+		# --- THE TRACKER ---
+		RunTracker.add_block()
 														
 
 
