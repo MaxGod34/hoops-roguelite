@@ -2,49 +2,24 @@ extends Node
 
 signal stats_updated
 
-var attribute_cap: int = 100
 # 12 Attribute Matrix
 var base_stats = {
-	# Shooting
-	"close_shot": 50,
-	"mid_shot": 50,
-	"three_pt": 50,
-	# Finishing
-	"layups": 50,
-	"dunks": 50,
-	# Handle/Rebound
-	"ball_handling": 50,
-	"rebounding": 50,
-	# Defense
-	"steal": 50,
-	"block": 50,
-	# Physicals
-	"speed_accel": 50,
-	"strength": 50,
-	# Mach
-	"mach": 50
+	"shooting": 50,
+	"finishing": 50,
+	"handle": 50,
+	"defense": 50,
+	"speed": 50,
+	"strength": 50
 }
 
 
 var thread_bonuses = {
-	# Shooting
-	"close_shot": 0,
-	"mid_shot": 0,
-	"three_pt": 0,
-	# Finishing
-	"layups": 0,
-	"dunks": 0,
-	# Handle/Rebound
-	"ball_handling": 0,
-	"rebounding": 0,
-	# Defense
-	"steal": 0,
-	"block": 0,
-	# Physicals
-	"speed_accel": 0,
-	"strength": 0,
-	# Mach
-	"mach": 0
+	"shooting": 0,
+	"finishing": 0,
+	"handle": 0,
+	"defense": 0,
+	"speed": 0,
+	"strength": 0
 }
 
 
@@ -87,7 +62,6 @@ func advance_game_state():
 func upgrade_stat(stat_name: String, amount: int):
 	if base_stats.has(stat_name):
 		base_stats[stat_name] += amount
-		base_stats[stat_name] = clamp(base_stats[stat_name], 0, attribute_cap)
 		print(stat_name + " upgraded to: " + str(base_stats[stat_name]))
 		stats_updated.emit()
 		

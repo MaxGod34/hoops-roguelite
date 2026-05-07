@@ -44,19 +44,14 @@ func display_item(item: AccessoryData):
 	var green_hex = "[color=#32ff7e][tornado radius=3.0 freq=8.0]"
 	var end_color = "[/tornado][/color]"
 	#================================OFF=======================================
-	if item.close_shot_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.close_shot_bonus) + " CLOSE SHOT" + end_color
-	if item.mid_shot_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.mid_shot_bonus) + " MID SHOT" + end_color
-	if item.three_pt_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.three_pt_bonus) + " 3PT" + end_color
-	if item.layups_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.layups_bonus) + " LAYUP" + end_color
-	if item.dunks_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.dunks_bonus) + " DUNK" + end_color
-	if item.ball_handling_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.ball_handling_bonus) + " BALL HANDLE" + end_color
-	#===============================DEF/REB/PHYS===============================
+	if item.shooting_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.shooting_bonus) + " SHOOTING" + end_color
+	if item.finishing_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.finishing_bonus) + " FINISHING" + end_color
+	if item.handle_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.handle_bonus) + " HANDLE" + end_color
+	#===============================DEF/PHYS====================================
+	if item.defense_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.defense_bonus) + " DEFENSE" + end_color
 	if item.speed_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.speed_bonus) + " SPD/ACCEL" + end_color
 	if item.strength_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.strength_bonus) + " STRENGTH" + end_color
-	if item.mach_bonus > 0: stat_text += "\n"  + green_hex + "+" + str(item.vertical_bonus) + " MACH" + end_color
-	if item.steal_bonus > 0: stat_text += "\n"  + green_hex + "+" + str(item.steal_bonus) + " STEAL" + end_color
-	if item.block_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.block_bonus) + " BLOCK" + end_color
-	if item.rebounding_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.rebounding_bonus) + " REBOUND" + end_color
+	
 	if item.all_attribute_bonus > 0: stat_text += "\n" + green_hex + "+" + str(item.all_attribute_bonus) + " ALL STATS" + end_color
 	
 	stat_text += "[/center]"

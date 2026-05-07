@@ -2,7 +2,8 @@ extends Area2D
 
 @export_enum("The Rewind", "Offer Libations", "Styx Ice Bath", "Exit to Court",
 			"Apollo's Chalk", "Oceanus Bait Shop", "Forge", "Altar", 
-			"Wheel of Fate", "The Showers", "Scouting Board") var station_type: String
+			"Wheel of Fate", "The Showers", "Scouting Board", 
+			"Bargain with the Abyss") var station_type: String
 
 var player_in_zone: bool = false
 
@@ -71,7 +72,13 @@ func _process(_delta):
 				rewind_menu.open_menu()
 				return
 		#-----------------------------------------------------------------------
-		
+		#----------------------------THE FERRYMAN-------------------------------
+		if station_type == "Bargain with the Abyss":
+			var bargain_menu = get_tree().get_first_node_in_group("bargain_menu")
+			if bargain_menu:
+				bargain_menu.open_menu(self)
+				return
+		#-----------------------------------------------------------------------
 		
 		
 		# Standard Stations (Yes/No Prompt)

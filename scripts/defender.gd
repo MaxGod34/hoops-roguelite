@@ -19,21 +19,23 @@ var has_ball: bool = false
 
 var active_stats: DefenderStats
 
-@export var dunk_rating: int = 85 # Higher/Lower set a threshold
+@export var shooting_rating: int = 50
+@export var finishing_rating: int = 85 # Higher/Lower set a threshold
 
-@export var steal_rating: int = 75
-# Steal Mechanic
+
+# Steal/Block Mechanic
+@export var defense_rating: int = 60
 var swipe_cooldown: float = 0.0
 var swipe_range: float = 65.0 	# 5 more than the guard range!
+var contest_range: float = 75.0
+var is_contesting: bool = false
 
-@export var ball_handle: int = 70
+@export var handle_rating: int = 70
 var offense_timer: float = 0.0
 var size_up_time: float = 1.5
 var drive_speed_multiplier: float = 1.2
 
-@export var block_rating: int = 60
-var contest_range: float = 75.0
-var is_contesting: bool = false
+
 
 # SHOOTING MECHANICS
 var jump_z: float = 0.0
@@ -131,11 +133,14 @@ func initialize_stats(new_stats: DefenderStats):
 	active_stats = new_stats
 	
 	# Apply Raw State
-	move_speed = 100.0 * active_stats.speed_multiplier
+	shooting_rating = active_stats.shooting_rating
+	finishing_rating = active_stats.finishing_rating
+	handle_rating = active_stats.handle_rating
+	defense_rating = active_stats.defense_rating
+	move_speed = 100.0 * active_stats.speed_multiplier # Adjust to match speed rating
 	strength = active_stats.strength_rating
-	steal_rating = active_stats.steal_rating
-	block_rating = active_stats.block_rating
-	dunk_rating = active_stats.dunks_rating
+	
+	
 	
 	if has_node("Sprite2D") and active_stats.body_sprite != null:
 		$Sprite2D.texture = active_stats.body_sprite
@@ -256,7 +261,7 @@ func bot_shoot():
 		if is_driving:
 			# Decide to dunk based on an arbitrary rating
 			# 70 seems good m'lord
-			var intent_to_dunk = dunk_rating >= 70
+			var intent_to_dunk = finishing_rating >= 70
 			execute_driving_finish(rim_position, intent_to_dunk)
 		else:
 			print("BOT shoots a standing LAYUP!")
@@ -347,7 +352,7 @@ func attempt_swipe():
 	
 	# Dice roll o'clock
 	var base_chance = 10
-	var stat_diff = steal_rating - player.ball_handle
+	var stat_diff = defense_rating - player.handle_rating
 	
 	# If player is doing a crossover in front of my face, punish them
 	if player.is_tricking:
@@ -366,8 +371,8 @@ func attempt_swipe():
 	else:
 		print("WHIFF! Bot reached in and missed! Make him suffer!")
 		
-	# Freeze bot for 0.4 seconds then let them recover
-	await get_tree().create_timer(0.4).timeout
+	# Freeze bot for 0.7 seconds then let them recover
+	await get_tree().create_timer(0.7).timeout
 	
 	# Return to normal logic if they didn't grab the ball during the freeze
 	if state == "SWIPING":
@@ -535,7 +540,7 @@ func attempt_contest():
 	var peak_time = jump_duration / 2.0
 	
 	# Calculate block height based on the attribute
-	var max_jump = 15.0 + (block_rating * 0.15)
+	var max_jump = 15.0 + (defense_rating * 0.15)
 	
 	# Go Up
 	jump_tween.tween_property(self, "jump_z", max_jump, peak_time).set_trans(
@@ -545,6 +550,9 @@ func attempt_contest():
 															Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	
 	await jump_tween.finished
+	
+	# 1 second timer after attempting a block before another attempt occurs (for fairness ig)
+	await get_tree().create_timer(1.0).timeout
 	
 	is_contesting = false
 	if state == "CONTESTING":

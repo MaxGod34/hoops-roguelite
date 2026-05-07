@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BaitData" load_steps=2 format=3 uid="uid://rqbd5m4ebory"]
+
+[ext_resource type="Script" uid="uid://exna5fjfa3hg" path="res://resources/bait_data.gd" id="1_fwqhm"]
+
+[resource]
+script = ExtResource("1_fwqhm")
+bait_name = "Scrubless"
+category = "The Scales"
+cost = 0
+catch_description = "Reset Opp Score"
+hook_description = "Scrubbing Disabled"
+stat_target = ""
+stat_boost = 0
+cap_boost = 0
+stat_penalty = 0
+duration_type = "Games"
+duration_value = 2
+unique_effect_id = "scrubless"
+metadata/_custom_type_script = "uid://exna5fjfa3hg"

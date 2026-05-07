@@ -36,8 +36,11 @@ func _refresh_ui():
 	currently_selected_slot = ""
 	lbl_selection_info.text = "Select  Thread to sacrifice..."
 	btn_tithe.disabled = true
+	btn_tithe.release_focus()
 	btn_aegis.disabled = true
+	btn_aegis.release_focus()
 	btn_attonement.disabled = true
+	btn_attonement.release_focus()
 	
 	
 	lbl_energy.text = "Energy: " + str(GameManager.current_energy)

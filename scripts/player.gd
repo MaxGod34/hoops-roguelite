@@ -2,7 +2,8 @@
 extends CharacterBody2D
 
 
-const SPEED = 400.0
+var base_speed: float = 400.0
+var current_speed: float = 400.0
 const ACCELERATION = 2500.0
 
 var friction = 2000.0
@@ -37,10 +38,11 @@ var is_tricking: bool = false
 #====================================
 
 # Stats pulled from PlayerData
+var shooting_rating: int = 50
+var finishing_rating: int = 50
 var strength: int = 50
-var steal_rating: int = 50
-var block_rating: int = 50
-var ball_handle: int = 50
+var defense_rating: int = 50
+var handle_rating: int = 50
 
 
 # Check Up Vars
@@ -60,17 +62,18 @@ func _ready():
 
 func update_player_stats():
 	# Sync player mechanics with the global true stats
+	shooting_rating = PlayerData.get_effective_stat("shooting")
+	finishing_rating = PlayerData.get_effective_stat("finishing")
+	handle_rating = PlayerData.get_effective_stat("handle")
+	defense_rating = PlayerData.get_effective_stat("defense")
+	# Speed modifier 2*value 
+	# /(i.e. 100 SPEED = 400.0 + 200.0 = 600.0 move_speed) 
+	var speed_rating = PlayerData.get_effective_stat("speed")
+	current_speed = base_speed + (speed_rating * 2.0)
+	
 	strength = PlayerData.get_effective_stat("strength")
-	steal_rating = PlayerData.get_effective_stat("steal")
-	block_rating = PlayerData.get_effective_stat("block")
-	ball_handle = PlayerData.get_effective_stat("ball_handling")
-	# Speed
-	# Rebound
-	# Close/Mid/3pt Shot
-	# Layup
-	# Dunk
-	# Mach Modifier Stat
-	print("Player Stats Refreshed! Current Steal: ", steal_rating)
+	
+	print("Player Stats Refreshed! Current Speed: ", speed_rating)
 
 
 func _physics_process(delta: float) -> void:
@@ -104,7 +107,7 @@ func _physics_process(delta: float) -> void:
 		# NORMAL MOVEMENT
 		var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		if direction:
-			velocity = velocity.move_toward(direction * SPEED, ACCELERATION * delta)
+			velocity = velocity.move_toward(direction * current_speed, ACCELERATION * delta)
 		else:
 			# Skid to a stop instead of a hard stop
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
@@ -240,7 +243,7 @@ func process_check_up(_delta: float):
 		
 		if distance_to_target > 5.0:
 			var dir = global_position.direction_to(target_pos)
-			velocity = dir * (SPEED * 0.75)
+			velocity = dir * (current_speed * 0.75)
 		else:
 			# Arrived
 			velocity = Vector2.ZERO
@@ -256,7 +259,7 @@ func process_check_up(_delta: float):
 			
 			# run slightly faster for game pace
 			var dir = global_position.direction_to(target_pos)
-			velocity = dir * (SPEED * 0.75)
+			velocity = dir * (current_speed * 0.75)
 			
 			
 		else:
@@ -267,7 +270,7 @@ func process_check_up(_delta: float):
 			
 			if distance_to_target > 5.0:
 				var dir = global_position.direction_to(target_pos)
-				velocity = dir * (SPEED * 0.5)
+				velocity = dir * (current_speed * 0.5)
 			else:
 				# Arrived at defense spawn
 				velocity = Vector2.ZERO
@@ -341,7 +344,7 @@ func execute_crossover():
 		dash_dir = (current_input * 2.0 + side_dash).normalized()
 		
 	# Apply a massive burst of velocity on the dash
-	velocity = dash_dir * (SPEED * 1.7)
+	velocity = dash_dir * (current_speed * 1.7)
 	
 	# Wait for the tree to finish before giving controller back
 	await get_tree().create_timer(trick_duration).timeout
@@ -360,7 +363,7 @@ func attempt_swipe():
 		
 		# Dice roll o'clock
 		var base_chance = 90
-		var stat_diff = steal_rating - bot.ball_handle
+		var stat_diff = defense_rating - bot.handle_rating
 		
 		# Clamp the math min: 5, max: 95
 		var success_chance = clamp(base_chance + stat_diff, 5, 95)
@@ -458,7 +461,7 @@ func attempt_block():
 	
 	jump_tween = create_tween()
 	var peak_time = jump_duration / 2.0
-	var max_jump = 15 + (block_rating * 0.15)
+	var max_jump = 15 + (defense_rating * 0.15)
 	
 	# Going Up
 	jump_tween.tween_property(self, "jump_z", max_jump, peak_time).set_trans(

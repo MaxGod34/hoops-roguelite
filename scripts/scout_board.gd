@@ -3,18 +3,13 @@ extends Control
 @onready var opp_sprite = $VBoxContainer/TopRow/OpponentTexture
 @onready var opp_name = $VBoxContainer/TopRow/Lbl_Opp_Name
 
-@onready var opp_close_shot_val = $VBoxContainer/StatsGrid/Lbl_CloseShotValue
-@onready var opp_mid_shot_val = $VBoxContainer/StatsGrid/Lbl_MidShotValue
-@onready var opp_three_pt_val = $VBoxContainer/StatsGrid/Lbl_ThreePtShotValue
-@onready var opp_ball_handle_val = $VBoxContainer/StatsGrid/Lbl_BallHandleValue
-@onready var opp_layup_val = $VBoxContainer/StatsGrid/Lbl_LayupValue
-@onready var opp_dunk_val = $VBoxContainer/StatsGrid/Lbl_DunkValue
-@onready var opp_steal_val = $VBoxContainer/StatsGrid/Lbl_StealValue
-@onready var opp_block_val = $VBoxContainer/StatsGrid/Lbl_BlockValue
+@onready var opp_shooting_val = $VBoxContainer/StatsGrid/Lbl_ShootingValue
+@onready var opp_finishing_val = $VBoxContainer/StatsGrid/Lbl_FinishingValue
+@onready var opp_handle_val = $VBoxContainer/StatsGrid/Lbl_HandleValue
+@onready var opp_defense_val = $VBoxContainer/StatsGrid/Lbl_DefenseValue
 @onready var opp_speed_val = $VBoxContainer/StatsGrid/Lbl_SpeedValue
 @onready var opp_strength_val = $VBoxContainer/StatsGrid/Lbl_StrengthValue
-@onready var opp_rebound_val = $VBoxContainer/StatsGrid/Lbl_ReboundValue
-@onready var opp_mach_val = $VBoxContainer/StatsGrid/Lbl_MachValue
+
 
 @onready var opp_ability_val = $VBoxContainer/AbilityRow/Lbl_AbilitiesValue
 @onready var opp_arena_rule_val = $VBoxContainer/ArenaRow/Lbl_ArenaRuleValue
@@ -53,18 +48,13 @@ func populate_stats():
 	# Set all values
 	opp_name.text = enemy_stats.defender_name
 	#opp_sprite.texture = GlobalData.get_current_enemy_data().accessory_sprite
-	opp_close_shot_val.text = str(enemy_stats.close_shot_rating)
-	opp_mid_shot_val.text = str(enemy_stats.mid_shot_rating)
-	opp_three_pt_val.text = str(enemy_stats.three_pt_rating)
-	opp_ball_handle_val.text = str(enemy_stats.ball_handling_rating)
-	opp_layup_val.text = str(enemy_stats.layups_rating)
-	opp_dunk_val.text = str(enemy_stats.dunks_rating)
-	opp_steal_val.text = str(enemy_stats.steal_rating)
-	opp_block_val.text = str(enemy_stats.block_rating)
+	opp_shooting_val.text = str(enemy_stats.shooting_rating)
+	opp_finishing_val.text = str(enemy_stats.finishing_rating)
+	opp_handle_val.text = str(enemy_stats.handle_rating)
+	opp_defense_val.text = str(enemy_stats.defense_rating)
 	opp_speed_val.text = str(enemy_stats.speed_rating)
 	opp_strength_val.text = str(enemy_stats.strength_rating)
-	opp_rebound_val.text = str(enemy_stats.rebounding_rating)
-	opp_mach_val.text = "0" # They have no style
+
 	
 	opp_ability_val.text = "N/A"
 	
@@ -80,7 +70,7 @@ func populate_stats():
 	if enemy_stats.slippery_floor:
 		rule_text = "SLIPPERY FLOOR"
 	if enemy_stats.alternating_shots:
-		rule_text = "2s & 3s MUST BE TAKEN ALTERNATING"
+		rule_text = "2s & 3s MUST\nBE TAKEN ALTERNATING"
 	
 	opp_arena_rule_val.text = rule_text
 

@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
 [ext_resource type="Texture2D" uid="uid://ccovcylm84s3m" path="res://assets/locker_room/CaveProto.png" id="2_4qkvb"]
 [ext_resource type="Texture2D" uid="uid://db801hss2uvli" path="res://assets/locker_room/Whiteboard Proto.png" id="3_3fb16"]
-[ext_resource type="Script" uid="uid://dgobowy8xi74g" path="res://scripts/station_styx.gd" id="4_twet0"]
 [ext_resource type="PackedScene" uid="uid://polg108afqtt" path="res://scenes/bait_shop.tscn" id="5_vacuq"]
 [ext_resource type="Script" uid="uid://b5ce8nu0rihus" path="res://scripts/station_kibisis.gd" id="6_i0i2h"]
 [ext_resource type="Texture2D" uid="uid://ccvmo61pbwrmd" path="res://assets/locker_room/KibisisProto.png" id="6_lcfti"]
@@ -22,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://dgcm72tv2w2pq" path="res://assets/accessories/RightFortuneGauntletProto.png" id="11_eo1ny"]
 [ext_resource type="PackedScene" uid="uid://l2778bw0hok8" path="res://scenes/rewind_menu.tscn" id="11_gjob3"]
 [ext_resource type="Texture2D" uid="uid://c3gfkl6cvc7rl" path="res://assets/accessories/LeftSandalProto.png" id="12_fyfyi"]
+[ext_resource type="PackedScene" uid="uid://djr17vi4dci1l" path="res://scenes/bargain_menu.tscn" id="12_gjob3"]
 [ext_resource type="Texture2D" uid="uid://dplappbp8tjxy" path="res://assets/accessories/RightRollerbladeProto.png" id="13_t3frt"]
 [ext_resource type="Script" uid="uid://xlscgvma03v8" path="res://scripts/LockerStation.gd" id="15_smqfs"]
 [ext_resource type="Texture2D" uid="uid://b2cde6horrpqs" path="res://assets/locker_room/BaitShopProto.png" id="16_k8rc4"]
@@ -562,6 +562,9 @@ visible = false
 [node name="RewindMenu" parent="PopUps" instance=ExtResource("11_gjob3")]
 visible = false
 
+[node name="BargainMenu" parent="PopUps" instance=ExtResource("12_gjob3")]
+visible = false
+
 [node name="OceanusBaitShop" type="Area2D" parent="."]
 position = Vector2(166, 70)
 script = ExtResource("15_smqfs")
@@ -586,7 +589,8 @@ shape = SubResource("RectangleShape2D_o67jq")
 
 [node name="Station_Styx" type="Area2D" parent="."]
 position = Vector2(1068, 97)
-script = ExtResource("4_twet0")
+script = ExtResource("15_smqfs")
+station_type = "Bargain with the Abyss"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Station_Styx"]
 position = Vector2(42, -13)

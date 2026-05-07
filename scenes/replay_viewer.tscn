@@ -135,8 +135,9 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_h5t4w")
 
 [node name="StatGrid" type="GridContainer" parent="UI/StatsContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_constants/h_separation = 16
-theme_override_constants/v_separation = 8
+theme_override_constants/v_separation = 32
 columns = 2
 
 [node name="Btn_Next" type="Button" parent="UI"]

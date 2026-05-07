@@ -7,17 +7,13 @@ class_name DefenderStats
 @export_multiline var intro_quote: String = "..."
 
 @export_group("Physical Attributes")
-@export var close_shot_rating: int = 50
-@export var mid_shot_rating: int = 50
-@export var three_pt_rating: int = 50
-@export var layups_rating: int = 50
-@export var dunks_rating: int = 50
-@export var ball_handling_rating: int = 50
+@export var shooting_rating: int = 50
+@export var finishing_rating: int = 50
+@export var handle_rating: int = 50
+@export var defense_rating: int = 50
 @export var speed_rating: int = 50
 @export var strength_rating: int = 50
-@export var steal_rating: int = 50
-@export var block_rating: int = 50
-@export var rebounding_rating: int = 50
+
 @export var speed_multiplier: float = 1.0
 @export var friction_multiplier: float = 1.0
 

@@ -103,7 +103,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 64
+theme_override_constants/separation = 96
 alignment = 1
 
 [node name="TopRow" type="HBoxContainer" parent="VBoxContainer"]
@@ -140,8 +140,8 @@ theme_override_constants/h_separation = 32
 theme_override_constants/v_separation = 24
 columns = 4
 
-[node name="Lbl_CloseShotTitle" type="Label" parent="VBoxContainer/StatsGrid"]
-custom_minimum_size = Vector2(480, 0)
+[node name="Lbl_ShootingTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 theme = ExtResource("3_lb2st")
 theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
@@ -153,10 +153,10 @@ theme_override_constants/outline_size = 16
 theme_override_fonts/font = ExtResource("4_okxd1")
 theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "Close Shot:"
+text = "Shooting:"
 horizontal_alignment = 2
 
-[node name="Lbl_CloseShotValue" type="Label" parent="VBoxContainer/StatsGrid"]
+[node name="Lbl_ShootingValue" type="Label" parent="VBoxContainer/StatsGrid"]
 layout_mode = 2
 theme = ExtResource("3_lb2st")
 theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
@@ -171,7 +171,8 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
 text = "100"
 horizontal_alignment = 1
 
-[node name="Lbl_MidShotTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+[node name="Lbl_FinishingTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 theme = ExtResource("3_lb2st")
 theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
@@ -183,10 +184,10 @@ theme_override_constants/outline_size = 16
 theme_override_fonts/font = ExtResource("4_okxd1")
 theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "Mid Shot:"
+text = "Finishing:"
 horizontal_alignment = 2
 
-[node name="Lbl_MidShotValue" type="Label" parent="VBoxContainer/StatsGrid"]
+[node name="Lbl_FinishingValue" type="Label" parent="VBoxContainer/StatsGrid"]
 layout_mode = 2
 theme = ExtResource("3_lb2st")
 theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
@@ -201,7 +202,8 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
 text = "100"
 horizontal_alignment = 1
 
-[node name="Lbl_ThreePtShotTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+[node name="Lbl_HandleTitle" type="Label" parent="VBoxContainer/StatsGrid"]
+custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 theme = ExtResource("3_lb2st")
 theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
@@ -213,10 +215,10 @@ theme_override_constants/outline_size = 16
 theme_override_fonts/font = ExtResource("4_okxd1")
 theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "3PT:"
+text = "Handle:"
 horizontal_alignment = 2
 
-[node name="Lbl_ThreePtShotValue" type="Label" parent="VBoxContainer/StatsGrid"]
+[node name="Lbl_HandleValue" type="Label" parent="VBoxContainer/StatsGrid"]
 layout_mode = 2
 theme = ExtResource("3_lb2st")
 theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
@@ -231,8 +233,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
 text = "100"
 horizontal_alignment = 1
 
-[node name="Lbl_BallHandleTitle" type="Label" parent="VBoxContainer/StatsGrid"]
-custom_minimum_size = Vector2(480, 0)
+[node name="Lbl_DefenseTitle" type="Label" parent="VBoxContainer/StatsGrid"]
 layout_mode = 2
 theme = ExtResource("3_lb2st")
 theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
@@ -244,130 +245,10 @@ theme_override_constants/outline_size = 16
 theme_override_fonts/font = ExtResource("4_okxd1")
 theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "Ball Handle:"
+text = "Defense:"
 horizontal_alignment = 2
 
-[node name="Lbl_BallHandleValue" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "100"
-horizontal_alignment = 1
-
-[node name="Lbl_LayupTitle" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "Layup:"
-horizontal_alignment = 2
-
-[node name="Lbl_LayupValue" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "100"
-horizontal_alignment = 1
-
-[node name="Lbl_DunkTitle" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "Dunk:"
-horizontal_alignment = 2
-
-[node name="Lbl_DunkValue" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "100"
-horizontal_alignment = 1
-
-[node name="Lbl_StealTitle" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "Steal:"
-horizontal_alignment = 2
-
-[node name="Lbl_StealValue" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "100"
-horizontal_alignment = 1
-
-[node name="Lbl_BlockTitle" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "Block:"
-horizontal_alignment = 2
-
-[node name="Lbl_BlockValue" type="Label" parent="VBoxContainer/StatsGrid"]
+[node name="Lbl_DefenseValue" type="Label" parent="VBoxContainer/StatsGrid"]
 layout_mode = 2
 theme = ExtResource("3_lb2st")
 theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
@@ -440,66 +321,6 @@ theme_override_fonts/font = ExtResource("4_okxd1")
 theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
 text = "100"
-horizontal_alignment = 1
-
-[node name="Lbl_ReboundTitle" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "Rebound:"
-horizontal_alignment = 2
-
-[node name="Lbl_ReboundValue" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "100"
-horizontal_alignment = 1
-
-[node name="Lbl_MachTitle" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(1, 0.623529, 0.976471, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "Mach:"
-horizontal_alignment = 2
-
-[node name="Lbl_MachValue" type="Label" parent="VBoxContainer/StatsGrid"]
-layout_mode = 2
-theme = ExtResource("3_lb2st")
-theme_override_colors/font_color = Color(0.903598, 0.903598, 0.903598, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = -8
-theme_override_constants/outline_size = 16
-theme_override_fonts/font = ExtResource("4_okxd1")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_mtgom")
-text = "0"
 horizontal_alignment = 1
 
 [node name="AbilityRow" type="HBoxContainer" parent="VBoxContainer"]

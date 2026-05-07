@@ -4,7 +4,6 @@ extends CanvasLayer
 @onready var threads_container = $MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid
 @onready var ledger_container = $MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainer/LedgerList
 @onready var run_stats_container = $MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainerStats/RunStats
-@onready var lbl_cap = $MainLayout/ContentStage/Panel_Clipboard/Col2_Build/Lbl_Cap
 
 
 # NAV REFERENCES
@@ -117,17 +116,14 @@ func _show_guidebook(cat_title: Control, cat_desc: Control):
 # COLUMN 2: PLAYER BUILD
 #======================================
 func _update_stats_matrix():
-	lbl_cap.text = "Cap: " + str(PlayerData.attribute_cap)
 	# 1. Clear old data
 	for child in stats_container.get_children():
 		child.queue_free()
 	
 	# 2. Friendly Display Names (Inefficient but clean)
 	var display_names = {
-		"close_shot": "Close Shot", "mid_shot": "Mid Shot", "three_pt": "3PT",
-		"layups": "Layups", "dunks": "Dunks", "ball_handling": "Ball Handle",
-		"rebounding": "Rebound", "steal": "Steal", "block": "Block",
-		"speed_accel": "Speed", "strength": "Strength", "mach": "Mach"
+		"shooting": "Shooting", "finishing": "Finishing", "handle": "Handle",
+		"defense": "Defense", "speed": "Speed", "strength": "Strength"
 	}
 	
 	# 3. Generate the labels dynamically

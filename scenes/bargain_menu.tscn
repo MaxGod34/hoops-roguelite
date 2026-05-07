@@ -1,0 +1,314 @@
+[gd_scene load_steps=14 format=3 uid="uid://djr17vi4dci1l"]
+
+[ext_resource type="Script" uid="uid://crn5iibo8fysf" path="res://scripts/bargain_menu.gd" id="1_1krin"]
+[ext_resource type="Texture2D" uid="uid://b58bq4sviyjyk" path="res://assets/locker_room/StyxBargainStationv1.2.png" id="1_vqgub"]
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="2_g581l"]
+[ext_resource type="Texture2D" uid="uid://43his24hjjuq" path="res://assets/ContractWordFiller.png" id="3_g581l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1krin"]
+bg_color = Color(0.807513, 0.67927, 1.15514e-06, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.717647, 0.333333, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cdf2o"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ki0f3"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.461862, 8.00174e-07, 1.44392e-07, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yfs0s"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.205117, 0.205117, 0.205117, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t254w"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.31802, 0.31802, 0.31802, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g581l"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(1, 0.0909423, 0.0594644, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tt01s"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(1, 0.434811, 0.366139, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q82g1"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.863436, 5.31845e-06, 7.70092e-07, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3suph"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(1, 0.0909423, 0.0594644, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="BargainMenu" type="Control" groups=["bargain_menu"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1krin")
+
+[node name="Bg_Rect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.0745098, 0.141176, 1)
+
+[node name="Bg_DarkWall" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 256)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+color = Color(1.88011e-09, 0.0123153, 0.0333633, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+offset_right = 128.0
+offset_bottom = 128.0
+scale = Vector2(9, 9)
+texture = ExtResource("1_vqgub")
+
+[node name="MainPanel" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(640, 768)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.975
+anchor_top = 0.5
+anchor_right = 0.975
+anchor_bottom = 0.5
+offset_left = -656.0
+offset_top = -384.0
+offset_bottom = 384.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Panel_Hidden" type="PanelContainer" parent="MainPanel"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_1krin")
+
+[node name="VBoxHidden" type="VBoxContainer" parent="MainPanel/Panel_Hidden"]
+layout_mode = 2
+alignment = 2
+
+[node name="Lbl_Hidden_Title" type="Label" parent="MainPanel/Panel_Hidden/VBoxHidden"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717647, 0.333333, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_g581l")
+theme_override_font_sizes/font_size = 36
+text = "Pay 1 Energy 
+to Reveal Contract"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MainPanel/Panel_Hidden/VBoxHidden"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TextureRect" type="TextureRect" parent="MainPanel/Panel_Hidden/VBoxHidden"]
+layout_mode = 2
+texture = ExtResource("3_g581l")
+
+[node name="BtnRow" type="HBoxContainer" parent="MainPanel/Panel_Hidden/VBoxHidden"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 256
+alignment = 1
+
+[node name="Btn_Reveal" type="Button" parent="MainPanel/Panel_Hidden/VBoxHidden/BtnRow"]
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_hover_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_color = Color(0.860724, 0.72457, 7.70092e-07, 1)
+theme_override_colors/font_focus_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_fonts/font = ExtResource("2_g581l")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_cdf2o")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ki0f3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yfs0s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_t254w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_cdf2o")
+text = "Reveal"
+
+[node name="Btn_Leave" type="Button" parent="MainPanel/Panel_Hidden/VBoxHidden/BtnRow"]
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_hover_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_color = Color(0.860724, 0.72457, 7.70092e-07, 1)
+theme_override_colors/font_focus_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_fonts/font = ExtResource("2_g581l")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_cdf2o")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ki0f3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yfs0s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_t254w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_cdf2o")
+text = "Leave"
+
+[node name="HSeparator3" type="HSeparator" parent="MainPanel/Panel_Hidden/VBoxHidden"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Panel_Revealed" type="PanelContainer" parent="MainPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_1krin")
+
+[node name="VBoxRevealed" type="VBoxContainer" parent="MainPanel/Panel_Revealed"]
+layout_mode = 2
+alignment = 2
+
+[node name="Lbl_Revealed_Title" type="Label" parent="MainPanel/Panel_Revealed/VBoxRevealed"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717647, 0.333333, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_g581l")
+theme_override_font_sizes/font_size = 36
+text = "RESET OPP SCORE"
+horizontal_alignment = 1
+
+[node name="Lbl_Curse_Title" type="RichTextLabel" parent="MainPanel/Panel_Revealed/VBoxRevealed"]
+custom_minimum_size = Vector2(0, 128)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.703928, 1, 0.654607, 1)
+theme_override_fonts/normal_font = ExtResource("2_g581l")
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Glued Shoes"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Lbl_Curse_Desc" type="RichTextLabel" parent="MainPanel/Panel_Revealed/VBoxRevealed"]
+custom_minimum_size = Vector2(0, 256)
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_g581l")
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Cannot Move With The Ball"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MainPanel/Panel_Revealed/VBoxRevealed"]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="BtnRow" type="HBoxContainer" parent="MainPanel/Panel_Revealed/VBoxRevealed"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 192
+alignment = 1
+
+[node name="Btn_Accept" type="Button" parent="MainPanel/Panel_Revealed/VBoxRevealed/BtnRow"]
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_hover_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_color = Color(0.860724, 0.72457, 7.70092e-07, 1)
+theme_override_colors/font_focus_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_fonts/font = ExtResource("2_g581l")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_g581l")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ki0f3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tt01s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q82g1")
+theme_override_styles/normal = SubResource("StyleBoxFlat_3suph")
+text = "Aceept"
+
+[node name="Btn_Decline" type="Button" parent="MainPanel/Panel_Revealed/VBoxRevealed/BtnRow"]
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_hover_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_color = Color(0.860724, 0.72457, 7.70092e-07, 1)
+theme_override_colors/font_focus_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.858824, 0.72549, 0, 1)
+theme_override_fonts/font = ExtResource("2_g581l")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_cdf2o")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ki0f3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yfs0s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_t254w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_cdf2o")
+text = "Decline"
+
+[node name="HSeparator3" type="HSeparator" parent="MainPanel/Panel_Revealed/VBoxRevealed"]
+layout_mode = 2
+theme_override_constants/separation = 16
