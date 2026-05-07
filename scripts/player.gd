@@ -417,40 +417,82 @@ func execute_shot():
 	if has_node("Sprite2D"): $Sprite2D.position.y = 0
 	jump_z = 0.0
 	
-	#-- TIMING MATH --
-	var gather_time = 0.15
-	var time_to_peak = gather_time + (jump_duration / 2.0)	# 0.15 + 0.3 = 0.45s target
-	
-	var time_difference = abs(shoot_timer - time_to_peak)
-	
-	if time_difference < 0.1: # 100 millisecond window for a perfect release
-		print("IRISH SPRING GREEN! Perfect Release! Double Shot %")
-		# Add actual attribute implementation later here
-	else:
-		print("Normal Release. Off by: ", time_difference, " seconds.")
-	
-	
-	# SAFETY NET FOR STEALS & STUFF
-	if held_ball == null:
-		print("Ball was stolen mid_air! Aborting shot!")
+	# Safety Net
+	if held_ball ==null:
 		dribble_picked_up = false
 		return
-	
 	
 	var hoops_in_scene = get_tree().get_nodes_in_group("hoop")
 	if hoops_in_scene.size() > 0:
 		var target_hoop = hoops_in_scene[0]
 		var rim_position = target_hoop.get_node("ShotTarget").global_position
-		
+		# Record Shot with Court so it sets pending_points (2 or 3)
 		get_parent().record_shot(self)
 		held_ball.point_value = get_parent().pending_points
 		
+		#=========================THE MONSTER MATH==============================
 		var dist_to_hoop = global_position.distance_to(rim_position)
-		if dist_to_hoop < 180.0:
-			held_ball.layup_ball(rim_position)
+		var base_chance = float(shooting_rating) 
+		var shot_mod = 1.0	# [1.0 for 2s], [0.5 for 3s]
+		var release_mod = 1.0	# [1.0 for non-perfect], [2.0 for perfect]
+		
+		# 1. Shot Selection Modifier
+		if get_parent().pending_points == 3:
+			shot_mod = 0.5 # Otherwise it's a 2, keep at 1.0
+		
+		# 2. Release Timing
+		var gather_time = 0.15
+		var time_to_peak = gather_time + (jump_duration / 2.0)	# 0.15 + 0.3 = 0.45s target
+		var time_diff = abs(shoot_timer - time_to_peak)
+		
+		if time_diff < 0.1: # Perfect Release
+			release_mod = 2.0
+			print("IRISH SPRING GREEN! Perfect Release (x2)")
 		else:
-			held_ball.shoot_ball(rim_position)
-			
+			print("Normal Release. Off by: ", time_diff, "s")
+		
+		var raw_chance = base_chance * shot_mod * release_mod # All Bonuses
+		
+		# 3. Defender Pressure
+		var bot = get_parent().get_node("Defender")
+		var dist_to_bot = global_position.distance_to(bot.global_position)
+		var contest_penalty = 0.0
+		
+		if dist_to_bot < 75.0: # Contest Range
+			contest_penalty = bot.defense_rating * (1.0 - (dist_to_bot / 75.0))
+			print("Contested! Penalty: -", contest_penalty)
+		
+		# 4. Final Dice Roll
+		var final_chance = clamp(raw_chance - contest_penalty, 0.0, 100.0)
+		
+		# Apollo's Chalk Override
+		if GameManager.apollo_chalk_active:
+			final_chance = 100.0
+			GameManager.apollo_chalk_active = false
+			print("APOLLO'S CHALK USED! Guaranteed Swish!")
+		
+		var roll = randf() * 100.0
+		var is_make = roll <= final_chance
+		print("Player Shot: Needed ", final_chance, " | Rolled: ", roll, " | Make: ", is_make)
+		
+		# 5. Apply Physics Target
+		var final_target = rim_position
+		held_ball.is_miss = not is_make		# STAMP YOUR DESTINY BALL
+		
+		if not is_make:
+			# Offset the target so it hits rim/backboard
+			var miss_offset = Vector2(randf_range(-15, 15), randf_range(-15, 15))
+			miss_offset += miss_offset.normalized() * 15.0 # Ensure it's far enough away
+			final_target += miss_offset
+		#=======================================================================
+		
+		# Fire ball
+		if dist_to_hoop < 180.0:
+			held_ball.layup_ball(final_target)
+		else:
+			held_ball.shoot_ball(final_target)
+	
+
 	held_ball = null
 	has_ball = false
 	dribble_picked_up = false
@@ -514,6 +556,7 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	
 	has_control = false
 	is_shooting = true	# Let's bot know we are mid-shot
+	velocity = Vector2.ZERO
 	held_ball.is_dribbling = false
 	
 	# Move ball to the dominant/driving hand high up
@@ -568,11 +611,71 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	if held_ball != null:
 		get_parent().record_shot(self, is_dunk)
 		held_ball.point_value = get_parent().pending_points
-		held_ball.layup_ball(rim_position)
-		held_ball = null
-		has_ball = false
-		dribble_picked_up = false
 		
+		# 1. The Maeth
+		var base_chance = float(finishing_rating) * (1.0 if is_dunk else 2.0)
+		var bot = get_parent().get_node("Defender")
+		var dist_to_bot = global_position.distance_to(bot.global_position)
+		var contest_penalty = 0.0
+		
+		# Consider a variable to mess with contest range
+		if dist_to_bot < 75.0:
+			var def_multiplier = 1.5 if is_dunk else 1.0 # Dunks are harder on a defender
+			contest_penalty = (bot.defense_rating * def_multiplier) * (1.0 - (dist_to_bot / 75.0))
+			print("Paint Contested! Penalty: -", contest_penalty)
+			
+		var final_chance = clamp(base_chance - contest_penalty, 0.0, 100.0)
+		
+		# Apollo's Chalk Override
+		if GameManager.apollo_chalk_active:
+			final_chance = 100.0
+			GameManager.apollo_chalk_active = false
+			print("APOLLO'S CHALK USED! Guaranteed Swish!")
+			
+		var roll = randf() * 100.0
+		var is_make = roll <= final_chance
+		print("Finishing Attempt (Dunk: ", is_dunk, ") | Needed: ", final_chance, "% | Rolled: ", roll, " | Make: ", is_make)
+		
+		# 2. The Execution
+		var final_target = rim_position
+		held_ball.is_miss = not is_make
+		
+		if not is_make and is_dunk:
+			print("STUFFED BY THE RIM!")
+			MachManager.reduce_mach(1.0)
+			get_tree().call_group("shot_clock", "reset_clock")
+			
+			# --- VIOLENT RIM REJECTION ---
+			var start_pos = held_ball.global_position
+			held_ball.get_parent().remove_child(held_ball)
+			get_parent().add_child(held_ball)
+			held_ball.global_position = start_pos
+			held_ball.player = null
+			
+			# Calculate Angle straight back to the player
+			var deflect_dir = (global_position - rim_position).normalized()
+			if deflect_dir == Vector2.ZERO: deflect_dir = Vector2.DOWN
+			
+			# Spike ball like it's a block
+			held_ball.reject_shot(deflect_dir)
+			
+			held_ball = null
+			has_ball = false
+			dribble_picked_up = false
+			#--------------------------------
+		else:
+			# It's either a make or a missed layup
+			if not is_make:
+				var miss_offset = Vector2(randf_range(-25, 25), randf_range(-25, 25))
+				miss_offset += miss_offset.normalized() * 15.0
+				final_target += miss_offset
+			
+			held_ball.layup_ball(final_target)
+			held_ball = null
+			has_ball = false
+			dribble_picked_up = false
+				
+				
 	# RIM HANG
 	if is_dunk:
 		await get_tree().create_timer(0.3).timeout

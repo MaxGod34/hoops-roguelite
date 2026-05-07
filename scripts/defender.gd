@@ -297,9 +297,49 @@ func execute_bot_shot(rim_position: Vector2, dist: float, is_layup: bool):
 	get_parent().record_shot(self)
 	if held_ball != null:
 		held_ball.point_value = get_parent().pending_points
+	#===========================================================================
+	# BOT SHOT MATH
+	#===========================================================================
+	var base_chance = float(finishing_rating if is_layup else shooting_rating)
+	var shot_mod = 1.0
+	
+	if get_parent().pending_points == 3:
+		shot_mod = 0.5
+	
+	var raw_chance = base_chance * shot_mod
+	
+	# Contest Penalty (Player Defense)
+	var contest_penalty = 0.0
+	var dist_to_player = global_position.distance_to(player.global_position)
+	
+	if dist_to_player < 75.0:
+		var active_defense = float(player.defense_rating)
+		
+		# Reward player if they are contesting with block!
+		if player.is_contesting:
+			active_defense *= 1.5
+		
+		contest_penalty = active_defense * (1.0 - (dist_to_player / 75.0))
+		print("Player Contests! Penalty applied to Bot: -", contest_penalty)
+		
+	var final_chance = clamp(raw_chance - contest_penalty, 0.0, 100.0)
+	var roll = randf() * 100
+	var is_make = roll <= final_chance
+	print("Bot shot: Needed ", final_chance, "% | Rolled: ", roll, " | Make: ", is_make)
+	
+	var final_target = rim_position
+	held_ball.is_miss = not is_make		# DESTINY STAMP MY BALL BUD
+	
+	if not is_make:
+		var miss_offset = Vector2(randf_range(-15, 15), randf_range(-15, 15))
+		miss_offset += miss_offset.normalized() * 15.0
+		final_target += miss_offset
+	#===========================================================================
+	
+	
 	# Fire the correct shot type
 	if is_layup:
-		held_ball.layup_ball(rim_position)
+		held_ball.layup_ball(final_target)
 	else:
 		var flight_time = clamp(dist / held_ball.base_throw_speed, 0.5, 1.2)
 		var arc = clamp(dist / 200.0, 1.1, 1.6)
@@ -562,6 +602,7 @@ func attempt_contest():
 func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	# Lock the bot's state so it stops running normal pathing logic
 	state = "BOT_SHOOTING"
+	velocity = Vector2.ZERO
 	held_ball.is_dribbling = false
 	
 	# Move ball to the dominant hand high up
@@ -614,9 +655,62 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	if held_ball != null:
 		get_parent().record_shot(self, is_dunk)
 		held_ball.point_value = get_parent().pending_points
-		held_ball.layup_ball(rim_position)
-		has_ball = false
-		held_ball = null
+		
+		# 1. The Maeth
+		var base_chance = float(finishing_rating) * (1.0 if is_dunk else 2.0)
+		var dist_to_player = global_position.distance_to(player.global_position)
+		var contest_penalty = 0.0
+		
+		if dist_to_player < 75.0:
+			var def_multiplier = 1.5 if is_dunk else 1.0
+			var active_defense = float(player.defense_rating)
+			
+			if player.is_contesting:
+				active_defense *= 1.5
+			
+			contest_penalty = (active_defense * def_multiplier) * (1.0 - (dist_to_player / 75.0))
+			print("Player contests the paint! Penalty applied to Bot: -", contest_penalty)
+		
+		var final_chance = clamp(base_chance - contest_penalty, 0.0, 100.0)
+		
+		var roll = randf() * 100.0
+		var is_make = roll <= final_chance
+		print("Bot Finishing Attempt (Dunk: ", is_dunk, " | Needed: ", final_chance, " | Rolled: ", roll, " | Make: ", is_make)
+		
+		
+		# 2. Execution
+		var final_target = rim_position
+		held_ball.is_miss = not is_make
+		
+		if not is_make and is_dunk:
+			print("BOT STUFFED BY THE RIM!")
+			# Crowd loves it
+			MachManager.add_mach(0.5)
+			get_tree().call_group("shot_clock", "reset_clock")
+			
+			# --- VIOLENT RIM REJECTION ---
+			var start_pos = held_ball.global_position
+			held_ball.get_parent().remove_child(held_ball)
+			get_parent().add_child(held_ball)
+			held_ball.global_position = start_pos
+			held_ball.player = null
+			
+			var deflect_dir = (global_position - rim_position).normalized()
+			if deflect_dir == Vector2.ZERO: deflect_dir = Vector2.DOWN
+			held_ball.reject_shot(deflect_dir)
+			
+			has_ball = false
+			held_ball = null
+			#--------------------------------
+		else:
+			if not is_make:
+				var miss_offset = Vector2(randf_range(-25, 25), randf_range(-25, 25))
+				miss_offset += miss_offset.normalized() * 15.0
+				final_target += miss_offset
+		
+			held_ball.layup_ball(final_target)
+			has_ball = false
+			held_ball = null
 	
 	# RIM HANG
 	if is_dunk:

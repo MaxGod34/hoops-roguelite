@@ -37,6 +37,7 @@ var cross_tween: Tween
 
 # Scoring
 var point_value: int = 2 # Default 2 pter
+var is_miss: bool = false # Destiny Flag
 @onready var court_node: Node2D = get_parent()
 
 # When player touches ball
@@ -412,6 +413,7 @@ func reject_shot(deflect_dir: Vector2):
 	# Reset state so anyone can scramble for it
 	state = "LOOSE"
 	can_be_picked_up = true
+	is_held = false
 	
 	# Re-enable floor collisions so it bounces and players can bump/interact w it
 	$CollisionShape2D.set_deferred("disabled", false)
