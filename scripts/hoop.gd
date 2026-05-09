@@ -12,6 +12,7 @@ signal basket_scored(points, scorer)
 
 
 func _ready():
+	$AnimationPlayer.play("rim_rotation")
 	zone_backboard.body_entered.connect(_on_backboard_hit)
 	zone_rim.body_entered.connect(_on_rim_collision)
 
@@ -26,6 +27,7 @@ func _physics_process(_delta):
 				get_tree().call_group("shot_clock", "reset_clock")
 				body.swish(zone_net.global_position)
 				var shooter = get_parent().last_shooter
+				$GPUParticles2D.restart()
 				basket_scored.emit(body.point_value, shooter)
 
 
@@ -57,6 +59,28 @@ func _trigger_brick(ball, normal: Vector2):
 		ball.bounce_flat(normal)
 	else:
 		ball.bounce_vertical(normal)
-		
+	
+	trigger_rim_shudder()
 
+func trigger_rim_shudder():
+	$AnimationPlayer.pause()
+	
+	var rim_sprite = $RimSprite
+	#var original_pos = rim_sprite.position <- Prolly not needed unless rim actually moves
+	var original_scale = rim_sprite.scale
+	
+	var shudder_tween = create_tween()
+	
+	shudder_tween.tween_property(rim_sprite, "scale", Vector2(1.3, 0.7), 0.05).set_trans(Tween.TRANS_BOUNCE)
+	shudder_tween.tween_property(rim_sprite, "scale", Vector2(0.8, 1.2), 0.05).set_trans(Tween.TRANS_BOUNCE)
+	
+	shudder_tween.tween_property(rim_sprite, "scale", original_scale, 0.1).set_trans(Tween.TRANS_SPRING)
+	
+	var original_color = rim_sprite.modulate
+	rim_sprite.modulate = Color(2.0, 0.0, 0.0, 1.0)
+	var color_tween = create_tween()
+	color_tween.tween_property(rim_sprite, "modulate", original_color, 0.2)
+	
+	await color_tween.finished
+	$AnimationPlayer.play("rim_rotation")
 			

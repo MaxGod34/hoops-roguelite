@@ -5,8 +5,9 @@ class_name DefenderStats
 @export var defender_name = "Unknown Challenger"
 @export var playstyle: String = "Benchwarmer"
 @export_multiline var intro_quote: String = "..."
+@export var is_upgraded_form: bool = false
 
-@export_group("Physical Attributes")
+@export_group("Base Stats")
 @export var shooting_rating: int = 50
 @export var finishing_rating: int = 50
 @export var handle_rating: int = 50
@@ -16,16 +17,18 @@ class_name DefenderStats
 
 @export var speed_multiplier: float = 1.0
 @export var friction_multiplier: float = 1.0
+@export var inherent_rules: Array[String] = [] #NO_TAKEBACKS
+# ALL TAGS HERE
+# (NO_TAKEBACKS, NO_THREES,) HALF_SHOT_CLOCK, DISABLE_CROSSOVERS, SLIPPERY FLOOR, 
+#(BOSS) ALTERNATING_SHOTS, MAKE_IT_TAKE_IT
 
-@export_group("Court Rules")
-@export var disable_dribble_moves: bool = false
-@export var half_shot_clock: bool = false
-@export var make_it_take_it: bool = false
-@export var no_take_backs: bool = false
-@export var no_threes: bool = false
-@export var slippery_floor: bool = false
-@export var alternating_shots: bool = false
-
+@export_group("Upgraded Stats")
+@export var up_shooting: int = 50
+@export var up_finishing: int = 50
+@export var up_handle: int = 50
+@export var up_defense: int = 50
+@export var up_speed: int = 50
+@export var up_strength: int = 50
 
 
 @export_group("Assets")

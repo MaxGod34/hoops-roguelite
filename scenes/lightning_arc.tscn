@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b2luu2b0my7a7"]
+[gd_scene load_steps=6 format=3 uid="uid://b2luu2b0my7a7"]
 
 [ext_resource type="Script" uid="uid://ywysx188uoeg" path="res://scripts/lightning_arc.gd" id="1_c6buo"]
 
@@ -15,6 +15,10 @@ glow_enabled = true
 glow_intensity = 1.5
 glow_blend_mode = 0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_q4550"]
+blend_mode = 1
+light_mode = 1
+
 [node name="LightningArc" type="Line2D"]
 modulate = Color(0, 2, 4, 1)
 material = SubResource("CanvasItemMaterial_c6buo")
@@ -30,5 +34,6 @@ segments = 10
 environment = SubResource("Environment_c6buo")
 
 [node name="CoreLine" type="Line2D" parent="."]
+material = SubResource("CanvasItemMaterial_q4550")
 width = 2.0
 width_curve = SubResource("Curve_c6buo")

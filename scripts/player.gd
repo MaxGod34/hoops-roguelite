@@ -1,6 +1,7 @@
 # Player.gd
 extends CharacterBody2D
 
+var active_shader: ShaderMaterial = null
 
 var base_speed: float = 400.0
 var current_speed: float = 400.0
@@ -21,7 +22,7 @@ var is_bumped: bool = false
 # Steal Mechanic
 var is_swiping: bool = false
 var swipe_cooldown: float = 0.0
-var swipe_range: float = 65.0
+var swipe_range: float = 90.0
 
 var is_contesting: bool = false
 
@@ -51,14 +52,87 @@ var check_role: String = "" # FETCH, RECEIVE
 func _ready():
 	# Door Transition Resets
 	modulate.a = 1.0
-	if has_node("Sprite2D"):
-		$Sprite2D.scale = Vector2(1.0, 1.0)
+	
+	if has_node("VisualSkin"):
+		active_shader = $VisualSkin.material as ShaderMaterial
+		var breath_tween = create_tween().set_loops()
+		breath_tween.tween_property($VisualSkin, "scale:y", 1.05, 1.0).set_trans(Tween.TRANS_SINE)
+		breath_tween.tween_property($VisualSkin, "scale:y", 0.95, 1.0).set_trans(Tween.TRANS_SINE)
+	
 	
 	update_player_stats()
 	PlayerData.stats_updated.connect(update_player_stats)
 	
+func _process(delta: float):
+	_update_mach_visuals(delta)
 
+func _update_mach_visuals(delta: float):
+	if active_shader == null or not has_node("VisualSkin"): return
 	
+	var current_mach = MachManager.current_mach
+	
+	# Target Vars
+	var target_core: Color
+	var target_outline: Color
+	var target_wobble: float
+	var target_intensity: float
+	var target_outline_size: float
+	
+	# Determine Zeus' look based on current momentum
+	if current_mach < 1.99:
+		# Base Level
+		target_core = Color("00E5FF") # Cyan Core
+		target_outline = Color(0.5, 0.8, 1.0) * 1.1 # Mach 2 Coil
+		target_wobble = 5.0
+		target_intensity = 0.01
+		target_outline_size = 2.0
+		
+	elif current_mach < 2.99:
+		# Heating up
+		target_core = Color("FFD700") # Gold Core
+		target_outline = Color(0.5, 0.8, 1.0) * 1.2 # White Outline
+		target_wobble = 10.0
+		target_intensity = 0.02
+		target_outline_size = 2.5
+	
+	elif current_mach < 3.99:
+		# OVERDRIVE (Mach 3)
+		target_core = Color("FFFFFF") # Pure white core
+		target_outline = Color(0.8, 0.2, 1.0) * 1.3 # Cyan Outline
+		target_wobble = 30.0
+		target_intensity = 0.03
+		target_outline_size = 3.0
+	elif current_mach <= 4.99:
+		# MACH 4!
+		target_core = Color("FFFFFF")
+		target_outline = Color(1.0, 0.8, 0.2) * 1.4
+		target_wobble = 40.0
+		target_intensity = 0.04
+		target_outline_size = 4.0
+	else:
+		# Mach 5+
+		target_core = Color("FFFFFF")
+		target_outline = Color(1.0, 0.2, 0.2) * 1.5
+		target_wobble = 50.0
+		target_intensity = 0.05
+		target_outline_size = 5.0
+	
+	# --- (Smooth Blending Lerp) ---
+	$VisualSkin.modulate = $VisualSkin.modulate.lerp(target_core, delta * 4.0)
+	var current_outline = active_shader.get_shader_parameter("outline_color") as Color
+	if current_outline != null:
+		active_shader.set_shader_parameter("outline_color", current_outline.lerp(target_outline, delta * 4.0))
+	
+	var current_wobble = active_shader.get_shader_parameter("wobble_speed") as float
+	active_shader.set_shader_parameter("wobble_speed", lerpf(current_wobble, target_wobble, delta * 4.0))
+	
+	var current_intensity = active_shader.get_shader_parameter("wobble_intensity") as float
+	active_shader.set_shader_parameter("wobble_intensity", lerpf(current_intensity, target_intensity, delta * 4.0))
+	
+	var current_outline_width = active_shader.get_shader_parameter("outline_width") as float
+	active_shader.set_shader_parameter("outline_width", lerpf(current_outline_width, target_outline_size, delta * 4.0))
+
+
 
 func update_player_stats():
 	# Sync player mechanics with the global true stats
@@ -96,8 +170,8 @@ func _physics_process(delta: float) -> void:
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 			
 		
-		if has_node("Sprite2D"):
-			$Sprite2D.position.y = -jump_z
+		if has_node("VisualSkin"):
+			$VisualSkin.position.y = -jump_z
 		if is_contesting:
 			check_for_block()
 			
@@ -108,9 +182,26 @@ func _physics_process(delta: float) -> void:
 		var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		if direction:
 			velocity = velocity.move_toward(direction * current_speed, ACCELERATION * delta)
+			
+			
+			#====================== PAPER MARIO FLIP ===========================
+			var target_facing = sign($VisualSkin.scale.x)
+			
+			if direction.x < 0:
+				target_facing = -1.0
+			elif direction.x > 0:
+				target_facing = 1.0
+			if target_facing == 0: target_facing = 1.0 # Failsafe
+			
+			$VisualSkin.scale.x = lerp($VisualSkin.scale.x, target_facing, 0.35)
+			#===================================================================
 		else:
-			# Skid to a stop instead of a hard stop
+			# Skid to a stop
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+		
+		if has_node("VisualSkin"):
+			var target_tilt = velocity.x * 0.001
+			$VisualSkin.rotation = lerp($VisualSkin.rotation, target_tilt, 0.15)
 
 
 		
@@ -186,8 +277,8 @@ func _physics_process(delta: float) -> void:
 				# Released DURING the jump! SHOOT IT!
 				execute_shot()
 		
-	if has_node("Sprite2D"):
-		$Sprite2D.position.y = -jump_z
+	if has_node("VisualSkin"):
+		$VisualSkin.position.y = -jump_z
 	if held_ball != null and is_shooting:
 		held_ball.position.y = -jump_z
 	
@@ -196,7 +287,7 @@ func _physics_process(delta: float) -> void:
 		var can_dribble = true
 		var active_stats = GlobalData.get_current_enemy_data()
 		
-		if active_stats != null and active_stats.disable_dribble_moves:
+		if active_stats != null and "DISABLE_CROSSOVERS" in active_stats.inherent_rules:
 			can_dribble = false
 			print("Tree McGee's roots grab your ankles! No Crossovers!")
 		
@@ -324,8 +415,8 @@ func force_turnover():
 	
 	if jump_tween and jump_tween.is_valid():
 		jump_tween.kill()
-	if has_node("Sprite2D"):
-		$Sprite2D.position.y = 0
+	if has_node("VisualSkin"):
+		$VisualSkin.position.y = 0
 
 func execute_crossover():
 	is_tricking = true
@@ -414,7 +505,7 @@ func execute_shot():
 		jump_tween.kill()
 		
 	# Snap visuals back to ground
-	if has_node("Sprite2D"): $Sprite2D.position.y = 0
+	if has_node("VisualSkin"): $VisualSkin.position.y = 0
 	jump_z = 0.0
 	
 	# Safety Net
@@ -571,10 +662,13 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	#===============================================
 	# BRANCHING LOGIC
 	#===============================================
+	var current_facing = sign($VisualSkin.scale.x)
+	if current_facing == 0: current_facing = 1.0
+	
 	if is_dunk:
 		print("Player goes up for the POSTER DUNK!")
 		max_jump = 45.0 # Tie to attribute later
-		peak_scale = Vector2(1.3, 1.3)
+		peak_scale = Vector2(1.3 * current_facing, 1.3)
 		var hoops = get_tree().get_nodes_in_group("hoop")
 		if hoops.size() > 0 and hoops[0].has_node("DunkSpot"):
 			target_spot = hoops[0].get_node("DunkSpot").global_position
@@ -584,7 +678,7 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	else:
 		print("Player goes up for the smooth LAYUP!")
 		max_jump = 15.0 # Lower, controlled jump
-		peak_scale = Vector2(1.2, 1.2)
+		peak_scale = Vector2(1.2 * current_facing, 1.2)
 		# Stop short! 60 pxls away from the rim
 		target_spot = rim_position - (dir_to_rim * 60.0)
 	#=================================================
@@ -600,8 +694,8 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	jump_tween = create_tween()
 	jump_tween.tween_property(self, "jump_z", max_jump, takeoff_time / 2.0).set_trans(
 											Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	if has_node("Sprite2D"):
-		jump_tween.parallel().tween_property($Sprite2D, "scale", peak_scale, takeoff_time / 2.0).set_trans(
+	if has_node("VisualSkin"):
+		jump_tween.parallel().tween_property($VisualSkin, "scale", peak_scale, takeoff_time / 2.0).set_trans(
 											Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
 	# Wait for apex
@@ -684,9 +778,9 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	jump_tween = create_tween()
 	jump_tween.tween_property(self, "jump_z", 0.0, takeoff_time / 2.0).set_trans(
 											Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	if has_node("Sprite2D"):
-		jump_tween.parallel().tween_property($Sprite2D, "scale", Vector2(
-				1.0, 1.0), takeoff_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	if has_node("VisualSkin"):
+		jump_tween.parallel().tween_property($VisualSkin, "scale", Vector2(
+				1.0 * current_facing, 1.0), takeoff_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	
 	await jump_tween.finished
 	
@@ -694,7 +788,7 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	if get_parent().game_state == "PLAYING": has_control = true
 	
 	is_shooting = false
-	if has_node("Sprite2D") : $Sprite2D.position.y = 0
+	if has_node("VisualSkin") : $VisualSkin.position.y = 0
 	jump_z = 0.0
 
 func apply_bump(bump_velocity: Vector2, duration: float):
@@ -707,8 +801,7 @@ func apply_bump(bump_velocity: Vector2, duration: float):
 	is_bumped = false
 
 func check_physical_contact():
-	# Only calculate bulldozer math if we are driving with the ball
-	if not has_ball: return
+	if is_bumped: return
 	
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
@@ -718,36 +811,65 @@ func check_physical_contact():
 		if collider.has_method("apply_bump"):
 			
 			# Don't trigger if someone is already sliding
-			if is_bumped or collider.state == "BUMPED": continue
+			if is_bumped or ("is_bumped" in collider and collider.is_bumped) or collider.get("state") == "BUMPED":
+				continue
 			
 			var str_diff = strength - collider.strength
 			var hit_normal = collision.get_normal()
 			
 			#============================
-			# MOMENTUM SHIFT
-			# Normal points FROM defender to us
+			# Scenario 1: On-Ball/Bulldozer/Brick Wall
+			# Normal points from defender to player
 			#============================
-			if str_diff >= 15:
-				# BULLDOZE: Offense runs them over
-				print("BULLDOZER! Defender gets crushed!")
-				# Push Defender away
-				collider.apply_bump(-hit_normal * 400.0, 0.25)
-				# Have defender try to make a steal mid bump
-				collider.attempt_swipe()
-				# MACH INJECTION
-				MachManager.add_mach(0.75)
-				
-			elif str_diff <= -15:
-				# BRICK WALL: Offense bounces off!
-				print("BRICK WALL: Offense bounces off!")
-				# Push player away
-				apply_bump(hit_normal * 500.0, 0.15)
-				
+			if has_ball:
+				if str_diff >= 15:
+					# BULLDOZE: Offense runs them over
+					print("BULLDOZER! Defender gets crushed!")
+					# Push Defender away
+					collider.apply_bump(-hit_normal * 400.0, 0.25)
+					# Have defender try to make a steal mid bump
+					collider.attempt_swipe()
+					# MACH INJECTION
+					MachManager.add_mach(0.75)
+					
+				elif str_diff <= -15:
+					# BRICK WALL: Offense bounces off!
+					print("BRICK WALL: Offense bounces off!")
+					# Push player away
+					apply_bump(hit_normal * 500.0, 0.15)
+					
+				else:
+					# NEUTRAL: Both take a tiny step back to avoid sticking
+					apply_bump(hit_normal * 200.0, 0.1)
+					collider.apply_bump(-hit_normal * 200.0, 0.1)
+			
+			elif collider.get("has_ball") == true:
+				pass
+			
+			#=====================================
+			# Scenario 2: Off-Ball/Boxout
+			#=====================================
 			else:
-				# NEUTRAL: Both take a tiny step back to avoid sticking
-				apply_bump(hit_normal * 200.0, 0.1)
-				collider.apply_bump(-hit_normal * 200.0, 0.1)
+				# Calculate a 90-degree sidestep vector to prevent vibrating and sticking
+				var sidestep = hit_normal.orthogonal()
 				
+				# Randomize the sidestep direction so it feels organic
+				if randf() > 0.5: sidestep = -sidestep
+				
+				if str_diff >= 15:
+					# Box out: we are stronger, push them back to the side
+					print("BOX OUT! Stronger player clears space!")
+					collider.apply_bump((-hit_normal * 350.0) + (sidestep * 150.0), 0.2)
+					
+				elif str_diff <= -15:
+					# BOXED out: we are weaker, we bounce off them
+					print("BOXED OUT! Weaker player repelled! YOU!")
+					apply_bump((hit_normal * 350.0) + (sidestep * 150.0), 0.2)
+				
+				else:
+					# JOSTLE: equal strength, both take a quick bump sideways
+					apply_bump((hit_normal * 200.0) + (sidestep * 150.0), 0.15)
+					collider.apply_bump((-hit_normal * 200.0) - (sidestep * 150.0), 0.15)
 
 
 
@@ -808,5 +930,5 @@ func walk_through_door(door_pos: Vector2):
 	enter_tween.tween_property(self, "modulate:a", 0.0, trans_time)
 	
 	# 3. Shrink them slightly to sell 3D depth of walking away
-	if has_node("Sprite2D"):
-		enter_tween.tween_property($Sprite2D, "scale", Vector2(0.8, 0.8), trans_time)
+	if has_node("VisualSkin"):
+		enter_tween.tween_property($VisualSkin, "scale", Vector2(0.8, 0.8), trans_time)

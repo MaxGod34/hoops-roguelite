@@ -1,10 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://do3nrnwrn2efx"]
+[gd_scene load_steps=6 format=3 uid="uid://do3nrnwrn2efx"]
 
-[ext_resource type="Texture2D" uid="uid://dvvnkhobcq5vq" path="res://assets/basketballproto.png" id="1_d73vv"]
 [ext_resource type="Script" uid="uid://bj7wq2uqwky3s" path="res://scripts/ball.gd" id="1_ja1hk"]
+[ext_resource type="Shader" uid="uid://cbusxpf0fwu4v" path="res://resources/shaders/unstable_energy.gdshader" id="2_ul5l2"]
+[ext_resource type="Texture2D" uid="uid://ce5kis1wxa0cs" path="res://assets/BallSpriteWhiteBasic.png" id="3_ul5l2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ja1hk"]
 radius = 7.61577
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dqebh"]
+resource_local_to_scene = true
+shader = ExtResource("2_ul5l2")
+shader_parameter/outline_color = Color(1, 0.333333, 0, 1)
+shader_parameter/outline_width = 2.0
+shader_parameter/wobble_speed = 3.0
+shader_parameter/wobble_intensity = 0.01
 
 [node name="Ball" type="CharacterBody2D" groups=["ball"]]
 z_index = 1
@@ -19,4 +28,7 @@ scale = Vector2(4.5, 4.5)
 shape = SubResource("CircleShape2D_ja1hk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_d73vv")
+modulate = Color(0, 0, 0, 1)
+z_index = 10
+material = SubResource("ShaderMaterial_dqebh")
+texture = ExtResource("3_ul5l2")

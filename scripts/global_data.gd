@@ -6,12 +6,16 @@ var defeated_enemies: Array[String] = []
 
 # The Encounters Deck
 var pools = {
+	"LARRY": ["larry_1", "larry_2"],
 	"Q1_REGULAR": ["tree_mcgee", "speed_glove", "janitor", "ol_reggie"],
 	"Q1_BOSS": ["ms_never", "sammy_spice"]
 }
 
 # Master Database
 var enemy_database = {
+	"larry_1": preload("res://resources/enemies/larry_1.tres"),
+	"larry_2": preload("res://resources/enemies/larry_2.tres"),
+	
 	"tree_mcgee": preload("res://resources/enemies/tree_mcgee.tres"),
 	"speed_glove": preload("res://resources/enemies/speed_glove.tres"),
 	"janitor": preload("res://resources/enemies/the_janitor.tres"),
@@ -20,6 +24,16 @@ var enemy_database = {
 	"ms_never": preload("res://resources/enemies/ms_never.tres"),
 	"sammy_spice": preload("res://resources/enemies/sammy_spice.tres")
 }
+
+
+var upgraded_arena_rules = [
+	"10_SEC_CLOCK",
+	"MAKE_IT_TAKE_IT",
+	"NO_TAKEBACKS",
+	"LOSE_ON_9",
+	"ICE_SKATES"
+]
+
 
 func _ready():
 	randomize()
@@ -57,6 +71,9 @@ func get_current_enemy_data() -> DefenderStats:
 
 func roll_next_opponent():
 	var pool_to_pull = "Q1_REGULAR"
+	
+	if GameManager.current_game == 1:
+		pool_to_pull = "LARRY"
 	
 	if GameManager.current_game == GameManager.max_games_per_quarter:
 		pool_to_pull = "Q1_BOSS"

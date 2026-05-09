@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=3 format=3 uid="uid://b4i2e72r7bi8t"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_0x4cb"]
+[ext_resource type="Texture2D" uid="uid://b2tgxl3ad5gf7" path="res://assets/opponents/Larry2Protov1.1.png" id="1_j0ipt"]
+
+[resource]
+script = ExtResource("1_0x4cb")
+defender_name = "Larry 2"
+playstyle = "Lost"
+intro_quote = "You see my brudda anywhere?"
+is_upgraded_form = false
+shooting_rating = 2
+finishing_rating = 2
+handle_rating = 2
+defense_rating = 2
+speed_rating = 2
+strength_rating = 2
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String]([])
+up_shooting = 2
+up_finishing = 2
+up_handle = 2
+up_defense = 2
+up_speed = 2
+up_strength = 2
+body_sprite = ExtResource("1_j0ipt")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

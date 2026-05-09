@@ -11,7 +11,7 @@ signal game_over(winner_name)
 @onready var ball = get_node("Ball")
 
 # Score Tracking
-var player_score: int = 20
+var player_score: int = 0
 var pending_points: int = 2
 var pending_shot_is_dunk: bool = false
 
@@ -100,7 +100,7 @@ func _ready():
 	var active_stats = GlobalData.get_current_enemy_data()
 	
 	if bot and bot.has_method("initialize_stats"):
-		bot.initialize_stats(active_stats)
+		bot.initialize_stats(active_stats, GameManager.current_quarter)
 	
 	apply_arena_rules(active_stats)
 	#========================================
@@ -152,7 +152,7 @@ func record_shot(shooter: Node2D, is_dunk: bool = false):
 	var active_stats = GlobalData.get_current_enemy_data()
 	
 	var threes_allowed = true
-	if active_stats != null and active_stats.no_threes:
+	if active_stats != null and "NO_THREES" in active_stats.inherent_rules:
 		threes_allowed = false
 	
 	
@@ -165,7 +165,7 @@ func record_shot(shooter: Node2D, is_dunk: bool = false):
 		attempted_points = 3
 
 	# SAMMY SPICE RULE
-	if active_stats != null and active_stats.alternating_shots:
+	if active_stats != null and "ALTERNATING_SHOTS" in active_stats.inherent_rules:
 		if sammy_required_shot != 0 and attempted_points != sammy_required_shot:
 			print("BZZZZZT! Sammy Spice Violation! Expected a ", sammy_required_shot, "!")
 			turnover(shooter)
@@ -246,7 +246,7 @@ func reset_play(scorer: Node2D):
 		receiver = player
 	
 	var active_stats = GlobalData.get_current_enemy_data()
-	if active_stats != null and active_stats.make_it_take_it:
+	if active_stats != null and "MAKE_IT_TAKE_IT" in active_stats.inherent_rules:
 		print("ARENA RULE: Make It Take It! Scorer keeps the ball!")
 		
 		# RESET
@@ -375,21 +375,24 @@ func apply_arena_rules(stats: DefenderStats):
 	var base_clock = 30.0 # Base shot clock/Eventually set var for diff/class modifiers
 	
 	if stats == null: return
+	
+	var rules = stats.inherent_rules
+	
 	# Speed Glove
-	if stats.half_shot_clock:
+	if "HALF_SHOT_CLOCK" in rules:
 		print("ARENA RULE: 1/2 Shot Clock Active!")
-		base_clock = 15.0
+		base_clock = base_clock / 2.0
 	# Tree McGee
-	if stats.disable_dribble_moves:
+	if "DISABLE_CROSSOVERS" in rules:
 		print("ARENA RULE: Crossovers Disabled!")
 	# Ol' Reggie
-	if stats.no_take_backs:
+	if "NO_TAKE_BACKS" in rules:
 		print("ARENA RULE: Ol Reggie says NO TAKE BACKS! NO 3s!")
 		force_no_take_back = true
 	else:
 		force_no_take_back = false
 	# Janitor
-	if stats.slippery_floor:
+	if "SLIPPERY_FLOOR" in rules:
 		print("ARENA RULE: ICE RINK! SLIPPERY FLOOR ACTIVE!")
 		player.friction = 400.0
 	else:

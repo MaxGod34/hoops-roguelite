@@ -11,56 +11,51 @@ var state: String = "IDLE"
 
 var player: Node2D = null
 var hoop: Node2D = null
-
-
 var ball: Node2D = null
 var held_ball: Node2D = null
 var has_ball: bool = false
 
 var active_stats: DefenderStats
-
 @export var shooting_rating: int = 50
 @export var finishing_rating: int = 85 # Higher/Lower set a threshold
-
-
-# Steal/Block Mechanic
 @export var defense_rating: int = 60
+@export var handle_rating: int = 70
+@export var strength: int = 100
+#========================= Steal/Block Mechanic ================================
 var swipe_cooldown: float = 0.0
 var swipe_range: float = 65.0 	# 5 more than the guard range!
 var contest_range: float = 75.0
 var is_contesting: bool = false
-
-@export var handle_rating: int = 70
+#=============================== Ball Handle ===================================
 var offense_timer: float = 0.0
 var size_up_time: float = 1.5
 var drive_speed_multiplier: float = 1.2
 
-
-
-# SHOOTING MECHANICS
+#=========================== SHOOTING MECHANICS ================================
 var jump_z: float = 0.0
 var jump_tween: Tween
 var jump_duration: float = 0.6
 
-
-@export var strength: int = 100
-
-
-# Check Up Vars
+# --- Check Up Vars ---
 var check_role: String = "" # FETCH, RECEIVE
-
-
+# --- Stored Arena Rules ---
+var active_arena_rules: Array[String] = []
 
 func _ready():
-	# Find the ball
 	var balls = get_tree().get_nodes_in_group("ball")
 	if balls.size() > 0: ball = balls[0]
-	# Find player
+
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0: player = players[0]
-	# Find the hoop
+
 	var hoops = get_tree().get_nodes_in_group("hoop")
 	if hoops.size() > 0: hoop = hoops[0]
+	
+	#==================================== BREATH Tween =============================================
+	if has_node("VisualSkin"):
+		var breath_tween = create_tween().set_loops()
+		breath_tween.tween_property($VisualSkin, "scale:y", 1.05, 1.0).set_trans(Tween.TRANS_SINE)
+		breath_tween.tween_property($VisualSkin, "scale:y", 0.95, 1.0).set_trans(Tween.TRANS_SINE)
 
 func _physics_process(delta: float):
 	if not ball or not player or not hoop:
@@ -91,8 +86,7 @@ func _physics_process(delta: float):
 			# Freeze bot so they stand still while reaching
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		#=========================================================================================
-		"CLEARING_BALL":
-			clear_ball(delta)
+		# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		#=====================================OFF=================================================
 		"DRIVING":
 			drive_to_hoop(delta)
@@ -102,62 +96,118 @@ func _physics_process(delta: float):
 		"OFFENSE_IDLE":
 			offense_idle(delta)
 		#=========================================================================================
+		"CLEARING_BALL":
+			clear_ball(delta)
 		"IDLE":
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	
-	# MOVE YOUR ASS...stupid bot
 	move_and_slide()
 	
 	# Scan for player while driving
 	check_physical_contact()
-	
 	_vacuum_check()
 	
-	#==================DRIBBLE CONTROLLER====================
+	#============================= Flip & Lean =================================
+	if has_node("VisualSkin"):
+		var target_facing = sign($VisualSkin.scale.x)
+		
+		if velocity.x < -10.0:
+			target_facing = -1.0
+		elif velocity.x > 10.0:
+			target_facing = 1.0
+		if target_facing == 0: target_facing = 1.0
+		
+		$VisualSkin.scale.x = lerp($VisualSkin.scale.x, target_facing, 0.35)
+		var target_tilt = velocity.x * 0.001
+		$VisualSkin.rotation = lerp($VisualSkin.rotation, target_tilt, 0.15)
+	#===========================================================================
+	#========================== DRIBBLE CONTROLLER =============================
 	if has_ball and held_ball != null:
 		# Only bounce if the game is live and we aren't mid-check/cutscene
 		if get_parent().game_state == "PLAYING" and state != "CHECKING":
 			held_ball.is_dribbling = true
 		else:
 			held_ball.is_dribbling = false
-			
-	#-- VISUAL JUMP STATE --
-	if has_node("Sprite2D"):
-		$Sprite2D.position.y = -jump_z
+	#===========================================================================
+	# --- VISUAL JUMP STATE ---
+	if has_node("VisualSkin"):
+		$VisualSkin.position.y = -jump_z
 	if held_ball != null and state == "BOT_SHOOTING":
 		held_ball.position.y = -jump_z
+	#---------------------------
+	
 
-func initialize_stats(new_stats: DefenderStats):
-	if new_stats == null: return
+func initialize_stats(base_resource: DefenderStats, current_quarter: int):
+	if base_resource == null: return
 	
-	active_stats = new_stats
+	active_stats = base_resource.duplicate()
+	active_arena_rules = active_stats.inherent_rules.duplicate()
 	
-	# Apply Raw State
-	shooting_rating = active_stats.shooting_rating
-	finishing_rating = active_stats.finishing_rating
-	handle_rating = active_stats.handle_rating
-	defense_rating = active_stats.defense_rating
-	move_speed = 100.0 * active_stats.speed_multiplier # Adjust to match speed rating
-	strength = active_stats.strength_rating
+	if current_quarter == 3 or current_quarter == 4:
+		active_stats.is_upgraded_form = true
+		
+		# --- LOAD TAILORED UPGRADED STATS ---
+		shooting_rating = active_stats.up_shooting
+		finishing_rating = active_stats.up_finishing
+		handle_rating = active_stats.up_handle
+		defense_rating = active_stats.up_defense
+		move_speed = 100.0 + active_stats.up_speed	
+		strength = active_stats.up_strength
+		
+		# --- Random Rule Injection ---
+		var available_rules = []
+		for rule in GlobalData.upgraded_arena_rules:
+			if not rule in active_arena_rules:
+				available_rules.append(rule)
+		
+		# Pick one if there are any left
+		if available_rules.size() > 0:
+			var surprise_rule = available_rules.pick_random()
+			active_stats.inherent_rules.append(surprise_rule)
+			print("UPGRADE WARNING! " + active_stats.defender_name + " gained_rule: " + surprise_rule)
 	
+	else:
+		active_stats.is_upgraded_form = false
 	
+		# Apply Base Stats
+		shooting_rating = active_stats.shooting_rating
+		finishing_rating = active_stats.finishing_rating
+		handle_rating = active_stats.handle_rating
+		defense_rating = active_stats.defense_rating
+		move_speed = 100.0 + active_stats.speed_rating # Adjust to match speed rating
+		strength = active_stats.strength_rating
 	
-	if has_node("Sprite2D") and active_stats.body_sprite != null:
-		$Sprite2D.texture = active_stats.body_sprite
-	
+	# ---------------------- LOAD THE VISUALS AND SHADERS ----------------------
+	if has_node("VisualSkin"):
+		if active_stats.body_sprite != null:
+			$VisualSkin.texture = active_stats.body_sprite
+		
+		var mat = $VisualSkin.material as ShaderMaterial
+		if mat != null:
+			if active_stats.is_upgraded_form:
+				# FORM 2: MAGMA
+				$VisualSkin.modulate = Color("ff4500")
+				mat.set_shader_parameter("outline_color", Color("ffff00"))
+				mat.set_shader_parameter("wobble_speed", 15.0)
+				mat.set_shader_parameter("wobble_intensity", 0.03)
+			else:
+				# FORM 1: STABLE PURPLE
+				$VisualSkin.modulate = Color("b500ff")
+				mat.set_shader_parameter("outline_color", Color("000000"))
+				mat.set_shader_parameter("wobble_speed", 5.0)
+				mat.set_shader_parameter("wobble_intensity", 0.01)
+	#---------------------------------------------------------------------------
 	print("Spawned Titan: ", active_stats.defender_name, " | Playstyle: ", active_stats.playstyle)
-	
 
 # -- LOGIC --
-
 func evaluate_state():
 	if get_parent().game_state == "GAME_OVER":
 		state = "IDLE"
 		return
 	
-	if state in ["SWIPING", "CONTESTING", "BOT_SHOOTING", "CHECK_UP_CUTSCENE"]:
+	if state in ["SWIPING", "CONTESTING", "BOT_SHOOTING", "CHECK_UP_CUTSCENE", "BUMPED"]:
 		return
-	# -- Top Level Split
+	# -- Top Level Split --
 	if ball.state == "HELD" and ball.player == self:
 		# ===============================================
 		# 		OFFENSE (Bot has the ball)
@@ -170,6 +220,7 @@ func evaluate_state():
 		elif state not in ["OFFENSE_IDLE", "DRIVING", "BOT_SHOOTING"]:
 			state = "OFFENSE_IDLE"
 			offense_timer = size_up_time
+			
 	else:
 		# ===============================================
 		#		DEFENSE (Bot does not have ball)
@@ -213,15 +264,11 @@ func drive_to_hoop(_delta: float):
 		bot_shoot()
 		return
 		
-	# Direction to hoop
+	# Direction to hoop, avoid obstacles/player, check alignment ( >0.7 threshold )
 	var dir_to_hoop = global_position.direction_to(rim_pos)
 	var move_dir = dir_to_hoop
-	
-	# Avoid obstacles/player
 	var dist_to_player = global_position.distance_to(player.global_position)
 	var dir_to_player = global_position.direction_to(player.global_position)
-	
-	# Check alignment > 0.7 means the player is mostly in front of them
 	var alignment = dir_to_hoop.dot(dir_to_player)
 	
 	# If player is close AND in the way, steer around them
@@ -353,25 +400,19 @@ func execute_bot_shot(rim_position: Vector2, dist: float, is_layup: bool):
 	# Snap visuals back to floor
 	if jump_tween and jump_tween.is_valid():
 		jump_tween.kill()
-	if has_node("Sprite2D"): $Sprite2D.position.y = 0
+	if has_node("VisualSkin"): $VisualSkin.position.y = 0
 	jump_z = 0.0
 
 
 
 func guard_player(delta: float):
-	# Find spot between player and the basket
-	# 1. Which way is the hoop from the player?
 	var direction_to_hoop = player.global_position.direction_to(hoop.global_position)
-	
-	# 2. Pick a spot 60 pixels towards the hoop from player
 	var ideal_defensive_spot = player.global_position + (direction_to_hoop * 60.0)
-	
-	# 3. Move to the ideal spot
 	var direction_to_spot = global_position.direction_to(ideal_defensive_spot)
 	var distance_to_spot = global_position.distance_to(ideal_defensive_spot)
 	
 	# If defender is close enough to the spot, hit the breaks to remove jitter
-	if distance_to_spot > 5.0:
+	if distance_to_spot > 15.0:
 		velocity = direction_to_spot * move_speed
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
@@ -387,7 +428,7 @@ func chase_ball(_delta: float):
 
 func attempt_swipe():
 	# Put bot on cooldwon and freeze on the reach
-	swipe_cooldown = 2.5
+	swipe_cooldown = 2.0
 	state = "SWIPING"
 	
 	# Dice roll o'clock
@@ -436,7 +477,7 @@ func contest_shot(delta:float):
 func execute_block():
 	print("GET THAT WEAK SHIT OUTTA HERE!")
 	
-	# Stop checking for multiple blocks on the same frame
+	#!!! Stop checking for multiple blocks on the same frame
 	state = "IDLE"
 	
 	# Calc a rough vector to spike the ball away from the hoop
@@ -446,14 +487,11 @@ func execute_block():
 	ball.reject_shot(deflect_dir)
 
 
-
 func clear_ball(_delta: float):
 	# Safety Net: Stop backing up if you already have the ball in the clear zone
 	if get_parent().bodies_in_clear_zone.has(self):
 		get_parent().is_ball_cleared = true
 		return
-	
-	
 	
 	# Calculate Vector pointing away directly from the hoop
 	var dir_away_from_hoop = hoop.global_position.direction_to(global_position)
@@ -491,8 +529,6 @@ func process_check_up(_delta: float):
 		else:
 			# Arrived
 			velocity = Vector2.ZERO
-			
-			
 			
 	elif check_role == "FETCH":
 		# Scorer has a 2 part mission
@@ -555,7 +591,7 @@ func force_turnover():
 	# Reset physical states so the bot return to the floor in case they are stripped/blocked
 	if jump_tween and jump_tween.is_valid():
 		jump_tween.kill()
-	if has_node("Sprite2D"): $Sprite2D.position.y = 0
+	if has_node("VisualSkin"): $VisualSkin.position.y = 0
 	jump_z = 0.0
 	
 	# Evaluate state will automatically switch them to "CHASING" since ball will be loose
@@ -618,10 +654,14 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	#================================
 	# BRANCHING LOGIC
 	#================================
+	var current_facing = sign($VisualSkin.scale.x)
+	if current_facing == 0: current_facing = 1.0
+	
+	
 	if is_dunk:
 		print("Bot goes up for the POSTER DUNK!")
 		max_jump = 45.0
-		peak_scale = Vector2(1.3, 1.3)
+		peak_scale = Vector2(1.3 * current_facing, 1.3)
 		
 		var hoops = get_tree().get_nodes_in_group("hoop")
 		if hoops.size() > 0 and hoops[0].has_node("DunkSpot"):
@@ -632,7 +672,7 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	else:
 		print("Bot goes up for the smooth LAYUP!")
 		max_jump = 15.0
-		peak_scale = Vector2(1.2, 1.2)
+		peak_scale = Vector2(1.2 * current_facing, 1.2)
 		target_spot = rim_position - (dir_to_rim * 60.0)
 	
 	# 1. Glide to chosen floor spot
@@ -645,8 +685,8 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	jump_tween.tween_property(self, "jump_z", max_jump, takeoff_time / 2.0).set_trans(
 															Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
-	if has_node("Sprite2D"):
-		jump_tween.parallel().tween_property($Sprite2D, "scale", peak_scale, 
+	if has_node("VisualSkin"):
+		jump_tween.parallel().tween_property($VisualSkin, "scale", peak_scale, 
 							takeoff_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
 	await get_tree().create_timer(takeoff_time / 2.0).timeout
@@ -721,8 +761,8 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	jump_tween.tween_property(self, "jump_z", 0.0, takeoff_time / 2.0).set_trans(
 															Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	
-	if has_node("Sprite2D"):
-		jump_tween.parallel().tween_property($Sprite2D, "scale", Vector2(1.0, 1.0), 
+	if has_node("VisualSkin"):
+		jump_tween.parallel().tween_property($VisualSkin, "scale", Vector2(1.0 *current_facing, 1.0), 
 								takeoff_time / 2.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	
 	await jump_tween.finished
@@ -733,7 +773,7 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 	else:
 		state = "CHECK_UP_CUTSCENE"
 	
-	if has_node("Sprite2D"): $Sprite2D.position.y = 0
+	if has_node("VisualSkin"): $VisualSkin.position.y = 0
 	jump_z = 0.0
 
 
@@ -749,8 +789,7 @@ func apply_bump(bump_velocity: Vector2, duration: float):
 		state = previous_state
 
 func check_physical_contact():
-	# Only calculate bulldozer math if we are driving with the ball
-	if not has_ball: return
+	if state == "BUMPED": return
 	
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
@@ -760,33 +799,62 @@ func check_physical_contact():
 		if collider.has_method("apply_bump"):
 			
 			# Don't trigger if someone is already sliding
-			if state == "BUMPED" or ("is_bumped" in collider and collider.is_bumped): continue
+			if ("is_bumped" in collider and collider.is_bumped) or collider.get("state") == "BUMPED":
+				continue
+				
 			
 			var str_diff = strength - collider.strength
 			var hit_normal = collision.get_normal()
 			
 			#============================
-			# MOMENTUM SHIFT
+			# Scenario 1: On-Ball
 			# Normal points FROM player TO bot
 			#============================
-			if str_diff >= 15:
-				# BULLDOZE: Offense runs them over
-				print("TITAN BULLDOZER! Player gets crushed!")
-				# Push Player away
-				collider.apply_bump(-hit_normal * 400.0, 0.25)
-				# Have player try to make a steal mid bump
-				collider.attempt_swipe()
-				
-			elif str_diff <= -15:
-				# BRICK WALL: Bot bounces off!
-				print("BRICK WALL: Bot bounces off!")
-				# Push player away
-				apply_bump(hit_normal * 500.0, 0.15)
-				
+			if has_ball:
+				if str_diff >= 15:
+					# BULLDOZE: Offense runs them over
+					print("TITAN BULLDOZER! Player gets crushed!")
+					# Push Player away
+					collider.apply_bump(-hit_normal * 400.0, 0.25)
+					# Have player try to make a steal mid bump
+					collider.attempt_swipe()
+					
+				elif str_diff <= -15:
+					# BRICK WALL: Bot bounces off!
+					print("BRICK WALL: Bot bounces off!")
+					# Push player away
+					apply_bump(hit_normal * 500.0, 0.15)
+					
+				else:
+					# NEUTRAL: Both take a tiny step back to avoid sticking
+					apply_bump(hit_normal * 200.0, 0.1)
+					collider.apply_bump(-hit_normal * 200.0, 0.1)
+			elif collider.get("has_ball") == true:
+				pass
+			
+			#===========================================
+			# Scenario 2: Off-Ball
+			#===========================================
 			else:
-				# NEUTRAL: Both take a tiny step back to avoid sticking
-				apply_bump(hit_normal * 200.0, 0.1)
-				collider.apply_bump(-hit_normal * 200.0, 0.1)
+				# Calculate a 90-degree sidestep vector
+				var sidestep = hit_normal.orthogonal()
+				if randf() < 0.5: sidestep = -sidestep
+				
+				if str_diff >= 15:
+					# BOX OUT
+					print("BOT BOXED OUT!")
+					collider.apply_bump((-hit_normal * 350.0) + (sidestep * 150.0), 0.2)
+					
+				elif str_diff <= -15:
+					# BOXED OUT by player
+					print("Bot got BOXED OUT!")
+					apply_bump((hit_normal * 350.0) + (sidestep * 150.0), 0.2)
+					
+				else:
+					# JOSTLE
+					apply_bump((hit_normal * 200.0) + (sidestep * 150.0), 0.15)
+					collider.apply_bump((-hit_normal * 200.0) - (sidestep * 150.0), 0.15)
+				
 
 func _vacuum_check():
 	if not has_node("PickupZone"): return

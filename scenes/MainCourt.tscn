@@ -26,6 +26,8 @@ size = Vector2(560, 129.5)
 
 [sub_resource type="Environment" id="Environment_krthx"]
 glow_enabled = true
+glow_intensity = 1.2
+glow_blend_mode = 0
 
 [node name="MainCourt" type="Node2D"]
 y_sort_enabled = true
@@ -50,7 +52,7 @@ position = Vector2(574.5, 3.90625)
 shape = SubResource("RectangleShape2D_5n6sh")
 
 [node name="CollisionShape2D-BottomWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(579, 684.313)
+position = Vector2(579, 680)
 shape = SubResource("RectangleShape2D_5n6sh")
 
 [node name="CollisionShape2D-LeftBackBaselineWall" type="CollisionShape2D" parent="StaticBody2D"]
@@ -67,7 +69,7 @@ zoom = Vector2(1.67, 1.67)
 
 [node name="Hoop" parent="." groups=["hoop"] instance=ExtResource("1_562al")]
 z_index = 1
-position = Vector2(576, 64)
+position = Vector2(576, 68)
 
 [node name="Player" parent="." instance=ExtResource("2_5jgdc")]
 z_index = 2
@@ -147,3 +149,6 @@ environment = SubResource("Environment_krthx")
 
 [node name="PauseMenu" parent="." instance=ExtResource("14_b6m7p")]
 visible = false
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.39269, 0.392821, 0.469102, 1)

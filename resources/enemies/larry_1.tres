@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=3 format=3 uid="uid://4wk0wb5vcvsd"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_08pbr"]
+[ext_resource type="Texture2D" uid="uid://tj7br6aysvoy" path="res://assets/opponents/Larry1V1.1.png" id="1_ntegs"]
+
+[resource]
+script = ExtResource("1_08pbr")
+defender_name = "Larry 1"
+playstyle = "Lost"
+intro_quote = "I'm just happy to be here!"
+is_upgraded_form = false
+shooting_rating = 1
+finishing_rating = 1
+handle_rating = 1
+defense_rating = 1
+speed_rating = 1
+strength_rating = 1
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String]([])
+up_shooting = 1
+up_finishing = 1
+up_handle = 1
+up_defense = 1
+up_speed = 1
+up_strength = 1
+body_sprite = ExtResource("1_ntegs")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"
