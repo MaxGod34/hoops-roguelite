@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 @onready var stats_container = $MainLayout/ContentStage/Panel_Clipboard/Col2_Build/StatsGrid
-@onready var threads_container = $MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid
+@onready var orbits_container = $MainLayout/ContentStage/Panel_Clipboard/Col2_Build/OrbitsGrid
 @onready var ledger_container = $MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainer/LedgerList
 @onready var run_stats_container = $MainLayout/ContentStage/Panel_Clipboard/Col3_Ledger/ScrollContainerStats/RunStats
 
@@ -71,7 +71,7 @@ func toggle_pause():
 
 func refresh_data():
 	_update_stats_matrix()
-	_update_equipment()
+	_update_fragments()
 	_update_ledger()
 	_update_run_stats()
 
@@ -151,13 +151,13 @@ func _update_stats_matrix():
 		
 		stats_container.add_child(stat_label)
 
-func _update_equipment():
-	for child in threads_container.get_children():
+func _update_fragments():
+	for child in orbits_container.get_children():
 		child.queue_free()
 	
-	for slot in PlayerData.equipment.keys():
-		var item = PlayerData.equipment[slot]
-		var nice_slot = slot.replace("-", " ").capitalize()
+	for i in range(PlayerData.active_orbits.size()):
+		var item = PlayerData.active_orbits[i]
+		var nice_slot = "Orbit " + str(i + 1)
 		
 		# Flat Button Instead of label
 		var eq_btn = Button.new()
@@ -182,7 +182,7 @@ func _update_equipment():
 			eq_btn.modulate = Color(0.4, 0.4, 0.4) # Greyed Out
 			eq_btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		
-		threads_container.add_child(eq_btn)
+		orbits_container.add_child(eq_btn)
 
 #============================
 # COLUMN 3: THE LEDGER

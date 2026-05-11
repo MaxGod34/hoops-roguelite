@@ -1,7 +1,7 @@
 extends Area2D
 
 @export_enum("The Rewind", "Offer Libations", "Styx Ice Bath", "Exit to Court",
-			"Apollo's Chalk", "Oceanus Bait Shop", "Forge", "Altar", 
+			"Apollo's Chalk", "Oceanus Bait Shop", "Forge", "Altar", "Kibisis",
 			"Wheel of Fate", "The Showers", "Scouting Board", 
 			"Bargain with the Abyss") var station_type: String
 
@@ -24,7 +24,13 @@ func _process(_delta):
 			if station_type == "The Showers" or station_type == "Styx Ice Bath" or station_type == "Altar":
 				print("The Leech has drained this station! Cannot use until the end of this Quarter!")
 				return # Stop interaction immidiately
-		
+		#------------------------------KIBISIS----------------------------------
+		if station_type == "Kibisis":
+			var kibisis_menu = get_tree().get_first_node_in_group("kibisis_menu")
+			if kibisis_menu:
+				kibisis_menu.open_menu()
+			return
+		#-----------------------------------------------------------------------
 		#-----------------------------BAIT SHOP---------------------------------
 		if station_type == "Oceanus Bait Shop":
 			var bait_menu = get_tree().get_first_node_in_group("bait_shop")
@@ -102,9 +108,6 @@ func request_prompt(prompt_ui):
 		"The Showers":
 			flavor_text = "Scrub yourself clean.\nScrub 5 off the opponent's score."
 	
-	
-	
-	
 	prompt_ui.open_prompt(self, flavor_text, cost)
 
 		
@@ -118,8 +121,6 @@ func execute_purchase():
 		MachManager.reset_to_base()
 		TransitionManager.transition_to_scene("res://scenes/MainCourt.tscn")
 		return
-	
-	
 	
 	if GameManager.current_energy >= 1:
 		GameManager.current_energy -= 1

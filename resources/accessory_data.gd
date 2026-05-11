@@ -3,7 +3,7 @@ class_name AccessoryData
 
 @export var item_name: String = "Unknown Item"
 @export_enum("Mortal", "Heroic", "Divine", "Woven") var tier: String = "Mortal"
-@export_enum("head", "outfit", "ball", "left_shoe", "right_shoe", "left_arm", "right_arm") var slot_type: String = "ball"
+@export_enum("Orbit", "Debris", "Combust") var primary_category: String = "Orbit"
 @export var item_texture: Texture2D
 @export_multiline var description: String = ""
 

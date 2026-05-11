@@ -1,36 +1,28 @@
-[gd_scene load_steps=66 format=3 uid="uid://bj41ousdvg8oi"]
+[gd_scene load_steps=46 format=3 uid="uid://bj41ousdvg8oi"]
 
 [ext_resource type="Script" uid="uid://bpek82p6u2th2" path="res://scripts/locker_room.gd" id="1_3fb16"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="1_07kbb"]
 [ext_resource type="Texture2D" uid="uid://ccovcylm84s3m" path="res://assets/locker_room/CaveProto.png" id="2_4qkvb"]
 [ext_resource type="Texture2D" uid="uid://db801hss2uvli" path="res://assets/locker_room/Whiteboard Proto.png" id="3_3fb16"]
 [ext_resource type="PackedScene" uid="uid://polg108afqtt" path="res://scenes/bait_shop.tscn" id="5_vacuq"]
-[ext_resource type="Script" uid="uid://b5ce8nu0rihus" path="res://scripts/station_kibisis.gd" id="6_i0i2h"]
 [ext_resource type="Texture2D" uid="uid://ccvmo61pbwrmd" path="res://assets/locker_room/KibisisProto.png" id="6_lcfti"]
 [ext_resource type="Texture2D" uid="uid://b58bq4sviyjyk" path="res://assets/locker_room/StyxBargainStationv1.2.png" id="6_o67jq"]
 [ext_resource type="Script" uid="uid://do45rgakg8osc" path="res://scripts/station_prompt.gd" id="7_epmqv"]
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="7_fsaij"]
-[ext_resource type="Texture2D" uid="uid://c0o1u1t74cqry" path="res://assets/accessories/BananaBandanaProto.png" id="7_rv06o"]
-[ext_resource type="Texture2D" uid="uid://budlwkxvff1p4" path="res://assets/accessories/OverallsProto.png" id="8_i0i2h"]
 [ext_resource type="PackedScene" uid="uid://chf53dwxt4tv1" path="res://scenes/scout_board.tscn" id="8_udugu"]
 [ext_resource type="Texture2D" uid="uid://c6sym54t4mabm" path="res://assets/WheelProto.png" id="9_phwrl"]
-[ext_resource type="Texture2D" uid="uid://du0dxyvkknx7b" path="res://assets/accessories/8BallProto.png" id="9_smqfs"]
 [ext_resource type="PackedScene" uid="uid://cxgimbobuq5a0" path="res://scenes/altar_menu.tscn" id="10_hy3a2"]
-[ext_resource type="Texture2D" uid="uid://b1yxhw4xdkfgs" path="res://assets/accessories/LeftArmMummyWrapProto.png" id="10_k8rc4"]
 [ext_resource type="Texture2D" uid="uid://drkbdvfeln36v" path="res://assets/ShowerProto.png" id="10_wjvu0"]
-[ext_resource type="Texture2D" uid="uid://dgcm72tv2w2pq" path="res://assets/accessories/RightFortuneGauntletProto.png" id="11_eo1ny"]
 [ext_resource type="PackedScene" uid="uid://l2778bw0hok8" path="res://scenes/rewind_menu.tscn" id="11_gjob3"]
-[ext_resource type="Texture2D" uid="uid://c3gfkl6cvc7rl" path="res://assets/accessories/LeftSandalProto.png" id="12_fyfyi"]
 [ext_resource type="PackedScene" uid="uid://djr17vi4dci1l" path="res://scenes/bargain_menu.tscn" id="12_gjob3"]
-[ext_resource type="Texture2D" uid="uid://dplappbp8tjxy" path="res://assets/accessories/RightRollerbladeProto.png" id="13_t3frt"]
 [ext_resource type="Script" uid="uid://xlscgvma03v8" path="res://scripts/LockerStation.gd" id="15_smqfs"]
 [ext_resource type="Texture2D" uid="uid://b2cde6horrpqs" path="res://assets/locker_room/BaitShopProto.png" id="16_k8rc4"]
 [ext_resource type="Texture2D" uid="uid://d1r1418iudl62" path="res://assets/locker_room/IceBathProto.png" id="17_eo1ny"]
 [ext_resource type="Texture2D" uid="uid://qkxf8ijqg6b7" path="res://assets/locker_room/LibationsProto.png" id="17_t3frt"]
 [ext_resource type="Texture2D" uid="uid://4weuuwo178q1" path="res://assets/locker_room/ChalkZoneProto.png" id="18_fyfyi"]
 [ext_resource type="Texture2D" uid="uid://dvd66jwyosia2" path="res://assets/locker_room/AltarProto.png" id="20_gjob3"]
-[ext_resource type="PackedScene" uid="uid://icicvnlongj2" path="res://scenes/ItemTooltip.tscn" id="20_yx1fu"]
 [ext_resource type="Texture2D" uid="uid://dts8fcu4iowo5" path="res://assets/locker_room/AttributeUpgradeStation.png" id="23_epmqv"]
+[ext_resource type="PackedScene" uid="uid://yg3habl8jsyh" path="res://scenes/kibisis_menu.tscn" id="23_wjvu0"]
 [ext_resource type="Texture2D" uid="uid://cuv0qgg7tcauy" path="res://assets/locker_room/CaveExit.png" id="25_o67jq"]
 [ext_resource type="PackedScene" uid="uid://d2ihkuyw4bl8l" path="res://scenes/locker_wheel.tscn" id="28_4nymk"]
 [ext_resource type="Theme" uid="uid://cmthdl2hsat1i" path="res://scenes/lbl_theme_stats_replay.tres" id="29_4nymk"]
@@ -158,100 +150,6 @@ expand_margin_bottom = 12.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tg3a6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1hyx0"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yx1fu"]
-bg_color = Color(0.594192, 0.48048, 0.325357, 1)
-border_width_left = 24
-border_width_top = 24
-border_width_right = 24
-border_width_bottom = 24
-border_color = Color(0, 0, 0, 1)
-border_blend = true
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g4pbd"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_phwrl"]
-bg_color = Color(0.281497, 0.25563, 0.076881, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-expand_margin_left = 12.0
-expand_margin_top = 12.0
-expand_margin_right = 12.0
-expand_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4pbd"]
-bg_color = Color(0.394565, 0.360135, 0.1224, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-expand_margin_left = 12.0
-expand_margin_top = 12.0
-expand_margin_right = 12.0
-expand_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vacuq"]
-bg_color = Color(0.171109, 0.153695, 0.0335603, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-expand_margin_left = 12.0
-expand_margin_top = 12.0
-expand_margin_right = 12.0
-expand_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjvu0"]
-bg_color = Color(0.281497, 0.25563, 0.076881, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-expand_margin_left = 12.0
-expand_margin_top = 12.0
-expand_margin_right = 12.0
-expand_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4sl4j"]
-bg_color = Color(0.264926, 0.591107, 3.85046e-07, 1)
-border_width_left = 24
-border_width_top = 24
-border_width_right = 24
-border_width_bottom = 24
-border_color = Color(0, 0, 0, 1)
-border_blend = true
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hy3a2"]
-bg_color = Color(0.136199, 0.331136, 4.81308e-08, 1)
-border_width_left = 24
-border_width_top = 24
-border_width_right = 24
-border_width_bottom = 24
-border_color = Color(0, 0, 0, 1)
-border_blend = true
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjob3"]
-bg_color = Color(0.264926, 0.591107, 3.85046e-07, 1)
-border_width_left = 24
-border_width_top = 24
-border_width_right = 24
-border_width_bottom = 24
-border_color = Color(0, 0, 0, 1)
-border_blend = true
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mvvqt"]
-bg_color = Color(0.136199, 0.331136, 4.81308e-08, 1)
-border_width_left = 24
-border_width_top = 24
-border_width_right = 24
-border_width_bottom = 24
-border_color = Color(0, 0, 0, 1)
-border_blend = true
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6hlmw"]
-bg_color = Color(0.213606, 0.487464, 9.62615e-08, 1)
-border_width_left = 24
-border_width_top = 24
-border_width_right = 24
-border_width_bottom = 24
-border_color = Color(0, 0, 0, 1)
-border_blend = true
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yx1fu"]
 
 [node name="LockerRoom" type="Node2D"]
 script = ExtResource("1_3fb16")
@@ -565,6 +463,9 @@ visible = false
 [node name="BargainMenu" parent="PopUps" instance=ExtResource("12_gjob3")]
 visible = false
 
+[node name="KibisisMenu" parent="PopUps" instance=ExtResource("23_wjvu0")]
+visible = false
+
 [node name="OceanusBaitShop" type="Area2D" parent="."]
 position = Vector2(166, 70)
 script = ExtResource("15_smqfs")
@@ -746,7 +647,8 @@ shape = SubResource("RectangleShape2D_tg3a6")
 [node name="Station_Kibisis" type="Area2D" parent="."]
 position = Vector2(81, 561)
 rotation = -2.35619
-script = ExtResource("6_i0i2h")
+script = ExtResource("15_smqfs")
+station_type = "Kibisis"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Station_Kibisis"]
 position = Vector2(-12.4924, -6.18716)
@@ -757,366 +659,6 @@ shape = SubResource("RectangleShape2D_1hyx0")
 rotation = -0.296706
 skew = 0.750492
 texture = ExtResource("6_lcfti")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="Station_Kibisis"]
-
-[node name="KibisisMenu" type="Control" parent="Station_Kibisis/CanvasLayer"]
-visible = false
-z_index = 1
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Panel" type="Panel" parent="Station_Kibisis/CanvasLayer/KibisisMenu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_yx1fu")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 64
-alignment = 1
-
-[node name="VSeparator2" type="VSeparator" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 128
-theme_override_styles/separator = SubResource("StyleBoxEmpty_g4pbd")
-
-[node name="VBox_Equipped_Head_Oufit_Ball" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 64
-alignment = 1
-
-[node name="Btn_Head" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Head_Oufit_Ball"]
-custom_minimum_size = Vector2(136, 220)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Head"
-icon = ExtResource("7_rv06o")
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-
-[node name="Btn_Outfit" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Head_Oufit_Ball"]
-custom_minimum_size = Vector2(136, 220)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Outfit"
-icon = ExtResource("8_i0i2h")
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-
-[node name="Btn_Ball" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Head_Oufit_Ball"]
-custom_minimum_size = Vector2(136, 220)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Ball"
-icon = ExtResource("9_smqfs")
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-
-[node name="VBox_Equipped_Left" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 64
-alignment = 1
-
-[node name="Btn_LeftArm" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Left"]
-custom_minimum_size = Vector2(136, 220)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Left Arm"
-icon = ExtResource("10_k8rc4")
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-
-[node name="Btn_LeftShoe" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Left"]
-custom_minimum_size = Vector2(136, 220)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Left Shoe"
-icon = ExtResource("12_fyfyi")
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-
-[node name="VBox_Equipped_Right" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 64
-alignment = 1
-
-[node name="Btn_RightArm" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Right"]
-custom_minimum_size = Vector2(136, 220)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Right Arm"
-icon = ExtResource("11_eo1ny")
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-
-[node name="Btn_RightShoe" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Equipped_Right"]
-custom_minimum_size = Vector2(136, 220)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Right Shoe"
-icon = ExtResource("13_t3frt")
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-
-[node name="VSeparator" type="VSeparator" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 128
-theme_override_styles/separator = SubResource("StyleBoxEmpty_g4pbd")
-
-[node name="VBox_Storage" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 64
-alignment = 1
-
-[node name="Btn_Slot1" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Storage"]
-custom_minimum_size = Vector2(136, 220)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Slot 1"
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-
-[node name="Btn_Slot2" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Storage"]
-custom_minimum_size = Vector2(136, 220)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Slot 2"
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-
-[node name="Btn_Slot3" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer/VBox_Storage"]
-custom_minimum_size = Vector2(136, 220)
-layout_mode = 2
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
-text = "Slot 3"
-autowrap_mode = 3
-icon_alignment = 1
-vertical_icon_alignment = 2
-
-[node name="VSeparator3" type="VSeparator" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 128
-theme_override_styles/separator = SubResource("StyleBoxEmpty_g4pbd")
-
-[node name="Btn_Close" type="Button" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel"]
-custom_minimum_size = Vector2(256, 128)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -18.5
-offset_top = -31.0
-offset_right = 18.5
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_fsaij")
-theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxFlat_4sl4j")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_hy3a2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_gjob3")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_mvvqt")
-theme_override_styles/normal = SubResource("StyleBoxFlat_6hlmw")
-text = "Exit"
-
-[node name="TopRowVbox" type="VBoxContainer" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 132.0
-grow_horizontal = 2
-mouse_filter = 2
-
-[node name="HSeparator" type="HSeparator" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/TopRowVbox"]
-layout_mode = 2
-theme_override_constants/separation = 32
-theme_override_styles/separator = SubResource("StyleBoxEmpty_yx1fu")
-
-[node name="Lbl_Title" type="RichTextLabel" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/TopRowVbox"]
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/normal_font = ExtResource("7_fsaij")
-theme_override_font_sizes/normal_font_size = 64
-text = "Kibisis Storage"
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="Lbl_Desc" type="RichTextLabel" parent="Station_Kibisis/CanvasLayer/KibisisMenu/Panel/TopRowVbox"]
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/normal_font = ExtResource("7_fsaij")
-theme_override_font_sizes/normal_font_size = 36
-text = "(Click an item to store/swap it)"
-horizontal_alignment = 1
-
-[node name="ItemTooltip" parent="Station_Kibisis/CanvasLayer" instance=ExtResource("20_yx1fu")]
-visible = false
-z_index = 2
-offset_left = -199.0
-offset_top = -53.5
-offset_right = 199.0
-offset_bottom = 53.5
 
 [node name="TheRewind" type="Area2D" parent="."]
 position = Vector2(35, 320)
@@ -1233,8 +775,3 @@ zoom = Vector2(1.67, 1.67)
 
 [node name="PauseMenu" parent="." instance=ExtResource("33_g4pbd")]
 visible = false
-
-[connection signal="body_entered" from="Station_Styx" to="Station_Styx" method="_on_body_entered"]
-[connection signal="body_exited" from="Station_Styx" to="Station_Styx" method="_on_body_exited"]
-[connection signal="body_entered" from="Station_Kibisis" to="Station_Kibisis" method="_on_body_entered"]
-[connection signal="body_exited" from="Station_Kibisis" to="Station_Kibisis" method="_on_body_exited"]

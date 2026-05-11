@@ -1,0 +1,458 @@
+[gd_scene load_steps=17 format=3 uid="uid://yg3habl8jsyh"]
+
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_dnjnu"]
+[ext_resource type="Script" uid="uid://b5ce8nu0rihus" path="res://scripts/kibisis_menu.gd" id="1_wk2uk"]
+[ext_resource type="Texture2D" uid="uid://du0dxyvkknx7b" path="res://assets/accessories/8BallProto.png" id="2_h5i7o"]
+[ext_resource type="PackedScene" uid="uid://icicvnlongj2" path="res://scenes/ItemTooltip.tscn" id="3_h5i7o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yx1fu"]
+bg_color = Color(0.594192, 0.48048, 0.325357, 1)
+border_width_left = 24
+border_width_top = 24
+border_width_right = 24
+border_width_bottom = 24
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g4pbd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_phwrl"]
+bg_color = Color(0.281497, 0.25563, 0.076881, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4pbd"]
+bg_color = Color(0.394565, 0.360135, 0.1224, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vacuq"]
+bg_color = Color(0.171109, 0.153695, 0.0335603, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjvu0"]
+bg_color = Color(0.281497, 0.25563, 0.076881, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4sl4j"]
+bg_color = Color(0.264926, 0.591107, 3.85046e-07, 1)
+border_width_left = 24
+border_width_top = 24
+border_width_right = 24
+border_width_bottom = 24
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hy3a2"]
+bg_color = Color(0.136199, 0.331136, 4.81308e-08, 1)
+border_width_left = 24
+border_width_top = 24
+border_width_right = 24
+border_width_bottom = 24
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjob3"]
+bg_color = Color(0.264926, 0.591107, 3.85046e-07, 1)
+border_width_left = 24
+border_width_top = 24
+border_width_right = 24
+border_width_bottom = 24
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mvvqt"]
+bg_color = Color(0.136199, 0.331136, 4.81308e-08, 1)
+border_width_left = 24
+border_width_top = 24
+border_width_right = 24
+border_width_bottom = 24
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6hlmw"]
+bg_color = Color(0.213606, 0.487464, 9.62615e-08, 1)
+border_width_left = 24
+border_width_top = 24
+border_width_right = 24
+border_width_bottom = 24
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yx1fu"]
+
+[node name="KibisisMenu" type="Control" groups=["kibisis_menu"]]
+z_index = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wk2uk")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yx1fu")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 128
+theme_override_styles/separator = SubResource("StyleBoxEmpty_g4pbd")
+
+[node name="VBox_OrbitsLeft" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Btn_Slot0" type="Button" parent="Panel/HBoxContainer/VBox_OrbitsLeft"]
+custom_minimum_size = Vector2(136, 220)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Slot 1"
+icon = ExtResource("2_h5i7o")
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="Btn_Slot1" type="Button" parent="Panel/HBoxContainer/VBox_OrbitsLeft"]
+custom_minimum_size = Vector2(136, 220)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Slot 2"
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="VBox_OrbitsRight" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Btn_Slot2" type="Button" parent="Panel/HBoxContainer/VBox_OrbitsRight"]
+custom_minimum_size = Vector2(136, 220)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Slot 1"
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="Btn_Slot3" type="Button" parent="Panel/HBoxContainer/VBox_OrbitsRight"]
+custom_minimum_size = Vector2(136, 220)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Slot 2"
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="VSeparator" type="VSeparator" parent="Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 128
+theme_override_styles/separator = SubResource("StyleBoxEmpty_g4pbd")
+
+[node name="VBox_StorageColLeft" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Btn_Slot0" type="Button" parent="Panel/HBoxContainer/VBox_StorageColLeft"]
+custom_minimum_size = Vector2(136, 220)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Slot 1"
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="Btn_Slot1" type="Button" parent="Panel/HBoxContainer/VBox_StorageColLeft"]
+custom_minimum_size = Vector2(136, 220)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Slot 2"
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="Btn_Slot2" type="Button" parent="Panel/HBoxContainer/VBox_StorageColLeft"]
+custom_minimum_size = Vector2(136, 220)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Slot 3"
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="VBox_StorageColRight" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Btn_Slot3" type="Button" parent="Panel/HBoxContainer/VBox_StorageColRight"]
+custom_minimum_size = Vector2(136, 220)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Slot 1"
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="Btn_Slot4" type="Button" parent="Panel/HBoxContainer/VBox_StorageColRight"]
+custom_minimum_size = Vector2(136, 220)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Slot 2"
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="Btn_Slot5" type="Button" parent="Panel/HBoxContainer/VBox_StorageColRight"]
+custom_minimum_size = Vector2(136, 220)
+layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_phwrl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g4pbd")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wjvu0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vacuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vacuq")
+text = "Slot 3"
+autowrap_mode = 3
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="VSeparator3" type="VSeparator" parent="Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 128
+theme_override_styles/separator = SubResource("StyleBoxEmpty_g4pbd")
+
+[node name="Btn_Close" type="Button" parent="Panel"]
+custom_minimum_size = Vector2(192, 108)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -18.5
+offset_top = -31.0
+offset_right = 18.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_dnjnu")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_4sl4j")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_hy3a2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gjob3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mvvqt")
+theme_override_styles/normal = SubResource("StyleBoxFlat_6hlmw")
+text = "Exit"
+
+[node name="TopRowVbox" type="VBoxContainer" parent="Panel"]
+custom_minimum_size = Vector2(960, 192)
+layout_mode = 1
+offset_right = 3.0
+offset_bottom = 168.0
+mouse_filter = 2
+alignment = 2
+
+[node name="HSeparator" type="HSeparator" parent="Panel/TopRowVbox"]
+layout_mode = 2
+theme_override_constants/separation = 32
+theme_override_styles/separator = SubResource("StyleBoxEmpty_yx1fu")
+
+[node name="Lbl_Title" type="RichTextLabel" parent="Panel/TopRowVbox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_fonts/normal_font = ExtResource("1_dnjnu")
+theme_override_font_sizes/normal_font_size = 64
+text = "Kibisis Storage"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Lbl_Desc" type="RichTextLabel" parent="Panel/TopRowVbox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_fonts/normal_font = ExtResource("1_dnjnu")
+theme_override_font_sizes/normal_font_size = 36
+text = "(Click an item to store/swap it)"
+horizontal_alignment = 2
+
+[node name="ItemTooltip" parent="." instance=ExtResource("3_h5i7o")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 244.0
+offset_bottom = 71.0
+grow_horizontal = 1
+grow_vertical = 1

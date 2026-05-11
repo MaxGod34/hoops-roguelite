@@ -1,6 +1,6 @@
 extends PanelContainer
 @onready var lbl_name = $VBox/Lbl_Name
-@onready var lbl_slot = $VBox/Lbl_Slot
+@onready var lbl_type = $VBox/Lbl_Type
 @onready var lbl_stats = $VBox/Lbl_Stats
 @onready var lbl_description = $VBox/Lbl_Description
 
@@ -37,7 +37,7 @@ func _process(_delta):
 
 func display_item(item: AccessoryData):
 	lbl_name.text = item.item_name
-	lbl_slot.text = "Slot: " + item.slot_type.capitalize()
+	lbl_type.text = "Type: " + item.primary_category
 	
 	# Build stat string
 	var stat_text = "[center]"

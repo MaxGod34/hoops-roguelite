@@ -6,9 +6,9 @@ extends Control
 @onready var lbl_result = $Lbl_Result
 
 #--------------------FOR IMPLEMENTATION, GUARANTEE SPIN-------------------------
-@export_enum("+10 All Attributes", "+5 Energy", "+1 Thread Next Game (MAX 1)",
+@export_enum("+10 All Attributes", "+5 Energy", "+1 Fragment Next Game (MAX 1)",
 	"Start Next Game Up 1-0", "Start Next Game at Mach 3",
-	"NOTHING!", "Lose Random Thread", "Threads Disabled 1 Game", "Start Next Game Down 0-1",
+	"NOTHING!", "Lose Random Fragment", "Fragments Disabled 1 Game", "Start Next Game Down 0-1",
 	"Re-spin!", "N/A") var guaranteed_spin: String = "N/A"
 #-------------------------------------------------------------------------------
 
@@ -19,13 +19,13 @@ var wheel_rewards = [
 	# POSITIVES
 	"+10 All Attributes",
 	"+5 Energy",
-	"+1 Thread Next Game (MAX 1)",
+	"+1 Fragment Next Game (MAX 1)",
 	"Start Next Game Up 1-0",
 	"Start Next Game at Mach 3",
 	# NEGATIVES
 	"NOTHING!",
-	"Lose Random Thread",
-	"Threads Disabled 1 Game",
+	"Lose Random Fragment",
+	"Fragments Disabled 1 Game",
 	"Start Next Game Down 0-1",
 	# AGAIN!
 	"Re-spin!"
@@ -133,9 +133,9 @@ func apply_reward(reward: String):
 		"+5 Energy":
 			GameManager.current_energy += 5
 		
-		"+1 Thread Next Game (MAX 1)":
+		"+1 Fragment Next Game (MAX 1)":
 			print("Loot Incoming!")
-			GameManager.wheel_extra_thread_next_game = true
+			GameManager.wheel_extra_thread_next_game = true # Re-name to fragment
 		
 		"Start Next Game Up 1-0":
 			print("Spot me a point! Start up 1-0!")
@@ -150,13 +150,13 @@ func apply_reward(reward: String):
 		"NOTHING!":
 			print("Tough break! Nothing happens.")
 		
-		"Lose Random Thread":
-			print("BRUTAL! Snatching a thread...")
-			lose_random_thread()
+		"Lose Random Fragment":
+			print("BRUTAL! Snatching a frag...")
+			lose_random_fragment()
 		
-		"Threads Disabled 1 Game":
+		"Fragments Disabled 1 Game":
 			print("Naked run! Threads disabled next match!")
-			GameManager.threads_disabled_next_game = true
+			GameManager.threads_disabled_next_game = true # Re-name
 			# Force update so their UI instantly shows
 			PlayerData.recalculate_thread_bonuses()
 		
@@ -177,25 +177,25 @@ func apply_reward(reward: String):
 	else:
 		btn_spin.disabled = true
 
-func lose_random_thread():
-	var active_slots = []
+func lose_random_fragment():
+	var active_indexes = []
 	
 	# Find all slots that usually have an item in them
-	for slot in PlayerData.equipment.keys():
-		if PlayerData.equipment[slot] != null:
-			active_slots.append(slot)
+	for i in range(PlayerData.active_orbits.size()):
+		if PlayerData.active_orbits[i] != null:
+			active_indexes.append(i)
 	
-	if active_slots.size() > 0:
+	if active_indexes.size() > 0:
 		# Pick a random slot and destroy the item
-		var slot_to_wipe = active_slots.pick_random()
-		var item_name = PlayerData.equipment[slot_to_wipe].item_name
+		var slot_to_wipe = active_indexes.pick_random()
+		var item_name = PlayerData.active_orbits[slot_to_wipe].item_name
 		
-		PlayerData.equipment[slot_to_wipe] = null
+		PlayerData.active_orbits[slot_to_wipe] = null
 		PlayerData.recalculate_thread_bonuses() # Update new stats + bonuses
 		
 		print("The wheel claimed your ", item_name, " from the ", slot_to_wipe, " slot!")
 	else:
-		print("You aren't wearing any threads! The wheel shows mercy...this time...")
+		print("You aren't wearing any fragments! The wheel shows mercy...this time...")
 
 
 func _on_leave_pressed():

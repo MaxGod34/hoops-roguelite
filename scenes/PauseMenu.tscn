@@ -93,7 +93,7 @@ size_flags_horizontal = 3
 
 [node name="Col2_Build" type="VBoxContainer" parent="MainLayout/ContentStage/Panel_Clipboard"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="Lbl_ThreadsTitle" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
@@ -108,18 +108,18 @@ theme_override_constants/outline_size = 12
 theme_override_constants/shadow_outline_size = 8
 theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxEmpty_vd2mf")
-text = "Threads"
+text = "Orbits"
 horizontal_alignment = 1
 
-[node name="ThreadsGrid" type="GridContainer" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
-custom_minimum_size = Vector2(906, 571)
+[node name="OrbitsGrid" type="GridContainer" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
+custom_minimum_size = Vector2(906, 272)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 9
 columns = 2
 
-[node name="TestBtn" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+[node name="TestBtn" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/OrbitsGrid"]
 layout_mode = 2
 theme = ExtResource("2_40atx")
 theme_override_fonts/font = ExtResource("3_yx35g")
@@ -127,7 +127,7 @@ text = "MUMMY WRAP"
 icon = ExtResource("2_5w6ei")
 flat = true
 
-[node name="TestBtn2" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+[node name="TestBtn2" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/OrbitsGrid"]
 layout_mode = 2
 theme = ExtResource("2_40atx")
 theme_override_fonts/font = ExtResource("3_yx35g")
@@ -135,7 +135,7 @@ text = "MUMMY WRAP"
 icon = ExtResource("2_5w6ei")
 flat = true
 
-[node name="TestBtn3" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+[node name="TestBtn3" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/OrbitsGrid"]
 layout_mode = 2
 theme = ExtResource("2_40atx")
 theme_override_fonts/font = ExtResource("3_yx35g")
@@ -143,36 +143,11 @@ text = "MUMMY WRAP"
 icon = ExtResource("2_5w6ei")
 flat = true
 
-[node name="TestBtn4" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
+[node name="TestBtn4" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/OrbitsGrid"]
 layout_mode = 2
 theme = ExtResource("2_40atx")
 theme_override_fonts/font = ExtResource("3_yx35g")
 text = "MUMMY WRAP"
-icon = ExtResource("2_5w6ei")
-flat = true
-
-[node name="TestBtn5" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
-layout_mode = 2
-theme = ExtResource("2_40atx")
-theme_override_fonts/font = ExtResource("3_yx35g")
-text = "MUMMY WRAP"
-icon = ExtResource("2_5w6ei")
-flat = true
-
-[node name="TestBtn6" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
-modulate = Color(0.4, 0.4, 0.4, 1)
-layout_mode = 2
-theme = ExtResource("2_40atx")
-theme_override_fonts/font = ExtResource("3_yx35g")
-text = "SLOT: EMPTY"
-flat = true
-
-[node name="TestBtn7" type="Button" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build/ThreadsGrid"]
-modulate = Color(0.4, 0.4, 0.4, 1)
-layout_mode = 2
-theme = ExtResource("2_40atx")
-theme_override_fonts/font = ExtResource("3_yx35g")
-text = "Slot: EMPTY"
 icon = ExtResource("2_5w6ei")
 flat = true
 

@@ -23,16 +23,9 @@ var thread_bonuses = {
 }
 
 
-# Inventory
-var equipment = {
-	"left_shoe": null,
-	"right_shoe": null,
-	"left_arm": null,
-	"right_arm": null,
-	"head": null,
-	"outfit": null,
-	"ball": null
-}
+# Inventory (4 orbits | 6 storage)
+var active_orbits: Array = [null, null, null, null]
+var locker_storage: Array = [null, null, null, null, null, null]
 
 
 
@@ -94,7 +87,7 @@ func recalculate_thread_bonuses():
 	
 	
 	#--- Wheel Curse Intercept ---
-	if GameManager.threads_disabled_next_game:
+	if GameManager.threads_disabled_next_game: # Update name
 		print("Curse active! Thread bonuses are null! NULL!")
 		stats_updated.emit()
 		return # Exit so it doesn't execute any of the bonuses
@@ -102,8 +95,7 @@ func recalculate_thread_bonuses():
 	
 	
 	# 2. Loop through only the items actively on your body
-	for slot in equipment.keys():
-		var item = equipment[slot]
+	for item in active_orbits:
 		
 		if item != null and item.has_method("get_boosts"):
 			var item_boosts = item.get_boosts()
@@ -112,80 +104,48 @@ func recalculate_thread_bonuses():
 				if thread_bonuses.has(stat_name):
 					thread_bonuses[stat_name] += item_boosts[stat_name]
 	
+	# Add here for locker storage buffs ("Combust")
+	
 	# 3. Tell player script the math changed
 	stats_updated.emit()
 
 
 # -- THE STORAGE LCOKER --
-var locker_storage = []
-const MAX_LOCKER_SLOTS = 3
-
-func stash_equipped_items(slot_name: String):
-	
-	# Check if there's room
-	if locker_storage.size() >= MAX_LOCKER_SLOTS:
-		print("Locker is full! Permanently discard something or equip it!")
-		return false
-	# Check if we have an item in the slot to take off
-	if equipment.has(slot_name) and equipment[slot_name] != null:
-		locker_storage.append(equipment[slot_name])
-		# Remove the item from the player
-		equipment[slot_name] = null
-		recalculate_thread_bonuses()
-		
-		print("Item stashed successfully. Your ", slot_name, " slot is now empty.")
-		return true
-	else:
-		print("You aren't wearing anything in that slot!")
-		return false
-
-func equip_from_locker(locker_index: int, target_slot: String):
-	if locker_index >= 0 and locker_index < locker_storage.size():
-		var item_to_equip = locker_storage[locker_index]
-		
-		# If player is already wearing something in that slot,
-		# we have to automatically swap it back to the locker
-		var item_taking_off = equipment[target_slot]
-		
-		# Put new item on player
-		equipment[target_slot] = item_to_equip
-		
-		if item_taking_off != null:
-			# Swap the old item into the exact same spot in the locker box
-			locker_storage[locker_index] = item_taking_off
-			print("Swapped ", target_slot, " with item from locker.")
-		else:
-			# Empty Handed, remove from locker array
-			locker_storage.remove_at(locker_index)
-			print("Equipped item from locker.")
-		
-	recalculate_thread_bonuses()
+const MAX_LOCKER_SLOTS = 6
 
 	
 func receive_new_item(new_item: AccessoryData) -> bool:
-	var slot = new_item.slot_type
+	# 1. Check for empty Orbit slot first
+	for i in range(active_orbits.size()):
+		if active_orbits[i] == null:
+			active_orbits[i] = new_item
+			print("Auto-equipped to Orbit: ", i, ": ", new_item.item_name)
+			recalculate_thread_bonuses()
+			return true
+	# 2. Orbits full, check empty storage slot
+	for i in range(locker_storage.size()):
+		if locker_storage[i] == null:
+			locker_storage[i] = new_item
+			print("Stashed in Kibisis: |", i, "|: ", new_item.item_name)
+			return true
+	# 3. Everything is full
+	print("Inventory is completely full!")
+	return false
+
+func swap_items(orbit_index: int, storage_index: int):
+	# Swaps item between active and storage
+	var temp = active_orbits[orbit_index]
+	active_orbits[orbit_index] = locker_storage[storage_index]
+	locker_storage[storage_index] = temp
 	
-	# If slot on your body is empty, auto-equip it
-	if equipment.has(slot) and equipment[slot] == null:
-		equipment[slot] = new_item
-		print("Auto-equipped: ", new_item.item_name)
-		recalculate_thread_bonuses()
-		return true
-	# If body slot is full, check if there is room
-	elif locker_storage.size() < 3:
-		locker_storage.append(new_item)
-		print("Stashed in Kibisis: ", new_item.item_name)
-		return true
-	# If everything is full, they can't take it
-	else:
-		print("Inventory is completely full!")
-		return false
+	print("Swapped Orbit ", orbit_index, " with Storage", storage_index)
+	recalculate_thread_bonuses()
+
 
 func _on_block_achieved():
 	var total_scrub = 0
 	
-	for slot in equipment.keys():
-		var item = equipment[slot]
+	for item in active_orbits:
 		if item != null and "scrub_on_block" in item:
 			total_scrub += item.scrub_on_block
 	

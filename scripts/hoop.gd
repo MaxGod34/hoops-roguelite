@@ -34,6 +34,7 @@ func _physics_process(_delta):
 func _on_backboard_hit(body):
 	if body.is_in_group("ball") and body.is_miss and (body.state == "SHOOTING" or body.state == "LAYUP"):
 		if body.z_height >= rim_height:
+			get_tree().call_group("shot_clock", "reset_clock")
 			# Calc the normal (pushing straight away from the glass)
 			var bounce_normal = Vector2(0, 1) # Facing down
 			_trigger_brick(body, bounce_normal)
