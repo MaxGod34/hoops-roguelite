@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gfnwd7i63n5x"
-path="res://.godot/imported/BaitShopWoodFloorProto.png-d1c2ed642c02d83fc55bdd6117b0f829.ctex"
+uid="uid://c1e8dxul8vtht"
+path="res://.godot/imported/MuLower.png-fa1ebbcf96d9247a6304bdcad839e17b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/BaitShopWoodFloorProto.png"
-dest_files=["res://.godot/imported/BaitShopWoodFloorProto.png-d1c2ed642c02d83fc55bdd6117b0f829.ctex"]
+source_file="res://assets/opponents/Q1&Q3Rand/MuLower.png"
+dest_files=["res://.godot/imported/MuLower.png-fa1ebbcf96d9247a6304bdcad839e17b.ctex"]
 
 [params]
 

@@ -1,12 +1,14 @@
-[gd_resource type="Resource" script_class="DefenderStats" load_steps=2 format=3 uid="uid://c6m63rfdwi8ay"]
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=4 format=3 uid="uid://c6m63rfdwi8ay"]
 
+[ext_resource type="Texture2D" uid="uid://ba1qelwebwqor" path="res://assets/opponents/Q1&Q3Rand/LambdaLower.png" id="1_oy6lh"]
 [ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_vi441"]
+[ext_resource type="Texture2D" uid="uid://8bta5k6pe877" path="res://assets/opponents/Q1&Q3Rand/LambdaUpper.png" id="3_d4o3q"]
 
 [resource]
 script = ExtResource("1_vi441")
-defender_name = "Tree McGee"
+defender_name = "Lambda, The Root"
 playstyle = "Benchwarmer"
-intro_quote = "..."
+intro_quote = "Enough of those fancy handles, check-up!"
 is_upgraded_form = false
 shooting_rating = 5
 finishing_rating = 75
@@ -23,4 +25,6 @@ up_handle = 50
 up_defense = 50
 up_speed = 50
 up_strength = 50
+body_sprite = ExtResource("1_oy6lh")
+upgraded_sprite = ExtResource("3_d4o3q")
 metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

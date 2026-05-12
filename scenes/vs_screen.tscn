@@ -2,8 +2,8 @@
 
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_3vlic"]
 [ext_resource type="Script" uid="uid://db04cs6ksguaa" path="res://scripts/vs_screen.gd" id="1_54571"]
-[ext_resource type="Texture2D" uid="uid://b2tgxl3ad5gf7" path="res://assets/opponents/Larry2Protov1.1.png" id="2_54571"]
 [ext_resource type="Shader" uid="uid://cbusxpf0fwu4v" path="res://resources/shaders/unstable_energy.gdshader" id="3_tukfw"]
+[ext_resource type="Texture2D" uid="uid://c1e8dxul8vtht" path="res://assets/opponents/Q1&Q3Rand/MuLower.png" id="4_tukfw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tukfw"]
 
@@ -81,7 +81,7 @@ custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("2_54571")
+texture = ExtResource("4_tukfw")
 
 [node name="RightPadding" type="Control" parent="MainSplit"]
 custom_minimum_size = Vector2(50, 0)

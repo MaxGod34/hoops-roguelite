@@ -25,4 +25,5 @@ up_defense = 1
 up_speed = 1
 up_strength = 1
 body_sprite = ExtResource("1_ntegs")
+upgraded_sprite = ExtResource("1_ntegs")
 metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

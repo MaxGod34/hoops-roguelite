@@ -14,7 +14,7 @@
 [ext_resource type="Resource" uid="uid://dnon0fch31617" path="res://resources/BaitShop/TheUndercurrent/the_leech.tres" id="9_pe6ql"]
 [ext_resource type="Resource" uid="uid://cxg8vvtdqm56w" path="res://resources/BaitShop/TheUndercurrent/style_more.tres" id="10_x7jll"]
 [ext_resource type="Resource" uid="uid://4txhxt0xpk8p" path="res://resources/BaitShop/TheUndercurrent/sirens_call.tres" id="11_dbh5e"]
-[ext_resource type="Texture2D" uid="uid://gfnwd7i63n5x" path="res://assets/BaitShopWoodFloorProto.png" id="12_gp2hm"]
+[ext_resource type="Texture2D" uid="uid://gfnwd7i63n5x" path="res://assets/locker_room/BaitShopWoodFloorProto.png" id="12_gp2hm"]
 [ext_resource type="Theme" uid="uid://dfsvom5bkyrxp" path="res://scenes/theme_bait_shop_btn.tres" id="13_m0ljq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b25l3"]

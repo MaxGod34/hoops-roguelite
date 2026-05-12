@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drkbdvfeln36v"
-path="res://.godot/imported/ShowerProto.png-6ddd3f295fbd9a23265813992a43802e.ctex"
+uid="uid://c6sym54t4mabm"
+path="res://.godot/imported/WheelProto.png-4fba89068af51b9f51547aa53e261252.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ShowerProto.png"
-dest_files=["res://.godot/imported/ShowerProto.png-6ddd3f295fbd9a23265813992a43802e.ctex"]
+source_file="res://assets/locker_room/WheelProto.png"
+dest_files=["res://.godot/imported/WheelProto.png-4fba89068af51b9f51547aa53e261252.ctex"]
 
 [params]
 

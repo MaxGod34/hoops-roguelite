@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6sym54t4mabm"
-path="res://.godot/imported/WheelProto.png-2d5d9fa073fbf7459994393eb5d0697c.ctex"
+uid="uid://o54rkrwd76wl"
+path="res://.godot/imported/PhiLower.png-1142579e39e4581295b6f5d91d1e0061.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/WheelProto.png"
-dest_files=["res://.godot/imported/WheelProto.png-2d5d9fa073fbf7459994393eb5d0697c.ctex"]
+source_file="res://assets/opponents/Q1&Q3Rand/PhiLower.png"
+dest_files=["res://.godot/imported/PhiLower.png-1142579e39e4581295b6f5d91d1e0061.ctex"]
 
 [params]
 

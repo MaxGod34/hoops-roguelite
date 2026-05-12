@@ -7,7 +7,7 @@ var defeated_enemies: Array[String] = []
 # The Encounters Deck
 var pools = {
 	"LARRY": ["larry_1", "larry_2"],
-	"Q1_REGULAR": ["tree_mcgee", "speed_glove", "janitor", "ol_reggie"],
+	"Q1_REGULAR": ["mu_slick", "phi_taxman", "lambda_root"],
 	"Q1_BOSS": ["ms_never", "sammy_spice"]
 }
 
@@ -16,10 +16,9 @@ var enemy_database = {
 	"larry_1": preload("res://resources/enemies/larry_1.tres"),
 	"larry_2": preload("res://resources/enemies/larry_2.tres"),
 	
-	"tree_mcgee": preload("res://resources/enemies/tree_mcgee.tres"),
-	"speed_glove": preload("res://resources/enemies/speed_glove.tres"),
-	"janitor": preload("res://resources/enemies/the_janitor.tres"),
-	"ol_reggie": preload("res://resources/enemies/ol_reggie.tres"),
+	"mu_slick": preload("res://resources/enemies/Q1&Q3Rand/mu_slick.tres"),
+	"phi_taxman": preload("res://resources/enemies/Q1&Q3Rand/phi_taxman.tres"),
+	"lambda_root": preload("res://resources/enemies/Q1&Q3Rand/lambda_root.tres"),
 	
 	"ms_never": preload("res://resources/enemies/ms_never.tres"),
 	"sammy_spice": preload("res://resources/enemies/sammy_spice.tres")

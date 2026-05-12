@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://crn5iibo8fysf" path="res://scripts/bargain_menu.gd" id="1_1krin"]
 [ext_resource type="Texture2D" uid="uid://b58bq4sviyjyk" path="res://assets/locker_room/StyxBargainStationv1.2.png" id="1_vqgub"]
 [ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="2_g581l"]
-[ext_resource type="Texture2D" uid="uid://43his24hjjuq" path="res://assets/ContractWordFiller.png" id="3_g581l"]
+[ext_resource type="Texture2D" uid="uid://43his24hjjuq" path="res://assets/locker_room/ContractWordFiller.png" id="3_g581l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1krin"]
 bg_color = Color(0.807513, 0.67927, 1.15514e-06, 1)

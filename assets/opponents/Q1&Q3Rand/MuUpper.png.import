@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ib7vb0g4m60q"
-path="res://.godot/imported/hoop proto.png-21c70afeee27aa928535df798ff4094e.ctex"
+uid="uid://c74315vdcicwk"
+path="res://.godot/imported/MuUpper.png-1ec4503ef2edbebaf625521e1ed71b27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hoop proto.png"
-dest_files=["res://.godot/imported/hoop proto.png-21c70afeee27aa928535df798ff4094e.ctex"]
+source_file="res://assets/opponents/Q1&Q3Rand/MuUpper.png"
+dest_files=["res://.godot/imported/MuUpper.png-1ec4503ef2edbebaf625521e1ed71b27.ctex"]
 
 [params]
 
