@@ -56,6 +56,8 @@ var rewind_base_cost: int = 5
 
 
 func advance_progression():
+	trigger_end_of_game_hook()
+	
 	current_game += 1
 	var is_quarter_ending = false
 	
@@ -87,19 +89,17 @@ func reset_run():
 	current_game = 1
 	player_inventory.clear()
 	cumulative_opponent_score = 0
-
-	
 	current_energy = 2
 	banked_energy = 0
 	
 	clear_match_modifiers()
-	
 	owned_items.clear()
 	
-	PlayerData.attribute_cap = 100
-	
+	# --- Factory Reset All Scaling Fragments cuz Godot hates me <3 ---
+	for item in LootManager.all_game_items:
+		item.current_compound_stacks = 0
+	#------------------------------------------------------------------
 	GlobalData.roll_next_opponent()
-	
 	go_to_court()
 	
 func prepare_locker_room():
@@ -282,3 +282,89 @@ func reduce_opponent_score(amount: int):
 	amount_reduced = original_score - GameManager.cumulative_opponent_score
 	
 	RunTracker.track_scrub(amount_reduced)
+
+#===================================================================================================
+# EVENT PIPELINE
+#===================================================================================================
+func trigger_pre_game_hook(current_bot_score: int) -> int:
+	var modified_bot_score = current_bot_score
+	if has_active_mutation("style_more"):
+		modified_bot_score += 2
+		print("Bait Debuff: Style More starts the bot up an additional 2 pts! Good grief!")
+		
+	return modified_bot_score
+
+func trigger_pre_shot_hook(shooter: Node2D, attempted_points: int) -> int:
+	var modified_points = attempted_points
+	
+	# Only affect the player's shots for Range Lure
+	if shooter.name == "Player" and has_active_mutation("range_lure"):
+		if attempted_points == 3:
+			modified_points += 1
+			print("Range Lure Active! 3-pter boosted by 1!")
+		elif attempted_points == 2:
+			modified_points -= 1
+			print("Range Lure Active! 2-pter reduced by 1! AWUH SHUCKS!")
+			
+	return modified_points
+
+func trigger_post_shot_hook(scorer: Node2D, is_dunk: bool, current_player_score: int, current_bot_score: int) -> Dictionary:
+	var scores = {"player": current_player_score, "bot": current_bot_score}
+	
+	# ICARUS DELAY
+	if scorer.name == "Player" and is_dunk and has_active_mutation("icarus_delay"):
+		print("ICARUS DELAY! Flew too close to the sun...Score resets to 0!")
+		scores["player"] = 0
+		
+	# Kinetic Potential
+	if scorer.name != "Player" and has_active_mutation("kinetic_cannon"):
+		print("KINETIC CANNON DEBUFF! Bot steals an extra point!")
+		scores["bot"] += 1
+	
+	return scores
+
+func trigger_turnover_hook(violator: Node2D, current_player_score: int) -> int:
+	var new_score = current_player_score
+	
+	if violator.name == "Player" and has_active_mutation("relaxed_butter"):
+		if is_mutation_warded("relaxed_butter"):
+			print("Aegis protects your score! Turnovers still consume a charge!")
+		else:
+			print("Relaxed Butter Penalty! -2 pts!")
+			new_score -= 2
+			new_score = max(0, new_score)
+			
+		consume_charge("relaxed_butter")
+		
+	return new_score
+
+#===============================================================================
+# END OF GAME PIPELINE
+#===============================================================================
+func trigger_end_of_game_hook():
+	print("--- RUNNING END OF GAME HOOKS ---")
+	
+	# 1. Check Active Orbit Slots (Valid only for Orbit and Combust Items)
+	for item in PlayerData.active_orbits:
+		if item != null and item.primary_category in ["Orbit", "Combust"]:
+			_process_item_compound(item)
+			
+	# 2. Check Storage (Valid only for Debris Fragments)
+	for item in PlayerData.locker_storage:
+		if item != null and item.primary_category == "Debris":
+			_process_item_compound(item)
+	
+	# Force a stat recalculation because base stats on items might have grown
+	PlayerData.recalculate_thread_bonuses()
+
+func _process_item_compound(item: AccessoryData):
+	# Type 1: Instant Effects (Harvest/Scrubbing)
+	if item.scrub_on_game_end > 0:
+		reduce_opponent_score(item.scrub_on_game_end)
+		print(item.item_name, " Harvest Triggered! Scrubbed ", item.scrub_on_game_end, " points!")
+	
+	# Type 2: Stat Scaling (Compound)
+	if item.compound_stat_target != "":
+		item.current_compound_stacks += 1
+		var total_growth = item.compound_amount * item.current_compound_stacks
+		print(item.item_name, " Compounded! (+", total_growth, " to ", item.compound_stat_target, ")")

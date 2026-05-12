@@ -1,0 +1,88 @@
+[gd_scene load_steps=8 format=3 uid="uid://ctrh0kbm7n1na"]
+
+[ext_resource type="FontFile" uid="uid://busulmdifuu8u" path="res://assets/04B_30__.TTF" id="1_3vlic"]
+[ext_resource type="Script" uid="uid://db04cs6ksguaa" path="res://scripts/vs_screen.gd" id="1_54571"]
+[ext_resource type="Texture2D" uid="uid://b2tgxl3ad5gf7" path="res://assets/opponents/Larry2Protov1.1.png" id="2_54571"]
+[ext_resource type="Shader" uid="uid://cbusxpf0fwu4v" path="res://resources/shaders/unstable_energy.gdshader" id="3_tukfw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tukfw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3omx"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 16
+border_width_top = 4
+border_width_right = 16
+border_width_bottom = 4
+border_color = Color(1, 0.843, 0, 0.138)
+border_blend = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q3omx"]
+resource_local_to_scene = true
+shader = ExtResource("3_tukfw")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/outline_width = 2.0
+shader_parameter/wobble_speed = 5.0
+shader_parameter/wobble_intensity = 0.01
+
+[node name="VSScreen" type="CanvasLayer"]
+script = ExtResource("1_54571")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MainSplit" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftPadding" type="Control" parent="MainSplit"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="Terminal" type="VBoxContainer" parent="MainSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Lbl_TerminalText" type="RichTextLabel" parent="MainSplit/Terminal"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 0.843137, 0, 1)
+theme_override_constants/line_separation = 8
+theme_override_fonts/normal_font = ExtResource("1_3vlic")
+theme_override_font_sizes/normal_font_size = 24
+text = "Initializing Enemy"
+fit_content = true
+scroll_active = false
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="ContainmentZone" type="PanelContainer" parent="MainSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_tukfw")
+
+[node name="Border" type="Panel" parent="MainSplit/ContainmentZone"]
+custom_minimum_size = Vector2(320, 320)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_q3omx")
+
+[node name="EnemySprite" type="TextureRect" parent="MainSplit/ContainmentZone"]
+material = SubResource("ShaderMaterial_q3omx")
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_54571")
+
+[node name="RightPadding" type="Control" parent="MainSplit"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2

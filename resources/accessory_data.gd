@@ -23,6 +23,12 @@ class_name AccessoryData
 @export var scrub_on_steal: int = 0
 @export var scrub_on_mach_dunk: int = 0
 
+@export_category("End of Game Scaling (Compound)")
+@export var compound_stat_target: String = "" # "shooting", "finishing" etc.
+@export var compound_amount: int = 0
+# Hidden variable tracks how many times this item has scaled
+var current_compound_stacks: int = 0
+
 
 # Unique Passive Effects (ID)
 @export var passive_effect: String = ""
@@ -45,5 +51,13 @@ func get_boosts() -> Dictionary:
 				boosts[stat] += all_attribute_bonus
 			else:
 				boosts[stat] = all_attribute_bonus
+	
+	#----------------------------- COMPOUND MATH -------------------------------
+	if compound_stat_target != "" and current_compound_stacks > 0:
+		var total_bonus = compound_amount * current_compound_stacks
+		if boosts.has(compound_stat_target):
+			boosts[compound_stat_target] += total_bonus
+		else:
+			boosts[compound_stat_target] = total_bonus
 	
 	return boosts

@@ -5,17 +5,17 @@
 
 [resource]
 script = ExtResource("1_jl7uk")
-bait_name = "Kinetic Potential"
+bait_name = "Kinetic Cannon"
 category = "The Scales"
 cost = 2
-catch_description = "+25 Attribute Cap"
-hook_description = "-9 All Stats"
+catch_description = "+15 All Stats"
+hook_description = "Opp. Buckets +1"
 sprite = ExtResource("2_krb4j")
 stat_target = "All"
-stat_boost = 0
-cap_boost = 25
-stat_penalty = 9
-duration_type = "Permanent"
-duration_value = 0
-unique_effect_id = "kinetic_potential"
+stat_boost = 15
+cap_boost = 0
+stat_penalty = 0
+duration_type = "Games"
+duration_value = 4
+unique_effect_id = "kinetic_cannon"
 metadata/_custom_type_script = "uid://exna5fjfa3hg"

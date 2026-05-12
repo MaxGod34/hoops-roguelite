@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cn0mnhhe6ul0y"]
+[gd_scene load_steps=20 format=3 uid="uid://cn0mnhhe6ul0y"]
 
 [ext_resource type="PackedScene" uid="uid://u2gal06p4nlq" path="res://scenes/Hoop.tscn" id="1_562al"]
 [ext_resource type="Texture2D" uid="uid://clo87i3kmodxr" path="res://assets/CourtProtov1.1.png" id="1_h0gog"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://c5uh8y30muhju" path="res://scenes/replay_viewer.tscn" id="12_urecc"]
 [ext_resource type="PackedScene" uid="uid://syytg40r1v7h" path="res://scenes/arena_coils.tscn" id="13_krthx"]
 [ext_resource type="PackedScene" uid="uid://bqko8nf1tcj65" path="res://scenes/PauseMenu.tscn" id="14_b6m7p"]
+[ext_resource type="PackedScene" uid="uid://ctrh0kbm7n1na" path="res://scenes/vs_screen.tscn" id="15_go810"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jgdc"]
 size = Vector2(232.5, 657)
@@ -73,14 +74,14 @@ position = Vector2(576, 68)
 
 [node name="Player" parent="." instance=ExtResource("2_5jgdc")]
 z_index = 2
-position = Vector2(917, 283)
+position = Vector2(97, 138)
 
 [node name="Ball" parent="." instance=ExtResource("3_5n6sh")]
 position = Vector2(576, 195)
 
 [node name="Defender" parent="." instance=ExtResource("5_i0pnj")]
 z_index = 2
-position = Vector2(911, 168)
+position = Vector2(412, 175)
 
 [node name="ClearZone" type="Area2D" parent="."]
 position = Vector2(147, 132)
@@ -129,6 +130,9 @@ theme_override_font_sizes/font_size = 32
 text = "MACH: X1"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="VSScreen" parent="CanvasLayer" instance=ExtResource("15_go810")]
+visible = false
 
 [node name="ShotClockUI" parent="." instance=ExtResource("10_ty61t")]
 z_index = 1

@@ -151,7 +151,8 @@ func update_player_stats():
 
 
 func _physics_process(delta: float) -> void:
-	# Removed jump mechanics for top down 8-way movement implementation
+	if "game_state" in get_parent() and get_parent().game_state == "PRE_GAME":
+		return # Play dead til the VS screen is done
 	
 	if swipe_cooldown > 0:
 		swipe_cooldown -= delta

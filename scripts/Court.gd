@@ -82,11 +82,9 @@ func _ready():
 	GameManager.start_down_0_1 = false
 	GameManager.start_mach_3 = false
 	# ===========================================================
-	# --- STYLE MORE PENALTY ---
-	if GameManager.has_active_mutation("style_more"):
-		GameManager.cumulative_opponent_score += 2
-		print("Bait Debuff: Style More starts the bot up by an additional 2 pts!")
-	#---------------------------
+	# --- STYLE MORE PENALTY --- ADD ALL PRE GAME HOOKS HERE ---
+	GameManager.cumulative_opponent_score = GameManager.trigger_pre_game_hook(GameManager.cumulative_opponent_score)
+	#-----------------------------------------------------------
 	
 	# Fire off so we start at 0-0 plus any wheel/bait/thread buffs/debuffs
 	score_changed.emit(player_score, GameManager.cumulative_opponent_score, MachManager.visual_mach)
@@ -105,13 +103,29 @@ func _ready():
 	apply_arena_rules(active_stats)
 	#========================================
 	
-	#=============GAME START=================
-	print("Tip Off! Setting up initial check...")
+	# Freeze gameplay logic while VS Screen is running
+	game_state = "PRE_GAME"
 	
-	HighlightManager.start_recording()
+	var vs_screen = $CanvasLayer/VSScreen
+	if vs_screen:
+		vs_screen.match_started.connect(_on_vs_screen_match_started)
+		
+		# Is it Q3 or Q4?
+		var is_upgraded = GameManager.current_quarter >= 3
+		
+		# Boot it up
+		vs_screen.boot_sequence(
+			active_stats.defender_name,
+			active_stats.body_sprite,
+			active_stats.inherent_rules,
+			is_upgraded
+		)
+	else:
+		# Fallback if we delete later
+		_on_vs_screen_match_started()
 	
-	# Force bot to grab ball and start on D
-	reset_play(bot)
+
+	
 
 func _physics_process(_delta: float):
 	if game_state in ["PLAYING", "CHECKING", "GAME_OVER"]:
@@ -137,10 +151,19 @@ func _physics_process(_delta: float):
 		)
 
 
-
+# Delete later
 func _process(_delta: float):
 	$CanvasLayer/DebugMach.text = "MACH: X" + str(MachManager.visual_mach) + " (" + str(
 														snapped(MachManager.current_mach, 0.01)) + ")"
+
+func _on_vs_screen_match_started():
+	print("Tip Off! Setting up initial check...")
+	
+	HighlightManager.start_recording()
+	
+	# Force bot to grab ball and start on D
+	reset_play(bot)
+	
 
 
 func record_shot(shooter: Node2D, is_dunk: bool = false):
@@ -179,13 +202,7 @@ func record_shot(shooter: Node2D, is_dunk: bool = false):
 	pending_points = attempted_points
 	
 	#-------------------------RANGE LURE BAIT MODIFIER--------------------------
-	if GameManager.has_active_mutation("range_lure"):
-		if attempted_points == 3:
-			pending_points += 1
-			print("Range Lure active! 3-pointer boosted by 1!")
-		elif attempted_points == 2:
-			pending_points -= 1
-			print("Range Lure active! 2-pointer reduced by 1!")
+	pending_points = GameManager.trigger_pre_shot_hook(shooter, attempted_points)
 	#---------------------------------------------------------------------------
 	
 	print(shooter.name + " puts up a " + str(pending_points) + " pter")
@@ -299,25 +316,12 @@ func apply_turnover_penalties(violator: Node2D):
 		MachManager.reset_to_base() # Full Reset on a Turnover
 		player_turnovers += 1
 		RunTracker.add_turnover()
-		#-------RELAXED BUTTER BAIT-------
-		if GameManager.has_active_mutation("relaxed_butter"):
-			if GameManager.is_mutation_warded("relaxed_butter"):
-				print("Aegis protects your score, turnovers still consume a charge")
-			else:
-				print("Relaxed Butter Penalty! -2 Points!")
-				player_score -= 2
-				if player_score < 0: player_score = 0
-				
-				# Update Scoreboard
-				score_changed.emit(
-					player_score, 
-					GameManager.cumulative_opponent_score, 
-					MachManager.visual_mach
-				)
-	
-			# Tell Game Manager to Tick Down Charges
-			GameManager.consume_charge("relaxed_butter")
-			
+		#-------RUN TURNOVER HOOKS-------
+		var previous_score = player_score
+		player_score = GameManager.trigger_turnover_hook(violator, player_score)
+		
+		if player_score != previous_score:
+			score_changed.emit(player_score, GameManager.cumulative_opponent_score, MachManager.visual_mach)
 			# Force Re-Sync In Case Butter Is Consumed
 			apply_arena_rules(GlobalData.get_current_enemy_data())
 	
@@ -411,20 +415,20 @@ func apply_arena_rules(stats: DefenderStats):
 func _on_hoop_basket_scored(points, scorer):
 	if scorer.name == "Player":
 		player_score += points
-		print("Player Score: ", player_score)
 		RunTracker.add_points(points, pending_shot_is_dunk)
-		
-		
-		#-------------------------- ICARUS DELAY DEBUFF ------------------------
-		if pending_shot_is_dunk and GameManager.has_active_mutation("icarus_delay"):
-			print("ICARUS DELAY! Flew too close to the sun...Score reset to 0!")
-			player_score = 0
-		#-----------------------------------------------------------------------
-		
 	else:
 		GameManager.cumulative_opponent_score += points
-		print("Bot Score: ", GameManager.cumulative_opponent_score)
-		
+	
+	# POST SHOT HOOKS
+	var updated_scores = GameManager.trigger_post_shot_hook(
+		scorer, 
+		pending_shot_is_dunk, 
+		player_score, 
+		GameManager.cumulative_opponent_score
+	)
+	player_score = updated_scores["player"]
+	GameManager.cumulative_opponent_score = updated_scores["bot"]
+	print("Player Score: ", player_score, " | Bot Score: ", GameManager.cumulative_opponent_score)
 	
 	
 	#========================
@@ -514,7 +518,7 @@ func _on_clear_zone_body_exited(body: Node2D):
 func _on_replay_finished():
 	# 1. Determine base drops based on current game in quarter
 	var drop_count = 1
-	var extra_thread = 0
+	var extra_fragment = 0
 	var current_game = GameManager.current_game
 	if current_game == 3 or current_game == 4:
 		drop_count = 2
@@ -524,18 +528,18 @@ func _on_replay_finished():
 		pass
 	
 	# 2. Check Wheel of Fate +1 bonus
-	if GameManager.wheel_extra_thread_next_game:
-		extra_thread += 1
-		print("Wheel Buff: Dropping an extra thread!")
+	if GameManager.wheel_extra_thread_next_game: # Change thread to fragment
+		extra_fragment += 1
+		print("Wheel Buff: Dropping an extra fragment!")
 		GameManager.wheel_extra_thread_next_game = false
 	
 	# 2B. Check Style More Bait Buff
 	if GameManager.has_active_mutation("style_more"):
-		extra_thread += 1
-		print("Bait Buff: Style More Drops an extra thread")
+		extra_fragment += 1
+		print("Bait Buff: Style More Drops an extra fragment")
 	
 	# 2C. Apply extra thread(s) with a max of 1
-	if extra_thread > 0:
+	if extra_fragment > 0:
 		drop_count += 1
 	
 	# 3. Roll the loot!

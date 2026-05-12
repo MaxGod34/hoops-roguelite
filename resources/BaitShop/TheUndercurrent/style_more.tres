@@ -8,7 +8,8 @@ script = ExtResource("1_1njyc")
 bait_name = "Style More"
 category = "The Undercurrent"
 cost = 1
-catch_description = "+1 Thread Next Game (MAX 1)"
+catch_description = "+1 Fragment Next Game 
+(MAX 1)"
 hook_description = "Opp. Score +2"
 sprite = ExtResource("2_ivj13")
 stat_target = ""
