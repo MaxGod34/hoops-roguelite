@@ -5,7 +5,7 @@ extends Node
 # =================
 var current_quarter: int = 1
 var current_game: int = 1
-var max_games_per_quarter: int = 7
+var max_games_per_quarter: int = 5
 var player_inventory: Array = []
 var owned_items: Array[AccessoryData] = []
 # =================
@@ -54,9 +54,19 @@ var aegis_charges: int = 0
 # The Rewind
 var rewind_base_cost: int = 5
 
+# Phi's TAX
+var fragments_disabled_duration: int = 0
+
 
 func advance_progression():
+	PlayerData.orbits_disabled_by_arena = false
+	
 	trigger_end_of_game_hook()
+	
+	
+	if fragments_disabled_duration > 0:
+		fragments_disabled_duration -= 1
+	
 	
 	current_game += 1
 	var is_quarter_ending = false
@@ -65,6 +75,12 @@ func advance_progression():
 		current_game = 1
 		current_quarter += 1
 		is_quarter_ending = true # Quarter-dependent Bait Flag
+		
+		if current_quarter == 3 or current_quarter == 4:
+			max_games_per_quarter = 7
+		else:
+			max_games_per_quarter = 5
+		
 		
 		# Eventually add final boss stuff here
 	
@@ -85,6 +101,7 @@ func go_to_court():
 	get_tree().change_scene_to_file(court_scene)
 	
 func reset_run():
+	max_games_per_quarter = 5
 	current_quarter = 1
 	current_game = 1
 	player_inventory.clear()
@@ -99,6 +116,10 @@ func reset_run():
 	for item in LootManager.all_game_items:
 		item.current_compound_stacks = 0
 	#------------------------------------------------------------------
+	
+	# Enemy Vars
+	fragments_disabled_duration = 0
+	
 	GlobalData.roll_next_opponent()
 	go_to_court()
 	

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=3 format=3 uid="uid://crjx5ecitai88"]
+
+[ext_resource type="Texture2D" uid="uid://duablj11uocl7" path="res://assets/opponents/Q1Boss/Eye_TheWarden.png" id="1_5t8hy"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_g1ywr"]
+
+[resource]
+script = ExtResource("1_g1ywr")
+defender_name = "The Warden"
+playstyle = "Benchwarmer"
+intro_quote = "Eye've been expecting you..."
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["NO_BLINDSPOTS"])
+inherent_rules_description = "WARDEN HITS EVERY UNCONTESTED SHOT"
+upgraded_rules = Array[String]([])
+upgraded_rules_description = ""
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_5t8hy")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

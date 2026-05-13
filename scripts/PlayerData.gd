@@ -27,10 +27,10 @@ var thread_bonuses = {
 var active_orbits: Array = [null, null, null, null]
 var locker_storage: Array = [null, null, null, null, null, null]
 
-
-
 # -- STYX CONTRACTS --
 var active_contracts = {}
+
+var orbits_disabled_by_arena: bool = false
 
 func _ready():
 	RunTracker.block_achieved.connect(_on_block_achieved)
@@ -93,6 +93,11 @@ func recalculate_thread_bonuses():
 		return # Exit so it doesn't execute any of the bonuses
 	#-----------------------------
 	
+	# --- ARENA RULE INTERCEPT --- Update later for storage bonuses
+	if orbits_disabled_by_arena:
+		print("ARENA RULE ACTIVE: Orbits Disabled!")
+		stats_updated.emit()
+		return
 	
 	# 2. Loop through only the items actively on your body
 	for item in active_orbits:

@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=3 format=3 uid="uid://cwk4lodb1gl2o"]
+
+[ext_resource type="Texture2D" uid="uid://dnvkxwa2vw3oj" path="res://assets/opponents/Q2Boss/Hourglass_Pendulum.png" id="1_i8op5"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_ibig8"]
+
+[resource]
+script = ExtResource("1_ibig8")
+defender_name = "The Pendulum"
+playstyle = "Benchwarmer"
+intro_quote = "Bow before the time master!"
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["VALUE_INVERSION"])
+inherent_rules_description = "ALL BUCKETS COUNT FOR 1 IF SHOT CLOCK > 10
+WHEN <10 +1 ALL BUCKETS"
+upgraded_rules = Array[String]([])
+upgraded_rules_description = ""
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_i8op5")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="DefenderStats" load_steps=3 format=3 uid="uid://4wk0wb5vcvsd"]
 
-[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_08pbr"]
-[ext_resource type="Texture2D" uid="uid://tj7br6aysvoy" path="res://assets/opponents/Larry1V1.1.png" id="1_ntegs"]
+[ext_resource type="Texture2D" uid="uid://tj7br6aysvoy" path="res://assets/opponents/Larry1V1.1.png" id="1_p34g2"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="2_ogjma"]
 
 [resource]
-script = ExtResource("1_08pbr")
+script = ExtResource("2_ogjma")
 defender_name = "Larry 1"
 playstyle = "Lost"
 intro_quote = "I'm just happy to be here!"
@@ -18,12 +18,15 @@ strength_rating = 1
 speed_multiplier = 1.0
 friction_multiplier = 1.0
 inherent_rules = Array[String]([])
+inherent_rules_description = "N/A"
+upgraded_rules = Array[String]([])
+upgraded_rules_description = ""
 up_shooting = 1
 up_finishing = 1
 up_handle = 1
 up_defense = 1
 up_speed = 1
 up_strength = 1
-body_sprite = ExtResource("1_ntegs")
-upgraded_sprite = ExtResource("1_ntegs")
+body_sprite = ExtResource("1_p34g2")
+upgraded_sprite = ExtResource("1_p34g2")
 metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

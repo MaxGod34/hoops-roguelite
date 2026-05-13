@@ -157,17 +157,14 @@ func initialize_stats(base_resource: DefenderStats, current_quarter: int):
 		move_speed = 100.0 + active_stats.up_speed	
 		strength = active_stats.up_strength
 		
-		# --- Random Rule Injection ---
-		var available_rules = []
-		for rule in GlobalData.upgraded_arena_rules:
+		# --- SPECIFIC* Rule Injection ---
+		for rule in active_stats.upgraded_rules:
 			if not rule in active_arena_rules:
-				available_rules.append(rule)
-		
-		# Pick one if there are any left
-		if available_rules.size() > 0:
-			var surprise_rule = available_rules.pick_random()
-			active_stats.inherent_rules.append(surprise_rule)
-			print("UPGRADE WARNING! " + active_stats.defender_name + " gained_rule: " + surprise_rule)
+				active_arena_rules.append(rule)
+				# This may backfire cuz we are adding a rule instead of only sourcing the upgraded
+				# Could clear the inherent_rules on the ugpraded form idk, godot might save that
+				active_stats.inherent_rules.append(rule)
+				print("UPGRADE WARNING! " + active_stats.defender_name + " gained_rule: " + rule)
 	
 	else:
 		active_stats.is_upgraded_form = false

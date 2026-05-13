@@ -18,9 +18,12 @@ class_name DefenderStats
 @export var speed_multiplier: float = 1.0
 @export var friction_multiplier: float = 1.0
 @export var inherent_rules: Array[String] = [] #NO_TAKEBACKS
+@export_multiline var inherent_rules_description: String = ""
 # ALL TAGS HERE
 # (NO_TAKEBACKS, NO_THREES,) HALF_SHOT_CLOCK, DISABLE_CROSSOVERS, SLIPPERY FLOOR, 
 #(BOSS) ALTERNATING_SHOTS, MAKE_IT_TAKE_IT
+@export var upgraded_rules: Array[String] = []
+@export_multiline var upgraded_rules_description: String = ""
 
 @export_group("Upgraded Stats")
 @export var up_shooting: int = 50

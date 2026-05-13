@@ -198,6 +198,18 @@ func record_shot(shooter: Node2D, is_dunk: bool = false):
 		sammy_required_shot = 2 if attempted_points == 3 else 3
 		print("Next shot must be a: ", sammy_required_shot)
 	
+	# --- PENDULUM (VALUE_INVERSION) ---
+	if active_stats != null and "VALUE_INVERSION" in active_stats.inherent_rules:
+		var shot_clocks = get_tree().get_nodes_in_group("shot_clock")
+		if shot_clocks.size() > 0:
+			if shot_clocks[0].current_time > 10.0:
+				attempted_points = 1
+				print("VALUE INVERSION: Rushed shot! Only worth 1 point!")
+			else:
+				attempted_points += 1
+				print("VALUE INVERSION: Patient Shot! Worth ", attempted_points, " points!")
+	
+	
 	
 	pending_points = attempted_points
 	
@@ -262,6 +274,7 @@ func reset_play(scorer: Node2D):
 		inbounder = bot
 		receiver = player
 	
+	# THE INFINITE "MAKE_IT_TAKE_IT
 	var active_stats = GlobalData.get_current_enemy_data()
 	if active_stats != null and "MAKE_IT_TAKE_IT" in active_stats.inherent_rules:
 		print("ARENA RULE: Make It Take It! Scorer keeps the ball!")
@@ -316,11 +329,24 @@ func apply_turnover_penalties(violator: Node2D):
 		MachManager.reset_to_base() # Full Reset on a Turnover
 		player_turnovers += 1
 		RunTracker.add_turnover()
-		#-------RUN TURNOVER HOOKS-------
+		
 		var previous_score = player_score
+		var previous_bot_score = GameManager.cumulative_opponent_score
+		
+		#-------RUN TURNOVER HOOKS-------
+		
 		player_score = GameManager.trigger_turnover_hook(violator, player_score)
 		
-		if player_score != previous_score:
+		# --------------------- THE BROKER - (HIGH STAKES) ---------------------
+		var active_stats = GlobalData.get_current_enemy_data()
+		if active_stats != null and "HIGH_STAKES" in active_stats.inherent_rules:
+			GameManager.cumulative_opponent_score += 2
+			print("HIGH STAKES! The Broker taxes you 2 pts on the TO!")
+		#-----------------------------------------------------------------------
+		
+		
+		# Re-sync scoreboard if either score changed
+		if player_score != previous_score or GameManager.cumulative_opponent_score != previous_bot_score:
 			score_changed.emit(player_score, GameManager.cumulative_opponent_score, MachManager.visual_mach)
 			# Force Re-Sync In Case Butter Is Consumed
 			apply_arena_rules(GlobalData.get_current_enemy_data())
@@ -377,30 +403,52 @@ func register_possession_change(new_holder: Node2D, _previous_ball_state: String
 
 func apply_arena_rules(stats: DefenderStats):
 	var base_clock = 30.0 # Base shot clock/Eventually set var for diff/class modifiers
-	
 	if stats == null: return
-	
 	var rules = stats.inherent_rules
 	
-	# Speed Glove
+	# Zeta, The Blitz
 	if "HALF_SHOT_CLOCK" in rules:
 		print("ARENA RULE: 1/2 Shot Clock Active!")
 		base_clock = base_clock / 2.0
-	# Tree McGee
-	if "DISABLE_CROSSOVERS" in rules:
+	elif "THIRD_SHOT_CLOCK" in rules:
+		print("ARENA RULE: 1/3 Shot Clock Active!")
+		base_clock = base_clock / 3.0
+	
+	# ------------------------ PLAYER PHYSICS MODIFIERS ------------------------
+	#========================= Lambda, The Root ================================
+	if "DISABLE_CROSSOVERS" in rules or "DEEP_ROOT" in rules:
 		print("ARENA RULE: Crossovers Disabled!")
-	# Ol' Reggie
-	if "NO_TAKE_BACKS" in rules:
-		print("ARENA RULE: Ol Reggie says NO TAKE BACKS! NO 3s!")
-		force_no_take_back = true
-	else:
-		force_no_take_back = false
-	# Janitor
+	if "DEEP_ROOT" in rules:
+		print("ARENA RULE! The root cuts your speed in half!")
+		player.current_speed = player.base_speed
+	#========================== Mu, The Slick ==================================
 	if "SLIPPERY_FLOOR" in rules:
 		print("ARENA RULE: ICE RINK! SLIPPERY FLOOR ACTIVE!")
 		player.friction = 400.0
+	elif "ABSOLUTE_MU" in rules:
+		print("ARENA RULE: ABSOLUTE ICE! GOOD LUCK!")
+		player.friction = 100.0
 	else:
 		player.friction = 2000.0
+	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	# -------------------------- STAT MODIFIERS --------------------------------
+	if "CRUSHING_MASS" in rules:
+		print("ARENA RULE: Defense and Strength Halved!")
+		player.defense_rating /= 2
+		player.strength /= 2
+	
+	if "DAMPENED_OUTPUT" in rules:
+		print("ARENA RULE: Shooting and Finishing Halved!")
+		player.shooting_rating /= 2
+		player.finishing_rating /= 2
+	
+	# ----------------------------- Legacy Rules -------------------------------
+	if "NO_TAKE_BACKS" in rules:
+		print("ARENA RULE: NO TAKE BACKS!")
+		force_no_take_back = true
+	else:
+		force_no_take_back = false
+	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	#------------------------------RELAXED BUTTER-------------------------------
 	if GameManager.has_active_mutation("relaxed_butter"):
@@ -408,16 +456,39 @@ func apply_arena_rules(stats: DefenderStats):
 		base_clock += 5.0
 	#---------------------------------------------------------------------------
 	
+	# --------------------------- INVENTORY MODIFIERS --------------------------
+	if "ORBITS_DISABLED" in rules:
+		print("ARENA RULE: Xi shuts down your active orbits!")
+		PlayerData.orbits_disabled_by_arena = true
+	else:
+		PlayerData.orbits_disabled_by_arena = false
+	PlayerData.recalculate_thread_bonuses()
+	#---------------------------------------------------------------------------
+	
 	# Apply final calculated shot clock with all modifiers
 	get_tree().call_group("shot_clock", "set_active_max", base_clock)
 	
 
 func _on_hoop_basket_scored(points, scorer):
+	var active_stats = GlobalData.get_current_enemy_data()
+	var rules = active_stats.inherent_rules if active_stats != null else []
+	
+	# Check for "SCRUB_ALL" & "ASYMMETRIC_VOID"
 	if scorer.name == "Player":
+		# 1. Player always gets their points
 		player_score += points
 		RunTracker.add_points(points, pending_shot_is_dunk)
+		# 2. Check if SCRUB_ALL is live
+		if "SCRUB_ALL" in rules:
+			GameManager.reduce_opponent_score(points)
+			print("SCRUB ALL: Player scored and wiped ", points, " points off the board!")
 	else:
+		# 1. Bot always gets their points
 		GameManager.cumulative_opponent_score += points
+		# 2. Check if the Bot also scrubs the Player
+		if "SCRUB_ALL" in rules or "ASYMMETRIC_VOID" in rules:
+			player_score = max(0, player_score - points)
+			print("ASYMMETRIC VOID: Bot scored and wiped ", points, " points from player!")
 	
 	# POST SHOT HOOKS
 	var updated_scores = GameManager.trigger_post_shot_hook(
@@ -516,31 +587,45 @@ func _on_clear_zone_body_exited(body: Node2D):
 
 
 func _on_replay_finished():
+	# --- PHI (No Fragments) RULE CHECK ---
+	var active_stats = GlobalData.get_current_enemy_data()
+	if active_stats != null:
+		if "BANKRUPT_PHI" in active_stats.inherent_rules:
+			GameManager.fragments_disabled_duration = max(GameManager.fragments_disabled_duration, 2)
+		elif "NO_FRAGMENTS" in active_stats.inherent_rules:
+			GameManager.fragments_disabled_duration = max(GameManager.fragments_disabled_duration, 1)
+	#---------------------------------------
+	
 	# 1. Determine base drops based on current game in quarter
 	var drop_count = 1
 	var extra_fragment = 0
-	var current_game = GameManager.current_game
-	if current_game == 3 or current_game == 4:
-		drop_count = 2
-	elif current_game == 5 or current_game == 6:
-		drop_count = 3
-	elif current_game == 7:
-		pass
 	
-	# 2. Check Wheel of Fate +1 bonus
-	if GameManager.wheel_extra_thread_next_game: # Change thread to fragment
-		extra_fragment += 1
-		print("Wheel Buff: Dropping an extra fragment!")
-		GameManager.wheel_extra_thread_next_game = false
-	
-	# 2B. Check Style More Bait Buff
-	if GameManager.has_active_mutation("style_more"):
-		extra_fragment += 1
-		print("Bait Buff: Style More Drops an extra fragment")
-	
-	# 2C. Apply extra thread(s) with a max of 1
-	if extra_fragment > 0:
-		drop_count += 1
+	if GameManager.fragments_disabled_duration > 0:
+		print("PHI TAX: No Fragments will drop! (Duration: ", GameManager.fragments_disabled_duration, ")")
+		drop_count = 0
+	else:
+		var current_game = GameManager.current_game
+		if current_game == 3 or current_game == 4:
+			drop_count = 2
+		elif current_game == 5 or current_game == 6:
+			drop_count = 3
+		elif current_game == 7:
+			pass
+		
+		# 2. Check Wheel of Fate +1 bonus
+		if GameManager.wheel_extra_thread_next_game: # Change thread to fragment
+			extra_fragment += 1
+			print("Wheel Buff: Dropping an extra fragment!")
+			GameManager.wheel_extra_thread_next_game = false
+		
+		# 2B. Check Style More Bait Buff
+		if GameManager.has_active_mutation("style_more"):
+			extra_fragment += 1
+			print("Bait Buff: Style More Drops an extra fragment")
+		
+		# 2C. Apply extra thread(s) with a max of 1
+		if extra_fragment > 0:
+			drop_count += 1
 	
 	# 3. Roll the loot!
 	var rewards_array: Array[AccessoryData] = []
@@ -555,8 +640,17 @@ func _on_replay_finished():
 	if rewards_array.size() > 0:
 		$CanvasLayer/VictoryScreen.show_victory(rewards_array)
 	else:
-		# Safety Fallback: If loot pool is empty, go straight to locker room
+		# Safety Fallback: If loot pool is empty, or just beat PHI, go straight to locker room
 		get_tree().paused = false
+		# -------------- SKIPPING BUT STILL NEED TO PROGRESS -------------------
+		GameManager.styx_ice_bath_active = false
+		if GameManager.threads_disabled_next_game:
+			GameManager.threads_disabled_next_game = false
+			PlayerData.recalculate_thread_bonuses()
+		
+		GameManager.advance_progression()
+		GameManager.prepare_locker_room()
+		#-----------------------------------------------------------------------
 		TransitionManager.transition_to_scene("res://scenes/LockerRoom.tscn")
 
 func _on_replay_tick(p_score, b_score, mach_val, clock_val):

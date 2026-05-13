@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=4 format=3 uid="uid://kaoherw8fi6o"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_hr83b"]
+[ext_resource type="Texture2D" uid="uid://do00r5t5vupdh" path="res://assets/opponents/Q2&Q4Rand/Zeta_Lower.png" id="1_plk8g"]
+[ext_resource type="Texture2D" uid="uid://c3rklmisksntg" path="res://assets/opponents/Q2&Q4Rand/Zeta_Upper.png" id="3_nokp6"]
+
+[resource]
+script = ExtResource("1_hr83b")
+defender_name = "Zeta, The Blitz"
+playstyle = "Benchwarmer"
+intro_quote = "Time's Up..."
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["HALF_SHOT_CLOCK"])
+inherent_rules_description = "1/2 BASE SHOT CLOCK"
+upgraded_rules = Array[String](["THIRD_SHOT_CLOCK"])
+upgraded_rules_description = "1/3 BASE SHOT CLOCK"
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_plk8g")
+upgraded_sprite = ExtResource("3_nokp6")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

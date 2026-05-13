@@ -3,6 +3,7 @@ extends CanvasLayer
 signal match_started
 
 @onready var lbl_terminal = $MainSplit/Terminal/Lbl_TerminalText
+@onready var lbl_intro_quote = $MainSplit/ContainmentZone/Lbl_IntroText
 @onready var enemy_sprite = $MainSplit/ContainmentZone/EnemySprite
 @onready var containment_zone = $MainSplit/ContainmentZone
 @onready var main_split = $MainSplit
@@ -25,6 +26,7 @@ func _ready():
 # Pass enemy data resource into function when the match is loaded
 func boot_sequence(enemy_name: String, enemy_texture: Texture2D, arena_rules: Array, is_upgraded: bool):
 	show()
+	var active_stats = GlobalData.get_current_enemy_data()
 	is_animating = true
 	is_exiting = false
 	lbl_terminal.visible_ratio = 0.0
@@ -50,34 +52,53 @@ func boot_sequence(enemy_name: String, enemy_texture: Texture2D, arena_rules: Ar
 	# 1. Generate gritty terminal text dynamically
 	var rule_string = "NONE"
 	if arena_rules.size() > 0:
-		rule_string = str(arena_rules) # ["NO_CROSSOVERS", "NO_THREES"]
+		rule_string = ", ".join(arena_rules).replace("_", " ") # ["NO_CROSSOVERS", "NO_THREES"]
 	
 	var threat_tier = "UPGRADED" if is_upgraded else "STANDARD"
 	var rand_sector = randi() % 99 + 1
+	
+	var rule_desc = ""
+	if is_upgraded:
+		rule_desc = active_stats.upgraded_rules_description
+	else:
+		rule_desc = active_stats.inherent_rules_description
 	
 	var boot_text = "> " + first_boot_location[GameManager.current_quarter - 1] + "...\n"
 	boot_text += "> SCANNING SECTOR " + second_boot_sector.pick_random() + "-" + str(rand_sector) + "...\n"
 	boot_text += "> ANOMALY DETECTED.\n> CONTAINMENT PROTOCOLS ENGAGED.\n"
 	boot_text += "> DECRYPTING ENTITY SIGNATURE...\n"
-	boot_text += "> .......................................................\n\n"
-	boot_text += "> WARNING: COMBATANT REVEALED.\n\n"
+	boot_text += "> .......................................................\n"
+	boot_text += "> WARNING: COMBATANT REVEALED.\n\n\n\n"
 	boot_text += "> DESIGNATION: " + enemy_name.to_upper() + "\n\n"
 	boot_text += "> THREAT LEVEL: " + threat_tier + "\n\n"
-	boot_text += "> ARENA OVERRIDE: " + rule_string + "\n\n\n\n"
+	boot_text += "> ARENA OVERRIDE: " + rule_string + "\n\n"
+	boot_text += "> RULE DESCRIPTION LOADING...\n"
+	boot_text += "> " + rule_desc + "\n\n\n"
 	boot_text += "> PRESS [SHOOT/PASS] TO INITIALIZE BALL."
 	
 	lbl_terminal.text = boot_text
+	
+	# --- ADD THE QUOTE TEXT AND HIDE IT ---
+	lbl_intro_quote.text = '"' + active_stats.intro_quote + '"'
+	lbl_intro_quote.visible_ratio = 0.0
+	#---------------------------------------
+	
 	
 	# 2. Sequence the Animation
 	intro_tween = create_tween()
 	# Fade in screen 0.25 sec
 	intro_tween.tween_property(main_split, "modulate:a", 1.0, 0.25)
 	# Type out first half
-	intro_tween.chain().tween_property(lbl_terminal, "visible_ratio", 0.5, 2.0).set_trans(Tween.TRANS_LINEAR)
+	intro_tween.chain().tween_property(lbl_terminal, "visible_ratio", 0.5, 2.5).set_trans(Tween.TRANS_LINEAR)
 	# Flash Conatinment Box
 	intro_tween.tween_callback(flash_containment_box)
 	# Type the rest (identity and rules)
-	intro_tween.tween_property(lbl_terminal, "visible_ratio", 1.0, 2.0).set_trans(Tween.TRANS_LINEAR)
+	intro_tween.tween_property(lbl_terminal, "visible_ratio", 1.0, 3.0).set_trans(Tween.TRANS_LINEAR)
+	
+	# --- ADD QUOTE REVEAL TO END OF THE TWEEN ---
+	intro_tween.tween_interval(0.3)
+	intro_tween.tween_property(lbl_intro_quote, "visible_ratio", 1.0, 1.5).set_trans(Tween.TRANS_LINEAR)
+	
 	# Done
 	intro_tween.finished.connect(func(): is_animating = false)
 
@@ -131,6 +152,7 @@ func _input(event):
 		if background: background.modulate.a = 1.0
 		main_split.modulate.a = 1.0
 		lbl_terminal.visible_ratio = 1.0
+		lbl_intro_quote.visible_ratio = 1.0
 		containment_zone.modulate.a = 1.0
 		
 		enemy_sprite.modulate = Color("ff4500") if "UPGRADED" in lbl_terminal.text else Color("b500ff")

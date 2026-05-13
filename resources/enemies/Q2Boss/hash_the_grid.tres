@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=3 format=3 uid="uid://bmbf8bpe7lg4u"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_5ldl1"]
+[ext_resource type="Texture2D" uid="uid://bokhr0j6cm6b0" path="res://assets/opponents/Q2Boss/Hash_Grid.png" id="1_qkrrl"]
+
+[resource]
+script = ExtResource("1_5ldl1")
+defender_name = "Hash, The Grid"
+playstyle = "Benchwarmer"
+intro_quote = "Prepare to be Reduced!"
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["DAMPENED_OUTPUT"])
+inherent_rules_description = "1/2 SHOOTING AND FINISHING"
+upgraded_rules = Array[String]([])
+upgraded_rules_description = ""
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_qkrrl")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"
