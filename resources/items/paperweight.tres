@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://ba1bi1ndyawxm"]
+
+[ext_resource type="Texture2D" uid="uid://u23jqi1161wk" path="res://assets/accessories/PaperWeight.png" id="1_1iiul"]
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="1_yyv8v"]
+
+[resource]
+script = ExtResource("1_yyv8v")
+item_name = "Paper Weight"
+tier = "Mortal"
+primary_category = "Orbit"
+item_texture = ExtResource("1_1iiul")
+description = ""
+shooting_bonus = 0
+finishing_bonus = 0
+handle_bonus = 0
+defense_bonus = 30
+speed_bonus = 0
+strength_bonus = 30
+all_attribute_bonus = 0
+scrub_on_game_end = 0
+scrub_on_block = 0
+scrub_on_steal = 0
+scrub_on_mach_dunk = 0
+compound_stat_target = ""
+compound_amount = 0
+energy_per_visit = 0
+double_dunk_points = false
+bonus_max_mach = 0
+passive_effect = ""
+metadata/_custom_type_script = "uid://5phsukg4m51u"

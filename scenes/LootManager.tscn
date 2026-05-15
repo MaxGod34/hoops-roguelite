@@ -1,12 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://c265b4rao40oe"]
+[gd_scene load_steps=11 format=3 uid="uid://c265b4rao40oe"]
 
 [ext_resource type="Script" uid="uid://bcvc0ilxiho38" path="res://scripts/LootManager.gd" id="1_smal2"]
 [ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="2_twli6"]
 [ext_resource type="Resource" uid="uid://ddh2svbrvi0ku" path="res://resources/items/the_battery.tres" id="4_jc15a"]
 [ext_resource type="Resource" uid="uid://clln6bga38pxf" path="res://resources/items/the_doughnut.tres" id="5_iv02i"]
 [ext_resource type="Resource" uid="uid://lhrgyi37f5wt" path="res://resources/items/the_outlet.tres" id="6_gycdj"]
+[ext_resource type="Resource" uid="uid://cmgqritjapcyb" path="res://resources/items/multivitamin.tres" id="7_iv02i"]
+[ext_resource type="Resource" uid="uid://do5r066uw7bky" path="res://resources/items/point_goggles.tres" id="8_gycdj"]
+[ext_resource type="Resource" uid="uid://ba1bi1ndyawxm" path="res://resources/items/paperweight.tres" id="9_h4rbi"]
 [ext_resource type="Resource" uid="uid://6tbmi4mnsjmn" path="res://resources/items/arms/mop_thread.tres" id="10_8l26b"]
+[ext_resource type="Resource" uid="uid://b40vtturqcxbl" path="res://resources/items/mummy_wrap.tres" id="10_od2ix"]
 
 [node name="LootManager" type="Node"]
 script = ExtResource("1_smal2")
-all_game_items = Array[ExtResource("2_twli6")]([ExtResource("10_8l26b"), ExtResource("4_jc15a"), ExtResource("5_iv02i"), ExtResource("6_gycdj")])
+all_game_items = Array[ExtResource("2_twli6")]([ExtResource("10_8l26b"), ExtResource("4_jc15a"), ExtResource("5_iv02i"), ExtResource("6_gycdj"), ExtResource("7_iv02i"), ExtResource("8_gycdj"), ExtResource("9_h4rbi"), ExtResource("10_od2ix")])

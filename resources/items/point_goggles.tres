@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=2 format=3 uid="uid://do5r066uw7bky"]
+
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="1_wym04"]
+
+[resource]
+script = ExtResource("1_wym04")
+item_name = "Point Goggles"
+tier = "Mortal"
+primary_category = "Orbit"
+description = ""
+shooting_bonus = 30
+finishing_bonus = 0
+handle_bonus = 30
+defense_bonus = 0
+speed_bonus = 0
+strength_bonus = 0
+all_attribute_bonus = 0
+scrub_on_game_end = 0
+scrub_on_block = 0
+scrub_on_steal = 0
+scrub_on_mach_dunk = 0
+compound_stat_target = ""
+compound_amount = 0
+energy_per_visit = 0
+double_dunk_points = false
+bonus_max_mach = 0
+passive_effect = ""
+metadata/_custom_type_script = "uid://5phsukg4m51u"

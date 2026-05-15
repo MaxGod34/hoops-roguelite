@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://cmgqritjapcyb"]
+
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="1_mtdn7"]
+[ext_resource type="Texture2D" uid="uid://drxu7cvr8at6o" path="res://assets/accessories/MultiVitaminProto.png" id="1_ngcyu"]
+
+[resource]
+script = ExtResource("1_mtdn7")
+item_name = "Multi-Vitamin"
+tier = "Mortal"
+primary_category = "Orbit"
+item_texture = ExtResource("1_ngcyu")
+description = ""
+shooting_bonus = 0
+finishing_bonus = 0
+handle_bonus = 0
+defense_bonus = 0
+speed_bonus = 0
+strength_bonus = 0
+all_attribute_bonus = 15
+scrub_on_game_end = 0
+scrub_on_block = 0
+scrub_on_steal = 0
+scrub_on_mach_dunk = 0
+compound_stat_target = ""
+compound_amount = 0
+energy_per_visit = 0
+double_dunk_points = false
+bonus_max_mach = 0
+passive_effect = ""
+metadata/_custom_type_script = "uid://5phsukg4m51u"
