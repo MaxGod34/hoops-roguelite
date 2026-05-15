@@ -42,10 +42,10 @@ var active_mutations: Array[Dictionary] = []
 
 
 # Wheel Flags
-var wheel_extra_thread_next_game: bool = false
+var wheel_extra_fragment_next_game: bool = false
 var start_up_1_0: bool = false
 var start_mach_3: bool = false
-var threads_disabled_next_game: bool = false
+var fragments_disabled_next_game: bool = false
 var start_down_0_1: bool = false
 
 # Altar
@@ -128,6 +128,13 @@ func prepare_locker_room():
 	banked_energy = 0
 	is_scouted = false
 	
+	# Storage bonus energy checks (The Battery)
+	for item in PlayerData.locker_storage:
+		if item != null and "energy_per_visit" in item and item.energy_per_visit > 0:
+			current_energy += item.energy_per_visit
+			print("THE BATTERY TRIGGERED: +", item.energy_per_visit)
+	
+	
 func clear_match_modifiers():
 	styx_ice_bath_active = false
 	apollo_chalk_active = false
@@ -136,10 +143,10 @@ func clear_match_modifiers():
 	active_oceanus_buff = ""
 	active_oceanus_debuff = ""
 	
-	wheel_extra_thread_next_game = false
+	wheel_extra_fragment_next_game = false
 	start_up_1_0 = false
 	start_mach_3 = false
-	threads_disabled_next_game = false
+	fragments_disabled_next_game = false
 	start_down_0_1 = false
 
 
@@ -280,7 +287,7 @@ func can_rewind() -> bool:
 
 func execute_rewind():
 	if can_rewind():
-		print("THE THREADS OF TIME FOLD BACK 1 GAME!")
+		print("THE FRAGMENTS OF TIME FOLD BACK 1 GAME!")
 		current_game -= 1
 		
 		var nrg_snap = current_energy
@@ -376,7 +383,7 @@ func trigger_end_of_game_hook():
 			_process_item_compound(item)
 	
 	# Force a stat recalculation because base stats on items might have grown
-	PlayerData.recalculate_thread_bonuses()
+	PlayerData.recalculate_fragment_bonuses()
 
 func _process_item_compound(item: AccessoryData):
 	# Type 1: Instant Effects (Harvest/Scrubbing)

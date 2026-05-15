@@ -13,7 +13,7 @@ signal turnover_committed
 
 # Locker Room Actions/Scrub
 signal energy_spent(amount: int)
-signal thread_sacrifice(altar_section: String) # Tithe, Aegis, Attonement
+signal fragment_sacrificed(altar_section: String) # Tithe, Aegis, Attonement
 signal points_scrubbed(amount: int)
 
 
@@ -38,7 +38,7 @@ func _ready() -> void:
 func reset_run_stats():
 	run_stats = {
 		"points": 0, "rebounds": 0, "steals": 0, "blocks": 0,  "turnovers": 0, 
-		"energy_spent": 0, "threads_burned": 0, "total_scrubbed": 0
+		"energy_spent": 0, "fragments_burned": 0, "total_scrubbed": 0
 	}
 
 func reset_game_stats():
@@ -79,9 +79,9 @@ func track_energy_spent(amount: int):
 	run_stats["energy_spent"] += amount
 	energy_spent.emit()
 
-func add_thread_burned(altar_section: String):
-	run_stats["threads_burned"] += 1
-	thread_sacrifice.emit(altar_section)
+func add_fragment_burned(altar_section: String):
+	run_stats["fragments_burned"] += 1
+	fragment_sacrificed.emit(altar_section)
 
 func track_scrub(amount: int):
 	run_stats["total_scrubbed"] += amount

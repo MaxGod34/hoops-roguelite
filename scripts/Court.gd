@@ -86,7 +86,7 @@ func _ready():
 	GameManager.cumulative_opponent_score = GameManager.trigger_pre_game_hook(GameManager.cumulative_opponent_score)
 	#-----------------------------------------------------------
 	
-	# Fire off so we start at 0-0 plus any wheel/bait/thread buffs/debuffs
+	# Fire off so we start at 0-0 plus any wheel/bait/fragment buffs/debuffs
 	score_changed.emit(player_score, GameManager.cumulative_opponent_score, MachManager.visual_mach)
 	
 	
@@ -186,8 +186,16 @@ func record_shot(shooter: Node2D, is_dunk: bool = false):
 	
 	if threes_allowed and (bodies_in_clear_zone.has(shooter) or $ClearZone.overlaps_body(shooter)):
 		attempted_points = 3
+		
+	# --- DOUGHNUT CHECK (ORBIT) ---
+	if shooter.name == "Player" and is_dunk:
+		for item in PlayerData.active_orbits:
+			if item != null and "double_dunk_points" in item and item.double_dunk_points:
+				attempted_points *= 2
+				print("THE DOUGHNUT ACTIVE! Dunk is worth ", attempted_points, " points!")
+				break
 
-	# SAMMY SPICE RULE
+	# SAMMY SPICE RULE [REPLACE, DON'T NEED IT]
 	if active_stats != null and "ALTERNATING_SHOTS" in active_stats.inherent_rules:
 		if sammy_required_shot != 0 and attempted_points != sammy_required_shot:
 			print("BZZZZZT! Sammy Spice Violation! Expected a ", sammy_required_shot, "!")
@@ -462,7 +470,7 @@ func apply_arena_rules(stats: DefenderStats):
 		PlayerData.orbits_disabled_by_arena = true
 	else:
 		PlayerData.orbits_disabled_by_arena = false
-	PlayerData.recalculate_thread_bonuses()
+	PlayerData.recalculate_fragment_bonuses()
 	#---------------------------------------------------------------------------
 	
 	# Apply final calculated shot clock with all modifiers
@@ -613,17 +621,17 @@ func _on_replay_finished():
 			pass
 		
 		# 2. Check Wheel of Fate +1 bonus
-		if GameManager.wheel_extra_thread_next_game: # Change thread to fragment
+		if GameManager.wheel_extra_fragment_next_game: 
 			extra_fragment += 1
 			print("Wheel Buff: Dropping an extra fragment!")
-			GameManager.wheel_extra_thread_next_game = false
+			GameManager.wheel_extra_fragment_next_game = false
 		
 		# 2B. Check Style More Bait Buff
 		if GameManager.has_active_mutation("style_more"):
 			extra_fragment += 1
 			print("Bait Buff: Style More Drops an extra fragment")
 		
-		# 2C. Apply extra thread(s) with a max of 1
+		# 2C. Apply extra fragment(s) with a max of 1
 		if extra_fragment > 0:
 			drop_count += 1
 	
@@ -644,9 +652,9 @@ func _on_replay_finished():
 		get_tree().paused = false
 		# -------------- SKIPPING BUT STILL NEED TO PROGRESS -------------------
 		GameManager.styx_ice_bath_active = false
-		if GameManager.threads_disabled_next_game:
-			GameManager.threads_disabled_next_game = false
-			PlayerData.recalculate_thread_bonuses()
+		if GameManager.fragments_disabled_next_game:
+			GameManager.fragments_disabled_next_game = false
+			PlayerData.recalculate_fragment_bonuses()
 		
 		GameManager.advance_progression()
 		GameManager.prepare_locker_room()

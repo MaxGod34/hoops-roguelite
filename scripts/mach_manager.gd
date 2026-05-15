@@ -83,6 +83,8 @@ func get_max_mach() -> float:
 	# Turbo Mach Buff
 	if GameManager.has_active_mutation("turbo_mach"):
 		ceiling += 1.0
+		
+	ceiling += float(PlayerData.bonus_max_mach)
 	
 	return ceiling
 	

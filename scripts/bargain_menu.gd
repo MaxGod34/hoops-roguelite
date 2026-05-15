@@ -16,10 +16,10 @@ extends Control
 @onready var btn_decline = $MainPanel/Panel_Revealed/VBoxRevealed/BtnRow/Btn_Decline
 
 # Load curse pool to the ferryman
-var curse_pool: Array = [	# Glued Shoes, Scrubless, Threadless
+var curse_pool: Array = [	# Glued Shoes, Scrubless, Fragless
 	preload("res://resources/StyxCurses/glued_shoes.tres"),
 	preload("res://resources/StyxCurses/scrubless.tres"),
-	preload("res://resources/StyxCurses/threadless.tres")
+	preload("res://resources/StyxCurses/fragless.tres")
 ]
 
 var contract_state: String = "HIDDEN" # HIDDEN, REVEALED, RESOLVED

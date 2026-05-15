@@ -4,11 +4,11 @@
 
 [resource]
 script = ExtResource("1_ptr1x")
-bait_name = "Threadless"
+bait_name = "Fragless"
 category = "The Scales"
 cost = 0
 catch_description = "Reset Opp Score"
-hook_description = "No threads drop"
+hook_description = "No Fragments drop"
 stat_target = ""
 stat_boost = 0
 cap_boost = 0

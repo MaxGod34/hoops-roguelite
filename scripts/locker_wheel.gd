@@ -135,7 +135,7 @@ func apply_reward(reward: String):
 		
 		"+1 Fragment Next Game (MAX 1)":
 			print("Loot Incoming!")
-			GameManager.wheel_extra_thread_next_game = true # Re-name to fragment
+			GameManager.wheel_extra_fragment_next_game = true # Re-name to fragment
 		
 		"Start Next Game Up 1-0":
 			print("Spot me a point! Start up 1-0!")
@@ -155,10 +155,10 @@ func apply_reward(reward: String):
 			lose_random_fragment()
 		
 		"Fragments Disabled 1 Game":
-			print("Naked run! Threads disabled next match!")
-			GameManager.threads_disabled_next_game = true # Re-name
+			print("Naked run! Fragments disabled next match!")
+			GameManager.fragments_disabled_next_game = true # Re-name
 			# Force update so their UI instantly shows
-			PlayerData.recalculate_thread_bonuses()
+			PlayerData.recalculate_fragment_bonuses()
 		
 		"Start Next Game Down 0-1":
 			print("Get out of the hole! Start down 0-1")
@@ -191,7 +191,7 @@ func lose_random_fragment():
 		var item_name = PlayerData.active_orbits[slot_to_wipe].item_name
 		
 		PlayerData.active_orbits[slot_to_wipe] = null
-		PlayerData.recalculate_thread_bonuses() # Update new stats + bonuses
+		PlayerData.recalculate_fragment_bonuses() # Update new stats + bonuses
 		
 		print("The wheel claimed your ", item_name, " from the ", slot_to_wipe, " slot!")
 	else:

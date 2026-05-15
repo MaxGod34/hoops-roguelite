@@ -29,6 +29,11 @@ class_name AccessoryData
 # Hidden variable tracks how many times this item has scaled
 var current_compound_stacks: int = 0
 
+@export_group("Special Synergies")
+@export var energy_per_visit: int = 0
+@export var double_dunk_points: bool = false
+@export var bonus_max_mach: int = 0
+
 
 # Unique Passive Effects (ID)
 @export var passive_effect: String = ""

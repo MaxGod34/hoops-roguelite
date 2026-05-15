@@ -60,9 +60,9 @@ func _on_btn_proceed_pressed() -> void:
 	GameManager.styx_ice_bath_active = false
 	
 	#--- Remove Curse(s) ---
-	if GameManager.threads_disabled_next_game:
-		GameManager.threads_disabled_next_game = false
-		PlayerData.recalculate_thread_bonuses() # Give em their bonuses back
+	if GameManager.fragments_disabled_next_game:
+		GameManager.fragments_disabled_next_game = false
+		PlayerData.recalculate_fragment_bonuses() # Give em their bonuses back
 	#-----------------------
 	GameManager.advance_progression()
 	GameManager.prepare_locker_room()

@@ -10,9 +10,9 @@ func roll_for_loot():
 	var roll = randi() % 100 + 1
 	var selected_tier = ""
 	
-	if roll <= 50:
+	if roll <= 100:
 		selected_tier = "Mortal"
-	elif roll <= 80:
+	elif roll <= 200:
 		selected_tier = "Heroic"
 	else:
 		selected_tier = "Divine"

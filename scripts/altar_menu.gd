@@ -104,7 +104,7 @@ func _on_tithe_pressed():
 	
 	print("THE TITHE: Burned fragment from ", selected_source, " ", selected_index, " for 1 Energy!")
 	GameManager.current_energy += 1
-	RunTracker.add_thread_burned("Tithe") # Change name to fragment burned
+	RunTracker.add_fragment_burned("Tithe") 
 	_execute_sacrifice()
 
 func _on_aegis_pressed():
@@ -113,7 +113,7 @@ func _on_aegis_pressed():
 	print("THE AEGIS: Burned fragment from ", selected_source, " ", selected_index, " and spent 1 Energy to gain a Ward!")
 	GameManager.current_energy -= 1
 	RunTracker.track_energy_spent(1)
-	RunTracker.add_thread_burned("Aegis") # Change name
+	RunTracker.add_fragment_burned("Aegis") 
 	GameManager.aegis_charges += 1
 	_execute_sacrifice()
 
@@ -123,7 +123,7 @@ func _on_attonement_pressed():
 	print("ATTONEMENT: Burned fragment from ", selected_source, " ", selected_index, " to scrub 3 points!")
 	
 	GameManager.reduce_opponent_score(3)
-	RunTracker.add_thread_burned("Attonement") # Change name
+	RunTracker.add_fragment_burned("Attonement") 
 	_execute_sacrifice()
 
 
@@ -134,8 +134,8 @@ func _execute_sacrifice():
 	elif selected_source == "Storage":
 		PlayerData.locker_storage[selected_index] = null
 	
-	# 2. Tell PlayerData to recalculate stats since a thread has been taken off
-	PlayerData.recalculate_thread_bonuses()
+	# 2. Tell PlayerData to recalculate stats since a fragment has been taken off
+	PlayerData.recalculate_fragment_bonuses()
 	
 	# 3. Refresh Altar UI
 	_refresh_ui()

@@ -21,15 +21,15 @@ extends CanvasLayer
 # Guidebook References
 @onready var lbl_general_title = $MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox/Lbl_TitleGeneral
 @onready var lbl_general_desc = $MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox/Lbl_ExplanationGeneral
-@onready var lbl_threads_title = $MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox/Lbl_TitleThreads
-@onready var lbl_threads_desc = $MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox/Lbl_ExplanationThreads
+@onready var lbl_fragments_title = $MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox/Lbl_TitleFragments
+@onready var lbl_fragments_desc = $MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox/Lbl_ExplanationFragments
 @onready var lbl_bait_title = $MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox/Lbl_TitleBait
 @onready var lbl_bait_desc = $MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox/Lbl_ExplanationBait
 @onready var lbl_locker_room_title = $MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox/Lbl_TitleLockerRoom
 @onready var lbl_locker_room_desc = $MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox/Lbl_ExplanationLockerRoom
 
 @onready var btn_general = $MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav/Btn_General
-@onready var btn_threads = $MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav/Btn_Threads
+@onready var btn_fragments = $MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav/Btn_Fragments
 @onready var btn_bait = $MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav/Btn_Bait
 @onready var btn_locker_room = $MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav/Btn_LockerRoom
 
@@ -47,7 +47,7 @@ func _ready():
 	
 	# Connect Guidebook Buttons
 	btn_general.pressed.connect(_show_guidebook.bind(lbl_general_title, lbl_general_desc))
-	btn_threads.pressed.connect(_show_guidebook.bind(lbl_threads_title, lbl_threads_desc))
+	btn_fragments.pressed.connect(_show_guidebook.bind(lbl_fragments_title, lbl_fragments_desc))
 	btn_bait.pressed.connect(_show_guidebook.bind(lbl_bait_title, lbl_bait_desc))
 	btn_locker_room.pressed.connect(_show_guidebook.bind(lbl_locker_room_title, lbl_locker_room_desc))
 	
@@ -100,8 +100,8 @@ func _show_guidebook(cat_title: Control, cat_desc: Control):
 	# 1. Hide everything
 	lbl_general_title.hide()
 	lbl_general_desc.hide()
-	lbl_threads_title.hide()
-	lbl_threads_desc.hide()
+	lbl_fragments_title.hide()
+	lbl_fragments_desc.hide()
 	lbl_bait_title.hide()
 	lbl_bait_desc.hide()
 	lbl_locker_room_title.hide()
@@ -129,7 +129,7 @@ func _update_stats_matrix():
 	# 3. Generate the labels dynamically
 	for stat_key in PlayerData.base_stats.keys():
 		var base_val = PlayerData.base_stats[stat_key]
-		var bonus_val = PlayerData.thread_bonuses[stat_key]
+		var bonus_val = PlayerData.fragment_bonuses[stat_key]
 		var total_val = PlayerData.get_effective_stat(stat_key)
 		
 		var stat_label = Label.new()
@@ -255,7 +255,7 @@ func _update_run_stats():
 		"turnovers": "Turnovers",
 		"rebounds": "Rebounds",
 		"energy_spent": "Energy Spent",
-		"threads_burned": "Threads Burned",
+		"fragments_burned": "Fragments Burned",
 		"total_scrubbed": "Points Scrubbed"
 	}
 	

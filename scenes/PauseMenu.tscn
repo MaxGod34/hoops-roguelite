@@ -96,7 +96,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="Lbl_ThreadsTitle" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
+[node name="Lbl_OrbitsTitle" type="Label" parent="MainLayout/ContentStage/Panel_Clipboard/Col2_Build"]
 layout_mode = 2
 theme = ExtResource("2_40atx")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -408,10 +408,10 @@ layout_mode = 2
 theme = ExtResource("2_yx35g")
 text = "General"
 
-[node name="Btn_Threads" type="Button" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav"]
+[node name="Btn_Fragments" type="Button" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav"]
 layout_mode = 2
 theme = ExtResource("2_yx35g")
-text = "Threads"
+text = "Fragments"
 
 [node name="Btn_Bait" type="Button" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/GuidebookNavPanel/GuidebookNav"]
 layout_mode = 2
@@ -503,7 +503,7 @@ Now, with the basics out of the way, go out there and tear it up, we're all coun
 
 "
 
-[node name="Lbl_TitleThreads" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+[node name="Lbl_TitleFragments" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
 visible = false
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
@@ -517,7 +517,7 @@ text = "Threads, your stylish counterpart
 "
 horizontal_alignment = 1
 
-[node name="Lbl_ExplanationThreads" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
+[node name="Lbl_ExplanationFragments" type="RichTextLabel" parent="MainLayout/ContentStage/Panel_Guidebook/VBox/ScrollContainer/ScrollVbox"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
