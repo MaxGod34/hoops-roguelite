@@ -602,6 +602,13 @@ func _on_replay_finished():
 			GameManager.fragments_disabled_duration = max(GameManager.fragments_disabled_duration, 2)
 		elif "NO_FRAGMENTS" in active_stats.inherent_rules:
 			GameManager.fragments_disabled_duration = max(GameManager.fragments_disabled_duration, 1)
+	# --- ETA (Energy Sap) RULE CHECK ---
+		if "ENTROPIC_ETA" in active_stats.inherent_rules:
+			GameManager.entropic_sap_active = true
+			print("ENTROPIC ETA: All energy will be drained for your next locker room visit!")
+		elif "ENERGY_SAP" in active_stats.inherent_rules:
+			GameManager.energy_sap_amount += 1
+			print("ETA SIPHON: 1 Energy will be drained for your next locker room visit!")
 	#---------------------------------------
 	
 	# 1. Determine base drops based on current game in quarter

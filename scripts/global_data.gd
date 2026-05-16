@@ -7,7 +7,7 @@ var defeated_enemies: Array[String] = []
 # The Encounters Deck
 var pools = {
 	"LARRY": ["larry_1", "larry_2"],
-	"Q1Q3_RANDOM": ["mu_slick", "phi_taxman", "lambda_root"],
+	"Q1Q3_RANDOM": ["eta_siphon", "lambda_root", "mu_slick", "phi_taxman"],
 	"Q1_BOSS": ["the_broker", "the_monolith", "the_warden"],
 	"Q2Q4_RANDOM": ["theta_eraser", "xi_auditor", "zeta_blitz"],
 	"Q2_BOSS": ["hash_grid", "hourglass_pendulum", "the_infinite"]
@@ -19,9 +19,10 @@ var enemy_database = {
 	"larry_1": preload("res://resources/enemies/Larrys/larry_1.tres"),
 	"larry_2": preload("res://resources/enemies/Larrys/larry_2.tres"),
 	# Q1/Q3 Rand Pool
+	"eta_siphon": preload("res://resources/enemies/Q1&Q3Rand/eta_siphon.tres"),
+	"lambda_root": preload("res://resources/enemies/Q1&Q3Rand/lambda_root.tres"),
 	"mu_slick": preload("res://resources/enemies/Q1&Q3Rand/mu_slick.tres"),
 	"phi_taxman": preload("res://resources/enemies/Q1&Q3Rand/phi_taxman.tres"),
-	"lambda_root": preload("res://resources/enemies/Q1&Q3Rand/lambda_root.tres"),
 	# Q1 Bosses
 	"the_broker": preload("res://resources/enemies/Q1Boss/diamond_the_broker.tres"),
 	"the_monolith": preload("res://resources/enemies/Q1Boss/rectangle_the_monolith.tres"),

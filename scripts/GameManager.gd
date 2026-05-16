@@ -56,6 +56,9 @@ var rewind_base_cost: int = 5
 
 # Phi's TAX
 var fragments_disabled_duration: int = 0
+# ETA TAX
+var energy_sap_amount: int = 0
+var entropic_sap_active: bool = false
 
 
 func advance_progression():
@@ -118,7 +121,11 @@ func reset_run():
 	#------------------------------------------------------------------
 	
 	# Enemy Vars
+	#	PHI
 	fragments_disabled_duration = 0
+	#	ETA
+	energy_sap_amount = 0
+	entropic_sap_active = false
 	
 	GlobalData.roll_next_opponent()
 	go_to_court()
@@ -133,6 +140,18 @@ func prepare_locker_room():
 		if item != null and "energy_per_visit" in item and item.energy_per_visit > 0:
 			current_energy += item.energy_per_visit
 			print("THE BATTERY TRIGGERED: +", item.energy_per_visit)
+	
+	#~~~~~~~~~~~~~~~~~~~~~~ --- APPLY ETA DRAIN --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	if entropic_sap_active:
+		print("ENTROPIC DRAIN! All energy lost! You have 0.")
+		current_energy = 0
+		entropic_sap_active = false
+	elif energy_sap_amount > 0:
+		print("ENERGY SAP DRAIN: Losing ", energy_sap_amount, " energy!")
+		current_energy -= energy_sap_amount
+		current_energy = max(0, current_energy)
+		energy_sap_amount = 0
+	#---------------------------------------------------------------------------
 	
 	
 func clear_match_modifiers():
