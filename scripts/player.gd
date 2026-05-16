@@ -450,6 +450,24 @@ func attempt_swipe():
 	
 	var bot = get_parent().get_node("Defender")
 	
+	var active_stats = GlobalData.get_current_enemy_data()
+	#~~~~~~~~~~~~~~~~~~~ --- EPSILON ERROR (Steals = -pts) --- ~~~~~~~~~~~~~~~~~
+	var original_score = get_parent().player_score
+	
+	if active_stats != null:
+		print("DEBUG: Checking for Epsilon Error...")
+		if "FATAL_ERROR" in active_stats.inherent_rules:
+			get_parent().player_score = max(0, get_parent().player_score - 3)
+		elif "MARGIN_OF_ERROR" in active_stats.inherent_rules:
+			get_parent().player_score = max(0, get_parent().player_score - 1)
+	if get_parent().player_score != original_score:
+		get_parent().score_changed.emit(
+			get_parent().player_score, 
+			GameManager.cumulative_opponent_score, 
+			MachManager.visual_mach
+		)
+	#---------------------------------------------------------------------------
+	
 	# Am I close enough and does the bot have the ball?
 	if bot.has_ball and global_position.distance_to(bot.global_position) < swipe_range:
 		
@@ -557,7 +575,14 @@ func execute_shot():
 		# 4. Final Dice Roll
 		var final_chance = clamp(raw_chance - contest_penalty, 0.0, 100.0)
 		
-		# Apollo's Chalk Override
+		# 4B. GAMMA ARENA RULE INTERCEPT
+		var active_stats = GlobalData.get_current_enemy_data()
+		if active_stats != null and get_parent().pending_points == 3:
+			if "HIGH_GRAVITY" in active_stats.inherent_rules or "EVENT_HORIZON" in active_stats.inherent_rules:
+				final_chance = 0.0
+				print("GRAVITY CRUSH! 3-Pointers are physically impossible, besides one workaround!")
+		
+		# Apollo's Chalk Overrides ALL
 		if GameManager.apollo_chalk_active:
 			final_chance = 100.0
 			GameManager.apollo_chalk_active = false

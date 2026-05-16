@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=4 format=3 uid="uid://22bsu2ybqp6g"]
+
+[ext_resource type="Texture2D" uid="uid://cttrefxbptar7" path="res://assets/opponents/Q1&Q3Rand/GammaLowerProto.png" id="1_8asnq"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_efdur"]
+[ext_resource type="Texture2D" uid="uid://6bxj22d3wqxa" path="res://assets/opponents/Q1&Q3Rand/GammaUpperProto.png" id="3_xx8tk"]
+
+[resource]
+script = ExtResource("1_efdur")
+defender_name = "Gamma, The Well"
+playstyle = "Benchwarmer"
+intro_quote = "No man or God can defy my gravitational pull!"
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["HIGH_GRAVITY"])
+inherent_rules_description = "3s have a 0% Chance of Success.
+Dunks count for double."
+upgraded_rules = Array[String](["EVENT_HORIZON"])
+upgraded_rules_description = "3s have a 0% Chance of Success"
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_8asnq")
+upgraded_sprite = ExtResource("3_xx8tk")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

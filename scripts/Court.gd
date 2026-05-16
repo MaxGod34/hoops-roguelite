@@ -194,6 +194,9 @@ func record_shot(shooter: Node2D, is_dunk: bool = false):
 				attempted_points *= 2
 				print("THE DOUGHNUT ACTIVE! Dunk is worth ", attempted_points, " points!")
 				break
+		if active_stats != null and "HIGH_GRAVITY" in active_stats.inherent_rules:
+			attempted_points *= 2
+			print("HIGH GRAVITY: Dunks count for double, watch the 3s!")
 
 	# SAMMY SPICE RULE [REPLACE, DON'T NEED IT]
 	if active_stats != null and "ALTERNATING_SHOTS" in active_stats.inherent_rules:

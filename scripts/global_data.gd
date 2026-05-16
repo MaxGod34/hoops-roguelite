@@ -7,7 +7,7 @@ var defeated_enemies: Array[String] = []
 # The Encounters Deck
 var pools = {
 	"LARRY": ["larry_1", "larry_2"],
-	"Q1Q3_RANDOM": ["eta_siphon", "lambda_root", "mu_slick", "phi_taxman"],
+	"Q1Q3_RANDOM": ["epsilon_error", "eta_siphon", "gamma_well" , "lambda_root", "mu_slick", "phi_taxman"],
 	"Q1_BOSS": ["the_broker", "the_monolith", "the_warden"],
 	"Q2Q4_RANDOM": ["theta_eraser", "xi_auditor", "zeta_blitz"],
 	"Q2_BOSS": ["hash_grid", "hourglass_pendulum", "the_infinite"]
@@ -15,29 +15,31 @@ var pools = {
 
 # Master Database
 var enemy_database = {
-	# Larrys
-	"larry_1": preload("res://resources/enemies/Larrys/larry_1.tres"),
-	"larry_2": preload("res://resources/enemies/Larrys/larry_2.tres"),
-	# Q1/Q3 Rand Pool
-	"eta_siphon": preload("res://resources/enemies/Q1&Q3Rand/eta_siphon.tres"),
-	"lambda_root": preload("res://resources/enemies/Q1&Q3Rand/lambda_root.tres"),
-	"mu_slick": preload("res://resources/enemies/Q1&Q3Rand/mu_slick.tres"),
-	"phi_taxman": preload("res://resources/enemies/Q1&Q3Rand/phi_taxman.tres"),
-	# Q1 Bosses
-	"the_broker": preload("res://resources/enemies/Q1Boss/diamond_the_broker.tres"),
-	"the_monolith": preload("res://resources/enemies/Q1Boss/rectangle_the_monolith.tres"),
-	"the_warden": preload("res://resources/enemies/Q1Boss/eye_the_warden.tres"),
-	# Q2/Q4 Rand Pool
-	"theta_eraser": preload("res://resources/enemies/Q2&Q4Rand/theta_the_eraser.tres"), # All_Points_Scrub
-	"xi_auditor": preload("res://resources/enemies/Q2&Q4Rand/xi_the_auditor.tres"), # Orbits_Disabled
-	"zeta_blitz": preload("res://resources/enemies/Q2&Q4Rand/zeta_the_blitz.tres"), # 1/2_Shot_Clock
-	# Q2 Bosses
-	"hash_grid": preload("res://resources/enemies/Q2Boss/hash_the_grid.tres"), # 1/2_Shooting_Finishing
-	"hourglass_pendulum": preload("res://resources/enemies/Q2Boss/hourglass_the_pendulum.tres"), # Clock_Pendulum
-	"the_infinite": preload("res://resources/enemies/Q2Boss/the_infinite.tres") # Make_It_Take_It
-	# Campe/Kampe
-	# Cronus
-	# Larry100
+	# Larrys (2)
+	"larry_1": preload("res://resources/enemies/Larrys/larry_1.tres"), # N/A
+	"larry_2": preload("res://resources/enemies/Larrys/larry_2.tres"), # N/A
+	# Q1/Q3 Rand Pool (6/12)
+	"epsilon_error": preload("res://resources/enemies/Q1&Q3Rand/epsilon_error.tres"), # MARGIN_OF_ERROR, FATAL_ERROR
+	"eta_siphon": preload("res://resources/enemies/Q1&Q3Rand/eta_siphon.tres"), #ENERGY_SAP, ENTROPIC_ETA
+	"gamma_well": preload("res://resources/enemies/Q1&Q3Rand/gamma_well.tres"), # HIGH_GRAVITY, EVENT_HORIZON
+	"lambda_root": preload("res://resources/enemies/Q1&Q3Rand/lambda_root.tres"), #DISABLE_CROSSOVERS, DEEP_ROOT
+	"mu_slick": preload("res://resources/enemies/Q1&Q3Rand/mu_slick.tres"), #SLIPPERY_FLOOR, ABSOLUTE_MU
+	"phi_taxman": preload("res://resources/enemies/Q1&Q3Rand/phi_taxman.tres"), #NO_FRAGMENTS, BANKRUPT_PHI
+	# Q1 Bosses (3)
+	"the_broker": preload("res://resources/enemies/Q1Boss/diamond_the_broker.tres"), # HIGH_STAKES
+	"the_monolith": preload("res://resources/enemies/Q1Boss/rectangle_the_monolith.tres"), # CRUSHING_MASS
+	"the_warden": preload("res://resources/enemies/Q1Boss/eye_the_warden.tres"), # NO_BLINDSPOTS
+	# Q2/Q4 Rand Pool (3/12)
+	"theta_eraser": preload("res://resources/enemies/Q2&Q4Rand/theta_the_eraser.tres"), # SCRUB_ALL, ASYMMETRIC_VOID
+	"xi_auditor": preload("res://resources/enemies/Q2&Q4Rand/xi_the_auditor.tres"), # ORBITS_DISABLED 
+	"zeta_blitz": preload("res://resources/enemies/Q2&Q4Rand/zeta_the_blitz.tres"), # HALF_Shot_Clock, THIRD_SHOT_CLOCK
+	# Q2 Bosses (3)
+	"hash_grid": preload("res://resources/enemies/Q2Boss/hash_the_grid.tres"), # DAMPENED_OUTPUT
+	"hourglass_pendulum": preload("res://resources/enemies/Q2Boss/hourglass_the_pendulum.tres"), # VALUE_INVERSION
+	"the_infinite": preload("res://resources/enemies/Q2Boss/the_infinite.tres") # MAKE_IT_TAKE_IT
+	# Campe/Kampe (0/3)
+	# Cronus (0/6)
+	# Larry100 (0/1)
 }
 
 

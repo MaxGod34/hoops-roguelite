@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=4 format=3 uid="uid://bo16v2cu6223n"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_dnrqo"]
+[ext_resource type="Texture2D" uid="uid://d4gib1lnt4x0w" path="res://assets/opponents/Q1&Q3Rand/EpsilonLowerProto.png" id="1_sedb3"]
+[ext_resource type="Texture2D" uid="uid://dob8nk82ctk8j" path="res://assets/opponents/Q1&Q3Rand/EpsilonUpperProto.png" id="3_r6idx"]
+
+[resource]
+script = ExtResource("1_dnrqo")
+defender_name = "Epsilon, The Error"
+playstyle = "Benchwarmer"
+intro_quote = "Hands off, pal!
+I'll have to charge ya!"
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["MARGIN_OF_ERROR"])
+inherent_rules_description = "-1 Point on Steal Attempts"
+upgraded_rules = Array[String](["FATAL_ERROR"])
+upgraded_rules_description = "-3 Points on Steal Attempts"
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_sedb3")
+upgraded_sprite = ExtResource("3_r6idx")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"
