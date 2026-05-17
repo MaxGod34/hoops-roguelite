@@ -596,6 +596,29 @@ func execute_shot():
 		var final_target = rim_position
 		held_ball.is_miss = not is_make		# STAMP YOUR DESTINY BALL
 		
+		#~~~~~~~~~~~~~~~~~~~~~~~~~~~ --- BETA DECAY RULE CHECK --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		if not is_make:
+			if active_stats != null:
+				if "CHAIN_REACTION" in active_stats.inherent_rules:
+					GameManager.cumulative_opponent_score += 2
+					print("CHAIN REACTION! Beta feeds off the miss for 2 points!")
+					get_parent().score_changed.emit(
+						get_parent().player_score, 
+						GameManager.cumulative_opponent_score, 
+						MachManager.visual_mach
+					)
+				elif "BETA_DECAY" in active_stats.inherent_rules:
+					GameManager.cumulative_opponent_score += 1
+					print("BETA DECAY! Beta feeds off the miss for 1 point!")
+					get_parent().score_changed.emit(
+						get_parent().player_score,
+						GameManager.cumulative_opponent_score,
+						MachManager.visual_mach
+					)
+		#-------------------------------------------------------------------------------------------
+		
+		
+		
 		if not is_make:
 			# Offset the target so it hits rim/backboard
 			var miss_offset = Vector2(randf_range(-15, 15), randf_range(-15, 15))
@@ -759,6 +782,28 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 		# 2. The Execution
 		var final_target = rim_position
 		held_ball.is_miss = not is_make
+		
+		# ~~~~~~~~~~~~~~~~~~~~~~~~~~ --- BETA DECAY RULE CHECK --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		if not is_make:
+			var active_stats = GlobalData.get_current_enemy_data()
+			if active_stats != null:
+				if "CHAIN_REACTION" in active_stats.inherent_rules:
+					GameManager.cumulative_opponent_score += 2
+					print("CHAIN REACTION! Beta feeds off the miss and gains 2 points!")
+					get_parent().score_changed.emit(
+						get_parent().player_score,
+						GameManager.cumulative_opponent_score,
+						MachManager.visual_mach
+					)
+				elif "BETA_DECAY" in active_stats.inherent_rules:
+					GameManager.cumulative_opponent_score += 1
+					print("BETA DECAY! Beta feeds off the miss and gains 1 point!")
+					get_parent().score_changed.emit(
+						get_parent().player_score,
+						GameManager.cumulative_opponent_score,
+						MachManager.visual_mach
+					)
+		#-------------------------------------------------------------------------------------------
 		
 		if not is_make and is_dunk:
 			print("STUFFED BY THE RIM!")

@@ -74,6 +74,17 @@ func get_effective_stat(stat_name: String) -> int:
 	var base = base_stats.get(stat_name, 0)
 	var bonus = fragment_bonuses.get(stat_name, 0)
 	
+	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ --- NU / THE TAR RULE --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	var active_stats = GlobalData.get_current_enemy_data()
+	if active_stats != null:
+		if "FOSSILIZED" in active_stats.inherent_rules and (stat_name == "speed" or stat_name == "finishing"):
+			base = 0
+			print("NU RULE ACTIVE! Base: ", stat_name, " crushed to 0!")
+		elif "ABSOLUTE_VISCOCITY" in active_stats.inherent_rules and stat_name == "speed":
+			base = 0
+			print("NU RULE ACTIVE! Base Speed crushed to 0!")
+	#-----------------------------------------------------------------------------------------------
+	
 	return base + bonus
 
 func apply_fragment_bonus(stat_name: String, amount: int):

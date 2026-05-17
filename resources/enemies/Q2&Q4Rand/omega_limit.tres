@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=4 format=3 uid="uid://op2mcmd2b8el"]
+
+[ext_resource type="Texture2D" uid="uid://chkkeqsl2exu4" path="res://assets/opponents/Q2&Q4Rand/OmegaLowerProto.png" id="1_7xj8b"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_pjfyj"]
+[ext_resource type="Texture2D" uid="uid://bp0w68rrs4nct" path="res://assets/opponents/Q2&Q4Rand/OmegaUpperProto.png" id="3_u6ymm"]
+
+[resource]
+script = ExtResource("1_pjfyj")
+defender_name = "Omega, The Limit"
+playstyle = "Benchwarmer"
+intro_quote = "My existence is proof of your inevitable demise!"
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["TERMINAL_VELOCITY"])
+inherent_rules_description = "Mach Meter Capped at 2"
+upgraded_rules = Array[String](["dEFINED_LIMIT"])
+upgraded_rules_description = "Mach Meter Capped at 1"
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_7xj8b")
+upgraded_sprite = ExtResource("3_u6ymm")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

@@ -9,7 +9,7 @@ var pools = {
 	"LARRY": ["larry_1", "larry_2"],
 	"Q1Q3_RANDOM": ["epsilon_error", "eta_siphon", "gamma_well" , "lambda_root", "mu_slick", "phi_taxman"],
 	"Q1_BOSS": ["the_broker", "the_monolith", "the_warden"],
-	"Q2Q4_RANDOM": ["theta_eraser", "xi_auditor", "zeta_blitz"],
+	"Q2Q4_RANDOM": ["beta_decay", "nu_tar", "omega_limit", "theta_eraser", "xi_auditor", "zeta_blitz"],
 	"Q2_BOSS": ["hash_grid", "hourglass_pendulum", "the_infinite"]
 }
 
@@ -29,7 +29,10 @@ var enemy_database = {
 	"the_broker": preload("res://resources/enemies/Q1Boss/diamond_the_broker.tres"), # HIGH_STAKES
 	"the_monolith": preload("res://resources/enemies/Q1Boss/rectangle_the_monolith.tres"), # CRUSHING_MASS
 	"the_warden": preload("res://resources/enemies/Q1Boss/eye_the_warden.tres"), # NO_BLINDSPOTS
-	# Q2/Q4 Rand Pool (3/12)
+	# Q2/Q4 Rand Pool (6/12)
+	"beta_decay": preload("res://resources/enemies/Q2&Q4Rand/beta_decay.tres"), # BETA_DECAY, CHAIN_REACTION
+	"nu_tar": preload("res://resources/enemies/Q2&Q4Rand/nu_tar.tres"), # ABSOLUTE_VISCOCITY, # FOSSILIZED
+	"omega_limit": preload("res://resources/enemies/Q2&Q4Rand/omega_limit.tres"), # TERMINAL_VELOCITY, DEFINED_LIMIT
 	"theta_eraser": preload("res://resources/enemies/Q2&Q4Rand/theta_the_eraser.tres"), # SCRUB_ALL, ASYMMETRIC_VOID
 	"xi_auditor": preload("res://resources/enemies/Q2&Q4Rand/xi_the_auditor.tres"), # ORBITS_DISABLED 
 	"zeta_blitz": preload("res://resources/enemies/Q2&Q4Rand/zeta_the_blitz.tres"), # HALF_Shot_Clock, THIRD_SHOT_CLOCK

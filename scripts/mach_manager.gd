@@ -73,6 +73,14 @@ func _update_visuals():
 # BAIT SHOP MODIFIERS
 #===============================================================================
 func get_max_mach() -> float:
+	var active_stats = GlobalData.get_current_enemy_data()
+	#~~~~~~~~~~~~~~~~~~ --- OMEGA (MACH CAP) RULES --- ~~~~~~~~~~~~~~~~~~~~~~~~~
+	if active_stats != null:
+		if "DEFINED_LIMIT" in active_stats.inherent_rules:
+			return 1.99
+		elif "TERMINAL_VELOCITY" in active_stats.inherent_rules:
+			return 2.99
+	#---------------------------------------------------------------------------
 	# Deep Cap Curse Overrides everything and locks it to 3
 	if GameManager.has_active_mutation("deep_cap"):
 		return 3.99
