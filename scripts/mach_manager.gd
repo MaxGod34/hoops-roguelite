@@ -36,6 +36,14 @@ func add_mach(amount: float):
 	if GameManager.has_active_mutation("turbo_mach"):
 		amount *= 0.5
 	
+	#~~~~~~~~~~~~~~~~~ --- KAPPA, THE DAMPENER RULE CHECK --- ~~~~~~~~~~~~~~~~~~
+	var active_stats = GlobalData.get_current_enemy_data()
+	if active_stats != null:
+		if "RIGID_AIR" in active_stats.inherent_rules:
+			amount *= 0.33
+		elif "STIFF_AIR" in active_stats.inherent_rules:
+			amount *= 0.67
+	#---------------------------------------------------------------------------
 	
 	current_mach += amount
 	# GHOST BUFFER

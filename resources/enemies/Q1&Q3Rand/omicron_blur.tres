@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=4 format=3 uid="uid://bvu5iybi1dq6a"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_5g1rd"]
+[ext_resource type="Texture2D" uid="uid://da6e3fjhyp3lv" path="res://assets/opponents/Q1&Q3Rand/OmicronLowerProto.png" id="1_ba7bc"]
+[ext_resource type="Texture2D" uid="uid://lcplc10bk3o0" path="res://assets/opponents/Q1&Q3Rand/OmicronUpperProto.png" id="3_swea6"]
+
+[resource]
+script = ExtResource("1_5g1rd")
+defender_name = "Omicron, The Blur"
+playstyle = "Benchwarmer"
+intro_quote = "Step 1: You Shoot, Step 2: You Miss, Step 3: You Always Miss"
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["BLURRED_VISION"])
+inherent_rules_description = "No Perfect Release Bonus"
+upgraded_rules = Array[String](["MYOPIA"])
+upgraded_rules_description = "Halve Player's Base Shooting"
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_ba7bc")
+upgraded_sprite = ExtResource("3_swea6")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

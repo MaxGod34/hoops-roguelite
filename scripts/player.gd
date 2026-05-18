@@ -182,8 +182,20 @@ func _physics_process(delta: float) -> void:
 		# NORMAL MOVEMENT
 		var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		if direction:
-			velocity = velocity.move_toward(direction * current_speed, ACCELERATION * delta)
+			var active_speed = current_speed
 			
+			#~~~~~~~~~~~~~~ --- TAU, THE ANCHOR RULE CHECK --- ~~~~~~~~~~~~~~~~~
+			if has_ball:
+				var active_stats = GlobalData.get_current_enemy_data()
+				if active_stats != null:
+					if "LEAD_BALL" in active_stats.inherent_rules:
+						active_speed *= 0.25
+					elif "ANCHORED_BALL" in active_stats.inherent_rules:
+						active_speed *= 0.5
+			#-------------------------------------------------------------------
+			
+			
+			velocity = velocity.move_toward(direction * active_speed, ACCELERATION * delta)
 			
 			#====================== PAPER MARIO FLIP ===========================
 			var target_facing = sign($VisualSkin.scale.x)
@@ -555,13 +567,30 @@ func execute_shot():
 		var time_to_peak = gather_time + (jump_duration / 2.0)	# 0.15 + 0.3 = 0.45s target
 		var time_diff = abs(shoot_timer - time_to_peak)
 		
+		#~~~~~~~~~~~~~~~~~~~~~~~~ --- OMICRON, THE BLUR RULE CHECK --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		var active_stats = GlobalData.get_current_enemy_data()
+		var omicron_active = false
+		var base_chance_modifier = 1.0
+		
+		if active_stats != null:
+			if "MYOPIA" in active_stats.inherent_rules:
+				omicron_active = true
+				base_chance_modifier = 0.5
+			elif "BLURRED_VISION" in active_stats.inherent_rules:
+				omicron_active = true
+		
 		if time_diff < 0.1: # Perfect Release
-			release_mod = 2.0
-			print("IRISH SPRING GREEN! Perfect Release (x2)")
+			if omicron_active:
+				print("PERFECT TIMING, buuuuuuuuuut Omicron's blur prevented the bonus!")
+			else:
+				release_mod = 2.0
+				print("IRISH SPRING GREEN! Perfect Release (x2)")
 		else:
 			print("Normal Release. Off by: ", time_diff, "s")
 		
-		var raw_chance = base_chance * shot_mod * release_mod # All Bonuses
+		var active_base_chance = base_chance * base_chance_modifier # Due to Omicron's 1/2ing effect
+		var raw_chance = active_base_chance * shot_mod * release_mod # All Bonuses
+		#-------------------------------------------------------------------------------------------
 		
 		# 3. Defender Pressure
 		var bot = get_parent().get_node("Defender")
@@ -575,8 +604,7 @@ func execute_shot():
 		# 4. Final Dice Roll
 		var final_chance = clamp(raw_chance - contest_penalty, 0.0, 100.0)
 		
-		# 4B. GAMMA ARENA RULE INTERCEPT
-		var active_stats = GlobalData.get_current_enemy_data()
+		# 4B. GAMMA ARENA RULE INTERCEPT (active stats ref above)
 		if active_stats != null and get_parent().pending_points == 3:
 			if "HIGH_GRAVITY" in active_stats.inherent_rules or "EVENT_HORIZON" in active_stats.inherent_rules:
 				final_chance = 0.0
