@@ -613,6 +613,25 @@ func _on_replay_finished():
 			GameManager.energy_sap_amount += 1
 			print("ETA SIPHON: 1 Energy will be drained for your next locker room visit!")
 	#---------------------------------------
+	# --- PSI, THE TOLL RULE CHECK ---
+	if "SOUL_DRAIN" in active_stats.inherent_rules:
+		for stat in PlayerData.base_stats.keys():
+			PlayerData.base_stats[stat] = max(0, PlayerData.base_stats[stat] - 15)
+		PlayerData.stats_updated.emit()
+		print("PSI: Soul Drain! All stats reduced by 15!")
+	elif "PYRRHIC_VICTORY" in active_stats.inherent_rules:
+		for stat in PlayerData.base_stats.keys():
+			PlayerData.base_stats[stat] = max(0, PlayerData.base_stats[stat] - 5)
+		PlayerData.stats_updated.emit()
+		print("PSI: Pyrrhic Victory! All stats reduced by 5!")
+	#-------------------------------------
+	# --- IOTA THE SPARK RULE CHECK ---
+	if "CORE_OVERLOAD" in active_stats.inherent_rules:
+		GameManager.iota_triple = true
+		print("CORE OVERLOAD ACTIVE! Setting Triple Flag to True!")
+	elif "ENERGY_SURGE" in active_stats.inherent_rules:
+		GameManager.iota_double = true
+		print("ENERGY SURGE ACTIVE! Setting Double Flag to True!")
 	
 	# 1. Determine base drops based on current game in quarter
 	var drop_count = 1
@@ -621,14 +640,26 @@ func _on_replay_finished():
 	if GameManager.fragments_disabled_duration > 0:
 		print("PHI TAX: No Fragments will drop! (Duration: ", GameManager.fragments_disabled_duration, ")")
 		drop_count = 0
+		
 	else:
-		var current_game = GameManager.current_game
-		if current_game == 3 or current_game == 4:
-			drop_count = 2
-		elif current_game == 5 or current_game == 6:
-			drop_count = 3
-		elif current_game == 7:
-			pass
+		# --- CHI, THE CACHE RULE CHECK ---
+		if active_stats != null and "PANDORAS_BOX" in active_stats.inherent_rules:
+			drop_count = 5
+			print("CHI: Pandora's box opened! 5 fragments dropping!")
+		elif active_stats != null and "BOUNTIFUL_CACHE" in active_stats.inherent_rules:
+			drop_count = 4
+			print("CHI: Bountiful Cache Opened! 4 fragments dropping!")
+		
+		
+		else:
+			var current_game = GameManager.current_game
+			if current_game == 3 or current_game == 4:
+				drop_count = 2
+			elif current_game == 5 or current_game == 6:
+				drop_count = 3
+			elif current_game == 7:
+				pass
+		
 		
 		# 2. Check Wheel of Fate +1 bonus
 		if GameManager.wheel_extra_fragment_next_game: 

@@ -59,6 +59,9 @@ var fragments_disabled_duration: int = 0
 # ETA TAX
 var energy_sap_amount: int = 0
 var entropic_sap_active: bool = false
+# Iota Energy Boost
+var iota_double: bool = false
+var iota_triple: bool = false
 
 
 func advance_progression():
@@ -126,6 +129,9 @@ func reset_run():
 	#	ETA
 	energy_sap_amount = 0
 	entropic_sap_active = false
+	#	IOTA
+	iota_double = false
+	iota_triple = false
 	
 	GlobalData.roll_next_opponent()
 	go_to_court()
@@ -153,6 +159,14 @@ func prepare_locker_room():
 		energy_sap_amount = 0
 	#---------------------------------------------------------------------------
 	
+	#~~~~~~~~~~~~~~~~~~~~ --- APPLY IOTA BOOST --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	if iota_triple:
+		current_energy *= 3
+		iota_triple = false
+	elif iota_double:
+		current_energy *= 2
+		iota_double = false
+	#---------------------------------------------------------------------------
 	
 func clear_match_modifiers():
 	styx_ice_bath_active = false

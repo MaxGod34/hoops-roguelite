@@ -7,7 +7,10 @@ var defeated_enemies: Array[String] = []
 # The Encounters Deck
 var pools = {
 	"LARRY": ["larry_1", "larry_2"],
-	"Q1Q3_RANDOM": ["epsilon_error", "eta_siphon", "gamma_well", "kappa_dampener", "lambda_root", "mu_slick", "omicron_blur", "phi_taxman", "tau_anchor"],
+	"Q1Q3_RANDOM": [
+		"chi_cache", "epsilon_error", "eta_siphon", "gamma_well", "iota_spark", "kappa_dampener", 
+		"lambda_root", "mu_slick", "omicron_blur", "phi_taxman", "psi_toll", "tau_anchor"
+	],
 	"Q1_BOSS": ["the_broker", "the_monolith", "the_warden"],
 	"Q2Q4_RANDOM": ["beta_decay", "nu_tar", "omega_limit", "theta_eraser", "xi_auditor", "zeta_blitz"],
 	"Q2_BOSS": ["hash_grid", "hourglass_pendulum", "the_infinite"]
@@ -18,15 +21,18 @@ var enemy_database = {
 	# Larrys (2)
 	"larry_1": preload("res://resources/enemies/Larrys/larry_1.tres"), # N/A
 	"larry_2": preload("res://resources/enemies/Larrys/larry_2.tres"), # N/A
-	# Q1/Q3 Rand Pool (9/12)
+	# Q1/Q3 Rand Pool (12/12) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	"chi_cache": preload("res://resources/enemies/Q1&Q3Rand/chi_cache.tres"), # BOUNTIFUL_CACHE, PANDORAS_BOX
 	"epsilon_error": preload("res://resources/enemies/Q1&Q3Rand/epsilon_error.tres"), # MARGIN_OF_ERROR, FATAL_ERROR
 	"eta_siphon": preload("res://resources/enemies/Q1&Q3Rand/eta_siphon.tres"), #ENERGY_SAP, ENTROPIC_ETA
 	"gamma_well": preload("res://resources/enemies/Q1&Q3Rand/gamma_well.tres"), # HIGH_GRAVITY, EVENT_HORIZON
+	"iota_spark": preload("res://resources/enemies/Q1&Q3Rand/iota_spark.tres"), # ENERGY_SURGE, CORE_OVERLOAD
 	"kappa_dampener": preload("res://resources/enemies/Q1&Q3Rand/kappa_dampener.tres"), # STIFF_AIR, RIGID_AIR
 	"lambda_root": preload("res://resources/enemies/Q1&Q3Rand/lambda_root.tres"), #DISABLE_CROSSOVERS, DEEP_ROOT
 	"mu_slick": preload("res://resources/enemies/Q1&Q3Rand/mu_slick.tres"), #SLIPPERY_FLOOR, ABSOLUTE_MU
 	"omicron_blur": preload("res://resources/enemies/Q1&Q3Rand/omicron_blur.tres"), # BLURRED_VISION, MYOPIA
 	"phi_taxman": preload("res://resources/enemies/Q1&Q3Rand/phi_taxman.tres"), #NO_FRAGMENTS, BANKRUPT_PHI
+	"psi_toll": preload("res://resources/enemies/Q1&Q3Rand/psi_toll.tres"), # PYRRHIC_VICTORY, SOUL_DRAIN
 	"tau_anchor": preload("res://resources/enemies/Q1&Q3Rand/tau_anchor.tres"), # ANCHORED_BALL, LEAD_BALL
 	# Q1 Bosses (3)
 	"the_broker": preload("res://resources/enemies/Q1Boss/diamond_the_broker.tres"), # HIGH_STAKES

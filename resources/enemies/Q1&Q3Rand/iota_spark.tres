@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=4 format=3 uid="uid://b17ai1hh63005"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_5fkpc"]
+[ext_resource type="Texture2D" uid="uid://dpx2o1cenjwlo" path="res://assets/opponents/Q1&Q3Rand/IotaLowerProto.png" id="1_bkwo2"]
+[ext_resource type="Texture2D" uid="uid://digsgs61ms2ff" path="res://assets/opponents/Q1&Q3Rand/IotaUpperProto.png" id="3_ebqt5"]
+
+[resource]
+script = ExtResource("1_5fkpc")
+defender_name = "Iota, The Spark"
+playstyle = "Benchwarmer"
+intro_quote = "It's your lucky day lightning boy..."
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["ENERGY_SURGE"])
+inherent_rules_description = "Double Energy Next Locker Room Visit"
+upgraded_rules = Array[String](["CORE_OVERLOAD"])
+upgraded_rules_description = "Triple Energy Next Locker Room Visit"
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_bkwo2")
+upgraded_sprite = ExtResource("3_ebqt5")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"
