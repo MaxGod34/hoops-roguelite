@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=4 format=3 uid="uid://d37j6fcsrfiby"]
+
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_fh3xk"]
+[ext_resource type="Texture2D" uid="uid://7xhvqr2bagbi" path="res://assets/opponents/Q2&Q4Rand/UpsilonLowerProto.png" id="1_okfwa"]
+[ext_resource type="Texture2D" uid="uid://c18c43x6ikpwu" path="res://assets/opponents/Q2&Q4Rand/UpsilonUpperProto.png" id="3_0w4ev"]
+
+[resource]
+script = ExtResource("1_fh3xk")
+defender_name = "Upsilon, The Tremor"
+playstyle = "Benchwarmer"
+intro_quote = "You can't win, not on my terms..."
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["SHAKY_HANDS"])
+inherent_rules_description = "Base Handle is reduced to 0"
+upgraded_rules = Array[String](["NERVE_DAMAGE"])
+upgraded_rules_description = "Base Handle and Shooting reduced to 0"
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_okfwa")
+upgraded_sprite = ExtResource("3_0w4ev")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

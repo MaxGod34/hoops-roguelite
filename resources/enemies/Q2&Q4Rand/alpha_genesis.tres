@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="DefenderStats" load_steps=4 format=3 uid="uid://cfy4dtka0vyj7"]
+
+[ext_resource type="Texture2D" uid="uid://d06pp3cxe2lef" path="res://assets/opponents/Q2&Q4Rand/AlphaLowerProto.png" id="1_4y18f"]
+[ext_resource type="Script" uid="uid://o5qnsh8k6r6q" path="res://resources/DefenderStats.gd" id="1_p37xn"]
+[ext_resource type="Texture2D" uid="uid://csvrq0sjedwbo" path="res://assets/opponents/Q2&Q4Rand/AlphaUpperProto.png" id="3_wrxfb"]
+
+[resource]
+script = ExtResource("1_p37xn")
+defender_name = "Alpha, The Genesis"
+playstyle = "Benchwarmer"
+intro_quote = "I am the first...to be your last!"
+is_upgraded_form = false
+shooting_rating = 50
+finishing_rating = 50
+handle_rating = 50
+defense_rating = 50
+speed_rating = 50
+strength_rating = 50
+speed_multiplier = 1.0
+friction_multiplier = 1.0
+inherent_rules = Array[String](["GENESIS_RESET"])
+inherent_rules_description = "Reset Opp. Score to 0 Post-Game"
+upgraded_rules = Array[String](["ABSOLUTE_GENESIS"])
+upgraded_rules_description = "Reset Opp. Score to 0 Post-Game"
+up_shooting = 50
+up_finishing = 50
+up_handle = 50
+up_defense = 50
+up_speed = 50
+up_strength = 50
+body_sprite = ExtResource("1_4y18f")
+upgraded_sprite = ExtResource("3_wrxfb")
+metadata/_custom_type_script = "uid://o5qnsh8k6r6q"

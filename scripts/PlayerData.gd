@@ -63,6 +63,22 @@ func upgrade_stat(stat_name: String, amount: int):
 func apply_post_game_mach_stats(stat_name: String, amount: int):
 	var actual_gain = amount
 	
+	#~~~~~~~~~~~~~~~~~ --- SIGMA, THE SUMMIT RULE CHECK --- ~~~~~~~~~~~~~~~~~~~~
+	var active_stats = GlobalData.get_current_enemy_data()
+	var rules = active_stats.inherent_rules
+	var sigma_multiplier = 1
+	
+	if active_stats != null:
+		if "TRIPLE_SUMMATION" in rules:
+			sigma_multiplier = 3
+			print("SIGMA (UPGRADED): Triple Summation! Gain x3!")
+		elif "DOUBLE_SUMMATION" in rules:
+			sigma_multiplier = 2
+			print("SIGMA: Double Summation! Gain x2!")
+	if sigma_multiplier > 1:
+		actual_gain *= sigma_multiplier
+	#---------------------------------------------------------------------------
+	# ICE BATH FLAG
 	if GameManager.styx_ice_bath_active:
 		actual_gain *= 2
 		print("STYX ICE BATH ACTIVE! Post-game gain doubled from ", amount, " to ", actual_gain, "!")
@@ -73,17 +89,35 @@ func apply_post_game_mach_stats(stat_name: String, amount: int):
 func get_effective_stat(stat_name: String) -> int:
 	var base = base_stats.get(stat_name, 0)
 	var bonus = fragment_bonuses.get(stat_name, 0)
-	
-	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ --- NU / THE TAR RULE --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	var active_stats = GlobalData.get_current_enemy_data()
+	var active_stats = GlobalData.get_current_enemy_data() # ENEMY REF
+	#======================================== OPP INTERCEPTS =======================================
 	if active_stats != null:
+	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ --- NU / THE TAR RULE --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		if "FOSSILIZED" in active_stats.inherent_rules and (stat_name == "speed" or stat_name == "finishing"):
 			base = 0
 			print("NU RULE ACTIVE! Base: ", stat_name, " crushed to 0!")
 		elif "ABSOLUTE_VISCOCITY" in active_stats.inherent_rules and stat_name == "speed":
 			base = 0
 			print("NU RULE ACTIVE! Base Speed crushed to 0!")
-	#-----------------------------------------------------------------------------------------------
+	#~~~~~~~~~~~~~~~~~~~~~~~~~~~ --- RHO, THE HOLLOW RULE CHECK --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		if "HOLLOW_BONE" in active_stats.inherent_rules and (stat_name == "strength" or stat_name == "defense"):
+			base = 0
+			print("RHO UPGRADED! Base ", stat_name, " crushed to 0!")
+		elif "WEIGHTLESS" in active_stats.inherent_rules and stat_name == "strength":
+			base = 0
+			print("RHO: Base Strength crushed to 0!")
+	#~~~~~~~~~~~~~~~~~~~~~~~~~ --- UPSILON, THE TREMOR RULE CHECK --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		if "NERVE_DAMAGE" in active_stats.inherent_rules and (stat_name == "handle" or stat_name == "shooting"):
+			base = 0
+			print("UPSILON UPGRADED! Base ", stat_name, " crushed to 0!")
+		elif "SHAKY_HANDS" in active_stats.inherent_rules and stat_name == "handle":
+			base = 0
+			print("UPSILON: Base Handle crushed to 0!")
+	#~~~~~~~~~~~~~~~~~~~~~~~~~~~ --- PI, THE PERIMETER RULE CHECK --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		if "SUFFOCATING_ARC" in active_stats.inherent_rules and stat_name == "shooting":
+			base = int(base / 2.0)
+			print("PI UPGRADED: Base Shooting cut in half!")
+	#===============================================================================================
 	
 	return base + bonus
 

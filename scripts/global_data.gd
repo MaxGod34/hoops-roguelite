@@ -12,7 +12,10 @@ var pools = {
 		"lambda_root", "mu_slick", "omicron_blur", "phi_taxman", "psi_toll", "tau_anchor"
 	],
 	"Q1_BOSS": ["the_broker", "the_monolith", "the_warden"],
-	"Q2Q4_RANDOM": ["beta_decay", "nu_tar", "omega_limit", "theta_eraser", "xi_auditor", "zeta_blitz"],
+	"Q2Q4_RANDOM": [
+		"alpha_genesis", "beta_decay", "nu_tar", "omega_limit", "pi_perimeter", "rho_hollow", 
+		"sigma_summit", "theta_eraser", "upsilon_tremor", "xi_auditor", "zeta_blitz"
+	],
 	"Q2_BOSS": ["hash_grid", "hourglass_pendulum", "the_infinite"]
 }
 
@@ -38,11 +41,16 @@ var enemy_database = {
 	"the_broker": preload("res://resources/enemies/Q1Boss/diamond_the_broker.tres"), # HIGH_STAKES
 	"the_monolith": preload("res://resources/enemies/Q1Boss/rectangle_the_monolith.tres"), # CRUSHING_MASS
 	"the_warden": preload("res://resources/enemies/Q1Boss/eye_the_warden.tres"), # NO_BLINDSPOTS
-	# Q2/Q4 Rand Pool (6/12)
+	# Q2/Q4 Rand Pool (10/12)
+	"alpha_genesis": preload("res://resources/enemies/Q2&Q4Rand/alpha_genesis.tres"), # GENESIS_RESET, ABSOLUTE_GENESIS
 	"beta_decay": preload("res://resources/enemies/Q2&Q4Rand/beta_decay.tres"), # BETA_DECAY, CHAIN_REACTION
 	"nu_tar": preload("res://resources/enemies/Q2&Q4Rand/nu_tar.tres"), # ABSOLUTE_VISCOCITY, # FOSSILIZED
 	"omega_limit": preload("res://resources/enemies/Q2&Q4Rand/omega_limit.tres"), # TERMINAL_VELOCITY, DEFINED_LIMIT
+	"pi_perimeter": preload("res://resources/enemies/Q2&Q4Rand/pi_perimeter.tres"), # TRAPPED_ARC, SUFFOCATING_ARC
+	"rho_hollow": preload("res://resources/enemies/Q2&Q4Rand/rho_hollow.tres"), # WEIGHTLESS, HOLLOW_BONE
+	"sigma_summit": preload("res://resources/enemies/Q2&Q4Rand/sigma_summit.tres"), # DOUBLE_SUMMATION, TRIPLE_SUMMATION
 	"theta_eraser": preload("res://resources/enemies/Q2&Q4Rand/theta_the_eraser.tres"), # SCRUB_ALL, ASYMMETRIC_VOID
+	"upsilon_tremor": preload("res://resources/enemies/Q2&Q4Rand/upsilon_tremor.tres"), # SHAKY_HANDS, NERVE_DAMAGE
 	"xi_auditor": preload("res://resources/enemies/Q2&Q4Rand/xi_the_auditor.tres"), # ORBITS_DISABLED 
 	"zeta_blitz": preload("res://resources/enemies/Q2&Q4Rand/zeta_the_blitz.tres"), # HALF_Shot_Clock, THIRD_SHOT_CLOCK
 	# Q2 Bosses (3)

@@ -175,8 +175,10 @@ func record_shot(shooter: Node2D, is_dunk: bool = false):
 	var active_stats = GlobalData.get_current_enemy_data()
 	
 	var threes_allowed = true
-	if active_stats != null and "NO_THREES" in active_stats.inherent_rules:
-		threes_allowed = false
+	if active_stats != null:
+		var rules = active_stats.inherent_rules
+		if "NO_THREES" in rules or "TRAPPED_ARC" in rules or "SUFFOCATING_ARC" in rules: # PI, THE PERIMETER
+			threes_allowed = false
 	
 	
 	print("--- SHOT WENT UP ---")
@@ -454,7 +456,7 @@ func apply_arena_rules(stats: DefenderStats):
 		player.finishing_rating /= 2
 	
 	# ----------------------------- Legacy Rules -------------------------------
-	if "NO_TAKE_BACKS" in rules:
+	if "NO_TAKE_BACKS" in rules or "TRAPPED_ARC" in rules or "SUFFOCATING_ARC" in rules:
 		print("ARENA RULE: NO TAKE BACKS!")
 		force_no_take_back = true
 	else:
@@ -598,40 +600,48 @@ func _on_clear_zone_body_exited(body: Node2D):
 
 
 func _on_replay_finished():
-	# --- PHI (No Fragments) RULE CHECK ---
 	var active_stats = GlobalData.get_current_enemy_data()
+	var rules = active_stats.inherent_rules
+	
+	# --- PHI (No Fragments) RULE CHECK ---
 	if active_stats != null:
-		if "BANKRUPT_PHI" in active_stats.inherent_rules:
+		if "BANKRUPT_PHI" in rules:
 			GameManager.fragments_disabled_duration = max(GameManager.fragments_disabled_duration, 2)
-		elif "NO_FRAGMENTS" in active_stats.inherent_rules:
+		elif "NO_FRAGMENTS" in rules:
 			GameManager.fragments_disabled_duration = max(GameManager.fragments_disabled_duration, 1)
 	# --- ETA (Energy Sap) RULE CHECK ---
-		if "ENTROPIC_ETA" in active_stats.inherent_rules:
+		if "ENTROPIC_ETA" in rules:
 			GameManager.entropic_sap_active = true
 			print("ENTROPIC ETA: All energy will be drained for your next locker room visit!")
-		elif "ENERGY_SAP" in active_stats.inherent_rules:
+		elif "ENERGY_SAP" in rules:
 			GameManager.energy_sap_amount += 1
 			print("ETA SIPHON: 1 Energy will be drained for your next locker room visit!")
 	#---------------------------------------
 	# --- PSI, THE TOLL RULE CHECK ---
-	if "SOUL_DRAIN" in active_stats.inherent_rules:
+	if "SOUL_DRAIN" in rules:
 		for stat in PlayerData.base_stats.keys():
 			PlayerData.base_stats[stat] = max(0, PlayerData.base_stats[stat] - 15)
 		PlayerData.stats_updated.emit()
 		print("PSI: Soul Drain! All stats reduced by 15!")
-	elif "PYRRHIC_VICTORY" in active_stats.inherent_rules:
+	elif "PYRRHIC_VICTORY" in rules:
 		for stat in PlayerData.base_stats.keys():
 			PlayerData.base_stats[stat] = max(0, PlayerData.base_stats[stat] - 5)
 		PlayerData.stats_updated.emit()
 		print("PSI: Pyrrhic Victory! All stats reduced by 5!")
 	#-------------------------------------
 	# --- IOTA THE SPARK RULE CHECK ---
-	if "CORE_OVERLOAD" in active_stats.inherent_rules:
+	if "CORE_OVERLOAD" in rules:
 		GameManager.iota_triple = true
 		print("CORE OVERLOAD ACTIVE! Setting Triple Flag to True!")
-	elif "ENERGY_SURGE" in active_stats.inherent_rules:
+	elif "ENERGY_SURGE" in rules:
 		GameManager.iota_double = true
 		print("ENERGY SURGE ACTIVE! Setting Double Flag to True!")
+	#----------------------------------
+	# --- ALPHA, THE GENESIS RULE CHECK ---
+	if "GENESIS_RESET" in rules or "ABSOLUTE_GENESIS" in rules:
+		GameManager.cumulative_opponent_score = 0
+		print("ALPHA: The Genesis washes away your sins! Opp score reset to 0!")
+	#--------------------------------------
 	
 	# 1. Determine base drops based on current game in quarter
 	var drop_count = 1
