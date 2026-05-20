@@ -24,9 +24,8 @@ func _ready():
 	pass
 
 # Pass enemy data resource into function when the match is loaded
-func boot_sequence(enemy_name: String, enemy_texture: Texture2D, arena_rules: Array, is_upgraded: bool):
+func boot_sequence(active_stats: DefenderStats, is_upgraded: bool):
 	show()
-	var active_stats = GlobalData.get_current_enemy_data()
 	is_animating = true
 	is_exiting = false
 	lbl_terminal.visible_ratio = 0.0
@@ -35,7 +34,10 @@ func boot_sequence(enemy_name: String, enemy_texture: Texture2D, arena_rules: Ar
 	main_split.modulate.a = 0.0
 	if background: background.modulate.a = 1.0
 	
-	enemy_sprite.texture = enemy_texture
+	enemy_sprite.texture = active_stats.body_sprite
+	if is_upgraded:
+		enemy_sprite.texture = active_stats.upgraded_sprite
+	
 	
 	#================================== Paint Job ==============================
 	var mat = enemy_sprite.material as ShaderMaterial
@@ -51,8 +53,8 @@ func boot_sequence(enemy_name: String, enemy_texture: Texture2D, arena_rules: Ar
 	
 	# 1. Generate gritty terminal text dynamically
 	var rule_string = "NONE"
-	if arena_rules.size() > 0:
-		rule_string = ", ".join(arena_rules).replace("_", " ") # ["NO_CROSSOVERS", "NO_THREES"]
+	if active_stats.inherent_rules.size() > 0:
+		rule_string = ", ".join(active_stats.inherent_rules).replace("_", " ") # ["NO_CROSSOVERS", "NO_THREES"]
 	
 	var threat_tier = "UPGRADED" if is_upgraded else "STANDARD"
 	var rand_sector = randi() % 99 + 1
@@ -69,7 +71,7 @@ func boot_sequence(enemy_name: String, enemy_texture: Texture2D, arena_rules: Ar
 	boot_text += "> DECRYPTING ENTITY SIGNATURE...\n"
 	boot_text += "> .......................................................\n"
 	boot_text += "> WARNING: COMBATANT REVEALED.\n\n\n\n"
-	boot_text += "> DESIGNATION: " + enemy_name.to_upper() + "\n\n"
+	boot_text += "> DESIGNATION: " + active_stats.defender_name.to_upper() + "\n\n"
 	boot_text += "> THREAT LEVEL: " + threat_tier + "\n\n"
 	boot_text += "> ARENA OVERRIDE: " + rule_string + "\n\n"
 	boot_text += "> RULE DESCRIPTION LOADING...\n"

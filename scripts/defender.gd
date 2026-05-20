@@ -85,7 +85,7 @@ func _physics_process(delta: float):
 			chase_ball(delta)
 		"CONTESTING":
 			contest_shot(delta)
-		"SWIPTING":
+		"SWIPING":
 			# Freeze bot so they stand still while reaching
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		#=========================================================================================
@@ -98,6 +98,8 @@ func _physics_process(delta: float):
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		"OFFENSE_IDLE":
 			offense_idle(delta)
+		"RELOCATING":
+			relocate(delta)
 		#=========================================================================================
 		"CLEARING_BALL":
 			clear_ball(delta)
@@ -174,7 +176,7 @@ func initialize_stats(base_resource: DefenderStats, current_quarter: int):
 		finishing_rating = active_stats.finishing_rating
 		handle_rating = active_stats.handle_rating
 		defense_rating = active_stats.defense_rating
-		move_speed = 100.0 + active_stats.speed_rating # Adjust to match speed rating
+		move_speed = 200.0 + (active_stats.speed_rating * 2) # Adjust to match speed rating
 		strength = active_stats.strength_rating
 	
 	# ---------------------- LOAD THE VISUALS AND SHADERS ----------------------
@@ -217,9 +219,17 @@ func evaluate_state():
 		if not get_parent().is_ball_cleared:
 			state = "CLEARING_BALL"
 		# If cleared, PROCEED TO BALL OUT
-		elif state not in ["OFFENSE_IDLE", "DRIVING", "BOT_SHOOTING"]:
-			state = "OFFENSE_IDLE"
-			offense_timer = size_up_time
+		elif state not in ["OFFENSE_IDLE", "DRIVING", "BOT_SHOOTING", "RELOCATING"]:
+			var dist_to_hoop = global_position.distance_to(hoop.global_position)
+			var dist_to_player = global_position.distance_to(player.global_position)
+			
+			# If trapped under the rim with player on their neck, relocate
+			if dist_to_hoop < 120.0 and dist_to_player < 60.0:
+				state = "RELOCATING"
+				
+			else:
+				state = "OFFENSE_IDLE"
+				offense_timer = size_up_time
 			
 	else:
 		# ===============================================
@@ -242,17 +252,27 @@ func evaluate_state():
 
 # -- ACTIONS --
 func offense_idle(delta: float):
-	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+	var dist_to_player = global_position.distance_to(player.global_position)
+	
+	# --- DYNAMIC SPACING ---
+	if dist_to_player < 75.0:
+		# Player is pressing! Back up slowly or circle them
+		var retreat_dir = player.global_position.direction_to(global_position)
+		velocity = retreat_dir * (move_speed * 0.5)
+	elif dist_to_player > 150.0:
+		# Player is sagging off. Creep closer to the 3pt line.
+		var advance_dir = global_position.direction_to(hoop.global_position)
+		velocity = advance_dir * (move_speed * 0.5)
+	else:
+		# Good Spacing, slight lateral jukes
+		var lateral_dir = player.global_position.direction_to(global_position).orthogonal()
+		velocity = lateral_dir * (move_speed * 0.3) * sign(sin(Time.get_ticks_msec() / 200.0)) # Wiggle Left or Right
+	#-----------------------------------------------------------------------------------------------
+
 	# Start a timer that changes them to shooting or driving
 	offense_timer -= delta
 	if offense_timer <= 0:
-		# Make a decision, random for now
-		var decision = randi() % 100
-		if decision < 0:
-			state = "DRIVING"
-		else:
-			state = "BOT_SHOOTING"
-			bot_shoot()
+		make_offensive_decision()
 
 
 func drive_to_hoop(_delta: float):
@@ -540,7 +560,7 @@ func process_check_up(_delta: float):
 			
 			# Run slightly faster for game pace
 			var dir = global_position.direction_to(target_pos)
-			velocity = dir * (move_speed * 1.5)
+			velocity = dir * (move_speed)
 			
 		else:
 			# Got the ball, walk to the defense spawn
@@ -786,7 +806,7 @@ func apply_bump(bump_velocity: Vector2, duration: float):
 	
 	# Only restore if they didn't magically get a steal/rebound during the slide
 	if state == "BUMPED":
-		state = previous_state
+		state = "IDLE" # NEVER restore to previous_state, use evaluate state to prevent illogical loops
 
 func check_physical_contact():
 	if state == "BUMPED": return
@@ -814,10 +834,10 @@ func check_physical_contact():
 				if str_diff >= 15:
 					# BULLDOZE: Offense runs them over
 					print("TITAN BULLDOZER! Player gets crushed!")
+					# Have player try to make a steal
+					collider.attempt_swipe()
 					# Push Player away
 					collider.apply_bump(-hit_normal * 400.0, 0.25)
-					# Have player try to make a steal mid bump
-					collider.attempt_swipe()
 					
 				elif str_diff <= -15:
 					# BRICK WALL: Bot bounces off!
@@ -854,7 +874,7 @@ func check_physical_contact():
 					# JOSTLE
 					apply_bump((hit_normal * 200.0) + (sidestep * 150.0), 0.15)
 					collider.apply_bump((-hit_normal * 200.0) - (sidestep * 150.0), 0.15)
-				
+			break
 
 func _vacuum_check():
 	if not has_node("PickupZone"): return
@@ -887,4 +907,42 @@ func _vacuum_check():
 			if previous_state == "LOOSE" or previous_state == "REBOUNDING":
 				if not was_inbound_pass:
 					get_parent().handle_rebound(self)
+
+
+func relocate(_delta: float):
+	# Find a spot on the perimeter away from the player
+	var dir_away_from_hoop = hoop.global_position.direction_to(global_position)
+	var dir_away_from_player = player.global_position.direction_to(global_position)
 	
+	# Blend vectors so they back out diagonally
+	var escape_vector = (dir_away_from_hoop + dir_away_from_player).normalized()
+	velocity = escape_vector * (move_speed * drive_speed_multiplier)
+	
+	if global_position.distance_to(hoop.global_position) > 400.0:
+		state = "OFFENSE_IDLE" # Safely default back to evaluate
+
+
+
+func make_offensive_decision():
+	var dist_to_player = global_position.distance_to(player.global_position)
+	var _dist_to_hoop = global_position.distance_to(hoop.global_position)
+	
+	# Base odds
+	var drive_chance = 50
+	
+	# Read the Defense
+	if dist_to_player > 120.0:
+		drive_chance -= 40 # Take the open shot
+	elif dist_to_player < 75.0:
+		drive_chance += 40 # Blow by the aggressive defender
+		
+	# Factor in attributes
+	if finishing_rating > shooting_rating + 15:
+		drive_chance += 20
+		
+	var roll = randi() % 100
+	if roll < drive_chance:
+		state = "DRIVING"
+	else:
+		state = "BOT_SHOOTING"
+		bot_shoot()

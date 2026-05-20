@@ -96,6 +96,13 @@ func _ready():
 		GlobalData.roll_next_opponent()
 	
 	var active_stats = GlobalData.get_current_enemy_data()
+	print("Active Stats: ", active_stats)
+	
+	# DEBUG GLOBALDATA
+	if active_stats == null:
+		print("CRITICAL ERROR: active_stats is NULL!")
+		print("Current enemy trying to load is: ", GlobalData.current_enemy_id)
+
 	
 	if bot and bot.has_method("initialize_stats"):
 		bot.initialize_stats(active_stats, GameManager.current_quarter)
@@ -114,12 +121,8 @@ func _ready():
 		var is_upgraded = GameManager.current_quarter >= 3
 		
 		# Boot it up
-		vs_screen.boot_sequence(
-			active_stats.defender_name,
-			active_stats.body_sprite,
-			active_stats.inherent_rules,
-			is_upgraded
-		)
+		vs_screen.boot_sequence(active_stats, is_upgraded)
+		
 	else:
 		# Fallback if we delete later
 		_on_vs_screen_match_started()

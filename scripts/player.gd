@@ -3,8 +3,8 @@ extends CharacterBody2D
 
 var active_shader: ShaderMaterial = null
 
-var base_speed: float = 400.0
-var current_speed: float = 400.0
+var base_speed: float = 300.0
+var current_speed: float = 300.0
 const ACCELERATION = 2500.0
 
 var friction = 2000.0
@@ -597,8 +597,19 @@ func execute_shot():
 		var dist_to_bot = global_position.distance_to(bot.global_position)
 		var contest_penalty = 0.0
 		
-		if dist_to_bot < 75.0: # Contest Range
-			contest_penalty = bot.defense_rating * (1.0 - (dist_to_bot / 75.0))
+		# --- THE WARDEN (BOSS) RULE CHECK ---
+		var no_blindspots = false
+		if active_stats != null and "NO_BLINDSPOTS" in active_stats.inherent_rules:
+			no_blindspots = true
+		
+		if dist_to_bot < 75.0 or no_blindspots: # Contest Range
+			var distance_falloff = 1.0 - (dist_to_bot / 75.0)
+			
+			if no_blindspots:
+				distance_falloff = 1.0
+				print("THE WARDEN SEES ALL! Full Contest Penalty Applied Globally!")
+			
+			contest_penalty = bot.defense_rating * distance_falloff
 			print("Contested! Penalty: -", contest_penalty)
 		
 		# 4. Final Dice Roll
@@ -789,10 +800,24 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 		var dist_to_bot = global_position.distance_to(bot.global_position)
 		var contest_penalty = 0.0
 		
+		# --- THE WARDEN (BOSS) RULE CHECK ---
+		var active_stats = GlobalData.get_current_enemy_data()
+		var no_blindspots = false
+		if active_stats != null and "NO_BLINDSPOTS" in active_stats.inherent_rules:
+			no_blindspots = true
+			
+		
 		# Consider a variable to mess with contest range
-		if dist_to_bot < 75.0:
+		if dist_to_bot < 75.0 or no_blindspots:
 			var def_multiplier = 1.5 if is_dunk else 1.0 # Dunks are harder on a defender
-			contest_penalty = (bot.defense_rating * def_multiplier) * (1.0 - (dist_to_bot / 75.0))
+			var distance_falloff = 1.0 - (dist_to_bot / 75.0)
+			
+			if no_blindspots:
+				distance_falloff = 1.0
+				print("THE WARDEN SEES THE PAINT! Full Contest Penalty Applied Globally!")
+			
+			
+			contest_penalty = (bot.defense_rating * def_multiplier) * distance_falloff
 			print("Paint Contested! Penalty: -", contest_penalty)
 			
 		var final_chance = clamp(base_chance - contest_penalty, 0.0, 100.0)
@@ -813,7 +838,7 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 		
 		# ~~~~~~~~~~~~~~~~~~~~~~~~~~ --- BETA DECAY RULE CHECK --- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		if not is_make:
-			var active_stats = GlobalData.get_current_enemy_data()
+			active_stats = GlobalData.get_current_enemy_data()
 			if active_stats != null:
 				if "CHAIN_REACTION" in active_stats.inherent_rules:
 					GameManager.cumulative_opponent_score += 2
@@ -924,10 +949,10 @@ func check_physical_contact():
 				if str_diff >= 15:
 					# BULLDOZE: Offense runs them over
 					print("BULLDOZER! Defender gets crushed!")
+					# Have defender try to make a steal
+					collider.attempt_swipe()
 					# Push Defender away
 					collider.apply_bump(-hit_normal * 400.0, 0.25)
-					# Have defender try to make a steal mid bump
-					collider.attempt_swipe()
 					# MACH INJECTION
 					MachManager.add_mach(0.75)
 					
@@ -969,6 +994,8 @@ func check_physical_contact():
 					# JOSTLE: equal strength, both take a quick bump sideways
 					apply_bump((hit_normal * 200.0) + (sidestep * 150.0), 0.15)
 					collider.apply_bump((-hit_normal * 200.0) - (sidestep * 150.0), 0.15)
+			
+			break
 
 
 

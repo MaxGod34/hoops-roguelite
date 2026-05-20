@@ -95,7 +95,7 @@ func mark_current_enemy_defeated():
 		print(current_enemy_id, " has been added to the graveyard!")
 
 
-func get_current_enemy_data() -> DefenderStats:
+func get_current_enemy_data() -> Resource:
 	if enemy_database.has(current_enemy_id):
 		return enemy_database[current_enemy_id]
 	return null

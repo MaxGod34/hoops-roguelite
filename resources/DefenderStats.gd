@@ -1,5 +1,4 @@
-extends Resource
-class_name DefenderStats
+class_name DefenderStats extends Resource
 
 @export_group("Identity and Flavor")
 @export var defender_name = "Unknown Challenger"
