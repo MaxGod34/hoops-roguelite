@@ -27,8 +27,8 @@ position = Vector2(0, 90)
 texture = ExtResource("2_70d11")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 40)
-scale = Vector2(2, 2)
+position = Vector2(-5.96046e-08, 32)
+scale = Vector2(2.5, 2.5)
 shape = SubResource("RectangleShape2D_mdl7e")
 
 [node name="BallSpawn" type="Marker2D" parent="."]
@@ -36,7 +36,7 @@ shape = SubResource("RectangleShape2D_mdl7e")
 [node name="PickupZone" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupZone"]
-position = Vector2(0, 40)
+position = Vector2(0, 32)
 scale = Vector2(4, 4)
 shape = SubResource("RectangleShape2D_v6fml")
 

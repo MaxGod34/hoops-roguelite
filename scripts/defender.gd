@@ -6,7 +6,7 @@ extends CharacterBody2D
 
 var state: String = "IDLE" 
 # IDLE, CHASING, GUARDING, CONTESTING, SWIPING
-# OFFENSE_IDLE, DRIVING, BOT_SHOOTING, CLEARING_BALL
+# OFFENSE_IDLE, DRIVING, BOT_SHOOTING, CLEARING_BALL, RELOCATING
 
 
 var player: Node2D = null
@@ -16,6 +16,7 @@ var held_ball: Node2D = null
 var has_ball: bool = false
 
 var active_stats: DefenderStats
+var base_color: Color = Color.WHITE
 @export var shooting_rating: int = 50
 @export var finishing_rating: int = 85 # Higher/Lower set a threshold
 @export var defense_rating: int = 60
@@ -113,7 +114,7 @@ func _physics_process(delta: float):
 	_vacuum_check()
 	
 	#============================= Flip & Lean =================================
-	if has_node("VisualSkin"):
+	if has_node("VisualSkin") and state != "SWIPING":
 		var target_facing = sign($VisualSkin.scale.x)
 		
 		if velocity.x < -10.0:
@@ -188,13 +189,15 @@ func initialize_stats(base_resource: DefenderStats, current_quarter: int):
 		if mat != null:
 			if active_stats.is_upgraded_form:
 				# FORM 2: MAGMA
-				$VisualSkin.modulate = Color("ff4500")
+				base_color = Color("ff4500")
+				$VisualSkin.modulate = base_color
 				mat.set_shader_parameter("outline_color", Color("ffff00"))
 				mat.set_shader_parameter("wobble_speed", 15.0)
 				mat.set_shader_parameter("wobble_intensity", 0.03)
 			else:
 				# FORM 1: STABLE PURPLE
-				$VisualSkin.modulate = Color("b500ff")
+				base_color = Color("b500ff")
+				$VisualSkin.modulate = base_color
 				mat.set_shader_parameter("outline_color", Color("000000"))
 				mat.set_shader_parameter("wobble_speed", 5.0)
 				mat.set_shader_parameter("wobble_intensity", 0.01)
@@ -206,6 +209,8 @@ func evaluate_state():
 	if get_parent().game_state == "GAME_OVER":
 		state = "IDLE"
 		return
+		
+	if state == "BUMPED": return
 	
 	if state in ["SWIPING", "CONTESTING", "BOT_SHOOTING", "CHECK_UP_CUTSCENE", "BUMPED"]:
 		return
@@ -447,9 +452,20 @@ func chase_ball(_delta: float):
 	velocity = direction_to_ball * move_speed
 
 func attempt_swipe():
-	# Put bot on cooldwon and freeze on the reach
+	# Safety Net ===============================================================
+	if state == "SWIPING": return #---------------------------------------------
+	# Put bot on cooldown and freeze on the reach
 	swipe_cooldown = 2.0
 	state = "SWIPING"
+	
+	# === THE LUNGE ===
+	var lunge_dir = sign(player.global_position.x - global_position.x)
+	if lunge_dir == 0: lunge_dir = 1.0 # Failsafe
+	
+	var swipe_tween = create_tween()
+	$VisualSkin.modulate = Color(1.5, 1.5, 1.5)
+	swipe_tween.tween_property($VisualSkin, "rotation", lunge_dir * 0.5, 0.1).set_trans(Tween.TRANS_EXPO)
+	swipe_tween.parallel().tween_property($VisualSkin, "position:x", lunge_dir * 15.0, 0.1).set_trans(Tween.TRANS_EXPO)
 	
 	# Dice roll o'clock
 	var base_chance = 10
@@ -469,8 +485,17 @@ func attempt_swipe():
 	if roll < success_chance:
 		print("STEAL SUCCESSFUL! Ball knocked loose!")
 		player.force_turnover()
-	else:
-		print("WHIFF! Bot reached in and missed! Make him suffer!")
+		
+		# Snap back quickly, restore color immidiately
+		$VisualSkin.modulate = base_color
+		swipe_tween.chain().tween_property($VisualSkin, "rotation", 0.0, 0.2)
+		swipe_tween.parallel().tween_property($VisualSkin, "position:x", 0.0, 0.2)
+		state = "IDLE"
+		return
+
+	print("WHIFF! Bot reached in and missed! Make him suffer!")
+	$VisualSkin.modulate = Color(0.3, 0.3, 0.3, 0.8)
+	swipe_tween.chain().tween_property($VisualSkin, "rotation", lunge_dir * 0.2, 0.7)
 		
 	# Freeze bot for 0.7 seconds then let them recover
 	await get_tree().create_timer(0.7).timeout
@@ -478,6 +503,12 @@ func attempt_swipe():
 	# Return to normal logic if they didn't grab the ball during the freeze
 	if state == "SWIPING":
 		state = "IDLE"
+	
+	# Restore original properties
+	$VisualSkin.modulate = base_color
+	var recover_tween = create_tween()
+	recover_tween.tween_property($VisualSkin, "rotation", 0.0, 0.1)
+	recover_tween.parallel().tween_property($VisualSkin, "position:x", 0.0, 0.1)
 
 
 func contest_shot(delta:float):
@@ -798,9 +829,11 @@ func execute_driving_finish(rim_position: Vector2, is_dunk: bool):
 
 
 func apply_bump(bump_velocity: Vector2, duration: float):
-	var previous_state = state
+	#var previous_state = state DELETE unless you find an old snapshot workaround
 	state = "BUMPED"
 	velocity = bump_velocity
+	
+	global_position += bump_velocity.normalized() * 5.0
 	
 	await get_tree().create_timer(duration).timeout
 	
@@ -825,6 +858,10 @@ func check_physical_contact():
 			
 			var str_diff = strength - collider.strength
 			var hit_normal = collision.get_normal()
+			var center_dir = (global_position - collider.global_position).normalized()
+			
+			self.z_index = 10
+			collider.z_index = 2
 			
 			#============================
 			# Scenario 1: On-Ball
@@ -836,19 +873,29 @@ func check_physical_contact():
 					print("TITAN BULLDOZER! Player gets crushed!")
 					# Have player try to make a steal
 					collider.attempt_swipe()
+					self.z_index = 10
+					collider.z_index = 2
 					# Push Player away
-					collider.apply_bump(-hit_normal * 400.0, 0.25)
+					collider.apply_bump(-hit_normal * 400.0, 0.5)
+					apply_bump(center_dir * 250.0, 0.15)
+					velocity += center_dir * 150.0
+					# Reset z-index
+					await get_tree().create_timer(0.5).timeout
+					self.z_index = 2
+					
 					
 				elif str_diff <= -15:
 					# BRICK WALL: Bot bounces off!
 					print("BRICK WALL: Bot bounces off!")
 					# Push player away
-					apply_bump(hit_normal * 500.0, 0.15)
+					apply_bump(-center_dir * 500.0, 0.25)
+					collider.apply_bump(center_dir * 250.0, 0.15)
+					velocity += center_dir * 150.0
 					
 				else:
 					# NEUTRAL: Both take a tiny step back to avoid sticking
-					apply_bump(hit_normal * 200.0, 0.1)
-					collider.apply_bump(-hit_normal * 200.0, 0.1)
+					apply_bump(center_dir * 200.0, 0.1)
+					collider.apply_bump(-center_dir * 200.0, 0.1)
 			elif collider.get("has_ball") == true:
 				pass
 			
@@ -860,20 +907,30 @@ func check_physical_contact():
 				var sidestep = hit_normal.orthogonal()
 				if randf() < 0.5: sidestep = -sidestep
 				
+				self.z_index = 10
+				collider.z_index = 2
+				
 				if str_diff >= 15:
 					# BOX OUT
 					print("BOT BOXED OUT!")
-					collider.apply_bump((-hit_normal * 350.0) + (sidestep * 150.0), 0.2)
+					collider.apply_bump((center_dir * 500.0) + (sidestep * 150.0), 0.5)
+					velocity += center_dir * 150.0
 					
 				elif str_diff <= -15:
 					# BOXED OUT by player
 					print("Bot got BOXED OUT!")
-					apply_bump((hit_normal * 350.0) + (sidestep * 150.0), 0.2)
+					apply_bump((center_dir * 350.0) + (sidestep * 150.0), 0.5)
+					collider.velocity += -center_dir * 150.0
 					
 				else:
 					# JOSTLE
-					apply_bump((hit_normal * 200.0) + (sidestep * 150.0), 0.15)
-					collider.apply_bump((-hit_normal * 200.0) - (sidestep * 150.0), 0.15)
+					apply_bump((center_dir * 200.0) + (sidestep * 150.0), 0.15)
+					collider.apply_bump((-center_dir * 200.0) - (sidestep * 150.0), 0.15)
+			
+			# Reset Render Order
+			await get_tree().create_timer(0.2).timeout
+			self.z_index = 2
+			collider.z_index = 2
 			break
 
 func _vacuum_check():

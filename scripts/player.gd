@@ -68,6 +68,7 @@ func _process(delta: float):
 
 func _update_mach_visuals(delta: float):
 	if active_shader == null or not has_node("VisualSkin"): return
+	if is_swiping: return # LUNGE TAKES OVER COLORs
 	
 	var current_mach = MachManager.current_mach
 	
@@ -212,7 +213,7 @@ func _physics_process(delta: float) -> void:
 			# Skid to a stop
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 		
-		if has_node("VisualSkin"):
+		if has_node("VisualSkin") and not is_swiping:
 			var target_tilt = velocity.x * 0.001
 			$VisualSkin.rotation = lerp($VisualSkin.rotation, target_tilt, 0.15)
 
@@ -461,7 +462,6 @@ func attempt_swipe():
 	swipe_cooldown = 1.5
 	
 	var bot = get_parent().get_node("Defender")
-	
 	var active_stats = GlobalData.get_current_enemy_data()
 	#~~~~~~~~~~~~~~~~~~~ --- EPSILON ERROR (Steals = -pts) --- ~~~~~~~~~~~~~~~~~
 	var original_score = get_parent().player_score
@@ -479,6 +479,17 @@ func attempt_swipe():
 			MachManager.visual_mach
 		)
 	#---------------------------------------------------------------------------
+	
+	# === THE LUNGE ===
+	var lunge_dir = sign(bot.global_position.x - global_position.x)
+	if lunge_dir == 0: lunge_dir = 1.0 # Failsafe
+	
+	var swipe_tween = create_tween()
+	$VisualSkin.modulate = Color(1.5, 1.5, 1.5) # Flash pure white on reach
+	swipe_tween.tween_property($VisualSkin, "rotation", lunge_dir * 0.5, 0.1).set_trans(Tween.TRANS_EXPO)
+	swipe_tween.parallel().tween_property($VisualSkin, "position:x", lunge_dir * 15.0, 0.1).set_trans(Tween.TRANS_EXPO)
+	#==================
+	
 	
 	# Am I close enough and does the bot have the ball?
 	if bot.has_ball and global_position.distance_to(bot.global_position) < swipe_range:
@@ -500,14 +511,23 @@ func attempt_swipe():
 			MachManager.add_mach(0.75)
 			bot.force_turnover()
 			RunTracker.add_steal()
-		else:
-			print("PLAYER WHIFFED THE STEAL!")
-			
-	else:
-		print("PLAYER REACHED AT THE AIR! MOVE CLOSER!")
+			# Snap back quickly on success
+			swipe_tween.chain().tween_property($VisualSkin, "rotation", 0.0, 0.2)
+			swipe_tween.parallel().tween_property($VisualSkin, "position:x", 0.0, 0.2)
+			is_swiping = false
+			return # Exit Early
+
+	print("PLAYER WHIFFED THE STEAL!")
+	$VisualSkin.modulate = Color(0.3, 0.3, 0.3, 0.8) # Dark Gray
+	
+	# Slump forward slightly for duration of the freeze
+	swipe_tween.chain().tween_property($VisualSkin, "rotation", lunge_dir * 0.2, 0.4)
 		
 	# Whiff penalty freeze
 	await get_tree().create_timer(0.4).timeout
+	
+	# Reset Position and release lock
+	create_tween().tween_property($VisualSkin, "position:x", 0.0, 0.1)
 	is_swiping = false
 
 func start_jump_tween():
@@ -919,9 +939,15 @@ func apply_bump(bump_velocity: Vector2, duration: float):
 	is_bumped = true
 	velocity = bump_velocity
 	
+	set_collision_mask_value(2, false)
+	
+	global_position += bump_velocity.normalized() * 5.0
+	
 	if is_tricking: is_tricking = false
 	
 	await get_tree().create_timer(duration).timeout
+	
+	set_collision_mask_value(2, true)
 	is_bumped = false
 
 func check_physical_contact():
@@ -940,7 +966,7 @@ func check_physical_contact():
 			
 			var str_diff = strength - collider.strength
 			var hit_normal = collision.get_normal()
-			
+			var center_dir = (global_position - collider.global_position).normalized()
 			#============================
 			# Scenario 1: On-Ball/Bulldozer/Brick Wall
 			# Normal points from defender to player
@@ -951,21 +977,28 @@ func check_physical_contact():
 					print("BULLDOZER! Defender gets crushed!")
 					# Have defender try to make a steal
 					collider.attempt_swipe()
+					# FORCE RENDER ORDER
+					self.z_index = 10
+					collider.z_index = 2
 					# Push Defender away
-					collider.apply_bump(-hit_normal * 400.0, 0.25)
-					# MACH INJECTION
-					MachManager.add_mach(0.75)
+					collider.apply_bump(-hit_normal * 400.0, 0.5)
+					# Micro-Recoil (Wall Stutter)
+					apply_bump(center_dir * 250.0, 0.15)
+					velocity += center_dir * 300.0
+					# Reset z-index
+					await get_tree().create_timer(0.5).timeout
+					self.z_index = 2
 					
 				elif str_diff <= -15:
 					# BRICK WALL: Offense bounces off!
 					print("BRICK WALL: Offense bounces off!")
 					# Push player away
-					apply_bump(hit_normal * 500.0, 0.15)
+					apply_bump(center_dir * 500.0, 0.15)
 					
 				else:
 					# NEUTRAL: Both take a tiny step back to avoid sticking
-					apply_bump(hit_normal * 200.0, 0.1)
-					collider.apply_bump(-hit_normal * 200.0, 0.1)
+					apply_bump(center_dir * 200.0, 0.1)
+					collider.apply_bump(-center_dir * 200.0, 0.1)
 			
 			elif collider.get("has_ball") == true:
 				pass
@@ -980,20 +1013,29 @@ func check_physical_contact():
 				# Randomize the sidestep direction so it feels organic
 				if randf() > 0.5: sidestep = -sidestep
 				
+				self.z_index = 10
+				collider.z_index = 2
+				
 				if str_diff >= 15:
 					# Box out: we are stronger, push them back to the side
 					print("BOX OUT! Stronger player clears space!")
-					collider.apply_bump((-hit_normal * 350.0) + (sidestep * 150.0), 0.2)
+					collider.apply_bump((-center_dir * 500.0) + (sidestep * 150.0), 0.5)
+					velocity += center_dir * 150.0
 					
 				elif str_diff <= -15:
 					# BOXED out: we are weaker, we bounce off them
 					print("BOXED OUT! Weaker player repelled! YOU!")
-					apply_bump((hit_normal * 350.0) + (sidestep * 150.0), 0.2)
+					apply_bump((center_dir * 500.0) + (sidestep * 150.0), 0.5)
+					collider.velocity += -center_dir * 150.0
 				
 				else:
 					# JOSTLE: equal strength, both take a quick bump sideways
-					apply_bump((hit_normal * 200.0) + (sidestep * 150.0), 0.15)
-					collider.apply_bump((-hit_normal * 200.0) - (sidestep * 150.0), 0.15)
+					apply_bump((center_dir * 200.0) + (sidestep * 150.0), 0.15)
+					collider.apply_bump((-center_dir * 200.0) - (sidestep * 150.0), 0.15)
+			# Reset Render Order
+			await get_tree().create_timer(0.2).timeout
+			self.z_index = 2
+			collider.z_index = 2
 			
 			break
 

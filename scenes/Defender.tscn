@@ -24,16 +24,17 @@ script = ExtResource("1_fbkjj")
 [node name="VisualSkin" type="Sprite2D" parent="."]
 modulate = Color(0.709804, 0, 1, 1)
 material = SubResource("ShaderMaterial_ioame")
-position = Vector2(0, -48)
 texture = ExtResource("3_p6ck8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(2, 2)
+position = Vector2(0, 32)
+scale = Vector2(2.5, 2.5)
 shape = SubResource("RectangleShape2D_fbkjj")
 
 [node name="PickupZone" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupZone"]
+position = Vector2(0, 32)
 scale = Vector2(4, 4)
 shape = SubResource("RectangleShape2D_p6ck8")
 
