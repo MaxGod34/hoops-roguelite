@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cxgimbobuq5a0"]
+[gd_scene load_steps=6 format=3 uid="uid://cxgimbobuq5a0"]
 
 [ext_resource type="Theme" uid="uid://cmthdl2hsat1i" path="res://scenes/lbl_theme_stats_replay.tres" id="1_xbmfg"]
 [ext_resource type="Script" uid="uid://cmoea075f11ax" path="res://scripts/altar_menu.gd" id="1_ymf35"]
 [ext_resource type="Theme" uid="uid://o7pkgh4yhfc5" path="res://scenes/altar_btn_style.tres" id="2_ymf35"]
+[ext_resource type="PackedScene" uid="uid://icicvnlongj2" path="res://scenes/ItemTooltip.tscn" id="4_c04c8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c04c8"]
 
@@ -109,3 +110,7 @@ custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 theme = ExtResource("2_ymf35")
 text = "Leave"
+
+[node name="ItemTooltip" parent="." instance=ExtResource("4_c04c8")]
+layout_mode = 0
+anchors_preset = 0

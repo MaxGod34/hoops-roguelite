@@ -397,7 +397,7 @@ func process_check_up(_delta: float):
 				
 				
 				if held_ball != null:
-					held_ball.throw(pass_dir, Vector2.ZERO, 0.5)
+					held_ball.throw(pass_dir, Vector2.ZERO, 0.75)
 				
 				
 				held_ball = null

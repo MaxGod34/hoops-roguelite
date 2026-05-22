@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="AccessoryData" load_steps=2 format=3 uid="uid://do5r066uw7bky"]
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://do5r066uw7bky"]
 
+[ext_resource type="Texture2D" uid="uid://dbvegjiw5eaab" path="res://assets/accessories/PointGoggles.png" id="1_s5mv1"]
 [ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="1_wym04"]
 
 [resource]
@@ -7,6 +8,7 @@ script = ExtResource("1_wym04")
 item_name = "Point Goggles"
 tier = "Mortal"
 primary_category = "Orbit"
+item_texture = ExtResource("1_s5mv1")
 description = ""
 shooting_bonus = 30
 finishing_bonus = 0

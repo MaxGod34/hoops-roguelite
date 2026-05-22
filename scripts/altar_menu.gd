@@ -76,6 +76,8 @@ func _create_inventory_button(item: AccessoryData, source: String, index: int) -
 		btn.icon = item.item_texture
 		btn.expand_icon = false
 		btn.pressed.connect(_on_item_selected.bind(source, index, item))
+		btn.mouse_entered.connect(_on_item_hovered.bind(item))
+		btn.mouse_exited.connect(_on_item_mouse_exit)
 	else:
 		btn.text = source + "\nEMPTY"
 		btn.disabled = true
@@ -83,6 +85,11 @@ func _create_inventory_button(item: AccessoryData, source: String, index: int) -
 	
 	return btn
 
+func _on_item_hovered(item: AccessoryData):
+	$ItemTooltip.display_item(item)
+	
+func _on_item_mouse_exit():
+	$ItemTooltip.hide()
 
 func _on_item_selected(source: String, index: int, item: AccessoryData):
 	selected_source = source

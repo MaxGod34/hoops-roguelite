@@ -78,6 +78,10 @@ func advance_progression():
 	var is_quarter_ending = false
 	
 	if current_game > max_games_per_quarter:
+		
+		# Add diff/class modifiers here later
+		cumulative_opponent_score = 0 # Resets at quarter end for now
+		
 		current_game = 1
 		current_quarter += 1
 		is_quarter_ending = true # Quarter-dependent Bait Flag

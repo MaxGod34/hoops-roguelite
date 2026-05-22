@@ -1,10 +1,13 @@
-[gd_scene load_steps=20 format=3 uid="uid://cn0mnhhe6ul0y"]
+[gd_scene load_steps=25 format=3 uid="uid://cn0mnhhe6ul0y"]
 
 [ext_resource type="PackedScene" uid="uid://u2gal06p4nlq" path="res://scenes/Hoop.tscn" id="1_562al"]
-[ext_resource type="Texture2D" uid="uid://clo87i3kmodxr" path="res://assets/CourtProtov1.1.png" id="1_h0gog"]
 [ext_resource type="Script" uid="uid://dcjo7jvxhig66" path="res://scripts/Court.gd" id="1_kcgw8"]
 [ext_resource type="PackedScene" uid="uid://p40hdpg4fmes" path="res://scenes/Player.tscn" id="2_5jgdc"]
+[ext_resource type="Texture2D" uid="uid://c2r7r0tnkunty" path="res://assets/court/CourtFloor.png" id="2_oqxma"]
 [ext_resource type="PackedScene" uid="uid://do3nrnwrn2efx" path="res://scenes/Ball.tscn" id="3_5n6sh"]
+[ext_resource type="Texture2D" uid="uid://yer046e4tbnj" path="res://assets/court/ThreePtArc.png" id="3_r33es"]
+[ext_resource type="Texture2D" uid="uid://dinddss048yss" path="res://assets/court/PaintArea.png" id="4_husge"]
+[ext_resource type="Texture2D" uid="uid://ccwd4p48anc8x" path="res://assets/BackboardRect.png" id="5_6juxk"]
 [ext_resource type="PackedScene" uid="uid://cyxg6xfhp6kvv" path="res://scenes/Defender.tscn" id="5_i0pnj"]
 [ext_resource type="PackedScene" uid="uid://c6mnop7wjkxqv" path="res://scenes/scoreboard.tscn" id="8_5ld8u"]
 [ext_resource type="PackedScene" uid="uid://cqd7suw7818of" path="res://scenes/game_over_screen.tscn" id="9_ggspr"]
@@ -16,6 +19,13 @@
 [ext_resource type="PackedScene" uid="uid://bqko8nf1tcj65" path="res://scenes/PauseMenu.tscn" id="14_b6m7p"]
 [ext_resource type="PackedScene" uid="uid://ctrh0kbm7n1na" path="res://scenes/vs_screen.tscn" id="15_go810"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_atrej"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vhf7s"]
+blend_mode = 1
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jgdc"]
 size = Vector2(232.5, 657)
 
@@ -23,7 +33,7 @@ size = Vector2(232.5, 657)
 size = Vector2(1169, 126.188)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h0gog"]
-size = Vector2(560, 129.5)
+size = Vector2(547, 120.035)
 
 [sub_resource type="Environment" id="Environment_krthx"]
 glow_enabled = true
@@ -34,11 +44,27 @@ glow_blend_mode = 0
 y_sort_enabled = true
 script = ExtResource("1_kcgw8")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(584, 326)
-texture = ExtResource("1_h0gog")
+[node name="FloorSprite" type="Sprite2D" parent="."]
+position = Vector2(584, 365)
+texture = ExtResource("2_oqxma")
+
+[node name="ThreeLineSprite" type="Sprite2D" parent="."]
+modulate = Color(0.301961, 0.301961, 0.376471, 1)
+z_index = 1
+material = SubResource("CanvasItemMaterial_atrej")
+position = Vector2(584, 364)
+texture = ExtResource("3_r33es")
+
+[node name="PaintSprite" type="Sprite2D" parent="."]
+modulate = Color(0.301961, 0.301961, 0.376471, 1)
+z_index = 1
+material = SubResource("CanvasItemMaterial_vhf7s")
+position = Vector2(574, 253)
+scale = Vector2(1.5, 1)
+texture = ExtResource("4_husge")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_mask = 5
 
 [node name="CollisionShape2D-LeftWall" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(-76.75, 323.5)
@@ -53,16 +79,42 @@ position = Vector2(574.5, 3.90625)
 shape = SubResource("RectangleShape2D_5n6sh")
 
 [node name="CollisionShape2D-BottomWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(579, 680)
+position = Vector2(579, 668)
 shape = SubResource("RectangleShape2D_5n6sh")
 
 [node name="CollisionShape2D-LeftBackBaselineWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(253, 67.5)
+position = Vector2(246.5, 64.9824)
 shape = SubResource("RectangleShape2D_h0gog")
 
 [node name="CollisionShape2D-RightBackBaselineWall" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(918, 67.25)
+position = Vector2(918, 65.0352)
 shape = SubResource("RectangleShape2D_h0gog")
+
+[node name="LeftWallSprite" type="Sprite2D" parent="StaticBody2D"]
+modulate = Color(0.0588235, 0.0588235, 0.0784314, 1)
+position = Vector2(-12, 305)
+scale = Vector2(1, 10)
+texture = ExtResource("5_6juxk")
+
+[node name="RightWallSprite" type="Sprite2D" parent="StaticBody2D"]
+modulate = Color(0.0588235, 0.0588235, 0.0784314, 1)
+position = Vector2(1180, 305)
+scale = Vector2(1, 10)
+texture = ExtResource("5_6juxk")
+
+[node name="TopWallSprite" type="Sprite2D" parent="StaticBody2D"]
+modulate = Color(0.0588235, 0.0588235, 0.0784314, 1)
+z_index = -1
+position = Vector2(438, 12)
+scale = Vector2(15, 2)
+texture = ExtResource("5_6juxk")
+
+[node name="BottomWallSprite" type="Sprite2D" parent="StaticBody2D"]
+modulate = Color(0.0588235, 0.0588235, 0.0784314, 1)
+z_index = -1
+position = Vector2(438, 665)
+scale = Vector2(15, 2)
+texture = ExtResource("5_6juxk")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(583, 326)
@@ -88,7 +140,7 @@ position = Vector2(147, 132)
 collision_layer = 16
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ClearZone"]
-polygon = PackedVector2Array(0, 11, 0, 174, 6, 192, 21, 214, 46, 237, 85, 262, 137, 285, 191, 302, 275, 320, 368, 332, 489, 333, 544, 327, 612, 318, 690, 302, 743, 284, 795, 260, 836, 233, 860, 210, 877, 181, 876, 2, 877, -2, 879, -1, 982, 0, 981, 486, -107, 487, -107, -1, 0, -1)
+polygon = PackedVector2Array(1, 12, 0, 174, 0, 199, 13, 228, 40, 260, 82, 289, 130, 314, 192, 337, 272, 355, 351, 365, 439, 369, 530, 365, 617, 353, 704, 329, 776, 299, 812, 278, 854, 240, 874, 201, 875, 181, 874, 1, 874, -12, 910, -12, 982, -11, 981, 486, -107, 487, -106, -8, 1, -8)
 
 [node name="OffenseSpawn" type="Marker2D" parent="."]
 position = Vector2(576, 556)
@@ -101,9 +153,9 @@ scale = Vector2(4, 4)
 [node name="Scoreboard" parent="." instance=ExtResource("8_5ld8u")]
 z_index = 1
 offset_left = 646.0
-offset_top = 2.0
+offset_top = 1.0
 offset_right = 646.0
-offset_bottom = 2.0
+offset_bottom = 1.0
 metadata/_edit_use_anchors_ = true
 
 [node name="GameOverScreen" parent="." instance=ExtResource("9_ggspr")]
@@ -143,6 +195,7 @@ offset_bottom = 64.0
 metadata/_edit_use_anchors_ = true
 
 [node name="ReplayViewer" parent="." instance=ExtResource("12_urecc")]
+position = Vector2(-7, 28)
 
 [node name="ArenaCoils" parent="." instance=ExtResource("13_krthx")]
 z_index = 1

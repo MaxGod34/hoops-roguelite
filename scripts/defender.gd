@@ -229,7 +229,7 @@ func evaluate_state():
 			var dist_to_player = global_position.distance_to(player.global_position)
 			
 			# If trapped under the rim with player on their neck, relocate
-			if dist_to_hoop < 120.0 and dist_to_player < 60.0:
+			if dist_to_hoop < 180.0 and dist_to_player < 90.0:
 				state = "RELOCATING"
 				
 			else:
@@ -437,7 +437,7 @@ func guard_player(delta: float):
 	var distance_to_spot = global_position.distance_to(ideal_defensive_spot)
 	
 	# If defender is close enough to the spot, hit the breaks to remove jitter
-	if distance_to_spot > 15.0:
+	if distance_to_spot > 32.0:
 		velocity = direction_to_spot * move_speed
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
@@ -621,7 +621,7 @@ func process_check_up(_delta: float):
 				var pass_dir = global_position.direction_to(court.receiver.global_position)
 				
 				if held_ball != null:
-					held_ball.throw(pass_dir, Vector2.ZERO, 0.5)
+					held_ball.throw(pass_dir, Vector2.ZERO, 0.75)
 				
 				held_ball = null
 				has_ball = false
