@@ -58,21 +58,8 @@ func populate_stats():
 	
 	opp_ability_val.text = "N/A"
 	
-	var rule_text = ""
-	if enemy_stats.disable_dribble_moves:
-		rule_text = "DRIBBLE MOVES DISABLED"
-	if enemy_stats.half_shot_clock:
-		rule_text = "SHOT CLOCK IS HALVED (1/2)"
-	if enemy_stats.make_it_take_it:
-		rule_text = "MAKE IT TAKE IT"
-	if enemy_stats.no_take_backs and enemy_stats.no_threes:
-		rule_text = "2s ONLY, NO TAKEBACKS"
-	if enemy_stats.slippery_floor:
-		rule_text = "SLIPPERY FLOOR"
-	if enemy_stats.alternating_shots:
-		rule_text = "2s & 3s MUST\nBE TAKEN ALTERNATING"
 	
-	opp_arena_rule_val.text = rule_text
+	opp_arena_rule_val.text = enemy_stats.inherent_rules_description
 
 
 func _on_leave_button_pressed():

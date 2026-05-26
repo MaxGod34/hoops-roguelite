@@ -23,6 +23,15 @@ class_name AccessoryData
 @export var scrub_on_steal: int = 0
 @export var scrub_on_mach_dunk: int = 0
 
+# OPPONENT DEBUFF CATEGORY
+@export_category("Opponent Debuffs")
+@export var opp_shooting_debuff: int = 0
+@export var opp_finishing_debuff: int = 0
+@export var opp_handle_debuff: int = 0
+@export var opp_defense_debuff: int = 0
+@export var opp_speed_debuff: int = 0
+@export var opp_strength_debuff: int = 0
+
 @export_category("End of Game Scaling (Compound)")
 @export var compound_stat_target: String = "" # "shooting", "finishing" etc.
 @export var compound_amount: int = 0
@@ -33,6 +42,7 @@ var current_compound_stacks: int = 0
 @export var energy_per_visit: int = 0
 @export var double_dunk_points: bool = false
 @export var bonus_max_mach: int = 0
+@export var styx_multiplier_override: int = 0
 
 
 # Unique Passive Effects (ID)

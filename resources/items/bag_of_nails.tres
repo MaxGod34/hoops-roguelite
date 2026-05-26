@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://b8oe8r5p1h4gj"]
+
+[ext_resource type="Texture2D" uid="uid://elmbpeh2eme2" path="res://assets/accessories/BagofNailsProto.png" id="1_evn0j"]
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="1_osuue"]
+
+[resource]
+script = ExtResource("1_osuue")
+item_name = "Bag of Nails"
+tier = "Mortal"
+primary_category = "Debris"
+item_texture = ExtResource("1_evn0j")
+description = "-30 To Opponent's Shooting and Handle"
+shooting_bonus = 0
+finishing_bonus = 0
+handle_bonus = 0
+defense_bonus = 0
+speed_bonus = 0
+strength_bonus = 0
+all_attribute_bonus = 0
+scrub_on_game_end = 0
+scrub_on_block = 0
+scrub_on_steal = 0
+scrub_on_mach_dunk = 0
+opp_shooting_debuff = 30
+opp_finishing_debuff = 0
+opp_handle_debuff = 30
+opp_defense_debuff = 0
+opp_speed_debuff = 0
+opp_strength_debuff = 0
+compound_stat_target = ""
+compound_amount = 0
+energy_per_visit = 0
+double_dunk_points = false
+bonus_max_mach = 0
+passive_effect = ""
+metadata/_custom_type_script = "uid://5phsukg4m51u"

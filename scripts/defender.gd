@@ -157,7 +157,7 @@ func initialize_stats(base_resource: DefenderStats, current_quarter: int):
 		finishing_rating = active_stats.up_finishing
 		handle_rating = active_stats.up_handle
 		defense_rating = active_stats.up_defense
-		move_speed = 100.0 + active_stats.up_speed	
+		move_speed = 200.0 + active_stats.up_speed	
 		strength = active_stats.up_strength
 		
 		# --- SPECIFIC* Rule Injection ---
@@ -180,6 +180,19 @@ func initialize_stats(base_resource: DefenderStats, current_quarter: int):
 		move_speed = 200.0 + (active_stats.speed_rating * 2) # Adjust to match speed rating
 		strength = active_stats.strength_rating
 	
+	
+	
+	# --- DEBRIS DEBUFF INJECTION ---
+	for item in PlayerData.locker_storage:
+		if item != null and item.primary_category == "Debris":
+			if item.get("opp_shooting_debuff"): shooting_rating = max(0, shooting_rating - item.opp_shooting_debuff)
+			if item.get("opp_finishing_debuff"): finishing_rating = max(0, finishing_rating - item.opp_finishing_debuff)
+			if item.get("opp_handle_debuff"): handle_rating = max(0, handle_rating - item.opp_handle_debuff)
+			if item.get("opp_defense_debuff"): defense_rating = max(0, defense_rating - item.opp_defense_debuff)
+			if item.get("opp_speed_debuff"): move_speed = max(200.0, move_speed - (item.opp_speed_debuff * 2))
+			if item.get("opp_strength_debuff"): strength = max(0, strength - item.opp_strength_debuff)
+	
+
 	# ---------------------- LOAD THE VISUALS AND SHADERS ----------------------
 	if has_node("VisualSkin"):
 		if active_stats.body_sprite != null:
@@ -203,6 +216,13 @@ func initialize_stats(base_resource: DefenderStats, current_quarter: int):
 				mat.set_shader_parameter("wobble_intensity", 0.01)
 	#---------------------------------------------------------------------------
 	print("Spawned Titan: ", active_stats.defender_name, " | Playstyle: ", active_stats.playstyle)
+	print(active_stats.defender_name, "'s Stats: ")
+	print("Shooting: ", shooting_rating)
+	print("Finishing: ", finishing_rating)
+	print("Handle: ", handle_rating)
+	print("Defense: ", defense_rating)
+	print("Speed: ", move_speed)
+	print("Strength: ", strength)
 
 # -- LOGIC --
 func evaluate_state():

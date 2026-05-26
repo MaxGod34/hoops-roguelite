@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c265b4rao40oe"]
+[gd_scene load_steps=14 format=3 uid="uid://c265b4rao40oe"]
 
 [ext_resource type="Script" uid="uid://bcvc0ilxiho38" path="res://scripts/LootManager.gd" id="1_smal2"]
 [ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="2_twli6"]
@@ -10,7 +10,11 @@
 [ext_resource type="Resource" uid="uid://ba1bi1ndyawxm" path="res://resources/items/paperweight.tres" id="9_h4rbi"]
 [ext_resource type="Resource" uid="uid://6tbmi4mnsjmn" path="res://resources/items/arms/mop_thread.tres" id="10_8l26b"]
 [ext_resource type="Resource" uid="uid://b40vtturqcxbl" path="res://resources/items/mummy_wrap.tres" id="10_od2ix"]
+[ext_resource type="Resource" uid="uid://b8oe8r5p1h4gj" path="res://resources/items/bag_of_nails.tres" id="11_xbkc3"]
+[ext_resource type="Resource" uid="uid://fyc7on5a82ck" path="res://resources/items/screwdriver.tres" id="12_ckect"]
+[ext_resource type="Resource" uid="uid://bi5w86avp7opi" path="res://resources/items/super_glue.tres" id="13_b84m4"]
 
 [node name="LootManager" type="Node"]
 script = ExtResource("1_smal2")
-all_game_items = Array[ExtResource("2_twli6")]([ExtResource("10_8l26b"), ExtResource("4_jc15a"), ExtResource("5_iv02i"), ExtResource("6_gycdj"), ExtResource("7_iv02i"), ExtResource("8_gycdj"), ExtResource("9_h4rbi"), ExtResource("10_od2ix")])
+all_game_items = Array[ExtResource("2_twli6")]([ExtResource("10_8l26b"), ExtResource("4_jc15a"), ExtResource("5_iv02i"), ExtResource("6_gycdj"), ExtResource("7_iv02i"), ExtResource("8_gycdj"), ExtResource("9_h4rbi"), ExtResource("10_od2ix"), ExtResource("11_xbkc3"), ExtResource("12_ckect"), ExtResource("13_b84m4")])
+guarantee_item = ExtResource("13_b84m4")

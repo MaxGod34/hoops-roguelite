@@ -80,8 +80,12 @@ func apply_post_game_mach_stats(stat_name: String, amount: int):
 	#---------------------------------------------------------------------------
 	# ICE BATH FLAG
 	if GameManager.styx_ice_bath_active:
-		actual_gain *= 2
-		print("STYX ICE BATH ACTIVE! Post-game gain doubled from ", amount, " to ", actual_gain, "!")
+		var multiplier = 2
+		for item in locker_storage:
+			if item != null and item.primary_category == "Debris" and item.get("styx_multiplier_override", 0) > multiplier:
+				multiplier = item.styx_multiplier_override
+		actual_gain *= multiplier
+		print("STYX ICE BATH ACTIVE! Post-game gain multiplied by: ", multiplier, "!")
 	
 	# Route safely back through the normal pipeline
 	upgrade_stat(stat_name, actual_gain)
@@ -160,7 +164,16 @@ func recalculate_fragment_bonuses():
 					if fragment_bonuses.has(stat_name):
 						fragment_bonuses[stat_name] += item_boosts[stat_name]
 	
-	# Add here for locker storage buffs ("Combust")
+	# Add here for locker storage buffs ("Debris")
+	for item in locker_storage:
+		if item != null and item.primary_category == "Debris":
+			if "bonus_max_mach" in item:
+				bonus_max_mach += item.bonus_max_mach
+			if item.has_method("get_boosts"):
+				var item_boosts = item.get_boosts()
+				for stat_name in item_boosts.keys():
+					if fragment_bonuses.has(stat_name):
+						fragment_bonuses[stat_name] += item_boosts[stat_name]
 	
 	# 3. Tell player script the math changed
 	stats_updated.emit()
@@ -196,6 +209,14 @@ func swap_items(orbit_index: int, storage_index: int):
 	
 	print("Swapped Orbit ", orbit_index, " with Storage", storage_index)
 	recalculate_fragment_bonuses()
+
+func has_debris_passive(passive_property: String) -> bool:
+	for item in locker_storage:
+		if item != null and item.primary_category == "Debris":
+			if passive_property in item and item.get(passive_property) == true:
+				return true
+	return false	
+
 
 
 func _on_block_achieved():

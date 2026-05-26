@@ -599,12 +599,21 @@ func execute_shot():
 			elif "BLURRED_VISION" in active_stats.inherent_rules:
 				omicron_active = true
 		
-		if time_diff < 0.1: # Perfect Release
+		var is_perfect_timing = time_diff < 0.1 or PlayerData.has_debris_passive("auto_perfect_release")
+		
+		
+		if is_perfect_timing: # Perfect Release
 			if omicron_active:
 				print("PERFECT TIMING, buuuuuuuuuut Omicron's blur prevented the bonus!")
 			else:
 				release_mod = 2.0
 				print("IRISH SPRING GREEN! Perfect Release (x2)")
+				# DOUBLE PERFECT RELEASE BONUS FROM FRAGMENTS
+				if PlayerData.has_debris_passive("perfect_release_point_doubler"):
+					get_parent().pending_points *= 2
+					held_ball.point_value = get_parent().pending_points
+					print("Fragment active! Perfect release doubled point value to ", held_ball.point_value, "!")
+					
 		else:
 			print("Normal Release. Off by: ", time_diff, "s")
 		
