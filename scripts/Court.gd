@@ -5,10 +5,12 @@ extends Node2D
 signal score_changed(player_score, bot_score)
 signal game_over(winner_name)
 
-# Player/Bot/Ball References
+# Player/Bot/Ball/3pt References
 @onready var player = get_node("Player")
 @onready var bot = get_node("Defender")
 @onready var ball = get_node("Ball")
+@onready var three_point_line = $ThreeLineSprite
+var clear_line_tween: Tween
 
 # Score Tracking
 var player_score: int = 20
@@ -22,7 +24,11 @@ var current_possession: Node2D = null
 
 
 # Ref Variables
-var is_ball_cleared: bool = true
+var is_ball_cleared: bool = true:
+	set(value):
+		is_ball_cleared = value
+		_update_clear_line_visuals()
+		
 var last_shooter: Node2D = null
 var bodies_in_clear_zone: Array = []
 var is_inbound_pass: bool = false
@@ -727,3 +733,24 @@ func _on_replay_tick(p_score, b_score, mach_val, clock_val):
 func _on_points_scrubbed_mid_game():
 	print("Court UI caught the scrub! Refreshing Scoreboard...")
 	score_changed.emit(player_score, GameManager.cumulative_opponent_score, MachManager.visual_mach)
+
+
+func _update_clear_line_visuals():
+	if not is_inside_tree() or three_point_line == null:
+		return
+	
+	if clear_line_tween and clear_line_tween.is_valid():
+		clear_line_tween.kill()
+	
+	if not is_ball_cleared:
+		# Ball needs to be cleared -> start the warning
+		three_point_line.modulate = Color(1.0, 0.2, 0.2, 1.0)
+		clear_line_tween = create_tween().set_loops()
+		
+		# Pulse the alpha/transparency up and down
+		clear_line_tween.tween_property(three_point_line, "modulate:a", 0.3, 0.4).set_trans(Tween.TRANS_SINE)
+		clear_line_tween.tween_property(three_point_line, "modulate:a", 1.0, 0.4).set_trans(Tween.TRANS_SINE)
+	
+	else:
+		# Ball is cleared
+		three_point_line.modulate = Color("4d4d60")
