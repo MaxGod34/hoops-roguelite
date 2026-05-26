@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c265b4rao40oe"]
+[gd_scene load_steps=21 format=3 uid="uid://c265b4rao40oe"]
 
 [ext_resource type="Script" uid="uid://bcvc0ilxiho38" path="res://scripts/LootManager.gd" id="1_smal2"]
 [ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="2_twli6"]
@@ -13,8 +13,15 @@
 [ext_resource type="Resource" uid="uid://b8oe8r5p1h4gj" path="res://resources/items/bag_of_nails.tres" id="11_xbkc3"]
 [ext_resource type="Resource" uid="uid://fyc7on5a82ck" path="res://resources/items/screwdriver.tres" id="12_ckect"]
 [ext_resource type="Resource" uid="uid://bi5w86avp7opi" path="res://resources/items/super_glue.tres" id="13_b84m4"]
+[ext_resource type="Resource" uid="uid://f8bk4v4b8hwf" path="res://resources/items/metronome.tres" id="14_b84m4"]
+[ext_resource type="Resource" uid="uid://dq3tstq6kpf85" path="res://resources/items/drum_sticks.tres" id="15_jm8cc"]
+[ext_resource type="Resource" uid="uid://djo0ejre5s2e0" path="res://resources/items/rubber_gloves.tres" id="16_jm8cc"]
+[ext_resource type="Resource" uid="uid://cj1vo1anow23w" path="res://resources/items/hot_cocoa.tres" id="17_emht2"]
+[ext_resource type="Resource" uid="uid://cmh3iyvy04cpy" path="res://resources/items/anchor.tres" id="18_2vrdj"]
+[ext_resource type="Resource" uid="uid://k6urcabmneq8" path="res://resources/items/spare_laces.tres" id="19_p66jo"]
+[ext_resource type="Resource" uid="uid://daskxxkhfybud" path="res://resources/items/target.tres" id="20_ugp5h"]
 
 [node name="LootManager" type="Node"]
 script = ExtResource("1_smal2")
-all_game_items = Array[ExtResource("2_twli6")]([ExtResource("10_8l26b"), ExtResource("4_jc15a"), ExtResource("5_iv02i"), ExtResource("6_gycdj"), ExtResource("7_iv02i"), ExtResource("8_gycdj"), ExtResource("9_h4rbi"), ExtResource("10_od2ix"), ExtResource("11_xbkc3"), ExtResource("12_ckect"), ExtResource("13_b84m4")])
-guarantee_item = ExtResource("13_b84m4")
+all_game_items = Array[ExtResource("2_twli6")]([ExtResource("10_8l26b"), ExtResource("4_jc15a"), ExtResource("5_iv02i"), ExtResource("6_gycdj"), ExtResource("7_iv02i"), ExtResource("8_gycdj"), ExtResource("9_h4rbi"), ExtResource("10_od2ix"), ExtResource("11_xbkc3"), ExtResource("12_ckect"), ExtResource("13_b84m4"), ExtResource("14_b84m4"), ExtResource("15_jm8cc"), ExtResource("16_jm8cc"), ExtResource("17_emht2"), ExtResource("18_2vrdj"), ExtResource("19_p66jo"), ExtResource("20_ugp5h")])
+guarantee_item = ExtResource("20_ugp5h")

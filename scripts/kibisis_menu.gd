@@ -8,6 +8,7 @@ extends Control
 @onready var vbox_storage_left = $Panel/HBoxContainer/VBox_StorageColLeft
 @onready var vbox_storage_right = $Panel/HBoxContainer/VBox_StorageColRight
 
+@onready var tooltip = $ItemTooltip
 
 # Swap vars
 var selected_type: String = "" # Orbit or Storage
@@ -163,18 +164,15 @@ func _refresh_ui():
 func _on_orbit_hovered(index: int):
 	# Only show tooltip if there is an item in the slot
 	if PlayerData.active_orbits[index] != null:
-		var tooltip = get_tree().get_first_node_in_group("tooltip")
 		if tooltip:
 			tooltip.display_item(PlayerData.active_orbits[index])
 			
 func _on_storage_hovered(index: int):
 	# Only show if there is an item in this locker slot
 	if PlayerData.locker_storage[index] != null:
-		var tooltip = get_tree().get_first_node_in_group("tooltip")
 		if tooltip:
 			tooltip.display_item(PlayerData.locker_storage[index])
 			
 func _hide_tooltip():
-	var tooltip = get_tree().get_first_node_in_group("tooltip")
 	if tooltip:
 		tooltip.hide_tooltip()

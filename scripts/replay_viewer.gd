@@ -51,10 +51,15 @@ func start_replay(ending_mach: int):
 	var is_styx_active = GameManager.styx_ice_bath_active
 	lbl_bath_boost.visible = is_styx_active
 	
+	
 	var visual_total_reward = total_reward
+	var multiplier = 2
 	if is_styx_active:
-		visual_total_reward *= 2
-		lbl_bath_boost.text = "STYX ICE BATH X2"
+		for item in PlayerData.locker_storage:
+			if item != null and item.primary_category == "Debris" and item.get("styx_multiplier_override") > 0:
+				multiplier += item.styx_multiplier_override
+		visual_total_reward *= multiplier
+		lbl_bath_boost.text = "STYX ICE BATH X" + str(multiplier)
 	#--------------------
 	
 	lbl_mach.text = "ENDING MACH: x" + str(ending_mach)

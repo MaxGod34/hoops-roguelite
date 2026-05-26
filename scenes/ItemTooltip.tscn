@@ -32,6 +32,7 @@ offset_right = 122.0
 offset_bottom = 35.5
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_x6e2y")
 script = ExtResource("1_x6e2y")
 

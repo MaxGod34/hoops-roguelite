@@ -82,8 +82,8 @@ func apply_post_game_mach_stats(stat_name: String, amount: int):
 	if GameManager.styx_ice_bath_active:
 		var multiplier = 2
 		for item in locker_storage:
-			if item != null and item.primary_category == "Debris" and item.get("styx_multiplier_override", 0) > multiplier:
-				multiplier = item.styx_multiplier_override
+			if item != null and item.primary_category == "Debris" and item.get("styx_multiplier_override") > 0:
+				multiplier += item.styx_multiplier_override
 		actual_gain *= multiplier
 		print("STYX ICE BATH ACTIVE! Post-game gain multiplied by: ", multiplier, "!")
 	
@@ -154,6 +154,10 @@ func recalculate_fragment_bonuses():
 	for item in active_orbits:
 		
 		if item != null:
+			# --- CATEGORY GATEKEEPER ---
+			if item.primary_category == "Debris" or item.primary_category == "Combust":
+				continue
+			
 			# --- OUTLET CHECK ---
 			if "bonus_max_mach" in item:
 				bonus_max_mach += item.bonus_max_mach

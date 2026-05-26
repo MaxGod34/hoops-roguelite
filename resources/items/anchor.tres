@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="AccessoryData" load_steps=3 format=3 uid="uid://cmh3iyvy04cpy"]
+
+[ext_resource type="Script" uid="uid://5phsukg4m51u" path="res://resources/accessory_data.gd" id="1_k8bgo"]
+[ext_resource type="Texture2D" uid="uid://cgqql11wihdx0" path="res://assets/accessories/AnchorProto.png" id="1_vy0qf"]
+
+[resource]
+script = ExtResource("1_k8bgo")
+item_name = "Anchor"
+tier = "Heroic"
+primary_category = "Debris"
+item_texture = ExtResource("1_vy0qf")
+description = ""
+shooting_bonus = 0
+finishing_bonus = 0
+handle_bonus = 0
+defense_bonus = 75
+speed_bonus = 0
+strength_bonus = 0
+all_attribute_bonus = 0
+scrub_on_game_end = 0
+scrub_on_block = 0
+scrub_on_steal = 0
+scrub_on_mach_dunk = 0
+opp_shooting_debuff = 0
+opp_finishing_debuff = 0
+opp_handle_debuff = 0
+opp_defense_debuff = 0
+opp_speed_debuff = 0
+opp_strength_debuff = 0
+compound_stat_target = ""
+compound_amount = 0
+energy_per_visit = 0
+double_dunk_points = false
+bonus_max_mach = 0
+styx_multiplier_override = 0
+auto_perfect_release = false
+perfect_release_point_doubler = false
+passive_effect = ""
+metadata/_custom_type_script = "uid://5phsukg4m51u"

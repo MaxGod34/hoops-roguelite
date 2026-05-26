@@ -43,7 +43,8 @@ var current_compound_stacks: int = 0
 @export var double_dunk_points: bool = false
 @export var bonus_max_mach: int = 0
 @export var styx_multiplier_override: int = 0
-
+@export var auto_perfect_release: bool = false
+@export var perfect_release_point_doubler: bool = false
 
 # Unique Passive Effects (ID)
 @export var passive_effect: String = ""

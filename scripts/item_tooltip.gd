@@ -8,6 +8,7 @@ var resize_frames_left: int = 0
 
 func _ready():
 	add_to_group("tooltip")
+	z_index = 20
 	hide()
 
 func _process(_delta):
